@@ -3,25 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package museumtimetracking.gui.views.root.main.guild.newGuildView.controller;
+package museumtimetracking.gui.views.root;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.BorderPane;
 
 /**
- * FXML Controller class
  *
- * @author Skovgaard
+ * @author gta1
  */
-public class NewGuildViewController implements Initializable {
+public class MTTMainControllerView implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
+    @FXML
+    private BorderPane borderPainMain;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
 }

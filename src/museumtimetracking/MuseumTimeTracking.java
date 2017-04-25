@@ -15,7 +15,7 @@ public class MuseumTimeTracking extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("gui/views/root/view/MTTMain.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("gui/views/root/MTTMainView.fxml"));
 
         Scene scene = new Scene(root);
 
