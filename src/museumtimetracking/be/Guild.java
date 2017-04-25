@@ -19,12 +19,20 @@ public class Guild {
         this.description = new SimpleStringProperty(description);
     }
 
-    public StringProperty getName() {
+    public StringProperty getNameProperty() {
         return name;
     }
 
-    public StringProperty getDescription() {
+    public String getName() {
+        return name.get();
+    }
+
+    public StringProperty getDescriptionProperty() {
         return description;
+    }
+
+    public String getDescription() {
+        return description.get();
     }
 
 }
