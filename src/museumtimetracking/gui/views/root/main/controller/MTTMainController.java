@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package museumtimetracking.gui.main.controller;
+package museumtimetracking.gui.views.root.main.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
