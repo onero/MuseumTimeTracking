@@ -1,11 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guild.newGuildView.controller.NewGuildViewController">
-    
-</AnchorPane>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="416.0" prefWidth="327.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guild.newGuildView.view.NewGuildViewController">
+   <top>
+      <Label text="Nyt Laug" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Laug's navn:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtFieldGuildName">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label fx:id="lblGuildNameAlreadyExsist">
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label text="Beskrivelse af laug:">
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </Label>
+            <TextArea fx:id="txtAreaGuildDescription" prefHeight="200.0" prefWidth="200.0">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </TextArea>
+         </children>
+      </VBox>
+   </center>
+   <bottom>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <buttons>
+          <Button mnemonicParsing="false" onAction="#handleAddGuildBtn" text="Tilføj" />
+            <Button fx:id="btnBack" mnemonicParsing="false" onAction="#handleBackBtn" text="Gå tilbage" />
+        </buttons>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </ButtonBar>
+   </bottom>
+</BorderPane>
