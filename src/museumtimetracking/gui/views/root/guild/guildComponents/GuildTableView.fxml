@@ -17,9 +17,9 @@
       </TableView>
    </center>
    <bottom>
-      <HBox BorderPane.alignment="CENTER">
+      <HBox fx:id="buttonBar" BorderPane.alignment="CENTER">
          <children>
-            <ButtonBar>
+            <ButtonBar buttonMinWidth="100.0">
                <buttons>
                   <Button mnemonicParsing="false" onAction="#handleAddGuildBtn" text="Tilføj Laug" />
                   <Button mnemonicParsing="false" onAction="#handleArchiveBtn" text="Arkiver" />

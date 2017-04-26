@@ -10,8 +10,14 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import static museumtimetracking.be.enums.EFXMLName.*;
+import museumtimetracking.gui.views.NodeFactory;
 
 /**
  * FXML Controller class
@@ -31,6 +37,12 @@ public class GuildManagerOverviewController implements Initializable {
     @FXML
     private TextField txtPhone;
 
+    private final NodeFactory nodeFactory;
+
+    public GuildManagerOverviewController() {
+        nodeFactory = NodeFactory.getInstance();
+    }
+
     /**
      * Initializes the controller class.
      */
@@ -41,6 +53,7 @@ public class GuildManagerOverviewController implements Initializable {
 
     @FXML
     private void handleNewManagerButton(ActionEvent event) {
+        newManagerModal();
     }
 
     @FXML
@@ -49,6 +62,18 @@ public class GuildManagerOverviewController implements Initializable {
 
     @FXML
     private void handleDeleteButton(ActionEvent event) {
+    }
+
+    private void newManagerModal() {
+        Stage primStage = (Stage) txtFirstName.getScene().getWindow();
+        Parent newManager = nodeFactory.createNewParent(NEW_MANAGER);
+
+        Stage stage = new Stage();
+        stage.setScene(new Scene(newManager));
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(primStage);
+
+        stage.show();
     }
 
 }

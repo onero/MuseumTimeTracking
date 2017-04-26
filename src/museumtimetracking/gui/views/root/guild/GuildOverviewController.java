@@ -24,7 +24,7 @@ public class GuildOverviewController implements Initializable {
     @FXML
     private BorderPane guildBorderPane;
 
-    private NodeFactory nodeFactory;
+    private final NodeFactory nodeFactory;
 
     private final Node guildTable;
 
