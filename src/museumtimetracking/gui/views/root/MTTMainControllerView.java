@@ -9,7 +9,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
+import static museumtimetracking.be.enums.EFXMLName.*;
+import museumtimetracking.gui.views.NodeFactory;
 
 /**
  *
@@ -20,9 +23,19 @@ public class MTTMainControllerView implements Initializable {
     @FXML
     private BorderPane borderPainMain;
 
+    private final NodeFactory nodeFactory;
+
+    private final Node guildOverview;
+
+    public MTTMainControllerView() {
+        nodeFactory = NodeFactory.getInstance();
+
+        guildOverview = nodeFactory.createNewView(GUILD_OVERVIEW);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        borderPainMain.setCenter(guildOverview);
     }
 
 }
