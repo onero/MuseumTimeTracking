@@ -8,7 +8,10 @@ package museumtimetracking.dal;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import museumtimetracking.be.Guild;
@@ -40,6 +43,25 @@ public class GuildDAO {
             Logger.getLogger(GuildDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public List<Guild> getAllGuilds() {
+        List<Guild> guilds = new ArrayList<>();
+        String sql = "SELECT * FROM Guild";
+                
+        try (Connection con = cm.getConnection()){
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                guilds.add(getOneGuild(rs));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GuildDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return guilds;
+    }
+    
     /**
      * Add Guilds to DB.
      * 
@@ -61,6 +83,15 @@ public class GuildDAO {
             System.out.println(sqlException);
             Logger.getLogger(GuildDAO.class.getName()).log(Level.SEVERE, null, sqlException);
         }
+    }
+    // Adds one guild to DB.
+    private Guild getOneGuild(ResultSet rs) throws SQLException {
+        String name = rs.getString("Name");
+        String description = rs.getString("Description");
+        
+        Guild guild = new Guild(name, description);
+        
+        return guild;
     }
 
 }

@@ -38,5 +38,9 @@ public class GuildModel {
     public void addGuild(Guild guild) {
         guildManager.addGuild(guild);
     }
+    
+    public List<Guild> getAllGuilds(){
+        return guildManager.getAllGuilds();
+    }
 
 }

@@ -27,6 +27,7 @@ public class NewGuildViewController implements Initializable {
 
     @FXML
     private Label lblGuildNameAlreadyExsist;
+    //TODO @Skovgaard
     @FXML
     private TextArea txtAreaGuildDescription;
     @FXML
@@ -37,7 +38,6 @@ public class NewGuildViewController implements Initializable {
     public NewGuildViewController() {
         guildModel = new GuildModel();
     }
-    
     
     @FXML
     private void handleAddGuildBtn(ActionEvent event) {

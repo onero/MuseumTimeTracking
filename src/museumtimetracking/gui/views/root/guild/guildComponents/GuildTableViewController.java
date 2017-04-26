@@ -59,6 +59,9 @@ public class GuildTableViewController implements Initializable {
         guildModel = new GuildModel();
     }
 
+    
+    
+    
     @FXML
     private void handleEditGuild(MouseEvent event) throws IOException {
 

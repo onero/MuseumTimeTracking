@@ -34,5 +34,6 @@ public class Guild {
     public String getDescription() {
         return description.get();
     }
+    
 
 }
