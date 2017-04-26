@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane fx:id="guildTable" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guild.guildComponents.GuildTableViewController">
+   <center>
+      <TableView fx:id="tableGuild" prefHeight="200.0" prefWidth="200.0">
+         <columns>
+            <TableColumn fx:id="clmGuildName" prefWidth="66.0" text="Laug" />
+            <TableColumn fx:id="clmGuildDescription" prefWidth="133.0" text="Beskrivelse" />
+         </columns>
+      </TableView>
+   </center>
+   <bottom>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <ButtonBar>
+               <buttons>
+                  <Button mnemonicParsing="false" text="Tilføj Laug" />
+                  <Button mnemonicParsing="false" text="Arkiver" />
+               </buttons>
+            </ButtonBar>
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>
