@@ -9,14 +9,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import museumtimetracking.be.enums.EFXMLName;
-import museumtimetracking.gui.views.NodeFactory;
 import museumtimetracking.gui.views.root.guild.guildComponents.GuildTableViewController;
 
 /**
@@ -35,10 +32,7 @@ public class EditGuildViewController implements Initializable {
     @FXML
     private TextField txtGuildName;
 
-    private final Node guildTable;
-
     public EditGuildViewController() {
-        guildTable = NodeFactory.getInstance().createNewView(EFXMLName.GUILD_TABLE);
         GuildTableViewController.getIntance().setButtonVisibility(false);
     }
 
@@ -53,7 +47,6 @@ public class EditGuildViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        editGuildBorderPane.setLeft(guildTable);
         setTextFieldVisibility(false);
     }
 

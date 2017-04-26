@@ -16,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
@@ -59,20 +60,27 @@ public class GuildTableViewController implements Initializable {
     }
 
     @FXML
-    private void handleEditGuild() throws IOException {
-        Guild selectedGuild = tableGuild.getSelectionModel().getSelectedItem();
+    private void handleEditGuild(MouseEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.EDIT_GUILD.toString()));
-        Parent root = loader.load();
+        if (event.getClickCount() == 2) {
+            Guild selectedGuild = tableGuild.getSelectionModel().getSelectedItem();
 
-        Stage newStage = new Stage();
-        newStage.setScene(new Scene(root));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.EDIT_GUILD.toString()));
+            Parent root = loader.load();
 
-        //Create new modal window from FXMLLoader
-        newStage.initModality(Modality.WINDOW_MODAL);
-        newStage.initOwner(primStage);
+            Stage newStage = new Stage();
+            newStage.setScene(new Scene(root));
 
-        newStage.show();
+            //Create new modal window from FXMLLoader
+            newStage.initModality(Modality.WINDOW_MODAL);
+            newStage.initOwner(primStage);
+
+            EditGuildViewController controller = loader.getController();
+            controller.setTextFields(selectedGuild.getName(), selectedGuild.getDescription());
+
+            newStage.show();
+        }
+
     }
 
     /**
@@ -99,11 +107,6 @@ public class GuildTableViewController implements Initializable {
         //Create new modal window from FXMLLoader
         newStage.initModality(Modality.WINDOW_MODAL);
         newStage.initOwner(primStage);
-
-        Guild selectedGuild = tableGuild.getSelectionModel().getSelectedItem();
-
-        EditGuildViewController controller = loader.getController();
-        controller.setTextFields(selectedGuild.getName(), selectedGuild.getDescription());
 
         newStage.show();
 
