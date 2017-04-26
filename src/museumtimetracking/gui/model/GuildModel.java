@@ -13,24 +13,30 @@ import museumtimetracking.bll.GuildManager;
 public class GuildModel {
 
     private final List<Guild> guildsFromDB;
-    
-    private GuildManager guildManager;
+
+    private final List<Guild> archivedGuilds;
+
+    private final GuildManager guildManager;
 
     public GuildModel() {
         guildsFromDB = new ArrayList<>();
+        archivedGuilds = new ArrayList<>();
         guildManager = new GuildManager();
-        
-        
-        
+
 //        guildsFromDB = guildManager.addGuild(guildToAdd);
     }
+
+    public List<Guild> getArchivedGuilds() {
+        return archivedGuilds;
+    }
+
     /**
      * Adds the guild to DB.
-     * @param guild 
+     *
+     * @param guild
      */
-    public void addGuild(Guild guild){
+    public void addGuild(Guild guild) {
         guildManager.addGuild(guild);
     }
-    
 
 }
