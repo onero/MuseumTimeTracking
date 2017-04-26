@@ -7,6 +7,7 @@ package museumtimetracking.gui.views.root;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -26,16 +27,28 @@ public class MTTMainControllerView implements Initializable {
     private final NodeFactory nodeFactory;
 
     private final Node guildOverview;
+    private final Node managerOverview;
 
     public MTTMainControllerView() {
         nodeFactory = NodeFactory.getInstance();
 
         guildOverview = nodeFactory.createNewView(GUILD_OVERVIEW);
+        managerOverview = nodeFactory.createNewView(MANAGER_OVERVIEW);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        borderPainMain.setCenter(managerOverview);
+    }
+
+    @FXML
+    private void handleGuildsButton(ActionEvent event) {
         borderPainMain.setCenter(guildOverview);
+    }
+
+    @FXML
+    private void handleGuildManagersButton(ActionEvent event) {
+        borderPainMain.setCenter(managerOverview);
     }
 
 }
