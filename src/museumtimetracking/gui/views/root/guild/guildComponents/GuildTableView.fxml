@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane fx:id="guildTable" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guild.guildComponents.GuildTableViewController">
+<BorderPane fx:id="guildTableBorderPane" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guild.guildComponents.GuildTableViewController">
    <center>
-      <TableView fx:id="tableGuild" prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="tableGuild" onSort="#handleEditGuild" prefHeight="200.0" prefWidth="200.0">
          <columns>
             <TableColumn fx:id="clmGuildName" prefWidth="66.0" text="Laug" />
             <TableColumn fx:id="clmGuildDescription" prefWidth="133.0" text="Beskrivelse" />

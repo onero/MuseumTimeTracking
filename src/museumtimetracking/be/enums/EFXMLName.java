@@ -14,7 +14,7 @@ public enum EFXMLName {
     GUILD_OVERVIEW(MAIN_FOLER + "guild/GuildOverview.fxml"),
     GUILD_TABLE(MAIN_FOLER + "guild/guildComponents/GuildTableView.fxml"),
     ADD_NEW_GUILD(MAIN_FOLER + "guild/newGuild/NewGuildView.fxml"),
-
+    EDIT_GUILD("guild/editGuild/EditGuildView.fxml"),
     /*
      * Manager
      */

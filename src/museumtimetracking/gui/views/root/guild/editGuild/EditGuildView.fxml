@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane fx:id="editGuildBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="206.0" prefWidth="399.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guild.editGuild.EditGuildViewController">
    <center>
       <VBox prefHeight="265.0" prefWidth="468.0" BorderPane.alignment="CENTER">
@@ -36,7 +35,8 @@
                <children>
                   <ButtonBar>
                     <buttons>
-                      <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handleSaveGuild" text="Gem" />
+                      <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handleSaveGuild" text="Rediger" />
+                        <Button mnemonicParsing="false" onAction="#handleBack" text="Tilbage" />
                     </buttons>
                   </ButtonBar>
                </children>

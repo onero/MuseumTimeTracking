@@ -17,20 +17,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.layout.HBox;
 import museumtimetracking.be.Guild;
 import museumtimetracking.be.enums.EFXMLName;
 import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.views.root.guild.editGuild.EditGuildViewController;
 
 /**
  * FXML Controller class
  *
  * @author gta1
  */
-
-
 public class GuildTableViewController implements Initializable {
 
     @FXML
@@ -41,7 +40,7 @@ public class GuildTableViewController implements Initializable {
     @FXML
     private TableColumn<Guild, String> clmGuildName;
     @FXML
-    private BorderPane guildTable;
+    private BorderPane guildTableBorderPane;
     @FXML
     private TableView<Guild> tableGuild;
 
@@ -57,6 +56,23 @@ public class GuildTableViewController implements Initializable {
 
     public GuildTableViewController() {
         guildModel = new GuildModel();
+    }
+
+    @FXML
+    private void handleEditGuild() throws IOException {
+        Guild selectedGuild = tableGuild.getSelectionModel().getSelectedItem();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.EDIT_GUILD.toString()));
+        Parent root = loader.load();
+
+        Stage newStage = new Stage();
+        newStage.setScene(new Scene(root));
+
+        //Create new modal window from FXMLLoader
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.initOwner(primStage);
+
+        newStage.show();
     }
 
     /**
@@ -83,6 +99,11 @@ public class GuildTableViewController implements Initializable {
         //Create new modal window from FXMLLoader
         newStage.initModality(Modality.WINDOW_MODAL);
         newStage.initOwner(primStage);
+
+        Guild selectedGuild = tableGuild.getSelectionModel().getSelectedItem();
+
+        EditGuildViewController controller = loader.getController();
+        controller.setTextFields(selectedGuild.getName(), selectedGuild.getDescription());
 
         newStage.show();
 

@@ -7,7 +7,6 @@ package museumtimetracking.gui.views.root.guild.editGuild;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -15,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import museumtimetracking.be.enums.EFXMLName;
 import museumtimetracking.gui.views.NodeFactory;
 import museumtimetracking.gui.views.root.guild.guildComponents.GuildTableViewController;
@@ -42,15 +42,45 @@ public class EditGuildViewController implements Initializable {
         GuildTableViewController.getIntance().setButtonVisibility(false);
     }
 
+    @FXML
+    private void handleBack() {
+        Stage primStage = (Stage) btnSave.getScene().getWindow();
+        primStage.close();
+    }
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         editGuildBorderPane.setLeft(guildTable);
+        setTextFieldVisibility(false);
+    }
+
+    private void setTextFieldVisibility(boolean visible) {
+        txtGuildName.setDisable(!visible);
+        txtGuildDescription.setDisable(visible);
     }
 
     @FXML
-    private void handleSaveGuild(ActionEvent event) {
+    private void handleSaveGuild() {
+        if (btnSave.getText().toLowerCase().equals("rediger")) {
+            btnSave.setText("Gem");
+            setTextFieldVisibility(true);
+        } else {
+            btnSave.setText("Rediger");
+            setTextFieldVisibility(false);
+        }
+    }
+
+    /**
+     * Set the description of the fields
+     *
+     * @param name
+     * @param description
+     */
+    public void setTextFields(String name, String description) {
+        txtGuildName.setText(name);
+        txtGuildDescription.setText(description);
     }
 }
