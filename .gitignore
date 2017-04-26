@@ -2012,3 +2012,4 @@ hs_err_pid*
 
 # ImageProcessor DiskCache
 **/App_Data/cache/
+sqljdbc4.jar
