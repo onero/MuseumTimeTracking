@@ -10,7 +10,8 @@ public enum EFXMLName {
     MAIN_FOLER("/museumtimetracking/gui/views/root/"),
     GUILD_OVERVIEW(MAIN_FOLER + "guild/GuildOverview.fxml"),
     GUILD_TABLE(MAIN_FOLER + "guild/guildComponents/GuildTableView.fxml"),
-    MANAGER_OVERVIEW(MAIN_FOLER + "guildManager/guildManagerOverview/GuildManagerOverview.fxml");
+    MANAGER_OVERVIEW(MAIN_FOLER + "guildManager/guildManagerOverview/GuildManagerOverview.fxml"),
+    ADD_NEW_GUILD(MAIN_FOLER + "guild/newGuild/NewGuildView.fxml");
 
     private final String text;
 

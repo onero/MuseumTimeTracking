@@ -34,6 +34,7 @@ public class MTTMainControllerView implements Initializable {
 
         guildOverview = nodeFactory.createNewView(GUILD_OVERVIEW);
         managerOverview = nodeFactory.createNewView(MANAGER_OVERVIEW);
+        
     }
 
     @Override

@@ -5,14 +5,22 @@
  */
 package museumtimetracking.gui.views.root.guild.guildComponents;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import museumtimetracking.be.Guild;
+import museumtimetracking.be.enums.EFXMLName;
 import museumtimetracking.gui.model.GuildModel;
 
 /**
@@ -32,6 +40,8 @@ public class GuildTableViewController implements Initializable {
     private TableView<Guild> tableGuild;
 
     private final GuildModel guildModel;
+    
+    private Stage primStage;
 
     public GuildTableViewController() {
         guildModel = new GuildModel();
@@ -46,6 +56,27 @@ public class GuildTableViewController implements Initializable {
 
         clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
         clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
+    }
+
+    @FXML
+    private void handleAddGuildBtn() throws IOException {
+        primStage = (Stage) tableGuild.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.ADD_NEW_GUILD.toString()));
+        Parent root = loader.load();
+        
+        Stage newStage = new Stage();
+        newStage.setScene(new Scene(root));
+        
+        //Create new modal window from FXMLLoader
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.initOwner(primStage);
+        
+        newStage.show();
+        
+    }
+
+    @FXML
+    private void handleArchiveBtn(ActionEvent event) {
     }
 
 }

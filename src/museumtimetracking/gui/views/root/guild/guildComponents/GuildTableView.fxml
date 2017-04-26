@@ -21,8 +21,8 @@
          <children>
             <ButtonBar>
                <buttons>
-                  <Button mnemonicParsing="false" text="Tilføj Laug" />
-                  <Button mnemonicParsing="false" text="Arkiver" />
+                  <Button mnemonicParsing="false" onAction="#handleAddGuildBtn" text="Tilføj Laug" />
+                  <Button mnemonicParsing="false" onAction="#handleArchiveBtn" text="Arkiver" />
                </buttons>
             </ButtonBar>
          </children>
