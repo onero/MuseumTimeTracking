@@ -10,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import museumtimetracking.be.Guild;
+import museumtimetracking.gui.model.GuildModel;
 
 public class MuseumTimeTracking extends Application {
 
@@ -21,6 +23,7 @@ public class MuseumTimeTracking extends Application {
 
         stage.setScene(scene);
         stage.show();
+        
     }
 
     /**
