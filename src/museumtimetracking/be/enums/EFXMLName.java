@@ -8,8 +8,11 @@ package museumtimetracking.be.enums;
 public enum EFXMLName {
 
     MAIN_FOLER("/museumtimetracking/gui/views/root/"),
+    /*Guild*/
     GUILD_OVERVIEW(MAIN_FOLER + "guild/GuildOverview.fxml"),
-    MANAGER_OVERVIEW(MAIN_FOLER + "guildManager/guildManagerOverview/GuildManagerOverview.fxml");
+    /*Manager*/
+    MANAGER_OVERVIEW(MAIN_FOLER + "guildManager/guildManagerOverview/GuildManagerOverview.fxml"),
+    NEW_MANAGER(MAIN_FOLER + "guildManager/newGuildManager/NewGuildManagerView.fxml");
 
     private final String text;
 
