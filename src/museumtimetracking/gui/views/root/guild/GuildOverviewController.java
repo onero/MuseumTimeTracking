@@ -26,11 +26,11 @@ public class GuildOverviewController implements Initializable {
 
     private NodeFactory nodeFactory;
 
-    private  Node guildTable;
+    private final Node guildTable;
 
     public GuildOverviewController() {
-        NodeFactory.getInstance();
-//        guildTable = nodeFactory.createNewView(GUILD_TABLE);
+        nodeFactory = NodeFactory.getInstance();
+        guildTable = nodeFactory.createNewView(GUILD_TABLE);
     }
 
     /**
@@ -40,8 +40,7 @@ public class GuildOverviewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 //        tableGuild.setItems(guildModel.getCachedGuilds());
 
-//        guildBorderPane.setLeft(guildTable);
-
+        guildBorderPane.setLeft(guildTable);
     }
 
 }
