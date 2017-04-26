@@ -17,13 +17,15 @@ public abstract class APerson {
     private final StringProperty fullName;
     private final StringProperty email;
     private final IntegerProperty phone;
+    private final int ID;
 
-    public APerson(String firstName, String lastName, String email, int phone) {
+    public APerson(String firstName, String lastName, String email, int phone, int ID) {
         this.firstName = new SimpleStringProperty(firstName);
         this.lastName = new SimpleStringProperty(lastName);
         this.fullName = new SimpleStringProperty(firstName + " " + lastName);
         this.email = new SimpleStringProperty(email);
         this.phone = new SimpleIntegerProperty(phone);
+        this.ID = ID;
     }
 
     public String getFullName() {

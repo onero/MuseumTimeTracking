@@ -16,9 +16,17 @@ public class GuildManager extends APerson {
 
     private final List<Guild> listOfGuilds;
 
-    public GuildManager(String firstName, String lastName, String email, int phone) {
-        super(firstName, lastName, email, phone);
+    public GuildManager(String firstName, String lastName, String email, int phone, int ID) {
+        super(firstName, lastName, email, phone, ID);
         listOfGuilds = new ArrayList();
+    }
+
+    public GuildManager(String firstName, String lastName, String email, int phone, int ID, Guild... guilds) {
+        super(firstName, lastName, email, phone, ID);
+        listOfGuilds = new ArrayList();
+        for (Guild guild : guilds) {
+            listOfGuilds.add(guild);
+        }
     }
 
     /**
