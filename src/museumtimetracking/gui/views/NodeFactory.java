@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import museumtimetracking.be.enums.EFXMLName;
 
 public class NodeFactory {
@@ -39,6 +40,23 @@ public class NodeFactory {
             Logger.getLogger(NodeFactory.class.getName()).log(Level.SEVERE, null, ex);
         }
         return node;
+    }
+
+    /**
+     * Creates a new Parent and returns it. Returns null if no Parent could be
+     * created.
+     *
+     * @param viewName
+     * @return
+     */
+    public Parent createNewParent(EFXMLName viewName) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(viewName.toString()));
+        try {
+            return loader.load();
+        } catch (IOException ex) {
+            System.out.println("Failed to create new Parent!\n" + ex.getMessage());
+            return null;
+        }
     }
 
 }
