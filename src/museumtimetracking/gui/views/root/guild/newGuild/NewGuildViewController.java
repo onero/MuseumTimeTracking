@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -31,19 +30,18 @@ public class NewGuildViewController implements Initializable {
     private TextArea txtAreaGuildDescription;
     @FXML
     private TextField txtFieldGuildName;
-    
-    private GuildModel guildModel;
+
+    private final GuildModel guildModel;
 
     public NewGuildViewController() {
-        guildModel = new GuildModel();
+        guildModel = GuildModel.getInstance();
     }
-    
-    
+
     @FXML
     private void handleAddGuildBtn(ActionEvent event) {
         Guild newGuild = new Guild(txtFieldGuildName.getText(), txtAreaGuildDescription.getText());
         guildModel.addGuild(newGuild);
-        
+
         closeWindow();
     }
 
@@ -60,8 +58,8 @@ public class NewGuildViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
-    
-    private void closeWindow(){
+
+    private void closeWindow() {
         Stage stage = (Stage) txtFieldGuildName.getScene().getWindow();
         stage.close();
     }

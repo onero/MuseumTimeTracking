@@ -20,9 +20,8 @@ import museumtimetracking.be.Guild;
 public class GuildDAO {
 
     private static GuildDAO instance;
-    
+
     private DBConnectionManager cm;
-    
 
     public static GuildDAO getInstance() {
         if (instance == null) {
@@ -30,7 +29,7 @@ public class GuildDAO {
         }
         return instance;
     }
-    
+
     private GuildDAO() {
         cm = null;
         try {
@@ -40,26 +39,46 @@ public class GuildDAO {
             Logger.getLogger(GuildDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /**
      * Add Guilds to DB.
-     * 
-     * @param newGuild 
+     *
+     * @param newGuild
      */
-    public void addGuild(Guild newGuild){
+    public void addGuild(Guild newGuild) {
         String sql = "INSERT INTO Guild "
                 + "(Name, Description) "
                 + "VALUES (?, ?)";
-        try (Connection con = cm.getConnection()){
+        try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, newGuild.getName());
             ps.setString(2, newGuild.getDescription());
-            
+
             ps.executeUpdate();
-            
+
         } catch (SQLException sqlException) {
             System.out.println("Couldn't add newGuild to DB");
             System.out.println(sqlException);
             Logger.getLogger(GuildDAO.class.getName()).log(Level.SEVERE, null, sqlException);
+        }
+    }
+
+    public void updateGuild(Guild updatedGuild) {
+        String sql = "UPDATE Guild "
+                + "SET Name = ?, Description = ? "
+                + "WHERE Name = ?";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, updatedGuild.getName());
+            ps.setString(2, updatedGuild.getDescription());
+            ps.setString(3, updatedGuild.getName());
+
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.out.println("Couldn't update " + updatedGuild.getName());
+            System.out.println(e);
         }
     }
 

@@ -22,10 +22,20 @@ public class GuildManager {
 
     /**
      * Adds a new guild to DB.
+     *
      * @param guildToAdd
      */
     public void addGuild(Guild guildToAdd) {
         guildDAO.addGuild(guildToAdd);
+    }
+
+    /**
+     * Update guild in DB with new info
+     *
+     * @param guildToUpdate
+     */
+    public void updateGuild(Guild guildToUpdate) {
+        guildDAO.updateGuild(guildToUpdate);
     }
 
 }

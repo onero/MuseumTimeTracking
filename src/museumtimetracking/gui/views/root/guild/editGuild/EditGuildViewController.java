@@ -14,6 +14,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import museumtimetracking.be.Guild;
+import museumtimetracking.gui.model.GuildModel;
 import museumtimetracking.gui.views.root.guild.guildComponents.GuildTableViewController;
 
 /**
@@ -61,6 +63,8 @@ public class EditGuildViewController implements Initializable {
             btnSave.setText("Gem");
             setTextFieldVisibility(true);
         } else {
+            Guild updatedGuild = new Guild(txtGuildName.getText(), txtGuildDescription.getText());
+            GuildModel.getInstance().updateGuild(updatedGuild);
             btnSave.setText("Rediger");
             setTextFieldVisibility(false);
         }
