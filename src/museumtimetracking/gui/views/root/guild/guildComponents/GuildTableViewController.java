@@ -42,7 +42,7 @@ public class GuildTableViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        tableGuild.setItems(guildModel.getCachedGuilds());
+//        tableGuild.setItems(guildModel.getCachedGuilds());
 
         clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
         clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
