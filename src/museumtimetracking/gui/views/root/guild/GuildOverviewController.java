@@ -9,10 +9,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import museumtimetracking.be.Guild;
-import museumtimetracking.gui.model.GuildModel;
+import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
+import static museumtimetracking.be.enums.EFXMLName.*;
+import museumtimetracking.gui.views.NodeFactory;
 
 /**
  * FXML Controller class
@@ -22,16 +22,15 @@ import museumtimetracking.gui.model.GuildModel;
 public class GuildOverviewController implements Initializable {
 
     @FXML
-    private TableColumn<Guild, String> clmGuildDescription;
-    @FXML
-    private TableColumn<Guild, String> clmGuildName;
-    @FXML
-    private TableView<Guild> tableGuild;
+    private BorderPane guildBorderPane;
 
-    private GuildModel guildModel;
+    private NodeFactory nodeFactory;
+
+    private final Node guildTable;
 
     public GuildOverviewController() {
-        guildModel = new GuildModel();
+        NodeFactory.getInstance();
+        guildTable = nodeFactory.createNewView(GUILD_TABLE);
     }
 
     /**
@@ -41,8 +40,8 @@ public class GuildOverviewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 //        tableGuild.setItems(guildModel.getCachedGuilds());
 
-        clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
-        clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
+        guildBorderPane.setLeft(guildTable);
+
     }
 
 }
