@@ -8,13 +8,29 @@ package museumtimetracking.gui.model;
 import java.util.ArrayList;
 import java.util.List;
 import museumtimetracking.be.Guild;
+import museumtimetracking.bll.GuildManager;
 
 public class GuildModel {
 
-    private final List<Guild> guilds;
+    private final List<Guild> guildsFromDB;
+    
+    private GuildManager guildManager;
 
     public GuildModel() {
-        guilds = new ArrayList<>();
+        guildsFromDB = new ArrayList<>();
+        guildManager = new GuildManager();
+        
+        
+        
+//        guildsFromDB = guildManager.addGuild(guildToAdd);
     }
+    /**
+     * Adds the guild to DB.
+     * @param guild 
+     */
+    public void addGuild(Guild guild){
+        guildManager.addGuild(guild);
+    }
+    
 
 }
