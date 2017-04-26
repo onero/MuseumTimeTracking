@@ -56,7 +56,12 @@ public class GuildTableViewController implements Initializable {
     private Stage primStage;
 
     public GuildTableViewController() {
-        guildModel = new GuildModel();
+        guildModel = GuildModel.getInstance();
+    }
+
+    @FXML
+    private void handleDeleteGuild() {
+
     }
 
     
