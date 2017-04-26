@@ -5,16 +5,20 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane fx:id="borderPainMain" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.MTTMainControllerView">
+<BorderPane fx:id="borderPaneMain" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.MTTMainControllerView">
    <bottom>
-      <HBox spacing="25.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" onAction="#handleGuildsButton" prefWidth="100.0" text="Laug" />
-            <Button mnemonicParsing="false" onAction="#handleGuildManagersButton" prefWidth="100.0" text="Tovholdere" />
-         </children>
+      <BorderPane fx:id="borderPaneMainAtBottomBorderPane" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
-      </HBox>
+         <bottom>
+            <HBox spacing="25.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#handleGuildsButton" prefWidth="100.0" text="Laug" />
+                  <Button mnemonicParsing="false" onAction="#handleGuildManagersButton" prefWidth="100.0" text="Tovholdere" />
+               </children>
+            </HBox>
+         </bottom>
+      </BorderPane>
    </bottom>
 </BorderPane>

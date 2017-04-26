@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import museumtimetracking.be.Guild;
 import museumtimetracking.gui.model.GuildModel;
 
@@ -23,6 +24,9 @@ import museumtimetracking.gui.model.GuildModel;
 public class GuildTableViewController implements Initializable {
 
     @FXML
+    private HBox buttonBar;
+
+    @FXML
     private TableColumn<Guild, String> clmGuildDescription;
     @FXML
     private TableColumn<Guild, String> clmGuildName;
@@ -30,6 +34,12 @@ public class GuildTableViewController implements Initializable {
     private BorderPane guildTable;
     @FXML
     private TableView<Guild> tableGuild;
+
+    private static GuildTableViewController instance;
+
+    public static GuildTableViewController getIntance() {
+        return instance;
+    }
 
     private final GuildModel guildModel;
 
@@ -42,10 +52,16 @@ public class GuildTableViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        instance = this;
 //        tableGuild.setItems(guildModel.getCachedGuilds());
 
         clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
         clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
+    }
+
+    public void setButtonVisibility(boolean visible) {
+        buttonBar.setVisible(visible);
+        buttonBar.setDisable(!visible);
     }
 
 }
