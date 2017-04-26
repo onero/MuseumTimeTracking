@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import museumtimetracking.be.APerson;
@@ -46,6 +47,8 @@ public class NewGuildManagerViewController implements Initializable {
             APerson person = new GuildManager(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()));
             GuildManagerModel.getInstance().createNewGuildManager(person);
             closeWindow();
+        } else {
+            showWrongInformationWarning();
         }
     }
 
@@ -75,5 +78,14 @@ public class NewGuildManagerViewController implements Initializable {
         boolean isPhoneValid = (txtPhone.getText().matches("[0-9]+") && txtPhone.getText().length() == 8);
 
         return (isFirstNameThere == true && isLastNameThere == true && isPhoneValid == true);
+    }
+
+    private void showWrongInformationWarning() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Den indtastede information er ikke gyldig.");
+        alert.setContentText("Skal udfyldes:\nFornavn.\nEfternavn\n\n"
+                + "Tjekt eventuelt at:\n"
+                + "Telefon nummeret kun indeholder tal.\nTelefon nummeret er 8 cifre.");
+        alert.show();
     }
 }
