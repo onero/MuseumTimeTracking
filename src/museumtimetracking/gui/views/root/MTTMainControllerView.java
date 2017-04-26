@@ -38,7 +38,7 @@ public class MTTMainControllerView implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        borderPainMain.setCenter(managerOverview);
+        borderPainMain.setCenter(guildOverview);
     }
 
     @FXML
