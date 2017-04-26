@@ -64,9 +64,6 @@ public class GuildTableViewController implements Initializable {
 
     }
 
-    
-    
-    
     @FXML
     private void handleEditGuild(MouseEvent event) throws IOException {
 
@@ -84,7 +81,7 @@ public class GuildTableViewController implements Initializable {
             newStage.initOwner(primStage);
 
             EditGuildViewController controller = loader.getController();
-            controller.setTextFields(selectedGuild.getName(), selectedGuild.getDescription());
+            controller.setCurrentGuild(selectedGuild);
 
             newStage.show();
         }
@@ -98,7 +95,6 @@ public class GuildTableViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
 //        tableGuild.setItems(guildModel.getCachedGuilds());
-
         clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
         clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
     }

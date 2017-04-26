@@ -34,6 +34,8 @@ public class EditGuildViewController implements Initializable {
     @FXML
     private TextField txtGuildName;
 
+    private Guild currentGuild;
+
     public EditGuildViewController() {
         GuildTableViewController.getIntance().setButtonVisibility(false);
     }
@@ -54,7 +56,7 @@ public class EditGuildViewController implements Initializable {
 
     private void setTextFieldVisibility(boolean visible) {
         txtGuildName.setDisable(!visible);
-        txtGuildDescription.setDisable(visible);
+        txtGuildDescription.setDisable(!visible);
     }
 
     @FXML
@@ -64,10 +66,14 @@ public class EditGuildViewController implements Initializable {
             setTextFieldVisibility(true);
         } else {
             Guild updatedGuild = new Guild(txtGuildName.getText(), txtGuildDescription.getText());
-            GuildModel.getInstance().updateGuild(updatedGuild);
-            btnSave.setText("Rediger");
-            setTextFieldVisibility(false);
+            GuildModel.getInstance().updateGuild(currentGuild.getName(), updatedGuild);
+            handleBack();
         }
+    }
+
+    public void setCurrentGuild(Guild guild) {
+        currentGuild = guild;
+        setTextFields(currentGuild.getName(), currentGuild.getDescription());
     }
 
     /**
@@ -76,7 +82,7 @@ public class EditGuildViewController implements Initializable {
      * @param name
      * @param description
      */
-    public void setTextFields(String name, String description) {
+    private void setTextFields(String name, String description) {
         txtGuildName.setText(name);
         txtGuildDescription.setText(description);
     }

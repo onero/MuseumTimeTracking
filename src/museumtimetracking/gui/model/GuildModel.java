@@ -47,8 +47,8 @@ public class GuildModel {
     public void addGuild(Guild guild) {
         guildManager.addGuild(guild);
     }
-    
-    public List<Guild> getAllGuilds(){
+
+    public List<Guild> getAllGuilds() {
         return guildManager.getAllGuilds();
     }
 
@@ -56,9 +56,10 @@ public class GuildModel {
      * Update guild in DB with new info
      *
      * @param guildToUpdate
+     * @param updatedGuild
      */
-    public void updateGuild(Guild guildToUpdate) {
-        guildManager.updateGuild(guildToUpdate);
+    public void updateGuild(String guildToUpdate, Guild updatedGuild) {
+        guildManager.updateGuild(guildToUpdate, updatedGuild);
     }
 
 }

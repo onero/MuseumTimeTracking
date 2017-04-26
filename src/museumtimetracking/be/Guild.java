@@ -10,9 +10,9 @@ import javafx.beans.property.StringProperty;
 
 public class Guild {
 
-    private final StringProperty name;
+    private StringProperty name;
 
-    private final StringProperty description;
+    private StringProperty description;
 
     public Guild(String name, String description) {
         this.name = new SimpleStringProperty(name);
@@ -34,6 +34,13 @@ public class Guild {
     public String getDescription() {
         return description.get();
     }
-    
+
+    public void setName(String name) {
+        this.name.set(name);
+    }
+
+    public void setDescription(String description) {
+        this.description.set(description);
+    }
 
 }

@@ -15,7 +15,7 @@ import museumtimetracking.dal.GuildDAO;
  */
 public class GuildManager {
 
-    private GuildDAO guildDAO;
+    private final GuildDAO guildDAO;
 
     public GuildManager() {
         guildDAO = GuildDAO.getInstance();
@@ -30,18 +30,18 @@ public class GuildManager {
         guildDAO.addGuild(guildToAdd);
     }
 
-    public List<Guild> getAllGuilds(){
-        return guildDAO.getAllGuilds();     
+    public List<Guild> getAllGuilds() {
+        return guildDAO.getAllGuilds();
     }
-    
 
     /**
      * Update guild in DB with new info
      *
      * @param guildToUpdate
+     * @param updatedGuild
      */
-    public void updateGuild(Guild guildToUpdate) {
-        guildDAO.updateGuild(guildToUpdate);
+    public void updateGuild(String guildToUpdate, Guild updatedGuild) {
+        guildDAO.updateGuild(guildToUpdate, updatedGuild);
     }
 
 }

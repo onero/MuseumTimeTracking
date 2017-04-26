@@ -42,16 +42,16 @@ public class GuildDAO {
             Logger.getLogger(GuildDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public List<Guild> getAllGuilds() {
         List<Guild> guilds = new ArrayList<>();
         String sql = "SELECT * FROM Guild";
-                
-        try (Connection con = cm.getConnection()){
+
+        try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
-            
+
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 guilds.add(getOneGuild(rs));
             }
@@ -83,17 +83,24 @@ public class GuildDAO {
             Logger.getLogger(GuildDAO.class.getName()).log(Level.SEVERE, null, sqlException);
         }
     }
+
     // Adds one guild to DB.
     private Guild getOneGuild(ResultSet rs) throws SQLException {
         String name = rs.getString("Name");
         String description = rs.getString("Description");
-        
+
         Guild guild = new Guild(name, description);
-        
+
         return guild;
     }
 
-    public void updateGuild(Guild updatedGuild) {
+    /**
+     * Update guild in DB
+     *
+     * @param guildToUpate
+     * @param updatedGuild
+     */
+    public void updateGuild(String guildToUpate, Guild updatedGuild) {
         String sql = "UPDATE Guild "
                 + "SET Name = ?, Description = ? "
                 + "WHERE Name = ?";
@@ -102,7 +109,7 @@ public class GuildDAO {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, updatedGuild.getName());
             ps.setString(2, updatedGuild.getDescription());
-            ps.setString(3, updatedGuild.getName());
+            ps.setString(3, guildToUpate);
 
             ps.executeUpdate();
 
