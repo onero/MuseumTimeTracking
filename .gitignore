@@ -4,6 +4,7 @@
 ### YOUR_PROJECT ###
 !nbproject.zip
 DB.cfg
+sqljdbc4.jar
 
 ### NetBeans ###
 nbproject
