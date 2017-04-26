@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -22,8 +23,6 @@ import javafx.scene.control.TextField;
  */
 public class NewGuildViewController implements Initializable {
 
-    @FXML
-    private Button btnBack;
     @FXML
     private Label lblGuildNameAlreadyExsist;
     @FXML
@@ -36,7 +35,10 @@ public class NewGuildViewController implements Initializable {
     }
 
     @FXML
+    // How to close a window.
     private void handleBackBtn(ActionEvent event) {
+        Stage stage = (Stage) txtFieldGuildName.getScene().getWindow();
+        stage.close();
     }
 
     /**
