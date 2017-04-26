@@ -41,7 +41,7 @@ public class GuildManagerDAO {
             ps.setString(3, person.getEmail());
             ps.setInt(4, person.getPhone());
 
-            ps.executeQuery();
+            ps.executeUpdate();
         }
     }
 

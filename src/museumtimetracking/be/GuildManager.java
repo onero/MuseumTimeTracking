@@ -17,7 +17,7 @@ public class GuildManager extends APerson {
     private final List<Guild> listOfGuilds;
 
     public GuildManager(String firstName, String lastName, String email, int phone) {
-        super(firstName, lastName, email, phone, 0);
+        super(firstName, lastName, email, phone);
         listOfGuilds = new ArrayList();
     }
 
