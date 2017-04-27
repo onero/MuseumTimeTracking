@@ -16,6 +16,7 @@
                <children>
                   <Button mnemonicParsing="false" onAction="#handleGuildsButton" prefWidth="100.0" text="Laug" />
                   <Button mnemonicParsing="false" onAction="#handleGuildManagersButton" prefWidth="100.0" text="Tovholdere" />
+                  <Button mnemonicParsing="false" onAction="#handleVolunteersButton" text="Frivillige" />
                </children>
             </HBox>
          </bottom>
