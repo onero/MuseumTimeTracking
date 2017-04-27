@@ -24,7 +24,7 @@
          <children>
             <ButtonBar buttonMinWidth="150.0">
                <buttons>
-                  <Button mnemonicParsing="false" onAction="#handleRemoveFromArchive" text="Fjern Fra Arkiv" />
+                  <Button mnemonicParsing="false" onAction="#handleRestoreFromArchive" text="Genopret Guild" />
                </buttons>
             </ButtonBar>
          </children>
