@@ -61,9 +61,14 @@ public class GuildTableViewController implements Initializable {
         guildModel = GuildModel.getInstance();
     }
 
+    /**
+     * Deletes the selected guild(s) from tableView and DB.
+     * Goes to GuildModel.
+     */
     @FXML
     private void handleDeleteGuild() {
-
+        Guild deleteGuild = tableGuild.getSelectionModel().getSelectedItem();
+        guildModel.deleteGuild(deleteGuild);
     }
 
     @FXML
