@@ -65,7 +65,7 @@ public class EditGuildViewController implements Initializable {
             btnSave.setText("Gem");
             setTextFieldVisibility(true);
         } else {
-            Guild updatedGuild = new Guild(txtGuildName.getText(), txtGuildDescription.getText());
+            Guild updatedGuild = new Guild(txtGuildName.getText(), txtGuildDescription.getText(), false);
             GuildModel.getInstance().updateGuild(currentGuild.getName(), updatedGuild);
             handleBack();
         }

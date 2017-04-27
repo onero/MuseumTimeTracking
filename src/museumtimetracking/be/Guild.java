@@ -5,18 +5,23 @@
  */
 package museumtimetracking.be;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Guild {
 
-    private StringProperty name;
+    private final StringProperty name;
 
-    private StringProperty description;
+    private final StringProperty description;
 
-    public Guild(String name, String description) {
+    private final BooleanProperty isArchived;
+
+    public Guild(String name, String description, boolean archived) {
         this.name = new SimpleStringProperty(name);
         this.description = new SimpleStringProperty(description);
+        isArchived = new SimpleBooleanProperty(archived);
     }
 
     public StringProperty getNameProperty() {

@@ -40,7 +40,7 @@ public class NewGuildViewController implements Initializable {
 
     @FXML
     private void handleAddGuildBtn(ActionEvent event) {
-        Guild newGuild = new Guild(txtFieldGuildName.getText(), txtAreaGuildDescription.getText());
+        Guild newGuild = new Guild(txtFieldGuildName.getText(), txtAreaGuildDescription.getText(), false);
         guildModel.addGuild(newGuild);
 
         closeWindow();

@@ -88,8 +88,9 @@ public class GuildDAO {
     private Guild getOneGuild(ResultSet rs) throws SQLException {
         String name = rs.getString("Name");
         String description = rs.getString("Description");
+        boolean isArchived = rs.getBoolean("IsArchived");
 
-        Guild guild = new Guild(name, description);
+        Guild guild = new Guild(name, description, isArchived);
 
         return guild;
     }
