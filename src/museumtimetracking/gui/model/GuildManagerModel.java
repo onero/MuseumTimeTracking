@@ -56,4 +56,13 @@ public class GuildManagerModel {
         guildMGRManager.createNewGuildManager(person, guildName);
     }
 
+    /**
+     * Returns the list of chached Managers.
+     *
+     * @return
+     */
+    public ObservableList<GuildManager> getCachedManagers() {
+        return cachedManagers;
+    }
+
 }

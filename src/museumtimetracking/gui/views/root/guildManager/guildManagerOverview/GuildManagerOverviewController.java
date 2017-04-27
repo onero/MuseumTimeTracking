@@ -11,10 +11,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import museumtimetracking.be.GuildManager;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.views.NodeFactory;
@@ -27,7 +29,7 @@ import museumtimetracking.gui.views.NodeFactory;
 public class GuildManagerOverviewController implements Initializable {
 
     @FXML
-    private ListView<?> lstManagers;
+    private ListView<GuildManager> lstManagers;
     @FXML
     private TextField txtFirstName;
     @FXML
@@ -51,7 +53,8 @@ public class GuildManagerOverviewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        setListOfManagersCellFactory();
+        lstManagers.setItems(guildManagerModel.getCachedManagers());
     }
 
     @FXML
@@ -81,6 +84,24 @@ public class GuildManagerOverviewController implements Initializable {
 
     @FXML
     private void handleAddGuildButton() {
+    }
+
+    /**
+     * Sets the cellFactory of the ManagerList to show the fullName of the
+     * Managers.
+     */
+    private void setListOfManagersCellFactory() {
+        lstManagers.setCellFactory(v -> new ListCell<GuildManager>() {
+            @Override
+            protected void updateItem(GuildManager item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(item.getFullName());
+                }
+            }
+        });
     }
 
 }
