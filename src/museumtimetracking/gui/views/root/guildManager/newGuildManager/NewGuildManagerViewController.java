@@ -52,6 +52,11 @@ public class NewGuildManagerViewController implements Initializable {
         addInfoToComboBox();
     }
 
+    /**
+     * Checks if the data is validated. If yes - Creates a new person and sends
+     * it to the database to be registered as a GuildManager. If no - Shows a
+     * information alert telling the informtion is incorrect.
+     */
     @FXML
     private void handleAddButton() {
         if (validateData()) {

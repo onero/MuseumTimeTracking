@@ -7,6 +7,7 @@ package museumtimetracking.gui.views.root.guildManager.guildManagerOverview;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -38,6 +39,8 @@ public class GuildManagerOverviewController implements Initializable {
     private TextField txtEmail;
     @FXML
     private TextField txtPhone;
+    @FXML
+    private ListView<String> lstGuilds;
 
     private final NodeFactory nodeFactory;
 
@@ -53,7 +56,8 @@ public class GuildManagerOverviewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setListOfManagersCellFactory();
+        addListeners();
+        setCellFactories();
         lstManagers.setItems(guildManagerModel.getCachedManagers());
     }
 
@@ -70,6 +74,9 @@ public class GuildManagerOverviewController implements Initializable {
     private void handleDeleteButton() {
     }
 
+    /**
+     * Opens a modal for the newManagerView.
+     */
     private void newManagerModal() {
         Stage primStage = (Stage) txtFirstName.getScene().getWindow();
         Parent newManager = nodeFactory.createNewParent(NEW_MANAGER);
@@ -84,6 +91,14 @@ public class GuildManagerOverviewController implements Initializable {
 
     @FXML
     private void handleAddGuildButton() {
+    }
+
+    /**
+     * Calls the different methods that needs to have their cellFactories set.
+     */
+    private void setCellFactories() {
+        setListOfGuildsCellFactory();
+        setListOfManagersCellFactory();
     }
 
     /**
@@ -102,6 +117,50 @@ public class GuildManagerOverviewController implements Initializable {
                 }
             }
         });
+    }
+
+    /**
+     * Sets the cellFactory of the GuildsList to show the name of the guilds.
+     */
+    private void setListOfGuildsCellFactory() {
+        lstGuilds.setCellFactory(v -> new ListCell<String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(item);
+                }
+            }
+
+        });
+    }
+
+    /**
+     * Adds a listener to lstManagers.
+     */
+    private void addListeners() {
+        lstManagers.getSelectionModel().selectedItemProperty().addListener(
+                (ObservableValue<? extends GuildManager> observable,
+                        GuildManager oldValue, GuildManager newValue) -> {
+                    if (newValue != oldValue) {
+                        displayInformation(newValue);
+                    }
+                });
+    }
+
+    /**
+     * Displayes the information of the given GuildManager.
+     *
+     * @param manager
+     */
+    private void displayInformation(GuildManager manager) {
+        txtFirstName.setText(manager.getFirstName());
+        txtLastName.setText(manager.getLastName());
+        txtEmail.setText(manager.getEmail());
+        txtPhone.setText(manager.getPhone() + "");
+        lstGuilds.setItems(manager.getObservableListOfGuilds());
     }
 
 }
