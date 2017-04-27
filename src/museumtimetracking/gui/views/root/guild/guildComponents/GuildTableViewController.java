@@ -7,8 +7,6 @@ package museumtimetracking.gui.views.root.guild.guildComponents;
 
 import java.io.IOException;
 import java.net.URL;
-import static java.util.Collections.list;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +14,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
@@ -61,12 +62,32 @@ public class GuildTableViewController implements Initializable {
         guildModel = GuildModel.getInstance();
     }
 
+    /**
+     * Deletes the selected guild(s) from tableView and DB. Goes to GuildModel.
+     */
     @FXML
-    private void handleArchiveBtn(ActionEvent event) {
+    private void handleDeleteGuild() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("WARNING");
+        alert.setHeaderText(" Tryk 'Ja' for at slette permanent. \n Tryk 'Nej' for at fortryde.");
+        ButtonType yesButton = new ButtonType("Ja", ButtonBar.ButtonData.YES);
+        ButtonType noButton = new ButtonType("Nej", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(yesButton, noButton);
+        alert.showAndWait().ifPresent(type -> {
+
+            if (type == yesButton) {
+                Guild deleteGuild = tableGuild.getSelectionModel().getSelectedItem();
+                guildModel.deleteGuild(deleteGuild);
+
+            }
+        });
+
     }
 
     @FXML
-    private void handleDeleteGuild(ActionEvent event) {
+    private void handleArchiveBtn() {
+        Guild guildToArchive = tableGuild.getSelectionModel().getSelectedItem();
+        guildModel.archiveGuild(guildToArchive);
     }
 
     @FXML
@@ -90,7 +111,6 @@ public class GuildTableViewController implements Initializable {
 
             newStage.show();
         }
-
     }
 
     /**

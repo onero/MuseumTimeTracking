@@ -43,9 +43,58 @@ public class GuildDAO {
         }
     }
 
-    public List<Guild> getAllGuilds() {
+    /**
+     * Archive the guild
+     *
+     * @param guildToArchive
+     */
+    public void archiveGuild(Guild guildToArchive) {
+        String sql = "UPDATE Guild "
+                + "SET IsArchived = 1 "
+                + "WHERE Name = ?";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, guildToArchive.getName());
+
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println("Couldn't connect to the database.");
+            Logger.getLogger(GuildDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     *
+     * @return all guilds from DB
+     */
+    public List<Guild> getAllGuildsNotArchived() {
         List<Guild> guilds = new ArrayList<>();
-        String sql = "SELECT * FROM Guild";
+        String sql = "SELECT * FROM Guild "
+                + "WHERE IsArchived = 0";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                guilds.add(getOneGuild(rs));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GuildDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return guilds;
+    }
+
+    /**
+     *
+     * @return all guilds from DB
+     */
+    public List<Guild> getAllGuildsArchived() {
+        List<Guild> guilds = new ArrayList<>();
+        String sql = "SELECT * FROM Guild "
+                + "WHERE IsArchived = 1";
 
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -93,6 +142,47 @@ public class GuildDAO {
         Guild guild = new Guild(name, description, isArchived);
 
         return guild;
+    }
+
+    /**
+     * Deletes guild(s) from the tableView and DB.
+     * Comes from GuildManager and goes to DB.
+     *
+     * @param guild
+     */
+    public void deleteGuild(Guild deleteGuild) {
+        String sql = "DELETE FROM Guild "
+                + " WHERE Name =  ?";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, deleteGuild.getName());
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Couldn't remove Guild(s) from the DB");
+            System.out.println(ex);
+            Logger.getLogger(GuildDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Restore guild from archive
+     *
+     * @param guildToRestore
+     */
+    public void restoreGuild(Guild guildToRestore) {
+        String sql = "UPDATE Guild "
+                + "SET IsArchived = 0 "
+                + "WHERE Name = ?";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, guildToRestore.getName());
+
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Couldn't update " + guildToRestore.getName());
+            System.out.println(e);
+        }
     }
 
     /**
