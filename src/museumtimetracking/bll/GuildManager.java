@@ -58,6 +58,15 @@ public class GuildManager {
     }
 
     /**
+     * Restore guild from archive in DB
+     *
+     * @param guildToRestore
+     */
+    public void restoreGuild(Guild guildToRestore) {
+        guildDAO.restoreGuild(guildToRestore);
+    }
+
+    /**
      * Update guild in DB with new info
      *
      * @param guildToUpdate

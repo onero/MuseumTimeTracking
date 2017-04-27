@@ -7,7 +7,6 @@ package museumtimetracking.gui.views.root.guild.archivedGuilds;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -42,7 +41,9 @@ public class ArchivedGuildViewController implements Initializable {
     }
 
     @FXML
-    private void handleRemoveFromArchive(ActionEvent event) {
+    private void handleRestoreFromArchive() {
+        Guild guildToRestore = tableGuild.getSelectionModel().getSelectedItem();
+        guildModel.restoreGuild(guildToRestore);
     }
 
     /**

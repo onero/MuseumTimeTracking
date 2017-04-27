@@ -145,6 +145,24 @@ public class GuildDAO {
     }
 
     /**
+     * Restore guild from archive
+     *
+     * @param guildToRestore
+     */
+    public void restoreGuild(Guild guildToRestore) {
+        String sql = "UPDATE Guild "
+                + "SET IsArchived = 0 "
+                + "WHERE Name = ?";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, guildToRestore.getName());
+        } catch (Exception e) {
+            System.out.println("Couldn't update " + guildToRestore.getName());
+            System.out.println(e);
+        }
+    }
+
+    /**
      * Update guild in DB
      *
      * @param guildToUpate

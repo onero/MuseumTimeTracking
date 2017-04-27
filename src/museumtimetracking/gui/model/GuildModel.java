@@ -78,6 +78,17 @@ public class GuildModel {
     }
 
     /**
+     * Restores guild from archive
+     *
+     * @param guildToRestore
+     */
+    public void restoreGuild(Guild guildToRestore) {
+        guildManager.restoreGuild(guildToRestore);
+        cachedArchivedGuilds.remove(guildToRestore);
+        cachedGuilds.add(guildToRestore);
+    }
+
+    /**
      * Update guild in DB with new info
      *
      * @param guildToUpdate
