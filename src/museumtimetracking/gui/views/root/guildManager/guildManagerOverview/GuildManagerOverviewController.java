@@ -7,7 +7,6 @@ package museumtimetracking.gui.views.root.guildManager.guildManagerOverview;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -52,16 +51,16 @@ public class GuildManagerOverviewController implements Initializable {
     }
 
     @FXML
-    private void handleNewManagerButton(ActionEvent event) {
+    private void handleNewManagerButton() {
         newManagerModal();
     }
 
     @FXML
-    private void handleEditButton(ActionEvent event) {
+    private void handleEditButton() {
     }
 
     @FXML
-    private void handleDeleteButton(ActionEvent event) {
+    private void handleDeleteButton() {
     }
 
     private void newManagerModal() {
@@ -77,7 +76,7 @@ public class GuildManagerOverviewController implements Initializable {
     }
 
     @FXML
-    private void handleAddGuildButton(ActionEvent event) {
+    private void handleAddGuildButton() {
     }
 
 }

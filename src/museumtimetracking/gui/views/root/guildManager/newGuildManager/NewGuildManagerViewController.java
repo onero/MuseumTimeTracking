@@ -7,7 +7,6 @@ package museumtimetracking.gui.views.root.guildManager.newGuildManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -46,7 +45,7 @@ public class NewGuildManagerViewController implements Initializable {
     }
 
     @FXML
-    private void handleAddButton(ActionEvent event) {
+    private void handleAddButton() {
         if (validateData()) {
             APerson person = new GuildManager(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()));
             Guild guild = new Guild("Mock", "Mock");
@@ -58,7 +57,7 @@ public class NewGuildManagerViewController implements Initializable {
     }
 
     @FXML
-    private void handleCancelButton(ActionEvent event) {
+    private void handleCancelButton() {
         closeWindow();
     }
 
