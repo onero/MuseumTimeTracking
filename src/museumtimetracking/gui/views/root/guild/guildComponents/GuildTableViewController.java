@@ -7,6 +7,8 @@ package museumtimetracking.gui.views.root.guild.guildComponents;
 
 import java.io.IOException;
 import java.net.URL;
+import static java.util.Collections.list;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -56,7 +58,15 @@ public class GuildTableViewController implements Initializable {
     private Stage primStage;
 
     public GuildTableViewController() {
-        guildModel = new GuildModel();
+        guildModel = GuildModel.getInstance();
+    }
+
+    @FXML
+    private void handleArchiveBtn(ActionEvent event) {
+    }
+
+    @FXML
+    private void handleDeleteGuild(ActionEvent event) {
     }
 
     @FXML
@@ -76,7 +86,7 @@ public class GuildTableViewController implements Initializable {
             newStage.initOwner(primStage);
 
             EditGuildViewController controller = loader.getController();
-            controller.setTextFields(selectedGuild.getName(), selectedGuild.getDescription());
+            controller.setCurrentGuild(selectedGuild);
 
             newStage.show();
         }
@@ -89,7 +99,8 @@ public class GuildTableViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
-//        tableGuild.setItems(guildModel.getCachedGuilds());
+        // Below the guilds is being set inside the tableView.
+        tableGuild.setItems(guildModel.getCachedGuilds());
 
         clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
         clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
@@ -109,16 +120,6 @@ public class GuildTableViewController implements Initializable {
         newStage.initOwner(primStage);
 
         newStage.show();
-
-    }
-
-    @FXML
-    private void handleArchiveBtn(ActionEvent event) {
-    }
-
-    public void setButtonVisibility(boolean visible) {
-        buttonBar.setVisible(visible);
-        buttonBar.setDisable(!visible);
 
     }
 

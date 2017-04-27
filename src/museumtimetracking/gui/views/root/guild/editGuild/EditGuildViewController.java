@@ -14,7 +14,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import museumtimetracking.gui.views.root.guild.guildComponents.GuildTableViewController;
+import museumtimetracking.be.Guild;
+import museumtimetracking.gui.model.GuildModel;
 
 /**
  * FXML Controller class
@@ -32,9 +33,7 @@ public class EditGuildViewController implements Initializable {
     @FXML
     private TextField txtGuildName;
 
-    public EditGuildViewController() {
-        GuildTableViewController.getIntance().setButtonVisibility(false);
-    }
+    private Guild currentGuild;
 
     @FXML
     private void handleBack() {
@@ -52,7 +51,7 @@ public class EditGuildViewController implements Initializable {
 
     private void setTextFieldVisibility(boolean visible) {
         txtGuildName.setDisable(!visible);
-        txtGuildDescription.setDisable(visible);
+        txtGuildDescription.setDisable(!visible);
     }
 
     @FXML
@@ -61,9 +60,20 @@ public class EditGuildViewController implements Initializable {
             btnSave.setText("Gem");
             setTextFieldVisibility(true);
         } else {
-            btnSave.setText("Rediger");
-            setTextFieldVisibility(false);
+            Guild updatedGuild = new Guild(txtGuildName.getText(), txtGuildDescription.getText(), false);
+            GuildModel.getInstance().updateGuild(currentGuild.getName(), updatedGuild);
+            handleBack();
         }
+    }
+
+    /**
+     * Set the current guild being worked on
+     *
+     * @param guild
+     */
+    public void setCurrentGuild(Guild guild) {
+        currentGuild = guild;
+        setTextFields(currentGuild.getName(), currentGuild.getDescription());
     }
 
     /**
@@ -72,7 +82,7 @@ public class EditGuildViewController implements Initializable {
      * @param name
      * @param description
      */
-    public void setTextFields(String name, String description) {
+    private void setTextFields(String name, String description) {
         txtGuildName.setText(name);
         txtGuildDescription.setText(description);
     }
