@@ -51,7 +51,7 @@ public class VolunteerDAO {
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, newVolunteer.getID());
-            ps.setBoolean(2, newVolunteer.getIsIdle());
+            ps.setInt(2, 0);
 
             ps.executeUpdate();
 
