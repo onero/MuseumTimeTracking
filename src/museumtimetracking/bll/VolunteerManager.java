@@ -25,7 +25,7 @@ public class VolunteerManager {
      * @param volunteerToAdd 
      */
     public void addVolunteer(Volunteer volunteerToAdd){
-        volunteerDAO.addVolunteer(volunteerToAdd);
+        volunteerDAO.createVolunteer(volunteerToAdd);
     }
     
 }

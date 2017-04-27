@@ -17,6 +17,11 @@ public class Volunteer extends APerson {
         this.isIdle = new SimpleBooleanProperty(isIdle);
     }
 
+    public Volunteer(String firstName, String lastName, String email, int phone) {
+        super(firstName, lastName, email, phone);
+        this.isIdle = new SimpleBooleanProperty(false);
+    }
+
     public boolean getIsIdle() {
         return isIdle.get();
     }

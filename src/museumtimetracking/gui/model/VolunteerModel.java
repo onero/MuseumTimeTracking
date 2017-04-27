@@ -7,7 +7,6 @@ package museumtimetracking.gui.model;
 
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.VolunteerManager;
-import museumtimetracking.dal.VolunteerDAO;
 
 /**
  *
@@ -16,7 +15,7 @@ import museumtimetracking.dal.VolunteerDAO;
 public class VolunteerModel {
 
     private final VolunteerManager volunteerMgr;
-    
+
     private static VolunteerModel instance;
 
     public static VolunteerModel getInstance() {
@@ -30,12 +29,13 @@ public class VolunteerModel {
         // Instantiate volunteerMgr
         volunteerMgr = new VolunteerManager();
     }
-    
+
     /**
      * Adds the volunteer to DB.
-     * @param volunteer 
+     *
+     * @param volunteer
      */
-    public void addVolunteer(Volunteer volunteer){
+    public void addVolunteer(Volunteer volunteer) {
         volunteerMgr.addVolunteer(volunteer);
     }
 
