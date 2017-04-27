@@ -5,10 +5,27 @@
  */
 package museumtimetracking.bll;
 
+import museumtimetracking.be.Volunteer;
+import museumtimetracking.dal.VolunteerDAO;
+
 /**
  *
  * @author Skovgaard
  */
 public class VolunteerManager {
+    
+    private final VolunteerDAO volunteerDAO;
+    
+    public VolunteerManager(){
+        volunteerDAO = VolunteerDAO.getInstance();
+    }
+    
+    /**
+     * Adds a new volunteer to DB.
+     * @param volunteerToAdd 
+     */
+    public void addVolunteer(Volunteer volunteerToAdd){
+        volunteerDAO.addVolunteer(volunteerToAdd);
+    }
     
 }
