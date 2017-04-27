@@ -61,7 +61,7 @@
                </children>
             </VBox>
             <Button layoutX="14.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleNewVolunteer" prefWidth="110.0" text="Ny Frivillig" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
-            <Button layoutX="322.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleEditVolunteer" prefWidth="75.0" text="Rediger" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="25.0" />
+            <Button fx:id="btnEdit" layoutX="322.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleEditVolunteer" prefWidth="75.0" text="Rediger" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="25.0" />
             <Button layoutX="230.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleDeleteVolunteer" prefWidth="75.0" text="Slet" />
          </children>
       </AnchorPane>

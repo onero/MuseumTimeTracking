@@ -7,10 +7,9 @@ package museumtimetracking.gui.views.root.volunteer;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -22,6 +21,9 @@ import museumtimetracking.be.Volunteer;
  * @author gta1
  */
 public class VolunteerOverviewController implements Initializable {
+
+    @FXML
+    private Button btnEdit;
 
     @FXML
     private ListView<Volunteer> lstVolunteer;
@@ -40,12 +42,17 @@ public class VolunteerOverviewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        ObservableList<Volunteer> volunteers = FXCollections.observableArrayList();
-        volunteers.add(new Volunteer(0, "Test", "Testesen", "123@123.dk", 0, false));
-
-        lstVolunteer.setItems(volunteers);
-
+//        lstVolunteer.setItems(volunteers);
         setVolunteerCellFactory();
+
+        setTextVisibility(false);
+    }
+
+    private void setTextVisibility(boolean value) {
+        txtFirstName.setDisable(!value);
+        txtLastName.setDisable(!value);
+        txtEmail.setDisable(!value);
+        txtPhone.setDisable(!value);
     }
 
     /**
@@ -71,6 +78,13 @@ public class VolunteerOverviewController implements Initializable {
 
     @FXML
     private void handleEditVolunteer() {
+        if (btnEdit.getText().equalsIgnoreCase("rediger")) {
+            btnEdit.setText("Gem");
+            setTextVisibility(true);
+        } else {
+            btnEdit.setText("Rediger");
+            setTextVisibility(false);
+        }
     }
 
     @FXML
