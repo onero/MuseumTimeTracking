@@ -14,7 +14,6 @@ import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.gui.views.NodeFactory;
-import museumtimetracking.gui.views.root.guild.guildComponents.GuildTableViewController;
 
 /**
  *
@@ -31,21 +30,20 @@ public class MTTMainControllerView implements Initializable {
 
     private final Node guildOverview;
     private final Node managerOverview;
-    private final Node guildTable;
+    private final Node archivedGuilds;
 
     public MTTMainControllerView() {
         nodeFactory = NodeFactory.getInstance();
 
         guildOverview = nodeFactory.createNewView(GUILD_OVERVIEW);
         managerOverview = nodeFactory.createNewView(MANAGER_OVERVIEW);
-        guildTable = nodeFactory.createNewView(GUILD_TABLE);
+        archivedGuilds = nodeFactory.createNewView(ARCHIVED_TABLE);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         borderPaneMain.setCenter(guildOverview);
-        borderPaneMainAtBottomBorderPane.setCenter(guildTable);
-        GuildTableViewController.getIntance().setButtonVisibility(false);
+        borderPaneMainAtBottomBorderPane.setCenter(archivedGuilds);
     }
 
     @FXML

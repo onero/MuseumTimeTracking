@@ -23,6 +23,7 @@
                <buttons>
                   <Button mnemonicParsing="false" onAction="#handleAddGuildBtn" text="Tilføj Laug" />
                   <Button mnemonicParsing="false" onAction="#handleArchiveBtn" text="Arkiver" />
+                  <Button mnemonicParsing="false" onAction="#handleDeleteGuild" text="Fjern" />
                </buttons>
             </ButtonBar>
          </children>

@@ -38,7 +38,6 @@ public class GuildOverviewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        tableGuild.setItems(guildModel.getCachedGuilds());
 
         guildBorderPane.setLeft(guildTable);
     }

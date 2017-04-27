@@ -5,6 +5,7 @@
  */
 package museumtimetracking.bll;
 
+import java.util.List;
 import museumtimetracking.be.Guild;
 import museumtimetracking.dal.GuildDAO;
 
@@ -14,7 +15,7 @@ import museumtimetracking.dal.GuildDAO;
  */
 public class GuildManager {
 
-    private GuildDAO guildDAO;
+    private final GuildDAO guildDAO;
 
     public GuildManager() {
         guildDAO = GuildDAO.getInstance();
@@ -22,10 +23,30 @@ public class GuildManager {
 
     /**
      * Adds a new guild to DB.
+     *
      * @param guildToAdd
      */
     public void addGuild(Guild guildToAdd) {
         guildDAO.addGuild(guildToAdd);
+    }
+
+    /**
+     * Gets all the guilds from the DB.
+     *
+     * @return
+     */
+    public List<Guild> getAllGuilds() {
+        return guildDAO.getAllGuilds();
+    }
+
+    /**
+     * Update guild in DB with new info
+     *
+     * @param guildToUpdate
+     * @param updatedGuild
+     */
+    public void updateGuild(String guildToUpdate, Guild updatedGuild) {
+        guildDAO.updateGuild(guildToUpdate, updatedGuild);
     }
 
 }
