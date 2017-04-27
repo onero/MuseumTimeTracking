@@ -22,12 +22,12 @@ public class GuildManager extends APerson {
     }
 
     public GuildManager(String firstName, String lastName, String email, int phone, int ID) {
-        super(firstName, lastName, email, phone, ID);
+        super(ID, firstName, lastName, email, phone);
         listOfGuilds = new ArrayList();
     }
 
     public GuildManager(String firstName, String lastName, String email, int phone, int ID, Guild... guilds) {
-        super(firstName, lastName, email, phone, ID);
+        super(ID, firstName, lastName, email, phone);
         listOfGuilds = new ArrayList();
         for (Guild guild : guilds) {
             listOfGuilds.add(guild);
