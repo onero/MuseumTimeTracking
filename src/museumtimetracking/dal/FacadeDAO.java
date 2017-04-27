@@ -42,7 +42,7 @@ public class FacadeDAO {
     public void createNewGuildManager(APerson person) {
         try {
             guildManagerDAO.createNewGuildManager(person);
-            guildManagerDAO.addGuildToManager();
+//            guildManagerDAO.addGuildToManager();
         } catch (SQLException ex) {
             System.out.println("Couldn't add guild manager to DB\n" + ex.getMessage());
             ex.printStackTrace();
