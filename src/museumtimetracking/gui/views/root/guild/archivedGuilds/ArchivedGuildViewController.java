@@ -15,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import museumtimetracking.be.Guild;
+import museumtimetracking.gui.model.GuildModel;
 
 /**
  * FXML Controller class
@@ -26,8 +27,6 @@ public class ArchivedGuildViewController implements Initializable {
     @FXML
     private HBox buttonBar;
     @FXML
-    private TableColumn<?, ?> clmArchived;
-    @FXML
     private TableColumn<Guild, String> clmGuildDescription;
     @FXML
     private TableColumn<Guild, String> clmGuildName;
@@ -35,6 +34,12 @@ public class ArchivedGuildViewController implements Initializable {
     private BorderPane guildTableBorderPane;
     @FXML
     private TableView<Guild> tableGuild;
+
+    private final GuildModel guildModel;
+
+    public ArchivedGuildViewController() {
+        guildModel = GuildModel.getInstance();
+    }
 
     @FXML
     private void handleRemoveFromArchive(ActionEvent event) {
@@ -45,7 +50,10 @@ public class ArchivedGuildViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        tableGuild.setItems(guildModel.getCachedArchivedGuilds());
+
+        clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
+        clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
     }
 
 }

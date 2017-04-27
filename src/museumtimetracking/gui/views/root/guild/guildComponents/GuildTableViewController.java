@@ -7,8 +7,6 @@ package museumtimetracking.gui.views.root.guild.guildComponents;
 
 import java.io.IOException;
 import java.net.URL;
-import static java.util.Collections.list;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -62,7 +60,9 @@ public class GuildTableViewController implements Initializable {
     }
 
     @FXML
-    private void handleArchiveBtn(ActionEvent event) {
+    private void handleArchiveBtn() {
+        Guild guildToArchive = tableGuild.getSelectionModel().getSelectedItem();
+        guildModel.archiveGuild(guildToArchive);
     }
 
     @FXML
