@@ -5,9 +5,7 @@
  */
 package museumtimetracking.gui.model;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import museumtimetracking.be.Guild;
@@ -25,10 +23,12 @@ public class GuildModel {
     }
 
     private final List<Guild> guildsFromDB;
-    
+
     private final ObservableList<Guild> cachedGuilds;
 
-    private final List<Guild> archivedGuilds;
+    private final List<Guild> archivedGuildsFromDB;
+
+    private final ObservableList<Guild> cachedArchivedGuilds;
 
     private final GuildManager guildManager;
 
@@ -36,19 +36,36 @@ public class GuildModel {
         // Instantiate guildManager
         guildManager = new GuildManager();
         // Puts in all the guilds from DB from Manager to Model.
-        guildsFromDB = guildManager.getAllGuilds();
-        archivedGuilds = new ArrayList<>();
+        guildsFromDB = guildManager.getAllGuildsNotArchived();
+        archivedGuildsFromDB = guildManager.getAllGuildsArchived();
         // Puts the guilds from the DB inside a ObservableList.
         cachedGuilds = FXCollections.observableArrayList(guildsFromDB);
-        
+        cachedArchivedGuilds = FXCollections.observableArrayList(archivedGuildsFromDB);
+
     }
+
+    /**
+     * Archives the parsed guild in DB
+     *
+     * @param guildToArchive
+     */
+    public void archiveGuild(Guild guildToArchive) {
+        cachedArchivedGuilds.add(guildToArchive);
+        guildManager.archiveGuild(guildToArchive);
+        cachedGuilds.remove(guildToArchive);
+    }
+
     // Made a getter to call in GuildTableViewController.
     public ObservableList<Guild> getCachedGuilds() {
         return cachedGuilds;
     }
 
-    public List<Guild> getArchivedGuilds() {
-        return archivedGuilds;
+    /**
+     *
+     * @return memorycached guilds
+     */
+    public ObservableList<Guild> getCachedArchivedGuilds() {
+        return cachedArchivedGuilds;
     }
     /**
      * Deletes the guild from tableView and DB.
@@ -66,10 +83,6 @@ public class GuildModel {
      */
     public void addGuild(Guild guild) {
         guildManager.addGuild(guild);
-    }
-
-    public List<Guild> getAllGuilds() {
-        return guildManager.getAllGuilds();
     }
 
     /**

@@ -16,7 +16,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import museumtimetracking.be.Guild;
 import museumtimetracking.gui.model.GuildModel;
-import museumtimetracking.gui.views.root.guild.guildComponents.GuildTableViewController;
 
 /**
  * FXML Controller class
@@ -35,10 +34,6 @@ public class EditGuildViewController implements Initializable {
     private TextField txtGuildName;
 
     private Guild currentGuild;
-
-    public EditGuildViewController() {
-        GuildTableViewController.getIntance().setButtonVisibility(false);
-    }
 
     @FXML
     private void handleBack() {
@@ -71,6 +66,11 @@ public class EditGuildViewController implements Initializable {
         }
     }
 
+    /**
+     * Set the current guild being worked on
+     *
+     * @param guild
+     */
     public void setCurrentGuild(Guild guild) {
         currentGuild = guild;
         setTextFields(currentGuild.getName(), currentGuild.getDescription());
