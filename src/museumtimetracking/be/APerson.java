@@ -76,4 +76,7 @@ public abstract class APerson {
         return phone;
     }
 
+    public int getID() {
+        return ID;
+    }
 }

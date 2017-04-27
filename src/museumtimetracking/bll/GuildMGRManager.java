@@ -6,6 +6,7 @@
 package museumtimetracking.bll;
 
 import museumtimetracking.be.APerson;
+import museumtimetracking.be.Guild;
 import museumtimetracking.dal.FacadeDAO;
 
 /**
@@ -24,8 +25,9 @@ public class GuildMGRManager {
      * Sends the Person object through to the facadeDAO to add it to the DB.
      *
      * @param person
+     * @param guild
      */
-    public void createNewGuildManager(APerson person) {
-        facadeDAO.createNewGuildManager(person);
+    public void createNewGuildManager(APerson person, Guild guild) {
+        facadeDAO.createNewGuildManager(person, guild);
     }
 }

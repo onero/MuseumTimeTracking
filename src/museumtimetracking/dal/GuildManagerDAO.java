@@ -31,9 +31,10 @@ public class GuildManagerDAO {
      * Creates a new guild manager in the DB.
      *
      * @param person
+     * @return
      * @throws SQLException
      */
-    public void createNewGuildManager(APerson person) throws SQLException {
+    public GuildManager createNewGuildManager(APerson person) throws SQLException {
         String sql = "INSERT INTO Person (FirstName, LastName, Email, Phone) VALUES (?,?,?,?)";
         try (Connection con = connectionManager.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -43,17 +44,37 @@ public class GuildManagerDAO {
             ps.setString(3, person.getEmail());
             ps.setInt(4, person.getPhone());
 
+            ResultSet rs = ps.executeQuery();
+            return getOneGuildManager(rs);
+        }
+    }
+
+    /**
+     * Adds a Guild to a Manager in the database.
+     *
+     * @param personID
+     * @param guildName
+     * @throws SQLException
+     */
+    public void addGuildToManager(int personID, String guildName) throws SQLException {
+        String sql = "INSERT INTO GuildManager (PersonID, GuildName) VALUES (?,?)";
+        try (Connection con = connectionManager.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, personID);
+            ps.setString(2, guildName);
             ps.executeUpdate();
         }
     }
 
-    public void addGuildToManager(int personID, int guildID) {
-
-    }
-
+    /**
+     * Gets a list of all GuildManagers from the database.
+     *
+     * @return
+     */
     public List<GuildManager> getAllGuildManagers() {
         List<GuildManager> listOfGuildManagers = new ArrayList<>();
         String sql = "SELECT * FROM ";
+        //TODO RKL: Make method finish.
         return listOfGuildManagers;
     }
 

@@ -8,6 +8,8 @@ package museumtimetracking.dal;
 import java.io.IOException;
 import java.sql.SQLException;
 import museumtimetracking.be.APerson;
+import museumtimetracking.be.Guild;
+import museumtimetracking.be.GuildManager;
 
 /**
  *
@@ -31,6 +33,7 @@ public class FacadeDAO {
             guildManagerDAO = new GuildManagerDAO();
         } catch (IOException ex) {
             System.out.println("Couldn't get guildManagerDAO\n" + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
@@ -38,11 +41,12 @@ public class FacadeDAO {
      * Sends the Person object through to the DAO to add it to the DB.
      *
      * @param person
+     * @param guild
      */
-    public void createNewGuildManager(APerson person) {
+    public void createNewGuildManager(APerson person, Guild guild) {
         try {
-            guildManagerDAO.createNewGuildManager(person);
-            guildManagerDAO.addGuildToManager();
+            GuildManager guildManager = guildManagerDAO.createNewGuildManager(person);
+            guildManagerDAO.addGuildToManager(guildManager.getID(), guild.getName());
         } catch (SQLException ex) {
             System.out.println("Couldn't add guild manager to DB\n" + ex.getMessage());
             ex.printStackTrace();
