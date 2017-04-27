@@ -60,6 +60,10 @@ public class GuildModel {
         guildManager.addGuild(guild);
     }
 
+    /**
+     *
+     * @return guilds from DB
+     */
     public List<Guild> getAllGuilds() {
         return guildManager.getAllGuilds();
     }

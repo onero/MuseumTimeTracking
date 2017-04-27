@@ -62,8 +62,11 @@ public class GuildTableViewController implements Initializable {
     }
 
     @FXML
-    private void handleDeleteGuild() {
+    private void handleArchiveBtn(ActionEvent event) {
+    }
 
+    @FXML
+    private void handleDeleteGuild(ActionEvent event) {
     }
 
     @FXML
@@ -117,16 +120,6 @@ public class GuildTableViewController implements Initializable {
         newStage.initOwner(primStage);
 
         newStage.show();
-
-    }
-
-    @FXML
-    private void handleArchiveBtn(ActionEvent event) {
-    }
-
-    public void setButtonVisibility(boolean visible) {
-        buttonBar.setVisible(visible);
-        buttonBar.setDisable(!visible);
 
     }
 

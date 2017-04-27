@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane fx:id="guildTableBorderPane" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guild.archivedGuilds.ArchivedGuildViewController">
+   <center>
+      <TableView fx:id="tableGuild">
+         <columns>
+            <TableColumn fx:id="clmArchived" prefWidth="75.0" text="Arkiveret" />
+            <TableColumn fx:id="clmGuildName" prefWidth="96.0" text="Laug" />
+            <TableColumn fx:id="clmGuildDescription" prefWidth="168.0" text="Beskrivelse" />
+         </columns>
+      </TableView>
+   </center>
+   <bottom>
+      <HBox fx:id="buttonBar" BorderPane.alignment="CENTER">
+         <children>
+            <ButtonBar buttonMinWidth="150.0">
+               <buttons>
+                  <Button mnemonicParsing="false" onAction="#handleRemoveFromArchive" text="Fjern Fra Arkiv" />
+               </buttons>
+            </ButtonBar>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="5.0" top="5.0" />
+         </BorderPane.margin>
+      </HBox>
+   </bottom>
+</BorderPane>
