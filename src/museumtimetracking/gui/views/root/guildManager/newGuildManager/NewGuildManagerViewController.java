@@ -15,6 +15,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import museumtimetracking.be.APerson;
+import museumtimetracking.be.Guild;
 import museumtimetracking.be.GuildManager;
 import museumtimetracking.gui.model.GuildManagerModel;
 
@@ -34,7 +35,7 @@ public class NewGuildManagerViewController implements Initializable {
     @FXML
     private TextField txtPhone;
     @FXML
-    private ComboBox<?> comboGuild;
+    private ComboBox<Guild> comboGuild;
 
     /**
      * Initializes the controller class.
@@ -48,7 +49,8 @@ public class NewGuildManagerViewController implements Initializable {
     private void handleAddButton(ActionEvent event) {
         if (validateData()) {
             APerson person = new GuildManager(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()));
-            GuildManagerModel.getInstance().createNewGuildManager(person);
+            Guild guild = new Guild("Mock", "Mock");
+            GuildManagerModel.getInstance().createNewGuildManager(person, guild);
             closeWindow();
         } else {
             showWrongInformationWarning();
