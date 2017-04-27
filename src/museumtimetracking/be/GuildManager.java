@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class GuildManager extends APerson {
 
-    private final List<Guild> listOfGuilds;
+    private final List<String> listOfGuilds;
 
     public GuildManager(String firstName, String lastName, String email, int phone) {
         super(firstName, lastName, email, phone);
@@ -26,11 +26,11 @@ public class GuildManager extends APerson {
         listOfGuilds = new ArrayList();
     }
 
-    public GuildManager(String firstName, String lastName, String email, int phone, int ID, Guild... guilds) {
+    public GuildManager(String firstName, String lastName, String email, int phone, int ID, String... guildNames) {
         super(firstName, lastName, email, phone, ID);
         listOfGuilds = new ArrayList();
-        for (Guild guild : guilds) {
-            listOfGuilds.add(guild);
+        for (String guildName : guildNames) {
+            listOfGuilds.add(guildName);
         }
     }
 
@@ -39,7 +39,7 @@ public class GuildManager extends APerson {
      *
      * @return
      */
-    public List<Guild> getListOfGuilds() {
+    public List<String> getListOfGuilds() {
         return listOfGuilds;
     }
 
@@ -48,8 +48,12 @@ public class GuildManager extends APerson {
      *
      * @param guild
      */
-    public void addGuild(Guild guild) {
+    public void addGuild(String guild) {
         listOfGuilds.add(guild);
+    }
+
+    public void addAllGuilds(List<String> guildNames) {
+        listOfGuilds.addAll(guildNames);
     }
 
 }
