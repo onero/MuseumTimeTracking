@@ -37,15 +37,18 @@ public class GuildManagerDAO {
     public GuildManager createNewGuildManager(APerson person) throws SQLException {
         String sql = "INSERT INTO Person (FirstName, LastName, Email, Phone) VALUES (?,?,?,?)";
         try (Connection con = connectionManager.getConnection()) {
-            PreparedStatement ps = con.prepareStatement(sql);
+            PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, person.getFirstName());
             ps.setString(2, person.getLastName());
             ps.setString(3, person.getEmail());
             ps.setInt(4, person.getPhone());
 
-            ResultSet rs = ps.executeQuery();
-            return getOneGuildManager(rs);
+            ps.executeUpdate();
+            ResultSet key = ps.getGeneratedKeys();
+            key.next();
+            int id = key.getInt(1);
+            return getOneGuildManager(person, id);
         }
     }
 
@@ -85,13 +88,7 @@ public class GuildManagerDAO {
      * @return
      * @throws SQLException
      */
-    private GuildManager getOneGuildManager(ResultSet rs) throws SQLException {
-        String firstName = rs.getString("FirstName");
-        String lastName = rs.getString("LastName");
-        String email = rs.getString("Email");
-        int phone = rs.getInt("Phone");
-        int id = rs.getInt("ID");
-
-        return new GuildManager(firstName, lastName, email, phone, id);
+    private GuildManager getOneGuildManager(APerson person, int id) throws SQLException {
+        return new GuildManager(person.getFirstName(), person.getLastName(), person.getEmail(), person.getPhone(), id);
     }
 }

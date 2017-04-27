@@ -6,7 +6,6 @@
 package museumtimetracking.gui.model;
 
 import museumtimetracking.be.APerson;
-import museumtimetracking.be.Guild;
 import museumtimetracking.bll.GuildMGRManager;
 
 /**
@@ -35,9 +34,9 @@ public class GuildManagerModel {
      * DB.
      *
      * @param person
-     * @param guild
+     * @param guildName
      */
-    public void createNewGuildManager(APerson person, Guild guild) {
-        guildMGRManager.createNewGuildManager(person, guild);
+    public void createNewGuildManager(APerson person, String guildName) {
+        guildMGRManager.createNewGuildManager(person, guildName);
     }
 }
