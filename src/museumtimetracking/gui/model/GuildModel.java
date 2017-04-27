@@ -67,13 +67,16 @@ public class GuildModel {
     public ObservableList<Guild> getCachedArchivedGuilds() {
         return cachedArchivedGuilds;
     }
+
     /**
      * Deletes the guild from tableView and DB.
      * Comes from GuildTableViewController and goes to GuildManager.
-     * @param deleteGuild 
+     *
+     * @param deleteGuild
      */
-    public void deleteGuild(Guild deleteGuild){
+    public void deleteGuild(Guild deleteGuild) {
         guildManager.deleteGuild(deleteGuild);
+        cachedGuilds.remove(deleteGuild);
     }
 
     /**
@@ -83,6 +86,7 @@ public class GuildModel {
      */
     public void addGuild(Guild guild) {
         guildManager.addGuild(guild);
+        cachedGuilds.add(guild);
     }
 
     /**
