@@ -24,7 +24,8 @@ public enum EFXMLName {
     /*
      * Volunteer
      */
-    VOLUNTEER_OVERVIEW(MAIN_FOLER + "volunteer/VolunteerOverview.fxml");
+    VOLUNTEER_OVERVIEW(MAIN_FOLER + "volunteer/VolunteerOverview.fxml"),
+    ADD_NEW_VOLUNTEER(MAIN_FOLER + "volunteer/newVolunteer/NewVolunteerView.fxml");
 
     private final String text;
 

@@ -5,15 +5,24 @@
  */
 package museumtimetracking.gui.views.root.volunteer;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import museumtimetracking.be.Volunteer;
+import museumtimetracking.be.enums.EFXMLName;
+import museumtimetracking.gui.views.NodeFactory;
 
 /**
  * FXML Controller class
@@ -36,11 +45,15 @@ public class VolunteerOverviewController implements Initializable {
     @FXML
     private TextField txtPhone;
 
+    private Node newVolunteer;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        newVolunteer = NodeFactory.getInstance().createNewView(EFXMLName.ADD_NEW_VOLUNTEER);
 
 //        lstVolunteer.setItems(volunteers);
         setVolunteerCellFactory();
@@ -88,7 +101,19 @@ public class VolunteerOverviewController implements Initializable {
     }
 
     @FXML
-    private void handleNewVolunteer() {
+    private void handleNewVolunteer() throws IOException {
+        Stage primStage = (Stage) btnEdit.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.ADD_NEW_VOLUNTEER.toString()));
+        Parent root = loader.load();
+
+        Stage newStage = new Stage();
+        newStage.setScene(new Scene(root));
+
+        //Create new modal window from FXMLLoader
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.initOwner(primStage);
+
+        newStage.show();
     }
 
     @FXML
