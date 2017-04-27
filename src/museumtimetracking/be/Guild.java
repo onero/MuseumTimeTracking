@@ -74,4 +74,13 @@ public class Guild {
         this.description.set(description);
     }
 
+    /**
+     * Update IsArchived value
+     *
+     * @param value
+     */
+    public void setIsArchived(boolean value) {
+        this.isArchived.set(value);
+    }
+
 }
