@@ -5,7 +5,11 @@
  */
 package museumtimetracking.gui.model;
 
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import museumtimetracking.be.APerson;
+import museumtimetracking.be.GuildManager;
 import museumtimetracking.bll.GuildMGRManager;
 
 /**
@@ -18,6 +22,9 @@ public class GuildManagerModel {
 
     private final GuildMGRManager guildMGRManager;
 
+    private List<GuildManager> managersFromDB;
+    private ObservableList<GuildManager> cachedManagers;
+
     public static GuildManagerModel getInstance() {
         if (instance == null) {
             instance = new GuildManagerModel();
@@ -27,6 +34,15 @@ public class GuildManagerModel {
 
     private GuildManagerModel() {
         guildMGRManager = new GuildMGRManager();
+        managersFromDB = guildMGRManager.getAllGuildManagers();
+        cachedManagers = FXCollections.observableArrayList(managersFromDB);
+        for (GuildManager cachedManager : cachedManagers) {
+            System.out.println(cachedManager.getFullName());
+            for (String guildName : cachedManager.getListOfGuilds()) {
+                System.out.println(guildName);
+            }
+            System.out.println("\n");
+        }
     }
 
     /**
@@ -39,4 +55,5 @@ public class GuildManagerModel {
     public void createNewGuildManager(APerson person, String guildName) {
         guildMGRManager.createNewGuildManager(person, guildName);
     }
+
 }

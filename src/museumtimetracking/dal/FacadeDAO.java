@@ -7,6 +7,7 @@ package museumtimetracking.dal;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.GuildManager;
 
@@ -49,6 +50,22 @@ public class FacadeDAO {
         } catch (SQLException ex) {
             System.out.println("Couldn't add guild manager to DB\n" + ex.getMessage());
             ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Gets a list of guild managers that are each filled with the appropriate
+     * guilds from the GuildManagerDAO.
+     *
+     * @return
+     */
+    public List<GuildManager> getAllGuildManagers() {
+        try {
+            return guildManagerDAO.addGuildsToGuildManagers(guildManagerDAO.getAllGuildManagers());
+        } catch (SQLException ex) {
+            System.out.println("Couldn't get all guild managers from DB\n" + ex.getMessage());
+            ex.printStackTrace();
+            return null;
         }
     }
 

@@ -166,7 +166,7 @@ public class GuildManagerDAO {
      * @return
      * @throws SQLException
      */
-    private List<GuildManager> addGuildsToGuildManagers(List<GuildManager> guildManagers) throws SQLException {
+    public List<GuildManager> addGuildsToGuildManagers(List<GuildManager> guildManagers) throws SQLException {
         try (Connection con = connectionManager.getConnection()) {
             for (GuildManager guildManager : guildManagers) {
                 guildManager.addAllGuilds(getAllGuildsForOneManager(con, guildManager.getID()));

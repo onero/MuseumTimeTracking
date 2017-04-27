@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import static museumtimetracking.be.enums.EFXMLName.*;
+import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.views.NodeFactory;
 
 /**
@@ -38,8 +39,11 @@ public class GuildManagerOverviewController implements Initializable {
 
     private final NodeFactory nodeFactory;
 
+    private final GuildManagerModel guildManagerModel;
+
     public GuildManagerOverviewController() {
         nodeFactory = NodeFactory.getInstance();
+        guildManagerModel = GuildManagerModel.getInstance();
     }
 
     /**
