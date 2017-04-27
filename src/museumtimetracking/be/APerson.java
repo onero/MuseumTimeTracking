@@ -79,5 +79,4 @@ public abstract class APerson {
     public IntegerProperty getPhoneProperty() {
         return phone;
     }
-
 }

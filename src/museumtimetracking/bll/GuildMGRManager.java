@@ -5,7 +5,9 @@
  */
 package museumtimetracking.bll;
 
+import java.util.List;
 import museumtimetracking.be.APerson;
+import museumtimetracking.be.GuildManager;
 import museumtimetracking.dal.FacadeDAO;
 
 /**
@@ -22,10 +24,23 @@ public class GuildMGRManager {
 
     /**
      * Sends the Person object through to the facadeDAO to add it to the DB.
+     * Returns the new GuildManager.
      *
      * @param person
+     * @param guildName
+     * @return
      */
-    public void createNewGuildManager(APerson person) {
-        facadeDAO.createNewGuildManager(person);
+    public GuildManager createNewGuildManager(APerson person, String guildName) {
+        return facadeDAO.createNewGuildManager(person, guildName);
+    }
+
+    /**
+     * Gets a list of GuildManagers from the FacadeDAO that holds all
+     * GuildManagers and it's Guilds.
+     *
+     * @return
+     */
+    public List<GuildManager> getAllGuildManagers() {
+        return facadeDAO.getAllGuildManagers();
     }
 }
