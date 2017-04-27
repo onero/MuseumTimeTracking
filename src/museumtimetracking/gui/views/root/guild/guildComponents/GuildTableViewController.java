@@ -7,6 +7,8 @@ package museumtimetracking.gui.views.root.guild.guildComponents;
 
 import java.io.IOException;
 import java.net.URL;
+import static java.util.Collections.list;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -94,7 +96,9 @@ public class GuildTableViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
-//        tableGuild.setItems(guildModel.getCachedGuilds());
+        // Below the guilds is being set inside the tableView.
+        tableGuild.setItems(guildModel.getCachedGuilds());
+
         clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
         clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
     }

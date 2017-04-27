@@ -30,6 +30,11 @@ public class GuildManager {
         guildDAO.addGuild(guildToAdd);
     }
 
+    /**
+     * Gets all the guilds from the DB.
+     *
+     * @return
+     */
     public List<Guild> getAllGuilds() {
         return guildDAO.getAllGuilds();
     }
