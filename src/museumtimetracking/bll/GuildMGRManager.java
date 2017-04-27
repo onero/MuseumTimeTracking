@@ -24,12 +24,14 @@ public class GuildMGRManager {
 
     /**
      * Sends the Person object through to the facadeDAO to add it to the DB.
+     * Returns the new GuildManager.
      *
      * @param person
      * @param guildName
+     * @return
      */
-    public void createNewGuildManager(APerson person, String guildName) {
-        facadeDAO.createNewGuildManager(person, guildName);
+    public GuildManager createNewGuildManager(APerson person, String guildName) {
+        return facadeDAO.createNewGuildManager(person, guildName);
     }
 
     /**

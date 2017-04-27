@@ -22,8 +22,8 @@ public class GuildManagerModel {
 
     private final GuildMGRManager guildMGRManager;
 
-    private List<GuildManager> managersFromDB;
-    private ObservableList<GuildManager> cachedManagers;
+    private final List<GuildManager> managersFromDB;
+    private final ObservableList<GuildManager> cachedManagers;
 
     public static GuildManagerModel getInstance() {
         if (instance == null) {
@@ -36,24 +36,19 @@ public class GuildManagerModel {
         guildMGRManager = new GuildMGRManager();
         managersFromDB = guildMGRManager.getAllGuildManagers();
         cachedManagers = FXCollections.observableArrayList(managersFromDB);
-        for (GuildManager cachedManager : cachedManagers) {
-            System.out.println(cachedManager.getFullName());
-            for (String guildName : cachedManager.getListOfGuilds()) {
-                System.out.println(guildName);
-            }
-            System.out.println("\n");
-        }
     }
 
     /**
      ** Sends the Person object through to the GuildMGRManager to add it to the
-     * DB.
+     * DB. Then gets the new guildMananger and adds it to the cachedMemory.
      *
      * @param person
      * @param guildName
      */
     public void createNewGuildManager(APerson person, String guildName) {
-        guildMGRManager.createNewGuildManager(person, guildName);
+        GuildManager manager = guildMGRManager.createNewGuildManager(person, guildName);
+        managersFromDB.add(manager);
+        cachedManagers.add(manager);
     }
 
     /**

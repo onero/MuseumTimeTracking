@@ -61,7 +61,7 @@ public class GuildManagerDAO {
      * @param guildName
      * @throws SQLException
      */
-    public void addGuildToManager(int personID, String guildName) throws SQLException {
+    public void addGuildToManagerInDatabase(int personID, String guildName) throws SQLException {
         String sql = "INSERT INTO GuildManager (PersonID, GuildName) VALUES (?,?)";
         try (Connection con = connectionManager.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -173,5 +173,17 @@ public class GuildManagerDAO {
             }
         }
         return guildManagers;
+    }
+
+    /**
+     * Adds guilds to a single GuildManager.
+     *
+     * @param manager
+     * @throws SQLException
+     */
+    public void addGuildsToASingleGuildManager(GuildManager manager) throws SQLException {
+        try (Connection con = connectionManager.getConnection()) {
+            manager.addAllGuilds(getAllGuildsForOneManager(con, manager.getID()));
+        }
     }
 }

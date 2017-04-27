@@ -38,18 +38,23 @@ public class FacadeDAO {
     }
 
     /**
-     * Sends the Person object through to the DAO to add it to the DB.
+     * Creates the person in the DB. Then adds its guild, so it's a manager.
+     * Then return a GuildManager with its accoiated guilds.
      *
      * @param person
      * @param guildName
+     * @return
      */
-    public void createNewGuildManager(APerson person, String guildName) {
+    public GuildManager createNewGuildManager(APerson person, String guildName) {
         try {
             GuildManager guildManager = guildManagerDAO.createNewGuildManager(person);
-            guildManagerDAO.addGuildToManager(guildManager.getID(), guildName);
+            guildManagerDAO.addGuildToManagerInDatabase(guildManager.getID(), guildName);
+            guildManagerDAO.addGuildsToASingleGuildManager(guildManager);
+            return guildManager;
         } catch (SQLException ex) {
             System.out.println("Couldn't add guild manager to DB\n" + ex.getMessage());
             ex.printStackTrace();
+            return null;
         }
     }
 
