@@ -26,13 +26,13 @@ public class GuildManager extends APerson {
     }
 
     public GuildManager(String firstName, String lastName, String email, int phone, int ID) {
-        super(firstName, lastName, email, phone, ID);
+        super(ID, firstName, lastName, email, phone);
         listOfGuilds = new ArrayList();
         observableListOfGuilds = FXCollections.observableArrayList();
     }
 
     public GuildManager(String firstName, String lastName, String email, int phone, int ID, String... guildNames) {
-        super(firstName, lastName, email, phone, ID);
+        super(ID, firstName, lastName, email, phone);
         listOfGuilds = new ArrayList();
         for (String guildName : guildNames) {
             listOfGuilds.add(guildName);

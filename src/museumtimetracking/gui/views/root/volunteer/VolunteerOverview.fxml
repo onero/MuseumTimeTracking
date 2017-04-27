@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController">
+   <center>
+      <AnchorPane id="AnchorPane" prefHeight="417.0" prefWidth="422.0">
+         <children>
+            <Label layoutX="104.0" layoutY="14.0" text="Frivillig Oversigt">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <ListView fx:id="lstVolunteer" layoutX="14.0" layoutY="58.0" onMouseClicked="#handleSelectVolunteer" prefHeight="294.0" prefWidth="200.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="58.0" />
+            <VBox layoutX="230.0" layoutY="58.0" prefHeight="294.0" prefWidth="167.0">
+               <children>
+                  <Label text="Fornavn">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtFirstName">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Efternavn">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtLastName">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Email">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtEmail">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Telefon nr.">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtPhone" />
+               </children>
+            </VBox>
+            <Button layoutX="14.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleNewVolunteer" prefWidth="110.0" text="Ny Frivillig" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+            <Button fx:id="btnEdit" layoutX="322.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleEditVolunteer" prefWidth="75.0" text="Rediger" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="25.0" />
+            <Button layoutX="230.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleDeleteVolunteer" prefWidth="75.0" text="Slet" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
