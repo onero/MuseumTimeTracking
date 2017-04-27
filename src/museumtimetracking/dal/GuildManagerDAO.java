@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.GuildManager;
 
@@ -43,6 +45,16 @@ public class GuildManagerDAO {
 
             ps.executeUpdate();
         }
+    }
+
+    public void addGuildToManager(int personID, int guildID) {
+
+    }
+
+    public List<GuildManager> getAllGuildManagers() {
+        List<GuildManager> listOfGuildManagers = new ArrayList<>();
+        String sql = "SELECT * FROM ";
+        return listOfGuildManagers;
     }
 
     /**

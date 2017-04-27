@@ -76,4 +76,8 @@ public class GuildManagerOverviewController implements Initializable {
         stage.show();
     }
 
+    @FXML
+    private void handleAddGuildButton(ActionEvent event) {
+    }
+
 }

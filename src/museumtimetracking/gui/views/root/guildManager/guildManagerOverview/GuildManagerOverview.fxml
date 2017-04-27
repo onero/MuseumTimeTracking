@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -19,10 +20,10 @@
                   <Font name="System Bold Italic" size="24.0" />
                </font>
             </Label>
-            <ListView fx:id="lstManagers" layoutX="14.0" layoutY="58.0" prefHeight="294.0" prefWidth="200.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="58.0" />
-            <VBox layoutX="230.0" layoutY="58.0" prefHeight="294.0" prefWidth="167.0">
+            <ListView fx:id="lstManagers" layoutX="14.0" layoutY="58.0" prefHeight="350.0" prefWidth="200.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="58.0" />
+            <VBox layoutX="230.0" layoutY="58.0" prefHeight="349.0" prefWidth="167.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="25.0">
                <children>
-                  <Label text="Fornavn">
+                  <Label text="Fornavn:">
                      <font>
                         <Font name="System Italic" size="15.0" />
                      </font>
@@ -32,7 +33,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </TextField>
-                  <Label text="Efternavn">
+                  <Label text="Efternavn:">
                      <font>
                         <Font name="System Italic" size="15.0" />
                      </font>
@@ -42,7 +43,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </TextField>
-                  <Label text="Email">
+                  <Label text="Email:">
                      <font>
                         <Font name="System Italic" size="15.0" />
                      </font>
@@ -52,18 +53,38 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </TextField>
-                  <Label text="Telefon nr.">
+                  <Label text="Telefon nr:">
                      <font>
                         <Font name="System Italic" size="15.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtPhone" />
+                  <TextField fx:id="txtPhone">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Laug:">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <ListView prefHeight="117.0" prefWidth="167.0" />
                </children>
             </VBox>
-            <Button layoutX="14.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleNewManagerButton" prefWidth="110.0" text="Ny Tovholder" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
-            <Button layoutX="322.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="75.0" text="Rediger" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="25.0" />
-            <Button layoutX="230.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefWidth="75.0" text="Slet" />
          </children>
       </AnchorPane>
    </center>
+   <bottom>
+      <Pane prefHeight="47.0" prefWidth="422.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button layoutX="14.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleNewManagerButton" prefWidth="110.0" text="Ny Tovholder" />
+            <Button layoutX="139.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefWidth="75.0" text="Slet" />
+            <Button layoutX="322.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="75.0" text="Rediger" />
+            <Button layoutX="229.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleAddGuildButton" text="Tilføj Laug" />
+         </children>
+         <BorderPane.margin>
+            <Insets top="10.0" />
+         </BorderPane.margin>
+      </Pane>
+   </bottom>
 </BorderPane>
