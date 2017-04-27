@@ -94,6 +94,26 @@ public class GuildDAO {
 
         return guild;
     }
+    
+    /**
+     * Deletes guild(s) from the tableView and DB.
+     * Comes from GuildManager and goes to DB.
+     * @param guild 
+     */
+    public void deleteGuild(Guild deleteGuild) {
+        String sql = "DELETE FROM Guild "
+                + " WHERE Name =  ?";
+        try (Connection con = cm.getConnection()){
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, deleteGuild.getName());
+            
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Couldn't remove Guild(s) from the DB");
+            System.out.println(ex);
+            Logger.getLogger(GuildDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * Update guild in DB

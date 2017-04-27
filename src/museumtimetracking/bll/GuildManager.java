@@ -29,6 +29,14 @@ public class GuildManager {
     public void addGuild(Guild guildToAdd) {
         guildDAO.addGuild(guildToAdd);
     }
+    /**
+     * Deletes guilds from tableView and DB.
+     * Comes from GuildModel and goes to GuildDao.
+     * @param deleteGuild 
+     */
+    public void deleteGuild(Guild deleteGuild){
+        guildDAO.deleteGuild(deleteGuild);
+    }
 
     /**
      * Gets all the guilds from the DB.

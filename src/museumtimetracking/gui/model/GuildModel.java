@@ -50,6 +50,14 @@ public class GuildModel {
     public List<Guild> getArchivedGuilds() {
         return archivedGuilds;
     }
+    /**
+     * Deletes the guild from tableView and DB.
+     * Comes from GuildTableViewController and goes to GuildManager.
+     * @param deleteGuild 
+     */
+    public void deleteGuild(Guild deleteGuild){
+        guildManager.deleteGuild(deleteGuild);
+    }
 
     /**
      * Adds the guild to DB.
