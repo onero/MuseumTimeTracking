@@ -54,7 +54,8 @@ public class FacadeDAO {
             guildManagerDAO.addGuildsToASingleGuildManager(guildManager);
             return guildManager;
         } catch (SQLException ex) {
-            System.out.println("Couldn't add guild manager to DB\n" + ex.getMessage());
+            System.out.println("Couldn't add guild manager to DB\n"
+                    + ex.getMessage());
             ex.printStackTrace();
             return null;
         }
