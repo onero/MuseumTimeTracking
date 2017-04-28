@@ -152,7 +152,7 @@ public class GuildDAO {
      */
     public void deleteGuild(Guild deleteGuild) {
         String sql = "DELETE FROM Guild "
-                + " WHERE Name =  ?";
+                + " WHERE Name = ?";
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, deleteGuild.getName());

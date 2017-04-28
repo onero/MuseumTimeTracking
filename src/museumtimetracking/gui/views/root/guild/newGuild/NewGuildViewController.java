@@ -39,7 +39,9 @@ public class NewGuildViewController implements Initializable {
     }
 
     @FXML
-    private void handleAddGuildBtn(ActionEvent event) {
+    private void handleAddGuildBtn() {
+        
+        //TODO Skovgaard: Add validation.
         Guild newGuild = new Guild(txtFieldGuildName.getText(), txtAreaGuildDescription.getText(), false);
         guildModel.addGuild(newGuild);
 
@@ -48,7 +50,7 @@ public class NewGuildViewController implements Initializable {
 
     @FXML
     // How to close a window.
-    private void handleBackBtn(ActionEvent event) {
+    private void handleBackBtn() {
         closeWindow();
     }
 

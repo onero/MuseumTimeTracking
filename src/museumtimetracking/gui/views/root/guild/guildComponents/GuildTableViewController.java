@@ -8,7 +8,6 @@ package museumtimetracking.gui.views.root.guild.guildComponents;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -68,7 +67,7 @@ public class GuildTableViewController implements Initializable {
     @FXML
     private void handleDeleteGuild() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("WARNING");
+        alert.setTitle("ADVARSEL!");
         alert.setHeaderText(" Tryk 'Ja' for at slette permanent. \n Tryk 'Nej' for at fortryde.");
         ButtonType yesButton = new ButtonType("Ja", ButtonBar.ButtonData.YES);
         ButtonType noButton = new ButtonType("Nej", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -86,6 +85,7 @@ public class GuildTableViewController implements Initializable {
 
     @FXML
     private void handleArchiveBtn() {
+        // TODO Adamino: Beware of nullpointer ex.
         Guild guildToArchive = tableGuild.getSelectionModel().getSelectedItem();
         guildModel.archiveGuild(guildToArchive);
     }
