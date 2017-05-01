@@ -12,7 +12,6 @@ public enum EFXMLName {
      * Guild
      */
     GUILD_OVERVIEW(MAIN_FOLER + "guild/GuildOverview.fxml"),
-    GUILD_TABLE(MAIN_FOLER + "guild/guildComponents/GuildTableView.fxml"),
     ARCHIVED_TABLE(MAIN_FOLER + "guild/archivedGuilds/ArchivedGuildView.fxml"),
     ADD_NEW_GUILD(MAIN_FOLER + "guild/newGuild/NewGuildView.fxml"),
     EDIT_GUILD(MAIN_FOLER + "guild/editGuild/EditGuildView.fxml"),

@@ -2,11 +2,13 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -20,7 +22,7 @@
                </font>
             </Label>
             <ListView fx:id="lstVolunteer" layoutX="14.0" layoutY="58.0" onMouseClicked="#handleSelectVolunteer" prefHeight="294.0" prefWidth="200.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="58.0" />
-            <VBox layoutX="230.0" layoutY="58.0" prefHeight="294.0" prefWidth="167.0">
+            <VBox layoutX="230.0" layoutY="58.0" prefHeight="294.0" prefWidth="167.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="58.0">
                <children>
                   <Label text="Fornavn">
                      <font>
@@ -60,9 +62,17 @@
                   <TextField fx:id="txtPhone" />
                </children>
             </VBox>
-            <Button layoutX="14.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleNewVolunteer" prefWidth="110.0" text="Ny Frivillig" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
-            <Button fx:id="btnEdit" layoutX="322.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleEditVolunteer" prefWidth="75.0" text="Rediger" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="25.0" />
-            <Button layoutX="230.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleDeleteVolunteer" prefWidth="75.0" text="Slet" />
+            <HBox layoutX="21.0" layoutY="372.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="61.0">
+               <children>
+                  <ButtonBar buttonMinWidth="100.0">
+                    <buttons>
+                        <Button mnemonicParsing="false" onAction="#handleNewVolunteer" text="Ny Frivillig" />
+                        <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#handleEditVolunteer" prefWidth="75.0" text="Rediger" />
+                        <Button mnemonicParsing="false" onAction="#handleDeleteVolunteer" prefWidth="75.0" text="Slet" />
+                    </buttons>
+                  </ButtonBar>
+               </children>
+            </HBox>
          </children>
       </AnchorPane>
    </center>
