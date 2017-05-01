@@ -9,10 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -20,11 +17,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import museumtimetracking.be.Guild;
 import museumtimetracking.be.enums.EFXMLName;
 import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.root.guild.editGuild.EditGuildViewController;
 
 /**
@@ -45,11 +42,14 @@ public class GuildOverviewController implements Initializable {
     @FXML
     private TableView<Guild> tableGuild;
 
+    private final ModalFactory modalFactory;
+
     private final GuildModel guildModel;
 
     private Stage primStage;
 
     public GuildOverviewController() {
+        modalFactory = ModalFactory.getInstance();
         this.guildModel = GuildModel.getInstance();
     }
 
@@ -88,9 +88,10 @@ public class GuildOverviewController implements Initializable {
 
     @FXML
     private void handleArchiveBtn() {
-        // TODO Adamino: Beware of nullpointer ex.
         Guild guildToArchive = tableGuild.getSelectionModel().getSelectedItem();
-        guildModel.archiveGuild(guildToArchive);
+        if (guildToArchive != null) {
+            guildModel.archiveGuild(guildToArchive);
+        }
     }
 
     @FXML
@@ -99,37 +100,25 @@ public class GuildOverviewController implements Initializable {
         if (event.getClickCount() == 2) {
             Guild selectedGuild = tableGuild.getSelectionModel().getSelectedItem();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.EDIT_GUILD.toString()));
-            Parent root = loader.load();
+            primStage = (Stage) tableGuild.getScene().getWindow();
 
-            Stage newStage = new Stage();
-            newStage.setScene(new Scene(root));
+            Stage editGuildModal = modalFactory.createNewModal(primStage, EFXMLName.EDIT_GUILD);
 
-            //Create new modal window from FXMLLoader
-            newStage.initModality(Modality.WINDOW_MODAL);
-            newStage.initOwner(primStage);
+            EditGuildViewController controller = modalFactory.getLoader().getController();
 
-            EditGuildViewController controller = loader.getController();
             controller.setCurrentGuild(selectedGuild);
 
-            newStage.show();
+            editGuildModal.show();
         }
     }
 
     @FXML
     private void handleAddGuildBtn() throws IOException {
         primStage = (Stage) tableGuild.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.ADD_NEW_GUILD.toString()));
-        Parent root = loader.load();
 
-        Stage newStage = new Stage();
-        newStage.setScene(new Scene(root));
+        Stage editGuildModal = modalFactory.createNewModal(primStage, EFXMLName.ADD_NEW_GUILD);
 
-        //Create new modal window from FXMLLoader
-        newStage.initModality(Modality.WINDOW_MODAL);
-        newStage.initOwner(primStage);
-
-        newStage.show();
+        editGuildModal.show();
 
     }
 

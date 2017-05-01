@@ -19,6 +19,8 @@ public class ModalFactory {
 
     private static ModalFactory instance;
 
+    private static FXMLLoader loader;
+
     public static ModalFactory getInstance() {
         if (instance == null) {
             instance = new ModalFactory();
@@ -36,7 +38,7 @@ public class ModalFactory {
     public Stage createNewModal(Stage newPrimStage, EFXMLName modalView) {
         Stage primStage = newPrimStage;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(modalView.toString()));
+        loader = new FXMLLoader(getClass().getResource(modalView.toString()));
         Parent root = null;
         try {
             root = loader.load();
@@ -52,6 +54,10 @@ public class ModalFactory {
         modalStage.initOwner(primStage);
 
         return modalStage;
+    }
+
+    public FXMLLoader getLoader() {
+        return loader;
     }
 
 }
