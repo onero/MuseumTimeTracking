@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -52,21 +53,18 @@ public class GuildManagerOverviewController implements Initializable {
     private List<TextField> textFields;
 
     private final String ADD_GUILD_BUTTON_TEXT = "Tilføj Laug";
-    private final String DELETE_GUILD_BUTTON_GUILD = "Slet Laug";
     private final String EDIT_BUTTON_TEXT = "Rediger";
-    private final String SAVE_BUTTON_TEXT = "Gem";
     private final String CANCEL_BUTTON_TEXT = "Anuller";
     private final String NEW_GUILD_MANAGER = "Ny Tovholder";
-    private final String DELETE_GUILDMANAGER = "Slet";
 
     @FXML
     private Button btnEdit;
     @FXML
     private Button btnNewGuildManager;
     @FXML
-    private Button btnDelete;
-    @FXML
     private Button btnSave;
+    @FXML
+    private Button btnDelete;
 
     public GuildManagerOverviewController() {
         nodeFactory = NodeFactory.getInstance();
@@ -89,7 +87,11 @@ public class GuildManagerOverviewController implements Initializable {
 
     @FXML
     private void handleNewManagerButton() {
-        newManagerModal();
+        if (btnNewGuildManager.getText().equals(NEW_GUILD_MANAGER)) {
+            newManagerModal();
+        } else if (btnNewGuildManager.getText().equals(ADD_GUILD_BUTTON_TEXT)) {
+            addGuildModal();
+        }
     }
 
     /**
@@ -104,11 +106,14 @@ public class GuildManagerOverviewController implements Initializable {
         } else if (btnEdit.getText().equals(CANCEL_BUTTON_TEXT)) {
             setShowEditability(false);
             setButtonTextToViewMode();
+            //TODO MSP: Update the textfields with the old data
+
         }
     }
 
     @FXML
     private void handleDeleteButton() {
+        System.out.println("Slet");
     }
 
     /**
@@ -124,12 +129,6 @@ public class GuildManagerOverviewController implements Initializable {
         stage.initOwner(primStage);
 
         stage.show();
-    }
-
-    @FXML
-    private void handleAddGuildButton() {
-        setButtonTextToViewMode();
-        setShowEditability(false);
     }
 
     /**
@@ -239,9 +238,10 @@ public class GuildManagerOverviewController implements Initializable {
      */
     private void setButtonTextToEditMode() {
         btnNewGuildManager.setText(ADD_GUILD_BUTTON_TEXT);
-        btnDelete.setText(DELETE_GUILD_BUTTON_GUILD);
         btnSave.setDisable(false);
         btnSave.setVisible(true);
+        btnDelete.setDisable(false);
+        btnDelete.setVisible(true);
         btnEdit.setText(CANCEL_BUTTON_TEXT);
     }
 
@@ -251,9 +251,29 @@ public class GuildManagerOverviewController implements Initializable {
      */
     private void setButtonTextToViewMode() {
         btnNewGuildManager.setText(NEW_GUILD_MANAGER);
-        btnDelete.setText(DELETE_GUILDMANAGER);
         btnSave.setDisable(true);
         btnSave.setVisible(false);
+        btnDelete.setDisable(true);
+        btnDelete.setVisible(false);
         btnEdit.setText(EDIT_BUTTON_TEXT);
+    }
+
+    /**
+     *
+     */
+    private void addGuildModal() {
+        //TODO MSP: A modal for adding existing guilds to the manager.
+
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML
+    private void handleSaveGuildManagerButton(ActionEvent event) {
+        setButtonTextToViewMode();
+        setShowEditability(false);
+        //TODO MSP: Make save funtionality.
     }
 }
