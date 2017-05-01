@@ -5,6 +5,7 @@
  */
 package museumtimetracking.dal;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +22,7 @@ import museumtimetracking.be.enums.ELanguage;
  *
  * @author Skovgaard
  */
-public class VolunteerDAO {
+public class VolunteerDAO extends APersonDAO{
 
     private DBConnectionManager cm;
 
@@ -133,6 +134,19 @@ public class VolunteerDAO {
             Logger
                     .getLogger(VolunteerDAO.class
                             .getName()).log(Level.SEVERE, null, sqlException);
+        }
+    }
+    
+    public void updateVolunteerPersonInfo(Volunteer volunteer){
+        Connection con;
+        try {
+            con = cm.getConnection();
+            updatePersonInformation(con, volunteer);
+        } catch (SQLServerException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

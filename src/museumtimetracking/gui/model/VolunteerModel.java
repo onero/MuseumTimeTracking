@@ -43,8 +43,8 @@ public class VolunteerModel {
         return cachedVolunteers;
     }
     
-    public void updateVolunteer(String volunteerToUpdate, Volunteer updatedVulunteer){
-        volunteerMgr.updateVolunteer(volunteerToUpdate, updatedVulunteer);
+    public void updateVolunteer(Volunteer updatedVulunteer){
+        volunteerMgr.updateVolunteer(updatedVulunteer);
     }
     
     
