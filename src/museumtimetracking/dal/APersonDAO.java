@@ -42,4 +42,29 @@ public abstract class APersonDAO {
         return keys.getInt(1);
     }
 
+    /**
+     * Updates the parsed person in the database.
+     *
+     * @param con
+     * @param person
+     * @throws SQLException
+     */
+    public void updatePersonInformation(Connection con, APerson person) throws SQLException {
+        String sql = "UPDATE Person "
+                + "SET FirstName = ?, "
+                + "LastName = ?, "
+                + "Email = ?, "
+                + "Phone = ? "
+                + "WHERE ID = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+
+        ps.setString(1, person.getFirstName());
+        ps.setString(2, person.getLastName());
+        ps.setString(3, person.getEmail());
+        ps.setInt(4, person.getPhone());
+        ps.setInt(5, person.getID());
+
+        ps.executeUpdate();
+    }
+
 }
