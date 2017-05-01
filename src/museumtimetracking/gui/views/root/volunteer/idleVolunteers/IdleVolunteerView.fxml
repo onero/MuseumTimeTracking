@@ -12,28 +12,27 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guild.archivedGuilds.ArchivedGuildViewController">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.volunteer.idleVolunteers.IdleVolunteerViewController">
    <left>
       <Accordion BorderPane.alignment="CENTER">
-        <panes>
-          <TitledPane animated="false" text="Arkiverede Laug">
+         <panes>
+            <TitledPane animated="false" text="Inaktive Frivillige">
                <content>
                   <BorderPane fx:id="guildTableBorderPane" prefHeight="307.0">
                      <center>
-                        <TableView fx:id="tableGuild">
+                        <TableView fx:id="tableVolunteer">
                            <columns>
-                              <TableColumn fx:id="clmGuildName" prefWidth="96.0" text="Laug" />
-                              <TableColumn fx:id="clmGuildDescription" prefWidth="168.0" text="Beskrivelse" />
+                              <TableColumn fx:id="clmGuildName" prefWidth="96.0" text="Navn" />
+                              <TableColumn fx:id="clmGuildDescription" prefWidth="168.0" text="Årsag" />
                            </columns>
                         </TableView>
                      </center>
                      <bottom>
-                        <HBox fx:id="buttonBar" BorderPane.alignment="CENTER">
+                        <HBox BorderPane.alignment="CENTER">
                            <children>
                               <ButtonBar buttonMinWidth="150.0">
                                  <buttons>
-                                    <Button mnemonicParsing="false" onAction="#handleRestoreFromArchive" text="Genopret Guild" />
+                                    <Button mnemonicParsing="false" onAction="#handleRestoreFromArchive" text="Genindfør Frivillig" />
                                  </buttons>
                               </ButtonBar>
                            </children>
@@ -43,7 +42,7 @@
                         </HBox>
                      </bottom>
                      <top>
-                        <Label text="Arkiverede Laug" BorderPane.alignment="CENTER">
+                        <Label text="Inaktive Frivillige" BorderPane.alignment="CENTER">
                            <font>
                               <Font name="System Bold" size="27.0" />
                            </font>
@@ -52,7 +51,7 @@
                   </BorderPane>
                </content>
             </TitledPane>
-        </panes>
+         </panes>
       </Accordion>
    </left>
 </BorderPane>

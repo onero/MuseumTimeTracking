@@ -5,9 +5,11 @@
  */
 package museumtimetracking.gui.model;
 
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.VolunteerManager;
-import museumtimetracking.dal.VolunteerDAO;
 
 /**
  *
@@ -16,8 +18,12 @@ import museumtimetracking.dal.VolunteerDAO;
 public class VolunteerModel {
 
     private final VolunteerManager volunteerMgr;
-    
+
     private static VolunteerModel instance;
+    
+    private final ObservableList<Volunteer> cachedVolunteers;
+    
+    private final List<Volunteer> volunteerFromDB;
 
     public static VolunteerModel getInstance() {
         if (instance == null) {
@@ -29,13 +35,26 @@ public class VolunteerModel {
     public VolunteerModel() {
         // Instantiate volunteerMgr
         volunteerMgr = new VolunteerManager();
+        volunteerFromDB = volunteerMgr.getAllVolunteersNotIdle();
+        cachedVolunteers = FXCollections.observableArrayList(volunteerFromDB);
+    }
+
+    public ObservableList<Volunteer> getCachedVolunteers() {
+        return cachedVolunteers;
     }
     
+    
+//    public void deleteVolunteer(Volunteer deleteVolunteer){
+//        volunteerMgr.deleteGuild(deleteVolunteer);
+//        
+//    }
+
     /**
      * Adds the volunteer to DB.
-     * @param volunteer 
+     *
+     * @param volunteer
      */
-    public void addVolunteer(Volunteer volunteer){
+    public void addVolunteer(Volunteer volunteer) {
         volunteerMgr.addVolunteer(volunteer);
     }
 

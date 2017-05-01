@@ -133,7 +133,7 @@ public class GuildDAO {
         }
     }
 
-    // Adds one guild to DB.
+    // Get one guild from DB.
     private Guild getOneGuild(ResultSet rs) throws SQLException {
         String name = rs.getString("Name");
         String description = rs.getString("Description");
@@ -152,7 +152,7 @@ public class GuildDAO {
      */
     public void deleteGuild(Guild deleteGuild) {
         String sql = "DELETE FROM Guild "
-                + " WHERE Name =  ?";
+                + " WHERE Name = ?";
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, deleteGuild.getName());
