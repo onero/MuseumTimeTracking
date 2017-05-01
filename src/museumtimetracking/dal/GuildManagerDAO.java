@@ -19,7 +19,7 @@ import museumtimetracking.be.GuildManager;
  *
  * @author Mathias
  */
-public class GuildManagerDAO {
+public class GuildManagerDAO extends APersonDAO {
 
     private final DBConnectionManager connectionManager;
     private List<Integer> guildManagerIDs;
@@ -33,48 +33,43 @@ public class GuildManagerDAO {
      * Creates a new guild manager in the DB.
      *
      * @param person
+     * @param guildName
      * @return
      * @throws SQLException
      */
-    public GuildManager createNewGuildManager(APerson person) throws SQLException {
-        String sql = "INSERT INTO Person (FirstName, LastName, Email, Phone) VALUES (?,?,?,?)";
+    public GuildManager createNewGuildManager(APerson person, String guildName) throws SQLException {
         try (Connection con = connectionManager.getConnection()) {
-            PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-
-            ps.setString(1, person.getFirstName());
-            ps.setString(2, person.getLastName());
-            ps.setString(3, person.getEmail());
-            ps.setInt(4, person.getPhone());
-
-            ps.executeUpdate();
-            ResultSet key = ps.getGeneratedKeys();
-            key.next();
-            int id = key.getInt(1);
-            return getOneGuildManager(person, id);
+            con.setAutoCommit(false);
+            int personId = createNewPersonInDatabase(con, person);
+            addGuildToManagerInDatabase(con, personId, guildName);
+            GuildManager manager = getOneGuildManager(person, personId);
+            addGuildsToASingleGuildManager(con, manager);
+            con.commit();
+            return manager;
         }
     }
 
     /**
      * Adds a Guild to a Manager in the database.
      *
+     * @param con
      * @param personID
      * @param guildName
      * @throws SQLException
      */
-    public void addGuildToManagerInDatabase(int personID, String guildName) throws SQLException {
+    public void addGuildToManagerInDatabase(Connection con, int personID, String guildName) throws SQLException {
         String sql = "INSERT INTO GuildManager (PersonID, GuildName) VALUES (?,?)";
-        try (Connection con = connectionManager.getConnection()) {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, personID);
-            ps.setString(2, guildName);
-            ps.executeUpdate();
-        }
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, personID);
+        ps.setString(2, guildName);
+        ps.executeUpdate();
     }
 
     /**
      * Gets a list of all GuildManagers from the database.
      *
      * @return
+     * @throws java.sql.SQLException
      */
     public List<GuildManager> getAllGuildManagers() throws SQLException {
         guildManagerIDs.clear();
@@ -178,12 +173,11 @@ public class GuildManagerDAO {
     /**
      * Adds guilds to a single GuildManager.
      *
+     * @param con
      * @param manager
      * @throws SQLException
      */
-    public void addGuildsToASingleGuildManager(GuildManager manager) throws SQLException {
-        try (Connection con = connectionManager.getConnection()) {
-            manager.addAllGuilds(getAllGuildsForOneManager(con, manager.getID()));
-        }
+    public void addGuildsToASingleGuildManager(Connection con, GuildManager manager) throws SQLException {
+        manager.addAllGuilds(getAllGuildsForOneManager(con, manager.getID()));
     }
 }
