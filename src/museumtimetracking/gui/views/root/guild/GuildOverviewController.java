@@ -33,6 +33,7 @@ public class GuildOverviewController implements Initializable {
 
     @FXML
     private TableColumn<Guild, String> clmGuildDescription;
+    
     @FXML
     private TableColumn<Guild, String> clmGuildName;
 

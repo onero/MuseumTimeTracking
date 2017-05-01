@@ -188,10 +188,10 @@ public class GuildDAO {
     /**
      * Update guild in DB
      *
-     * @param guildToUpate
+     * @param guildToUpdate
      * @param updatedGuild
      */
-    public void updateGuild(String guildToUpate, Guild updatedGuild) {
+    public void updateGuild(String guildToUpdate, Guild updatedGuild) {
         String sql = "UPDATE Guild "
                 + "SET Name = ?, Description = ? "
                 + "WHERE Name = ?";
@@ -200,7 +200,7 @@ public class GuildDAO {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, updatedGuild.getName());
             ps.setString(2, updatedGuild.getDescription());
-            ps.setString(3, guildToUpate);
+            ps.setString(3, guildToUpdate);
 
             ps.executeUpdate();
 

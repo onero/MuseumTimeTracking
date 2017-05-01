@@ -38,4 +38,8 @@ public class VolunteerManager {
         return volunteerDAO.getAllVolunteersNotIdle();
     }
     
+    public void updateVolunteer(String volunteerToUpdate, Volunteer updatedVolunteer){
+        volunteerDAO.updateVolunteersInPersonDB(volunteerToUpdate, updatedVolunteer);
+    }
+    
 }

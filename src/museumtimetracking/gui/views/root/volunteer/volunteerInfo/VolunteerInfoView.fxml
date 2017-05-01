@@ -22,7 +22,13 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Label>
-            <TextArea fx:id="txtVolunteerInfo" />
+            <TextArea fx:id="txtVolunteerInfo">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets bottom="5.0" right="10.0" />
+               </VBox.margin></TextArea>
             <HBox>
                <children>
                   <ButtonBar>
