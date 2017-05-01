@@ -5,6 +5,7 @@
  */
 package museumtimetracking.bll;
 
+import java.util.List;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.dal.VolunteerDAO;
 
@@ -26,6 +27,15 @@ public class VolunteerManager {
      */
     public void addVolunteer(Volunteer volunteerToAdd){
         volunteerDAO.createVolunteer(volunteerToAdd);
+    }
+    
+    /**
+     * Gets all the volunteers from the DB.
+     *
+     * @return
+     */
+    public List<Volunteer> getAllVolunteersNotIdle() {
+        return volunteerDAO.getAllVolunteersNotIdle();
     }
     
 }

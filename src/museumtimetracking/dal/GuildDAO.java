@@ -133,7 +133,7 @@ public class GuildDAO {
         }
     }
 
-    // Adds one guild to DB.
+    // Get one guild from DB.
     private Guild getOneGuild(ResultSet rs) throws SQLException {
         String name = rs.getString("Name");
         String description = rs.getString("Description");

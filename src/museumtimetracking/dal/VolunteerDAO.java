@@ -5,11 +5,14 @@
  */
 package museumtimetracking.dal;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import museumtimetracking.be.Volunteer;
@@ -39,6 +42,45 @@ public class VolunteerDAO {
             System.out.println("Couldn't connect to the database.");
             Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * All the volunteers from DB.
+     *
+     * @return
+     */
+    public List<Volunteer> getAllVolunteersNotIdle() {
+        List<Volunteer> volunteers = new ArrayList<>();
+        String sql = "SELECT * FROM Volunteer v "
+                + "JOIN Person p ON p.ID = v.PersonID ";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                volunteers.add(getOneVolunteer(rs));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GuildDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return volunteers;
+    }
+
+    // Get one volunteer from DB.
+    private Volunteer getOneVolunteer(ResultSet rs) throws SQLException {
+        int id = rs.getInt("ID");
+        String firstName = rs.getString("FirstName");
+        String lastName = rs.getString("LastName");
+        String eMail = rs.getString("Email");
+        int phoneNumber = rs.getInt("Phone");
+        boolean isIdle = rs.getBoolean("IsIdle");
+        String language = rs.getString("Language");
+
+        Volunteer volunteer = new Volunteer(id, firstName, lastName, eMail, phoneNumber, isIdle, language);
+
+        return volunteer;
     }
 
     /**
@@ -86,7 +128,9 @@ public class VolunteerDAO {
         } catch (SQLException sqlException) {
             System.out.println("Couldn't add newVolunteer to DB");
             System.out.println(sqlException);
-            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, sqlException);
+            Logger
+                    .getLogger(VolunteerDAO.class
+                            .getName()).log(Level.SEVERE, null, sqlException);
         }
     }
 

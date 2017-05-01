@@ -13,14 +13,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import museumtimetracking.be.Guild;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.EFXMLName;
+import museumtimetracking.gui.model.VolunteerModel;
 
 /**
  * FXML Controller class
@@ -43,16 +48,22 @@ public class VolunteerOverviewController implements Initializable {
     @FXML
     private TextField txtPhone;
 
+    private final VolunteerModel volunteerModel;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-//        lstVolunteer.setItems(volunteers);
+        lstVolunteer.setItems(volunteerModel.getCachedVolunteers());
         setVolunteerCellFactory();
 
         setTextVisibility(false);
+    }
+
+    public VolunteerOverviewController() {
+        volunteerModel = VolunteerModel.getInstance();
     }
 
     private void setTextVisibility(boolean value) {
@@ -81,6 +92,20 @@ public class VolunteerOverviewController implements Initializable {
 
     @FXML
     private void handleDeleteVolunteer() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("ADVARSEL!");
+        alert.setHeaderText(" Tryk 'Ja' for at slette permanent. \n Tryk 'Nej' for at fortryde.");
+        ButtonType yesButton = new ButtonType("Ja", ButtonBar.ButtonData.YES);
+        ButtonType noButton = new ButtonType("Nej", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(yesButton, noButton);
+        alert.showAndWait().ifPresent(type -> {
+
+            if (type == yesButton) {
+
+                Volunteer deleteVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
+//                volunteerModel.deleteVolunteer(deleteVolunteer);
+            }
+        });
     }
 
     @FXML

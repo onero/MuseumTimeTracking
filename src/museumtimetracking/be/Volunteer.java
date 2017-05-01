@@ -7,14 +7,19 @@ package museumtimetracking.be;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Volunteer extends APerson {
 
     private BooleanProperty isIdle;
+    
+    private StringProperty language;
 
-    public Volunteer(int ID, String firstName, String lastName, String email, int phone, boolean isIdle) {
+    public Volunteer(int ID, String firstName, String lastName, String email, int phone, boolean isIdle, String language) {
         super(ID, firstName, lastName, email, phone);
         this.isIdle = new SimpleBooleanProperty(isIdle);
+        this.language = new SimpleStringProperty(language);
     }
 
     public Volunteer(String firstName, String lastName, String email, int phone) {
@@ -37,5 +42,11 @@ public class Volunteer extends APerson {
     public void setIsIdleProperty(BooleanProperty isIdle) {
         this.isIdle = isIdle;
     }
+
+    public StringProperty getLanguage() {
+        return language;
+    }
+    
+    
 
 }
