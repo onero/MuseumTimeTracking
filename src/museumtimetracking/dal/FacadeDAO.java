@@ -74,4 +74,21 @@ public class FacadeDAO {
         }
     }
 
+    /**
+     * Updates the guildManager in the database.
+     *
+     * @param manager
+     * @param guildsToAdd
+     * @param guildsToDelete
+     */
+    public void updateGuildManager(GuildManager manager, List<String> guildsToAdd, List<String> guildsToDelete) {
+        try {
+            guildManagerDAO.updateGuildManagerInDatabase(manager, guildsToAdd, guildsToDelete);
+        } catch (SQLException ex) {
+            System.out.println("Couldn't update GuildManager in database!\n"
+                    + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
 }

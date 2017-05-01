@@ -22,7 +22,7 @@ import museumtimetracking.be.GuildManager;
 public class GuildManagerDAO extends APersonDAO {
 
     private final DBConnectionManager connectionManager;
-    private List<Integer> guildManagerIDs;
+    private final List<Integer> guildManagerIDs;
 
     public GuildManagerDAO() throws IOException {
         connectionManager = DBConnectionManager.getInstance();
