@@ -8,6 +8,8 @@ package museumtimetracking.gui.views.root.volunteer;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,15 +19,17 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import museumtimetracking.be.Guild;
+import static javax.swing.text.html.HTML.Tag.HEAD;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.EFXMLName;
 import museumtimetracking.gui.model.VolunteerModel;
+import museumtimetracking.gui.views.root.volunteer.volunteerInfo.VolunteerInfoViewController;
 
 /**
  * FXML Controller class
@@ -46,15 +50,26 @@ public class VolunteerOverviewController implements Initializable {
     @FXML
     private TextField txtLastName;
     @FXML
+    private Label txtLinkMoreInfo;
+    @FXML
     private TextField txtPhone;
 
     private final VolunteerModel volunteerModel;
+    
+    private Stage primStage;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        txtLinkMoreInfo.setVisible(false);
+
+        ObservableList<Volunteer> volunteers = FXCollections.observableArrayList();
+        Volunteer v = new Volunteer("test", "testesen", "test", 123);
+        v.setDescription("Sheit works!");
+        volunteers.add(v);
+        lstVolunteer.setItems(volunteers);
 
         lstVolunteer.setItems(volunteerModel.getCachedVolunteers());
         setVolunteerCellFactory();
@@ -71,6 +86,29 @@ public class VolunteerOverviewController implements Initializable {
         txtLastName.setDisable(!value);
         txtEmail.setDisable(!value);
         txtPhone.setDisable(!value);
+    }
+
+    @FXML
+    private void handleVolunteerInfo() throws IOException {
+        primStage = (Stage) btnEdit.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.VOLUNTEER_INFO.toString()));
+        Parent root = loader.load();
+
+        VolunteerInfoViewController controller = loader.getController();
+
+        Volunteer selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
+        if (selectedVolunteer != null) {
+            controller.setCurrentVolunteer(selectedVolunteer);
+        }
+
+        Stage newStage = new Stage();
+        newStage.setScene(new Scene(root));
+
+        //Create new modal window from FXMLLoader
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.initOwner(primStage);
+
+        newStage.show();
     }
 
     /**
@@ -121,7 +159,7 @@ public class VolunteerOverviewController implements Initializable {
 
     @FXML
     private void handleNewVolunteer() throws IOException {
-        Stage primStage = (Stage) btnEdit.getScene().getWindow();
+        primStage = (Stage) btnEdit.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.ADD_NEW_VOLUNTEER.toString()));
         Parent root = loader.load();
 
@@ -138,10 +176,13 @@ public class VolunteerOverviewController implements Initializable {
     @FXML
     private void handleSelectVolunteer() {
         Volunteer selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
-        txtFirstName.setText(selectedVolunteer.getFirstName());
-        txtLastName.setText(selectedVolunteer.getLastName());
-        txtEmail.setText(selectedVolunteer.getEmail());
-        txtPhone.setText("" + selectedVolunteer.getPhone());
+        if (selectedVolunteer != null) {
+            txtFirstName.setText(selectedVolunteer.getFirstName());
+            txtLastName.setText(selectedVolunteer.getLastName());
+            txtEmail.setText(selectedVolunteer.getEmail());
+            txtPhone.setText("" + selectedVolunteer.getPhone());
+            txtLinkMoreInfo.setVisible(true);
+        }
     }
 
 }

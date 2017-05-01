@@ -47,7 +47,6 @@ public class GuildManagerModel {
      */
     public void createNewGuildManager(APerson person, String guildName) {
         GuildManager manager = guildMGRManager.createNewGuildManager(person, guildName);
-        managersFromDB.add(manager);
         cachedManagers.add(manager);
     }
 

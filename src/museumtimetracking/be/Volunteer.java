@@ -15,16 +15,21 @@ public class Volunteer extends APerson {
     private BooleanProperty isIdle;
     
     private StringProperty language;
+    
+    private StringProperty description;
+
 
     public Volunteer(int ID, String firstName, String lastName, String email, int phone, boolean isIdle, String language) {
         super(ID, firstName, lastName, email, phone);
         this.isIdle = new SimpleBooleanProperty(isIdle);
         this.language = new SimpleStringProperty(language);
+        description = new SimpleStringProperty();
     }
 
     public Volunteer(String firstName, String lastName, String email, int phone) {
         super(firstName, lastName, email, phone);
         this.isIdle = new SimpleBooleanProperty(false);
+        description = new SimpleStringProperty();
     }
 
     public boolean getIsIdle() {
@@ -47,6 +52,16 @@ public class Volunteer extends APerson {
         return language;
     }
     
-    
+    public StringProperty getDescriptionProperty() {
+        return description;
+    }
+
+    public String getDescription() {
+        return description.get();
+    }
+
+    public void setDescription(String description) {
+        this.description.set(description);
+    }
 
 }
