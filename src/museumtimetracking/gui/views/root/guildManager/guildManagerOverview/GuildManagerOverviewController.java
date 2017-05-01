@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -48,6 +47,14 @@ public class GuildManagerOverviewController implements Initializable {
     private TextField txtPhone;
     @FXML
     private ListView<String> lstGuilds;
+    @FXML
+    private Button btnEdit;
+    @FXML
+    private Button btnNewGuildManager;
+    @FXML
+    private Button btnSave;
+    @FXML
+    private Button btnDelete;
 
     private final NodeFactory nodeFactory;
 
@@ -61,15 +68,6 @@ public class GuildManagerOverviewController implements Initializable {
     private final String NEW_GUILD_MANAGER = "Ny Tovholder";
 
     private final ModalFactory modalFactory;
-
-    @FXML
-    private Button btnEdit;
-    @FXML
-    private Button btnNewGuildManager;
-    @FXML
-    private Button btnSave;
-    @FXML
-    private Button btnDelete;
 
     public GuildManagerOverviewController() {
         nodeFactory = NodeFactory.getInstance();
@@ -96,7 +94,7 @@ public class GuildManagerOverviewController implements Initializable {
         if (btnNewGuildManager.getText().equals(NEW_GUILD_MANAGER)) {
             newManagerModal();
         } else if (btnNewGuildManager.getText().equals(ADD_GUILD_BUTTON_TEXT)) {
-            addGuildModal();
+            showGuildManagementModal();
         }
     }
 
@@ -274,24 +272,27 @@ public class GuildManagerOverviewController implements Initializable {
     }
 
     /**
+     * Show the modal for the guildManagament.
      *
+     * @throws IOException
      */
-    private void addGuildModal() throws IOException {
+    private void showGuildManagementModal() throws IOException {
         Stage primStage = (Stage) lstGuilds.getScene().getWindow();
         Stage stage = modalFactory.createNewModal(primStage, MANAGE_MANAGER_GUILDS);
         ManageGuildManagerGuildsViewController controller = modalFactory.getLoader().getController();
         GuildManager manager = lstManagers.getSelectionModel().getSelectedItem();
         controller.addGuilds(manager.getListOfGuilds());
 
-        stage.show();
+        stage.showAndWait();
+
     }
 
     /**
      *
-     * @param event
+     *
      */
     @FXML
-    private void handleSaveGuildManagerButton(ActionEvent event) {
+    private void handleSaveGuildManagerButton() {
         setButtonTextToViewMode();
         setShowEditability(false);
         //TODO MSP: Make save funtionality. send Manager, List of new Guild Names, list of guilds to delete.
