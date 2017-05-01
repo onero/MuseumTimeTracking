@@ -49,8 +49,7 @@ public class FacadeDAO {
      */
     public GuildManager createNewGuildManager(APerson person, String guildName) {
         try {
-            GuildManager guildManager = guildManagerDAO.createNewGuildManager(person, guildName);
-            return guildManager;
+            return guildManagerDAO.createNewGuildManager(person, guildName);
         } catch (SQLException ex) {
             System.out.println("Couldn't add guild manager to DB\n"
                     + ex.getMessage());
