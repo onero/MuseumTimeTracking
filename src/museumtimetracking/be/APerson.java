@@ -12,20 +12,20 @@ import javafx.beans.property.StringProperty;
 
 public abstract class APerson {
 
+    private int ID;
     private final StringProperty firstName;
     private final StringProperty lastName;
     private final StringProperty fullName;
     private final StringProperty email;
     private final IntegerProperty phone;
-    private int ID;
 
-    public APerson(String firstName, String lastName, String email, int phone, int ID) {
+    public APerson(int newID, String firstName, String lastName, String email, int phone) {
+        this.ID = newID;
         this.firstName = new SimpleStringProperty(firstName);
         this.lastName = new SimpleStringProperty(lastName);
         this.fullName = new SimpleStringProperty(firstName + " " + lastName);
         this.email = new SimpleStringProperty(email);
         this.phone = new SimpleIntegerProperty(phone);
-        this.ID = ID;
     }
 
     public APerson(String firstName, String lastName, String email, int phone) {
@@ -34,6 +34,10 @@ public abstract class APerson {
         this.fullName = new SimpleStringProperty(firstName + " " + lastName);
         this.email = new SimpleStringProperty(email);
         this.phone = new SimpleIntegerProperty(phone);
+    }
+
+    public int getID() {
+        return ID;
     }
 
     public String getFullName() {
@@ -74,9 +78,5 @@ public abstract class APerson {
 
     public IntegerProperty getPhoneProperty() {
         return phone;
-    }
-
-    public int getID() {
-        return ID;
     }
 }
