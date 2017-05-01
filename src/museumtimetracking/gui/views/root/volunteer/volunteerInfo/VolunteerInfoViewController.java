@@ -33,6 +33,13 @@ public class VolunteerInfoViewController implements Initializable {
 
     @FXML
     private void handleEditVolunteerInfo() {
+        if (btnEdit.getText().equalsIgnoreCase("rediger")) {
+            btnEdit.setText("Gem");
+            txtVolunteerInfo.setDisable(false);
+        } else {
+            btnEdit.setText("Rediger");
+            txtVolunteerInfo.setDisable(true);
+        }
     }
 
     /**
@@ -40,7 +47,7 @@ public class VolunteerInfoViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        txtVolunteerInfo.setText(currentVolunteer.getDescription());
+        txtVolunteerInfo.setDisable(false);
     }
 
     /**
@@ -50,6 +57,7 @@ public class VolunteerInfoViewController implements Initializable {
      */
     public void setCurrentVolunteer(Volunteer volunteer) {
         currentVolunteer = volunteer;
+        txtVolunteerInfo.setText(currentVolunteer.getDescription());
     }
 
 }
