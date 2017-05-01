@@ -22,14 +22,14 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import static javax.swing.text.html.HTML.Tag.HEAD;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.EFXMLName;
 import museumtimetracking.gui.model.VolunteerModel;
-import museumtimetracking.gui.views.root.volunteer.volunteerInfo.VolunteerInfoViewController;
+import museumtimetracking.gui.views.ModalFactory;
 
 /**
  * FXML Controller class
@@ -44,6 +44,12 @@ public class VolunteerOverviewController implements Initializable {
     @FXML
     private ListView<Volunteer> lstVolunteer;
     @FXML
+    private RadioButton radioDA;
+    @FXML
+    private RadioButton radioDE;
+    @FXML
+    private RadioButton radioENG;
+    @FXML
     private TextField txtEmail;
     @FXML
     private TextField txtFirstName;
@@ -55,7 +61,7 @@ public class VolunteerOverviewController implements Initializable {
     private TextField txtPhone;
 
     private final VolunteerModel volunteerModel;
-    
+
     private Stage primStage;
 
     /**
@@ -91,24 +97,10 @@ public class VolunteerOverviewController implements Initializable {
     @FXML
     private void handleVolunteerInfo() throws IOException {
         primStage = (Stage) btnEdit.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(EFXMLName.VOLUNTEER_INFO.toString()));
-        Parent root = loader.load();
 
-        VolunteerInfoViewController controller = loader.getController();
+        Stage volunteerInfoModal = ModalFactory.getInstance().createNewModal(primStage, EFXMLName.VOLUNTEER_INFO);
 
-        Volunteer selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
-        if (selectedVolunteer != null) {
-            controller.setCurrentVolunteer(selectedVolunteer);
-        }
-
-        Stage newStage = new Stage();
-        newStage.setScene(new Scene(root));
-
-        //Create new modal window from FXMLLoader
-        newStage.initModality(Modality.WINDOW_MODAL);
-        newStage.initOwner(primStage);
-
-        newStage.show();
+        volunteerInfoModal.show();
     }
 
     /**
@@ -182,6 +174,23 @@ public class VolunteerOverviewController implements Initializable {
             txtEmail.setText(selectedVolunteer.getEmail());
             txtPhone.setText("" + selectedVolunteer.getPhone());
             txtLinkMoreInfo.setVisible(true);
+
+            selectVolunteerLanguage(selectedVolunteer);
+        }
+    }
+
+    private void selectVolunteerLanguage(Volunteer selectedVolunteer) {
+        switch (selectedVolunteer.getLanguage()) {
+            case DANISH:
+                radioDA.setSelected(true);
+                break;
+            case ENGLISH:
+                radioENG.setSelected(true);
+                break;
+            case GERMAN:
+                radioDE.setSelected(true);
+                break;
+            default:
         }
     }
 

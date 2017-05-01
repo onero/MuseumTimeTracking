@@ -5,7 +5,6 @@
  */
 package museumtimetracking.dal;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import museumtimetracking.be.Volunteer;
+import museumtimetracking.be.enums.ELanguage;
 
 /**
  *
@@ -78,7 +78,9 @@ public class VolunteerDAO {
         boolean isIdle = rs.getBoolean("IsIdle");
         String language = rs.getString("Language");
 
-        Volunteer volunteer = new Volunteer(id, firstName, lastName, eMail, phoneNumber, isIdle, language);
+        ELanguage Elang = ELanguage.getLanguageByString(language);
+
+        Volunteer volunteer = new Volunteer(id, firstName, lastName, eMail, phoneNumber, isIdle, Elang);
 
         return volunteer;
     }

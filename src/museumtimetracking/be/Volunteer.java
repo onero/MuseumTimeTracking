@@ -9,20 +9,20 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import museumtimetracking.be.enums.ELanguage;
 
 public class Volunteer extends APerson {
 
     private BooleanProperty isIdle;
-    
-    private StringProperty language;
-    
+
+    private ELanguage language;
+
     private StringProperty description;
 
-
-    public Volunteer(int ID, String firstName, String lastName, String email, int phone, boolean isIdle, String language) {
+    public Volunteer(int ID, String firstName, String lastName, String email, int phone, boolean isIdle, ELanguage language) {
         super(ID, firstName, lastName, email, phone);
         this.isIdle = new SimpleBooleanProperty(isIdle);
-        this.language = new SimpleStringProperty(language);
+        this.language = language;
         description = new SimpleStringProperty();
     }
 
@@ -48,10 +48,10 @@ public class Volunteer extends APerson {
         this.isIdle = isIdle;
     }
 
-    public StringProperty getLanguage() {
+    public ELanguage getLanguage() {
         return language;
     }
-    
+
     public StringProperty getDescriptionProperty() {
         return description;
     }
