@@ -39,7 +39,7 @@ public class VolunteerManager {
     }
     
     public void updateVolunteer(String volunteerToUpdate, Volunteer updatedVolunteer){
-        volunteerDAO.updateVolunteersInPersonDB(volunteerToUpdate, updatedVolunteer);
+//        volunteerDAO.updateVolunteersInPersonDB(volunteerToUpdate, updatedVolunteer);
     }
     
 }

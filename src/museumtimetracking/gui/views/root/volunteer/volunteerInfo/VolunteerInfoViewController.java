@@ -42,8 +42,8 @@ public class VolunteerInfoViewController implements Initializable {
             txtVolunteerInfo.setDisable(false);
         } else {
             btnEdit.setText("Rediger");
-        Volunteer updatedVolunteer = new Volunteer(txtVolunteerInfo.getText());
-        VolunteerModel.getInstance().updateVolunteer(volunteerToUpdate, updatedVolunteer);
+//        Volunteer updatedVolunteer = new Volunteer(txtVolunteerInfo.getText());
+//        VolunteerModel.getInstance().updateVolunteer(volunteerToUpdate, updatedVolunteer);
             txtVolunteerInfo.setDisable(true);
         }
     }
