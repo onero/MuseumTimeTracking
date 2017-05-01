@@ -37,7 +37,6 @@ public class GuildTableViewController implements Initializable {
 
     @FXML
     private HBox buttonBar;
-
     @FXML
     private TableColumn<Guild, String> clmGuildDescription;
     @FXML

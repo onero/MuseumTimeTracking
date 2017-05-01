@@ -12,6 +12,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import museumtimetracking.be.Volunteer;
+import museumtimetracking.gui.model.VolunteerModel;
 
 /**
  * FXML Controller class
@@ -35,12 +38,24 @@ public class NewVolunteerViewController implements Initializable {
     @FXML
     private TextField txtPhone;
 
-    @FXML
-    private void handleAddButton(ActionEvent event) {
+    private final VolunteerModel volunteerModel;
+
+    public NewVolunteerViewController() {
+        volunteerModel = VolunteerModel.getInstance();
     }
 
     @FXML
-    private void handleCancelButton(ActionEvent event) {
+    private void handleAddButton() {
+
+        Volunteer newVolunteer = new Volunteer(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()));
+        volunteerModel.addVolunteer(newVolunteer);
+
+        closeWindow();
+    }
+
+    @FXML
+    private void handleCancelButton() {
+        closeWindow();
     }
 
     /**
@@ -49,6 +64,11 @@ public class NewVolunteerViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+    }
+
+    private void closeWindow() {
+        Stage stage = (Stage) txtEmail.getScene().getWindow();
+        stage.close();
     }
 
 }
