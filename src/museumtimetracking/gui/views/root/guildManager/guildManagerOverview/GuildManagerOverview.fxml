@@ -72,10 +72,10 @@
    <bottom>
       <Pane prefHeight="47.0" prefWidth="422.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="14.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleNewManagerButton" prefWidth="110.0" text="Ny Tovholder" />
-            <Button layoutX="139.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefWidth="75.0" text="Slet" />
+            <Button fx:id="btnNewGuildManager" layoutX="14.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleNewManagerButton" prefWidth="110.0" />
+            <Button fx:id="btnDelete" layoutX="139.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefWidth="75.0" />
             <Button fx:id="btnEdit" layoutX="322.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="75.0" />
-            <Button fx:id="btnAddGuild" layoutX="229.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleAddGuildButton" prefWidth="75.0" />
+            <Button fx:id="btnSave" layoutX="229.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleAddGuildButton" prefWidth="75.0" text="Gem" />
          </children>
          <BorderPane.margin>
             <Insets top="10.0" />

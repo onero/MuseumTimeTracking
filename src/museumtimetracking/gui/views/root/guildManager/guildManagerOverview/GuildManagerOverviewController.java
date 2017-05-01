@@ -52,13 +52,21 @@ public class GuildManagerOverviewController implements Initializable {
     private List<TextField> textFields;
 
     private final String ADD_GUILD_BUTTON_TEXT = "Tilføj Laug";
+    private final String DELETE_GUILD_BUTTON_GUILD = "Slet Laug";
     private final String EDIT_BUTTON_TEXT = "Rediger";
     private final String SAVE_BUTTON_TEXT = "Gem";
     private final String CANCEL_BUTTON_TEXT = "Anuller";
+    private final String NEW_GUILD_MANAGER = "Ny Tovholder";
+    private final String DELETE_GUILDMANAGER = "Slet";
+
     @FXML
     private Button btnEdit;
     @FXML
-    private Button btnAddGuild;
+    private Button btnNewGuildManager;
+    @FXML
+    private Button btnDelete;
+    @FXML
+    private Button btnSave;
 
     public GuildManagerOverviewController() {
         nodeFactory = NodeFactory.getInstance();
@@ -120,12 +128,8 @@ public class GuildManagerOverviewController implements Initializable {
 
     @FXML
     private void handleAddGuildButton() {
-        if (btnAddGuild.getText().equals(ADD_GUILD_BUTTON_TEXT)) {
-
-        } else if (btnAddGuild.getText().equals(SAVE_BUTTON_TEXT)) {
-            setButtonTextToViewMode();
-            setShowEditability(false);
-        }
+        setButtonTextToViewMode();
+        setShowEditability(false);
     }
 
     /**
@@ -234,7 +238,10 @@ public class GuildManagerOverviewController implements Initializable {
      * meant for editing GuildMasters.
      */
     private void setButtonTextToEditMode() {
-        btnAddGuild.setText(SAVE_BUTTON_TEXT);
+        btnNewGuildManager.setText(ADD_GUILD_BUTTON_TEXT);
+        btnDelete.setText(DELETE_GUILD_BUTTON_GUILD);
+        btnSave.setDisable(false);
+        btnSave.setVisible(true);
         btnEdit.setText(CANCEL_BUTTON_TEXT);
     }
 
@@ -243,7 +250,10 @@ public class GuildManagerOverviewController implements Initializable {
      * meant only for viewing.
      */
     private void setButtonTextToViewMode() {
-        btnAddGuild.setText(ADD_GUILD_BUTTON_TEXT);
+        btnNewGuildManager.setText(NEW_GUILD_MANAGER);
+        btnDelete.setText(DELETE_GUILDMANAGER);
+        btnSave.setDisable(true);
+        btnSave.setVisible(false);
         btnEdit.setText(EDIT_BUTTON_TEXT);
     }
 }
