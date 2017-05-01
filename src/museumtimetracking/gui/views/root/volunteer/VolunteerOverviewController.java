@@ -59,7 +59,9 @@ public class VolunteerOverviewController implements Initializable {
         txtLinkMoreInfo.setVisible(false);
 
         ObservableList<Volunteer> volunteers = FXCollections.observableArrayList();
-        volunteers.add(new Volunteer("test", "testesen", "test", 123));
+        Volunteer v = new Volunteer("test", "testesen", "test", 123);
+        v.setDescription("Sheit works!");
+        volunteers.add(v);
         lstVolunteer.setItems(volunteers);
 
 //        lstVolunteer.setItems(volunteers);

@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
 import museumtimetracking.be.Volunteer;
 
 /**
@@ -29,6 +30,8 @@ public class VolunteerInfoViewController implements Initializable {
 
     @FXML
     private void handleBack() {
+        Stage primStage = (Stage) btnEdit.getScene().getWindow();
+        primStage.close();
     }
 
     @FXML
@@ -47,7 +50,7 @@ public class VolunteerInfoViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        txtVolunteerInfo.setDisable(false);
+        txtVolunteerInfo.setDisable(true);
     }
 
     /**
