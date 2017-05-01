@@ -107,13 +107,14 @@ public class GuildManagerOverviewController implements Initializable {
             setShowEditability(false);
             setButtonTextToViewMode();
             //TODO MSP: Update the textfields with the old data
-
+            displayInformation(lstManagers.getSelectionModel().getSelectedItem());
         }
     }
 
     @FXML
     private void handleDeleteButton() {
-        System.out.println("Slet");
+        //TODO MSP: Delete the guildmanager selected in the view through the layers.
+
     }
 
     /**
@@ -207,17 +208,18 @@ public class GuildManagerOverviewController implements Initializable {
      * @param shown
      */
     private void setShowEditability(boolean shown) {
+        lstGuilds.setDisable(true);
+        lstGuilds.setStyle("-fx-opacity: 1.0; -fx-text-fill: white; -fx-background-color: lightgrey;");
         for (TextField textField : textFields) {
             textField.setDisable(!shown);
         }
         if (!shown) {
             for (TextField textField : textFields) {
-                textField.setStyle("-fx-text-fill:#000;");
-                textField.setStyle("-fx-opacity: 1.0;");
+                textField.setStyle("-fx-opacity: 1.0; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-color: lightgrey");
             }
         } else {
             for (TextField textField : textFields) {
-                textField.setStyle("-fx-text-fill:#003996;");
+                textField.setStyle("-fx-text-fill: black;");
             }
         }
     }
@@ -243,6 +245,7 @@ public class GuildManagerOverviewController implements Initializable {
         btnDelete.setDisable(false);
         btnDelete.setVisible(true);
         btnEdit.setText(CANCEL_BUTTON_TEXT);
+        lstManagers.setDisable(true);
     }
 
     /**
@@ -256,6 +259,7 @@ public class GuildManagerOverviewController implements Initializable {
         btnDelete.setDisable(true);
         btnDelete.setVisible(false);
         btnEdit.setText(EDIT_BUTTON_TEXT);
+        lstManagers.setDisable(false);
     }
 
     /**
@@ -274,6 +278,6 @@ public class GuildManagerOverviewController implements Initializable {
     private void handleSaveGuildManagerButton(ActionEvent event) {
         setButtonTextToViewMode();
         setShowEditability(false);
-        //TODO MSP: Make save funtionality.
+        //TODO MSP: Make save funtionality. send Manager, List of new Guild Names, list of guilds to delete.
     }
 }
