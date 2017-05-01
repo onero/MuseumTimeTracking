@@ -49,8 +49,7 @@ public class FacadeDAO {
      */
     public GuildManager createNewGuildManager(APerson person, String guildName) {
         try {
-            GuildManager guildManager = guildManagerDAO.createNewGuildManager(person, guildName);
-            return guildManager;
+            return guildManagerDAO.createNewGuildManager(person, guildName);
         } catch (SQLException ex) {
             System.out.println("Couldn't add guild manager to DB\n"
                     + ex.getMessage());
@@ -72,6 +71,23 @@ public class FacadeDAO {
             System.out.println("Couldn't get all guild managers from DB\n" + ex.getMessage());
             ex.printStackTrace();
             return null;
+        }
+    }
+
+    /**
+     * Updates the guildManager in the database.
+     *
+     * @param manager
+     * @param guildsToAdd
+     * @param guildsToDelete
+     */
+    public void updateGuildManager(GuildManager manager, List<String> guildsToAdd, List<String> guildsToDelete) {
+        try {
+            guildManagerDAO.updateGuildManagerInDatabase(manager, guildsToAdd, guildsToDelete);
+        } catch (SQLException ex) {
+            System.out.println("Couldn't update GuildManager in database!\n"
+                    + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 

@@ -43,4 +43,15 @@ public class GuildMGRManager {
     public List<GuildManager> getAllGuildManagers() {
         return facadeDAO.getAllGuildManagers();
     }
+
+    /**
+     * Sends the informtion through to DAL to be updated.
+     *
+     * @param manager
+     * @param guildsToAdd
+     * @param guildsToDele
+     */
+    public void updateGuildManager(GuildManager manager, List<String> guildsToAdd, List<String> guildsToDele) {
+        facadeDAO.updateGuildManager(manager, guildsToAdd, guildsToDele);
+    }
 }
