@@ -89,9 +89,10 @@ public class NewGuildManagerViewController implements Initializable {
      * @return
      */
     private boolean validateData() {
+        //TODO RKL: Make this in bll.
         boolean isFirstNameThere = !txtFirstName.getText().isEmpty();
         boolean isLastNameThere = !txtLastName.getText().isEmpty();
-        //Checks if the textfield only contains numbers.
+        //Checks if the textfield only contains numbers. //TODO RKL: Make regex a constant variable.
         boolean isPhoneValid = (txtPhone.getText().matches("[0-9]+") && txtPhone.getText().length() == 8);
         boolean isGuildSelected = (comboGuild.getSelectionModel().getSelectedItem() != null);
 
@@ -103,6 +104,7 @@ public class NewGuildManagerViewController implements Initializable {
      * entered.
      */
     private void showWrongInformationWarning() {
+        //TODO RKL: Remove "Message" from topbar.
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Den indtastede information er ikke gyldig.");
         alert.setContentText("Skal udfyldes:\nFornavn.\nEfternavn\n\n"

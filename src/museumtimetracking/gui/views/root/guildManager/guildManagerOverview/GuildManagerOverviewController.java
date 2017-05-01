@@ -123,7 +123,7 @@ public class GuildManagerOverviewController implements Initializable {
      * Sets the cellFactory of the GuildsList to show the name of the guilds.
      */
     private void setListOfGuildsCellFactory() {
-        lstGuilds.setCellFactory(v -> new ListCell<String>() {
+        lstGuilds.setCellFactory(g -> new ListCell<String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -141,13 +141,11 @@ public class GuildManagerOverviewController implements Initializable {
      * Adds a listener to lstManagers.
      */
     private void addListeners() {
-        lstManagers.getSelectionModel().selectedItemProperty().addListener(
-                (ObservableValue<? extends GuildManager> observable,
-                        GuildManager oldValue, GuildManager newValue) -> {
-                    if (newValue != oldValue) {
-                        displayInformation(newValue);
-                    }
-                });
+        lstManagers.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends GuildManager> observable, GuildManager oldValue, GuildManager newValue) -> {
+            if (newValue != oldValue) {
+                displayInformation(newValue);
+            }
+        });
     }
 
     /**
