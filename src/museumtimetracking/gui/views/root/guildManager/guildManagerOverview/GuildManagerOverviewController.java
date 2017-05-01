@@ -71,7 +71,7 @@ public class GuildManagerOverviewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         textFields = new ArrayList<>();
-        addTextFieldsToList();
+        initializeTextFieldList();
         setShowEditability(false);
         setButtonTextToViewMode();
         addListeners();
@@ -84,6 +84,9 @@ public class GuildManagerOverviewController implements Initializable {
         newManagerModal();
     }
 
+    /**
+     * Checks which button name is set, and handles the correlating functions.
+     */
     @FXML
     private void handleEditButton() {
         if (btnEdit.getText().equals(EDIT_BUTTON_TEXT)) {
@@ -193,6 +196,13 @@ public class GuildManagerOverviewController implements Initializable {
         lstGuilds.setItems(manager.getObservableListOfGuilds());
     }
 
+    /**
+     * Sets disable on the textfields if the shown variable is false counterwise
+     * if true. Also edits colours and opacity, so that the TextFields are
+     * readable.
+     *
+     * @param shown
+     */
     private void setShowEditability(boolean shown) {
         for (TextField textField : textFields) {
             textField.setDisable(!shown);
@@ -209,18 +219,29 @@ public class GuildManagerOverviewController implements Initializable {
         }
     }
 
-    private void addTextFieldsToList() {
+    /**
+     * initializes the lit of the textfields.
+     */
+    private void initializeTextFieldList() {
         textFields.add(txtEmail);
         textFields.add(txtFirstName);
         textFields.add(txtLastName);
         textFields.add(txtPhone);
     }
 
+    /**
+     * Sets the buttons' text to the Strings from the constants. Edit mode is
+     * meant for editing GuildMasters.
+     */
     private void setButtonTextToEditMode() {
         btnAddGuild.setText(SAVE_BUTTON_TEXT);
         btnEdit.setText(CANCEL_BUTTON_TEXT);
     }
 
+    /**
+     * Sets the buttons' text to the Strings from the constants. View mode is
+     * meant only for viewing.
+     */
     private void setButtonTextToViewMode() {
         btnAddGuild.setText(ADD_GUILD_BUTTON_TEXT);
         btnEdit.setText(EDIT_BUTTON_TEXT);
