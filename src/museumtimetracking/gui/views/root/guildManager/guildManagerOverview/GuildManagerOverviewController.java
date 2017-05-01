@@ -6,12 +6,15 @@
 package museumtimetracking.gui.views.root.guildManager.guildManagerOverview;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -46,6 +49,17 @@ public class GuildManagerOverviewController implements Initializable {
 
     private final GuildManagerModel guildManagerModel;
 
+    private List<TextField> textFields;
+
+    private final String ADD_GUILD_BUTTON_TEXT = "Tilføj Laug";
+    private final String EDIT_BUTTON_TEXT = "Rediger";
+    private final String SAVE_BUTTON_TEXT = "Gem";
+    private final String CANCEL_BUTTON_TEXT = "Anuller";
+    @FXML
+    private Button btnEdit;
+    @FXML
+    private Button btnAddGuild;
+
     public GuildManagerOverviewController() {
         nodeFactory = NodeFactory.getInstance();
         guildManagerModel = GuildManagerModel.getInstance();
@@ -56,6 +70,10 @@ public class GuildManagerOverviewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        textFields = new ArrayList<>();
+        addTextFieldsToList();
+        setShowEditability(false);
+        setButtonTextToViewMode();
         addListeners();
         setCellFactories();
         lstManagers.setItems(guildManagerModel.getCachedManagers());
@@ -68,6 +86,14 @@ public class GuildManagerOverviewController implements Initializable {
 
     @FXML
     private void handleEditButton() {
+        if (btnEdit.getText().equals(EDIT_BUTTON_TEXT)) {
+            setShowEditability(true);
+            setButtonTextToEditMode();
+
+        } else if (btnEdit.getText().equals(CANCEL_BUTTON_TEXT)) {
+            setShowEditability(false);
+            setButtonTextToViewMode();
+        }
     }
 
     @FXML
@@ -91,6 +117,12 @@ public class GuildManagerOverviewController implements Initializable {
 
     @FXML
     private void handleAddGuildButton() {
+        if (btnAddGuild.getText().equals(ADD_GUILD_BUTTON_TEXT)) {
+
+        } else if (btnAddGuild.getText().equals(SAVE_BUTTON_TEXT)) {
+            setButtonTextToViewMode();
+            setShowEditability(false);
+        }
     }
 
     /**
@@ -161,4 +193,36 @@ public class GuildManagerOverviewController implements Initializable {
         lstGuilds.setItems(manager.getObservableListOfGuilds());
     }
 
+    private void setShowEditability(boolean shown) {
+        for (TextField textField : textFields) {
+            textField.setDisable(!shown);
+        }
+        if (!shown) {
+            for (TextField textField : textFields) {
+                textField.setStyle("-fx-text-fill:#000;");
+                textField.setStyle("-fx-opacity: 1.0;");
+            }
+        } else {
+            for (TextField textField : textFields) {
+                textField.setStyle("-fx-text-fill:#003996;");
+            }
+        }
+    }
+
+    private void addTextFieldsToList() {
+        textFields.add(txtEmail);
+        textFields.add(txtFirstName);
+        textFields.add(txtLastName);
+        textFields.add(txtPhone);
+    }
+
+    private void setButtonTextToEditMode() {
+        btnAddGuild.setText(SAVE_BUTTON_TEXT);
+        btnEdit.setText(CANCEL_BUTTON_TEXT);
+    }
+
+    private void setButtonTextToViewMode() {
+        btnAddGuild.setText(ADD_GUILD_BUTTON_TEXT);
+        btnEdit.setText(EDIT_BUTTON_TEXT);
+    }
 }

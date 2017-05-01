@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController">
    <center>
       <AnchorPane id="AnchorPane" prefHeight="336.0" prefWidth="422.0">
          <children>
@@ -74,8 +74,8 @@
          <children>
             <Button layoutX="14.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleNewManagerButton" prefWidth="110.0" text="Ny Tovholder" />
             <Button layoutX="139.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefWidth="75.0" text="Slet" />
-            <Button layoutX="322.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="75.0" text="Rediger" />
-            <Button layoutX="229.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleAddGuildButton" text="Tilføj Laug" />
+            <Button fx:id="btnEdit" layoutX="322.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="75.0" />
+            <Button fx:id="btnAddGuild" layoutX="229.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleAddGuildButton" prefWidth="75.0" />
          </children>
          <BorderPane.margin>
             <Insets top="10.0" />
