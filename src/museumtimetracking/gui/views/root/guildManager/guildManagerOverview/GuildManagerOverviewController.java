@@ -5,6 +5,7 @@
  */
 package museumtimetracking.gui.views.root.guildManager.guildManagerOverview;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,9 @@ import javafx.stage.Stage;
 import museumtimetracking.be.GuildManager;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.gui.model.GuildManagerModel;
+import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.NodeFactory;
+import museumtimetracking.gui.views.root.guildManager.guildManagerOverview.manageGuildManagerGuilds.ManageGuildManagerGuildsViewController;
 
 /**
  * FXML Controller class
@@ -57,6 +60,8 @@ public class GuildManagerOverviewController implements Initializable {
     private final String CANCEL_BUTTON_TEXT = "Anuller";
     private final String NEW_GUILD_MANAGER = "Ny Tovholder";
 
+    private final ModalFactory modalFactory;
+
     @FXML
     private Button btnEdit;
     @FXML
@@ -69,6 +74,7 @@ public class GuildManagerOverviewController implements Initializable {
     public GuildManagerOverviewController() {
         nodeFactory = NodeFactory.getInstance();
         guildManagerModel = GuildManagerModel.getInstance();
+        modalFactory = ModalFactory.getInstance();
     }
 
     /**
@@ -86,7 +92,7 @@ public class GuildManagerOverviewController implements Initializable {
     }
 
     @FXML
-    private void handleNewManagerButton() {
+    private void handleNewManagerButton() throws IOException {
         if (btnNewGuildManager.getText().equals(NEW_GUILD_MANAGER)) {
             newManagerModal();
         } else if (btnNewGuildManager.getText().equals(ADD_GUILD_BUTTON_TEXT)) {
@@ -107,7 +113,12 @@ public class GuildManagerOverviewController implements Initializable {
             setShowEditability(false);
             setButtonTextToViewMode();
             //TODO MSP: Update the textfields with the old data
-            displayInformation(lstManagers.getSelectionModel().getSelectedItem());
+            //- RKL: Refactored to not throw a nullPointerException.
+            //Might wanna not be able to edit, if no manager is seleceted?
+            GuildManager manager = lstManagers.getSelectionModel().getSelectedItem();
+            if (manager != null) {
+                displayInformation(manager);
+            }
         }
     }
 
@@ -265,9 +276,14 @@ public class GuildManagerOverviewController implements Initializable {
     /**
      *
      */
-    private void addGuildModal() {
-        //TODO MSP: A modal for adding existing guilds to the manager.
+    private void addGuildModal() throws IOException {
+        Stage primStage = (Stage) lstGuilds.getScene().getWindow();
+        Stage stage = modalFactory.createNewModal(primStage, MANAGE_MANAGER_GUILDS);
+        ManageGuildManagerGuildsViewController controller = modalFactory.getLoader().getController();
+        GuildManager manager = lstManagers.getSelectionModel().getSelectedItem();
+        controller.addGuilds(manager.getListOfGuilds());
 
+        stage.show();
     }
 
     /**

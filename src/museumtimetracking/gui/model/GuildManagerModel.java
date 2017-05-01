@@ -59,7 +59,7 @@ public class GuildManagerModel {
         return cachedManagers;
     }
 
-    public void updateGuildManager(GuildManager manger, List<String> guildsToAdd, List<String> guildsToDelete) {
+    public void updateGuildManager(GuildManager manager, List<String> guildsToAdd, List<String> guildsToDelete) {
 
     }
 
