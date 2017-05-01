@@ -23,6 +23,8 @@ public class Guild {
         this.description = new SimpleStringProperty(description);
         isArchived = new SimpleBooleanProperty(archived);
     }
+    
+    // TODO Skovgaard: Make a new constructor which take a new name and description.
 
     /**
      *
