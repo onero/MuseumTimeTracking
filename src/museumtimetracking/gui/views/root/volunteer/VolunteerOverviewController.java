@@ -27,6 +27,7 @@ import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.EFXMLName;
 import museumtimetracking.gui.model.VolunteerModel;
 import museumtimetracking.gui.views.ModalFactory;
+import museumtimetracking.gui.views.root.volunteer.volunteerInfo.VolunteerInfoViewController;
 
 /**
  * FXML Controller class
@@ -64,6 +65,8 @@ public class VolunteerOverviewController implements Initializable {
     private final ModalFactory modalFactory;
 
     private Stage primStage;
+
+    private Volunteer selectedVolunteer;
 
     /**
      * Initializes the controller class.
@@ -149,7 +152,7 @@ public class VolunteerOverviewController implements Initializable {
             btnEdit.setText("Rediger");
             setTextVisibility(false);
             //TODO Skovgaard: Husk javadoc.
-            Volunteer selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
+            selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
             Volunteer updatedVolunteer = new Volunteer(selectedVolunteer.getID(), txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()), false, selectedVolunteer.getLanguage());
             VolunteerModel.getInstance().updateVolunteer(updatedVolunteer);
         }
@@ -166,7 +169,7 @@ public class VolunteerOverviewController implements Initializable {
 
     @FXML
     private void handleSelectVolunteer() {
-        Volunteer selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
+        selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
         if (selectedVolunteer != null) {
             txtFirstName.setText(selectedVolunteer.getFirstName());
             txtLastName.setText(selectedVolunteer.getLastName());
@@ -200,8 +203,12 @@ public class VolunteerOverviewController implements Initializable {
 
     @FXML
     private void handleInactiveVolunteer() {
-        Volunteer selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
+        selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
         if (selectedVolunteer != null) {
+            Stage inactiveInformationModal = modalFactory.createNewModal(primStage, EFXMLName.VOLUNTEER_INFO);
+            VolunteerInfoViewController controller = modalFactory.getLoader().getController();
+            controller.setCurrentVolunteer(selectedVolunteer);
+            inactiveInformationModal.showAndWait();
             volunteerModel.addIdleVolunteer(selectedVolunteer);
         }
     }

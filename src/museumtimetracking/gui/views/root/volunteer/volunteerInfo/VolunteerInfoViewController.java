@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import museumtimetracking.be.Volunteer;
-import museumtimetracking.gui.model.VolunteerModel;
 
 /**
  * FXML Controller class
@@ -43,6 +42,7 @@ public class VolunteerInfoViewController implements Initializable {
         } else {
             btnEdit.setText("Rediger");
             txtVolunteerInfo.setDisable(true);
+            currentVolunteer.setDescription(txtVolunteerInfo.getText());
         }
     }
 

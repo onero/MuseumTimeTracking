@@ -31,7 +31,7 @@ public class IdleVolunteerViewController implements Initializable {
     @FXML
     private TableView<Volunteer> tableVolunteer;
 
-    private VolunteerModel volunteerModel;
+    private final VolunteerModel volunteerModel;
 
     public IdleVolunteerViewController() {
         volunteerModel = VolunteerModel.getInstance();
