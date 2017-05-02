@@ -109,6 +109,15 @@ public class GuildModel {
      */
     public void updateGuild(String guildToUpdate, Guild updatedGuild) {
         guildManager.updateGuild(guildToUpdate, updatedGuild);
+        // Made a stream with lamda which updates the list from the database.
+        cachedGuilds.stream()
+                .filter(g -> g.getName().equalsIgnoreCase(updatedGuild.getName()))
+                .forEach(g -> {
+                    g.setName(updatedGuild.getName());
+                    g.setDescription(updatedGuild.getDescription());
+                });
+        
+        
     }
 
 }
