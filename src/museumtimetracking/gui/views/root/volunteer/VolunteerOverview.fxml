@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -16,89 +17,105 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController">
    <center>
-      <AnchorPane id="AnchorPane" prefHeight="417.0" prefWidth="422.0">
+      <AnchorPane id="AnchorPane">
          <children>
-            <Label layoutX="104.0" layoutY="14.0" text="Frivillig Oversigt">
+            <Label layoutX="25.0" layoutY="14.0" text="Frivillig Oversigt">
                <font>
                   <Font name="System Bold Italic" size="24.0" />
                </font>
             </Label>
             <ListView fx:id="lstVolunteer" layoutX="14.0" layoutY="58.0" onMouseClicked="#handleSelectVolunteer" prefHeight="294.0" prefWidth="200.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="58.0" />
-            <VBox layoutX="230.0" layoutY="58.0" prefHeight="294.0" prefWidth="167.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="58.0">
+            <HBox layoutX="230.0" layoutY="58.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Label text="Fornavn">
-                     <font>
-                        <Font name="System Italic" size="15.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtFirstName">
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <Label text="Efternavn">
-                     <font>
-                        <Font name="System Italic" size="15.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtLastName">
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <Label text="Email">
-                     <font>
-                        <Font name="System Italic" size="15.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtEmail">
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <Label text="Telefon nr.">
-                     <font>
-                        <Font name="System Italic" size="15.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtPhone">
-                     <VBox.margin>
-                        <Insets bottom="15.0" />
-                     </VBox.margin></TextField>
-                  <Label text="Sprog til kommunikation">
-                     <font>
-                        <Font name="System Italic" size="15.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="5.0" />
-                     </VBox.margin>
-                  </Label>
-                  <HBox>
+                  <VBox prefHeight="315.0" prefWidth="189.0">
                      <children>
-                        <RadioButton fx:id="radioDA" mnemonicParsing="false" selected="true" text="DA">
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                           <toggleGroup>
-                              <ToggleGroup fx:id="language" />
-                           </toggleGroup>
-                        </RadioButton>
-                        <RadioButton fx:id="radioENG" mnemonicParsing="false" text="ENG" toggleGroup="$language">
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                        </RadioButton>
-                        <RadioButton fx:id="radioDE" mnemonicParsing="false" text="DE" toggleGroup="$language" />
+                        <Label text="Fornavn">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtFirstName">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Label text="Efternavn">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtLastName">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Label text="Email">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtEmail">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Label text="Telefon nr.">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtPhone">
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Label text="Sprog til kommunikation">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <HBox>
+                           <children>
+                              <RadioButton fx:id="radioDA" mnemonicParsing="false" selected="true" text="DA">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="language" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="radioENG" mnemonicParsing="false" text="ENG" toggleGroup="$language">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </RadioButton>
+                              <RadioButton fx:id="radioDE" mnemonicParsing="false" text="DE" toggleGroup="$language" />
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </HBox>
                      </children>
-                     <VBox.margin>
-                        <Insets bottom="5.0" />
-                     </VBox.margin>
-                  </HBox>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox>
+                     <HBox.margin>
+                        <Insets bottom="15.0" top="15.0" />
+                     </HBox.margin>
+                     <children>
+                        <TextArea fx:id="txtVolunteerInfo" prefHeight="276.0" prefWidth="144.0" />
+                     </children>
+                  </VBox>
                </children>
-               <padding>
-                  <Insets bottom="10.0" />
-               </padding>
-            </VBox>
+            </HBox>
             <Label fx:id="txtLinkMoreInfo" accessibleRole="BUTTON" layoutX="279.0" layoutY="342.0" onMouseClicked="#handleVolunteerInfo" text="Se mere info" underline="true">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
@@ -113,6 +130,7 @@
                     <buttons>
                         <Button mnemonicParsing="false" onAction="#handleNewVolunteer" text="Ny Frivillig" />
                         <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#handleEditVolunteer" prefWidth="75.0" text="Rediger" />
+                        <Button mnemonicParsing="false" onAction="#handleInactiveVolunteer" text="Gør Inaktiv" />
                         <Button mnemonicParsing="false" onAction="#handleDeleteVolunteer" prefWidth="75.0" text="Slet" />
                     </buttons>
                   </ButtonBar>

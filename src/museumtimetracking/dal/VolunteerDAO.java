@@ -5,6 +5,7 @@
  */
 package museumtimetracking.dal;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +22,7 @@ import museumtimetracking.be.enums.ELanguage;
  *
  * @author Skovgaard
  */
-public class VolunteerDAO {
+public class VolunteerDAO extends APersonDAO {
 
     private DBConnectionManager cm;
 
@@ -45,6 +46,34 @@ public class VolunteerDAO {
     }
 
     /**
+     * Get all idle volunteers
+     *
+     * @return
+     */
+    public List<Volunteer> getAllIdleVolunteers() {
+        List<Volunteer> volunteers = new ArrayList<>();
+
+        String sql = "SELECT * FROM Volunteer v "
+                + "JOIN Person p ON p.ID = v.PersonID "
+                + "WHERE v.IsIdle = 1";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                volunteers.add(getOneVolunteer(rs));
+            }
+        } catch (SQLServerException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return volunteers;
+    }
+
+    /**
      * All the volunteers from DB.
      *
      * @return
@@ -52,7 +81,8 @@ public class VolunteerDAO {
     public List<Volunteer> getAllVolunteersNotIdle() {
         List<Volunteer> volunteers = new ArrayList<>();
         String sql = "SELECT * FROM Volunteer v "
-                + "JOIN Person p ON p.ID = v.PersonID ";
+                + "JOIN Person p ON p.ID = v.PersonID "
+                + "WHERE v.IsIdle = 0 ";
 
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -77,10 +107,12 @@ public class VolunteerDAO {
         int phoneNumber = rs.getInt("Phone");
         boolean isIdle = rs.getBoolean("IsIdle");
         String language = rs.getString("Language");
+        String description = rs.getString("Description");
 
         ELanguage Elang = ELanguage.getLanguageByString(language);
 
         Volunteer volunteer = new Volunteer(id, firstName, lastName, eMail, phoneNumber, isIdle, Elang);
+        volunteer.setDescription(description);
 
         return volunteer;
     }
@@ -91,23 +123,13 @@ public class VolunteerDAO {
      * @param newVolunteer
      */
     public void createVolunteer(Volunteer newVolunteer) {
-        String sql = "INSERT INTO Person "
-                + "(FirstName, LastName, Email, Phone) "
-                + "VALUES (?,?,?,?)";
         try (Connection con = cm.getConnection()) {
-            PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-
-            ps.setString(1, newVolunteer.getFirstName());
-            ps.setString(2, newVolunteer.getLastName());
-            ps.setString(3, newVolunteer.getEmail());
-            ps.setInt(4, newVolunteer.getPhone());
-
-            ps.executeUpdate();
-            ResultSet key = ps.getGeneratedKeys();
-            key.next();
-            int id = key.getInt(1);
+            int id = createNewPersonInDatabase(con, newVolunteer);
             addVolunteer(id);
-        } catch (Exception e) {
+        } catch (SQLServerException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -134,6 +156,95 @@ public class VolunteerDAO {
                     .getLogger(VolunteerDAO.class
                             .getName()).log(Level.SEVERE, null, sqlException);
         }
+    }
+
+    /**
+     * Set the description of the volunteer
+     *
+     * @param id
+     * @param text
+     */
+    public void setVolunteerDescription(int id, String text) {
+        try (Connection con = cm.getConnection()) {
+            String sql = "UPDATE VOlunteer "
+                    + "SET Description = ? "
+                    + "WHERE PersonID = ?";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, text);
+            ps.setInt(2, id);
+
+            ps.executeUpdate();
+        } catch (SQLServerException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Updates the new edits for the volunteer and saves it in the DB.
+     *
+     * @param volunteer
+     */
+    public void updateVolunteerPersonInfo(Volunteer volunteer) {
+        try (Connection con = cm.getConnection()) {
+            // updatePersonInformation is from a abstract class "APersonDAO".
+            updatePersonInformation(con, volunteer);
+        } catch (SQLServerException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Update the idle status of the volunteer
+     *
+     * @param id
+     * @param value
+     */
+    public void updateVolunteerIdleStatus(int id, boolean value) {
+        String sql;
+        if (value) {
+            sql = "UPDATE Volunteer "
+                    + "SET IsIdle = 1 "
+                    + "WHERE PersonID = ?";
+        } else {
+            sql = "UPDATE Volunteer "
+                    + "SET IsIdle = 0 "
+                    + "WHERE PersonID = ?";
+        }
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+        } catch (SQLServerException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    /**
+     * Deletes the selected volunteer from the DB.
+     * @param deleteVolunteer 
+     */
+    public void deleteVolunteer(Volunteer deleteVolunteer) {
+        String sql = "DELETE FROM Person "
+                + "WHERE ID = ?";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, deleteVolunteer.getID());
+            
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Couldn't remove volunteer from the DB");
+            System.out.println(ex);
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
 }
