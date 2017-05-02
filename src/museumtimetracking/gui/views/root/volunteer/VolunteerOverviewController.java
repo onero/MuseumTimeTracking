@@ -21,6 +21,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import museumtimetracking.be.Volunteer;
@@ -63,6 +64,8 @@ public class VolunteerOverviewController implements Initializable {
     private TextField txtPhone;
     @FXML
     private TextArea txtVolunteerInfo;
+
+    public static final String NO_PHOTO = "/museumtimetracking/asset/img/no-photo.jpg";
 
     private final VolunteerModel volunteerModel;
 
@@ -184,6 +187,9 @@ public class VolunteerOverviewController implements Initializable {
 
             if (selectedVolunteer.getImage() != null) {
                 imgProfile.setImage(selectedVolunteer.getImage());
+            } else {
+                Image img = new Image(this.getClass().getResourceAsStream(NO_PHOTO));
+                imgProfile.setImage(img);
             }
         }
     }
