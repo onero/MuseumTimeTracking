@@ -77,4 +77,13 @@ public class GuildMGRManager {
             }
         }
     }
+
+    /**
+     * Sends the managerID through the layers to delete it from the db.
+     *
+     * @param GuildManagerID
+     */
+    public void deleteGuildManager(int GuildManagerID) {
+        facadeDAO.deleteGuildManagerFromDB(GuildManagerID);
+    }
 }
