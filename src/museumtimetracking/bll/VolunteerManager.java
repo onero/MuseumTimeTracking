@@ -49,12 +49,23 @@ public class VolunteerManager {
     }
 
     /**
+     * Set the description in DB
+     *
+     * @param id
+     * @param text
+     */
+    public void setVolunteerDescription(int id, String text) {
+        volunteerDAO.setVolunteerDescription(id, text);
+    }
+
+    /**
      * Update the volunteer status
      *
+     * @param id
      * @param value
      */
-    public void updateVolunteerIdle(boolean value) {
-        volunteerDAO.updateVolunteerIdleStatus(value);
+    public void updateVolunteerIdle(int id, boolean value) {
+        volunteerDAO.updateVolunteerIdleStatus(id, value);
     }
 
     public void updateVolunteer(Volunteer updatedVolunteer) {

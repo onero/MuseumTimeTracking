@@ -47,6 +47,16 @@ public class VolunteerModel {
         return cachedVolunteers;
     }
 
+    /**
+     * Set the volunteer description in DB
+     *
+     * @param id
+     * @param text
+     */
+    public void setVolunteerDescription(int id, String text) {
+        volunteerMgr.setVolunteerDescription(id, text);
+    }
+
     public void updateVolunteer(Volunteer updatedVulunteer) {
         volunteerMgr.updateVolunteer(updatedVulunteer);
     }
@@ -76,7 +86,7 @@ public class VolunteerModel {
     public void addIdleVolunteer(Volunteer volunteer) {
         cachedVolunteers.remove(volunteer);
         cachedIdleVolunteers.add(volunteer);
-        volunteerMgr.updateVolunteerIdle(true);
+        volunteerMgr.updateVolunteerIdle(volunteer.getID(), true);
     }
 
 }

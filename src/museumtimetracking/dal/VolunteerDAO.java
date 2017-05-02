@@ -107,10 +107,12 @@ public class VolunteerDAO extends APersonDAO {
         int phoneNumber = rs.getInt("Phone");
         boolean isIdle = rs.getBoolean("IsIdle");
         String language = rs.getString("Language");
+        String description = rs.getString("Description");
 
         ELanguage Elang = ELanguage.getLanguageByString(language);
 
         Volunteer volunteer = new Volunteer(id, firstName, lastName, eMail, phoneNumber, isIdle, Elang);
+        volunteer.setDescription(description);
 
         return volunteer;
     }
@@ -156,10 +158,32 @@ public class VolunteerDAO extends APersonDAO {
         }
     }
 
+    /**
+     * Set the description of the volunteer
+     *
+     * @param id
+     * @param text
+     */
+    public void setVolunteerDescription(int id, String text) {
+        try (Connection con = cm.getConnection()) {
+            String sql = "UPDATE VOlunteer "
+                    + "SET Description = ? "
+                    + "WHERE PersonID = ?";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, text);
+            ps.setInt(2, id);
+
+            ps.executeUpdate();
+        } catch (SQLServerException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void updateVolunteerPersonInfo(Volunteer volunteer) {
-        Connection con;
-        try {
-            con = cm.getConnection();
+        try (Connection con = cm.getConnection()) {
             updatePersonInformation(con, volunteer);
         } catch (SQLServerException ex) {
             Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -171,20 +195,24 @@ public class VolunteerDAO extends APersonDAO {
     /**
      * Update the idle status of the volunteer
      *
+     * @param id
      * @param value
      */
-    public void updateVolunteerIdleStatus(boolean value) {
+    public void updateVolunteerIdleStatus(int id, boolean value) {
         String sql;
         if (value) {
             sql = "UPDATE Volunteer "
-                    + "SET IsIdle = 1";
+                    + "SET IsIdle = 1 "
+                    + "WHERE PersonID = ?";
         } else {
             sql = "UPDATE Volunteer "
-                    + "SET IsIdle = 0";
+                    + "SET IsIdle = 0 "
+                    + "WHERE PersonID = ?";
         }
 
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
 
             ps.executeUpdate();
         } catch (SQLServerException ex) {
