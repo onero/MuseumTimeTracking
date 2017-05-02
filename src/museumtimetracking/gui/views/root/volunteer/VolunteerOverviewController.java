@@ -96,6 +96,8 @@ public class VolunteerOverviewController implements Initializable {
         primStage = (Stage) btnEdit.getScene().getWindow();
 
         Stage volunteerInfoModal = modalFactory.createNewModal(primStage, EFXMLName.VOLUNTEER_INFO);
+        VolunteerInfoViewController controller = modalFactory.getLoader().getController();
+        controller.setCurrentVolunteer(selectedVolunteer);
 
         volunteerInfoModal.show();
     }
