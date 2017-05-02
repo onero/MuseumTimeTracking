@@ -103,20 +103,18 @@ public class GuildManagerOverviewController implements Initializable {
      */
     @FXML
     private void handleEditButton() {
-        if (btnEdit.getText().equals(EDIT_BUTTON_TEXT)) {
+        GuildManager manager = lstManagers.getSelectionModel().getSelectedItem();
+        if (btnEdit.getText().equals(EDIT_BUTTON_TEXT) && manager != null) {
             setShowEditability(true);
             setButtonTextToEditMode();
 
         } else if (btnEdit.getText().equals(CANCEL_BUTTON_TEXT)) {
-            setShowEditability(false);
-            setButtonTextToViewMode();
             //TODO MSP: Update the textfields with the old data
             //- RKL: Refactored to not throw a nullPointerException.
             //Might wanna not be able to edit, if no manager is seleceted?
-            GuildManager manager = lstManagers.getSelectionModel().getSelectedItem();
-            if (manager != null) {
-                displayInformation(manager);
-            }
+            setShowEditability(false);
+            setButtonTextToViewMode();
+            displayInformation(manager);
         }
     }
 
