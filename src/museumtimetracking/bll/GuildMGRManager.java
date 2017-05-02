@@ -66,11 +66,15 @@ public class GuildMGRManager {
      * @param guildsToDelete
      */
     private void updateGuildsOnManager(ObservableList<String> managerGuilds, Set<String> guildsToAdd, Set<String> guildsToDelete) {
-        for (String guildName : guildsToAdd) {
-            managerGuilds.add(guildName);
+        if (guildsToAdd != null) {
+            for (String guildName : guildsToAdd) {
+                managerGuilds.add(guildName);
+            }
         }
-        for (String guildName : guildsToDelete) {
-            managerGuilds.remove(guildName);
+        if (guildsToDelete != null) {
+            for (String guildName : guildsToDelete) {
+                managerGuilds.remove(guildName);
+            }
         }
     }
 }
