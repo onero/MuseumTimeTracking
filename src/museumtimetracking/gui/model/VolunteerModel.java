@@ -54,10 +54,11 @@ public class VolunteerModel {
     /**
      * Updates the volunteer in the DB.
      *
-     * @param updatedVulunteer
+     * @param updatedVolunteer
      */
-    public void updateVolunteer(Volunteer updatedVulunteer) {
-        volunteerMgr.updateVolunteer(updatedVulunteer);
+    public void updateVolunteer(Volunteer updatedVolunteer) {
+        volunteerMgr.updateVolunteer(updatedVolunteer);
+        
     }
 
     /**
@@ -67,7 +68,6 @@ public class VolunteerModel {
      */
     public void deleteVolunteer(Volunteer deleteVolunteer) {
         volunteerMgr.deleteVolunteer(deleteVolunteer);
-
     }
 
     /**
