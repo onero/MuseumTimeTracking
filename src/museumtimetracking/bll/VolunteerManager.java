@@ -5,6 +5,7 @@
  */
 package museumtimetracking.bll;
 
+import java.io.File;
 import java.util.List;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.dal.VolunteerDAO;
@@ -59,6 +60,16 @@ public class VolunteerManager {
     }
 
     /**
+     * Set the volunteer image in DB
+     *
+     * @param id
+     * @param file
+     */
+    public void setVolunteerImage(int id, File file) {
+        volunteerDAO.setVolunteerImage(id, file);
+    }
+
+    /**
      * Update the volunteer status
      *
      * @param id
@@ -67,11 +78,13 @@ public class VolunteerManager {
     public void updateVolunteerIdle(int id, boolean value) {
         volunteerDAO.updateVolunteerIdleStatus(id, value);
     }
+
     /**
      * Deletes the volunteer from DB.
-     * @param deleteVolunteer 
+     *
+     * @param deleteVolunteer
      */
-    public void deleteVolunteer(Volunteer deleteVolunteer){
+    public void deleteVolunteer(Volunteer deleteVolunteer) {
         volunteerDAO.deleteVolunteer(deleteVolunteer);
     }
 

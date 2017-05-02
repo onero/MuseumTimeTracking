@@ -5,6 +5,7 @@
  */
 package museumtimetracking.gui.views.root.volunteer;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.EFXMLName;
@@ -228,6 +230,19 @@ public class VolunteerOverviewController implements Initializable {
             inactiveInformationModal.show();
         }
 
+    }
+
+    @FXML
+    private void handleSelectVolunteerImage(MouseEvent event) throws IOException {
+
+        if (event.getClickCount() == 2) {
+            //TODO ALH: Convert this to a filechooser
+            File file = new File("fisherman.jpg");
+            volunteerModel.setVolunteerImage(selectedVolunteer.getID(), file);
+            Image img = new Image(file.toURI().toASCIIString());
+            selectedVolunteer.setImage(img);
+            imgProfile.setImage(img);
+        }
     }
 
 }
