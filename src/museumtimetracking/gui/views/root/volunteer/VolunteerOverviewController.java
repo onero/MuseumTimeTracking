@@ -21,6 +21,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.EFXMLName;
@@ -37,6 +38,8 @@ public class VolunteerOverviewController implements Initializable {
 
     @FXML
     private Button btnEdit;
+    @FXML
+    private ImageView imgProfile;
     @FXML
     private ToggleGroup language;
 
@@ -178,6 +181,10 @@ public class VolunteerOverviewController implements Initializable {
             txtVolunteerInfo.setText(selectedVolunteer.getDescription());
 
             selectVolunteerLanguage(selectedVolunteer);
+
+            if (selectedVolunteer.getImage() != null) {
+                imgProfile.setImage(selectedVolunteer.getImage());
+            }
         }
     }
 

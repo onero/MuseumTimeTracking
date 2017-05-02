@@ -7,6 +7,7 @@ package museumtimetracking.dal;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.image.Image;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.ELanguage;
 
@@ -51,6 +53,7 @@ public class VolunteerDAO extends APersonDAO {
      * @return
      */
     public List<Volunteer> getAllIdleVolunteers() {
+
         List<Volunteer> volunteers = new ArrayList<>();
 
         String sql = "SELECT * FROM Volunteer v "
@@ -108,11 +111,17 @@ public class VolunteerDAO extends APersonDAO {
         boolean isIdle = rs.getBoolean("IsIdle");
         String language = rs.getString("Language");
         String description = rs.getString("Description");
+        InputStream in = rs.getBinaryStream("Picture");
+        Image img = null;
+        if (in != null) {
+            img = new Image(in);
+        }
 
         ELanguage Elang = ELanguage.getLanguageByString(language);
 
         Volunteer volunteer = new Volunteer(id, firstName, lastName, eMail, phoneNumber, isIdle, Elang);
         volunteer.setDescription(description);
+        volunteer.setImage(img);
 
         return volunteer;
     }
@@ -227,9 +236,11 @@ public class VolunteerDAO extends APersonDAO {
             Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /**
      * Deletes the selected volunteer from the DB.
-     * @param deleteVolunteer 
+     *
+     * @param deleteVolunteer
      */
     public void deleteVolunteer(Volunteer deleteVolunteer) {
         String sql = "DELETE FROM Person "
@@ -237,14 +248,14 @@ public class VolunteerDAO extends APersonDAO {
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, deleteVolunteer.getID());
-            
+
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Couldn't remove volunteer from the DB");
             System.out.println(ex);
             Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
 }

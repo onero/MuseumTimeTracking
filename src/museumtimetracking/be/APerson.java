@@ -9,6 +9,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.image.Image;
 
 public abstract class APerson {
 
@@ -18,6 +19,7 @@ public abstract class APerson {
     private final StringProperty fullName;
     private final StringProperty email;
     private final IntegerProperty phone;
+    private Image image;
 
     public APerson(int newID, String firstName, String lastName, String email, int phone) {
         this.ID = newID;
@@ -38,6 +40,14 @@ public abstract class APerson {
 
     public int getID() {
         return ID;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     public String getFullName() {
