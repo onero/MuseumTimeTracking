@@ -7,8 +7,10 @@ package museumtimetracking.gui.views.root.guildManager.guildManagerOverview.mana
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,6 +42,9 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
     private final List<String> listGuildsToAdd;
     private final List<String> listGuildsToDelete;
 
+    private final Set<String> setGuildsToAdd;
+    private final Set<String> setGuildsDelete;
+
     private boolean leftListSelected;
 
     public ManageGuildManagerGuildsViewController() {
@@ -50,6 +55,9 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
         listGuildsToDelete = new ArrayList<>();
 
         guildModel = GuildModel.getInstance();
+
+        setGuildsToAdd = new HashSet<>();
+        setGuildsDelete = new HashSet<>();
     }
 
     /**
@@ -116,10 +124,9 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
         if (guildName != null) {
             oAvaiableGuilds.remove(guildName);
             oManagerGuilds.add(guildName);
-            if (checkIfNotInList(guildName, listGuildsToAdd)) {
-                listGuildsToAdd.add(guildName);
-                listGuildsToDelete.remove(guildName);
-            }
+
+            setGuildsToAdd.add(guildName);
+            setGuildsDelete.remove(guildName);
         }
     }
 
@@ -132,10 +139,9 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
         if (guildName != null) {
             oManagerGuilds.remove(guildName);
             oAvaiableGuilds.add(guildName);
-            if (checkIfNotInList(guildName, listGuildsToDelete)) {
-                listGuildsToDelete.add(guildName);
-                listGuildsToAdd.remove(guildName);
-            }
+
+            setGuildsDelete.add(guildName);
+            setGuildsToAdd.remove(guildName);
         }
     }
 
@@ -147,11 +153,11 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
     @FXML
     private void handleOkButton(ActionEvent event) {
         System.out.println("Guilds to add:");
-        for (String name : listGuildsToAdd) {
+        for (String name : setGuildsToAdd) {
             System.out.println(name);
         }
         System.out.println("Guilds to delete:");
-        for (String name : listGuildsToDelete) {
+        for (String name : setGuildsDelete) {
             System.out.println(name);
         }
         closeModal();
@@ -163,24 +169,6 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
     private void closeModal() {
         Stage stage = (Stage) lstAvialableGuilds.getScene().getWindow();
         stage.close();
-    }
-
-    /**
-     * Checks if the parsed name is not in the parsed list. Returns true if it
-     * is not in the list.
-     *
-     * @param guildName
-     * @param listOfGuilds
-     * @return
-     */
-    private boolean checkIfNotInList(String guildName, List<String> listOfGuilds) {
-        boolean isNotInList = true;
-        for (String guild : listOfGuilds) {
-            if (guild.equals(guildName)) {
-                isNotInList = false;
-            }
-        }
-        return isNotInList;
     }
 
     /**
