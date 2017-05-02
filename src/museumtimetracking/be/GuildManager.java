@@ -19,6 +19,12 @@ public class GuildManager extends APerson {
     private final List<String> listOfGuilds;
     private final ObservableList<String> observableListOfGuilds;
 
+    public GuildManager() {
+        super(null, null, null, 0);
+        this.listOfGuilds = null;
+        this.observableListOfGuilds = null;
+    }
+
     public GuildManager(String firstName, String lastName, String email, int phone) {
         super(firstName, lastName, email, phone);
         listOfGuilds = new ArrayList();

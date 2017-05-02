@@ -20,6 +20,7 @@ public enum EFXMLName {
      */
     MANAGER_OVERVIEW(MAIN_FOLER + "guildManager/guildManagerOverview/GuildManagerOverview.fxml"),
     NEW_MANAGER(MAIN_FOLER + "guildManager/newGuildManager/NewGuildManagerView.fxml"),
+    MANAGE_MANAGER_GUILDS(MAIN_FOLER + "guildManager/guildManagerOverview/manageGuildManagerGuilds/ManageGuildManagerGuildsView.fxml"),
     /*
      * Volunteer
      */

@@ -8,6 +8,7 @@ package museumtimetracking.dal;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.GuildManager;
 
@@ -81,7 +82,7 @@ public class FacadeDAO {
      * @param guildsToAdd
      * @param guildsToDelete
      */
-    public void updateGuildManager(GuildManager manager, List<String> guildsToAdd, List<String> guildsToDelete) {
+    public void updateGuildManager(GuildManager manager, Set<String> guildsToAdd, Set<String> guildsToDelete) {
         try {
             guildManagerDAO.updateGuildManagerInDatabase(manager, guildsToAdd, guildsToDelete);
         } catch (SQLException ex) {

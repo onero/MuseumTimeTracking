@@ -6,6 +6,8 @@
 package museumtimetracking.bll;
 
 import java.util.List;
+import java.util.Set;
+import javafx.collections.ObservableList;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.GuildManager;
 import museumtimetracking.dal.FacadeDAO;
@@ -51,7 +53,28 @@ public class GuildMGRManager {
      * @param guildsToAdd
      * @param guildsToDele
      */
-    public void updateGuildManager(GuildManager manager, List<String> guildsToAdd, List<String> guildsToDele) {
+    public void updateGuildManager(GuildManager manager, Set<String> guildsToAdd, Set<String> guildsToDele) {
         facadeDAO.updateGuildManager(manager, guildsToAdd, guildsToDele);
+        updateGuildsOnManager(manager.getObservableListOfGuilds(), guildsToAdd, guildsToDele);
+    }
+
+    /**
+     * Updates the cached guildMaster list of guilds with updated information.
+     *
+     * @param managerGuilds
+     * @param guildsToAdd
+     * @param guildsToDelete
+     */
+    private void updateGuildsOnManager(ObservableList<String> managerGuilds, Set<String> guildsToAdd, Set<String> guildsToDelete) {
+        if (guildsToAdd != null) {
+            for (String guildName : guildsToAdd) {
+                managerGuilds.add(guildName);
+            }
+        }
+        if (guildsToDelete != null) {
+            for (String guildName : guildsToDelete) {
+                managerGuilds.remove(guildName);
+            }
+        }
     }
 }

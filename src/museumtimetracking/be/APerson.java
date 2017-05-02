@@ -79,4 +79,24 @@ public abstract class APerson {
     public IntegerProperty getPhoneProperty() {
         return phone;
     }
+
+    public void setFirstName(String name) {
+        firstName.set(name);
+    }
+
+    public void setLastName(String name) {
+        lastName.set(name);
+    }
+
+    public void setEmail(String email) {
+        this.email.set(email);
+    }
+
+    public void setPhone(int phone) {
+        this.phone.set(phone);
+    }
+
+    public void updateFullName() {
+        fullName.set(firstName.get() + " " + lastName.get());
+    }
 }
