@@ -22,7 +22,7 @@ import museumtimetracking.be.enums.ELanguage;
  *
  * @author Skovgaard
  */
-public class VolunteerDAO extends APersonDAO{
+public class VolunteerDAO extends APersonDAO {
 
     private DBConnectionManager cm;
 
@@ -118,23 +118,13 @@ public class VolunteerDAO extends APersonDAO{
      * @param newVolunteer
      */
     public void createVolunteer(Volunteer newVolunteer) {
-        String sql = "INSERT INTO Person "
-                + "(FirstName, LastName, Email, Phone) "
-                + "VALUES (?,?,?,?)";
         try (Connection con = cm.getConnection()) {
-            PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-
-            ps.setString(1, newVolunteer.getFirstName());
-            ps.setString(2, newVolunteer.getLastName());
-            ps.setString(3, newVolunteer.getEmail());
-            ps.setInt(4, newVolunteer.getPhone());
-
-            ps.executeUpdate();
-            ResultSet key = ps.getGeneratedKeys();
-            key.next();
-            int id = key.getInt(1);
+            int id = createNewPersonInDatabase(con, newVolunteer);
             addVolunteer(id);
-        } catch (Exception e) {
+        } catch (SQLServerException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -162,16 +152,15 @@ public class VolunteerDAO extends APersonDAO{
                             .getName()).log(Level.SEVERE, null, sqlException);
         }
     }
-    
-    public void updateVolunteerPersonInfo(Volunteer volunteer){
+
+    public void updateVolunteerPersonInfo(Volunteer volunteer) {
         Connection con;
         try {
             con = cm.getConnection();
             updatePersonInformation(con, volunteer);
         } catch (SQLServerException ex) {
             Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
