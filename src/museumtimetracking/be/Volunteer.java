@@ -12,7 +12,7 @@ import javafx.beans.property.StringProperty;
 import museumtimetracking.be.enums.ELanguage;
 
 public class Volunteer extends APerson {
-
+    
     private BooleanProperty isIdle;
 
     private ELanguage language;
