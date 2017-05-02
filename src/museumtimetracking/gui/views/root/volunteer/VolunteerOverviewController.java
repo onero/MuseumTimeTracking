@@ -140,6 +140,7 @@ public class VolunteerOverviewController implements Initializable {
 
                 Volunteer deleteVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
                 volunteerModel.deleteVolunteer(deleteVolunteer);
+                
             }
         });
     }
@@ -168,9 +169,7 @@ public class VolunteerOverviewController implements Initializable {
     @FXML
     private void handleNewVolunteer() throws IOException {
         primStage = (Stage) btnEdit.getScene().getWindow();
-
         Stage newVolunteerModal = modalFactory.createNewModal(primStage, EFXMLName.ADD_NEW_VOLUNTEER);
-
         newVolunteerModal.show();
     }
 
