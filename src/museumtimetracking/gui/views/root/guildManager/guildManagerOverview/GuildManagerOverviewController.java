@@ -6,12 +6,16 @@
 package museumtimetracking.gui.views.root.guildManager.guildManagerOverview;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -46,6 +50,22 @@ public class GuildManagerOverviewController implements Initializable {
 
     private final GuildManagerModel guildManagerModel;
 
+    private List<TextField> textFields;
+
+    private final String ADD_GUILD_BUTTON_TEXT = "Tilføj Laug";
+    private final String EDIT_BUTTON_TEXT = "Rediger";
+    private final String CANCEL_BUTTON_TEXT = "Anuller";
+    private final String NEW_GUILD_MANAGER = "Ny Tovholder";
+
+    @FXML
+    private Button btnEdit;
+    @FXML
+    private Button btnNewGuildManager;
+    @FXML
+    private Button btnSave;
+    @FXML
+    private Button btnDelete;
+
     public GuildManagerOverviewController() {
         nodeFactory = NodeFactory.getInstance();
         guildManagerModel = GuildManagerModel.getInstance();
@@ -56,6 +76,10 @@ public class GuildManagerOverviewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        textFields = new ArrayList<>();
+        initializeTextFieldList();
+        setShowEditability(false);
+        setButtonTextToViewMode();
         addListeners();
         setCellFactories();
         lstManagers.setItems(guildManagerModel.getCachedManagers());
@@ -63,15 +87,33 @@ public class GuildManagerOverviewController implements Initializable {
 
     @FXML
     private void handleNewManagerButton() {
-        newManagerModal();
+        if (btnNewGuildManager.getText().equals(NEW_GUILD_MANAGER)) {
+            newManagerModal();
+        } else if (btnNewGuildManager.getText().equals(ADD_GUILD_BUTTON_TEXT)) {
+            addGuildModal();
+        }
     }
 
+    /**
+     * Checks which button name is set, and handles the correlating functions.
+     */
     @FXML
     private void handleEditButton() {
+        if (btnEdit.getText().equals(EDIT_BUTTON_TEXT)) {
+            setShowEditability(true);
+            setButtonTextToEditMode();
+
+        } else if (btnEdit.getText().equals(CANCEL_BUTTON_TEXT)) {
+            setShowEditability(false);
+            setButtonTextToViewMode();
+            //TODO MSP: Update the textfields with the old data
+
+        }
     }
 
     @FXML
     private void handleDeleteButton() {
+        System.out.println("Slet");
     }
 
     /**
@@ -87,10 +129,6 @@ public class GuildManagerOverviewController implements Initializable {
         stage.initOwner(primStage);
 
         stage.show();
-    }
-
-    @FXML
-    private void handleAddGuildButton() {
     }
 
     /**
@@ -161,4 +199,81 @@ public class GuildManagerOverviewController implements Initializable {
         lstGuilds.setItems(manager.getObservableListOfGuilds());
     }
 
+    /**
+     * Sets disable on the textfields if the shown variable is false counterwise
+     * if true. Also edits colours and opacity, so that the TextFields are
+     * readable.
+     *
+     * @param shown
+     */
+    private void setShowEditability(boolean shown) {
+        for (TextField textField : textFields) {
+            textField.setDisable(!shown);
+        }
+        if (!shown) {
+            for (TextField textField : textFields) {
+                textField.setStyle("-fx-text-fill:#000;");
+                textField.setStyle("-fx-opacity: 1.0;");
+            }
+        } else {
+            for (TextField textField : textFields) {
+                textField.setStyle("-fx-text-fill:#003996;");
+            }
+        }
+    }
+
+    /**
+     * initializes the lit of the textfields.
+     */
+    private void initializeTextFieldList() {
+        textFields.add(txtEmail);
+        textFields.add(txtFirstName);
+        textFields.add(txtLastName);
+        textFields.add(txtPhone);
+    }
+
+    /**
+     * Sets the buttons' text to the Strings from the constants. Edit mode is
+     * meant for editing GuildMasters.
+     */
+    private void setButtonTextToEditMode() {
+        btnNewGuildManager.setText(ADD_GUILD_BUTTON_TEXT);
+        btnSave.setDisable(false);
+        btnSave.setVisible(true);
+        btnDelete.setDisable(false);
+        btnDelete.setVisible(true);
+        btnEdit.setText(CANCEL_BUTTON_TEXT);
+    }
+
+    /**
+     * Sets the buttons' text to the Strings from the constants. View mode is
+     * meant only for viewing.
+     */
+    private void setButtonTextToViewMode() {
+        btnNewGuildManager.setText(NEW_GUILD_MANAGER);
+        btnSave.setDisable(true);
+        btnSave.setVisible(false);
+        btnDelete.setDisable(true);
+        btnDelete.setVisible(false);
+        btnEdit.setText(EDIT_BUTTON_TEXT);
+    }
+
+    /**
+     *
+     */
+    private void addGuildModal() {
+        //TODO MSP: A modal for adding existing guilds to the manager.
+
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML
+    private void handleSaveGuildManagerButton(ActionEvent event) {
+        setButtonTextToViewMode();
+        setShowEditability(false);
+        //TODO MSP: Make save funtionality.
+    }
 }

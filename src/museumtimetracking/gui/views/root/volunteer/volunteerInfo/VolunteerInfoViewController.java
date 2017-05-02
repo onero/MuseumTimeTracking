@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import museumtimetracking.be.Volunteer;
+import museumtimetracking.gui.model.VolunteerModel;
 
 /**
  * FXML Controller class

@@ -57,4 +57,7 @@ public class VolunteerManager {
         volunteerDAO.updateVolunteerIdleStatus(value);
     }
 
+    public void updateVolunteer(Volunteer updatedVolunteer) {
+        volunteerDAO.updateVolunteerPersonInfo(updatedVolunteer);
+    }
 }

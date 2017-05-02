@@ -22,7 +22,7 @@ import museumtimetracking.be.GuildManager;
 public class GuildManagerDAO extends APersonDAO {
 
     private final DBConnectionManager connectionManager;
-    private List<Integer> guildManagerIDs;
+    private final List<Integer> guildManagerIDs;
 
     public GuildManagerDAO() throws IOException {
         connectionManager = DBConnectionManager.getInstance();
@@ -50,6 +50,34 @@ public class GuildManagerDAO extends APersonDAO {
     }
 
     /**
+     * Updates the information of a GuildManager in the database.
+     *
+     * @param manager
+     * @param guildsToAdd
+     * @param guildsTodelete
+     * @throws SQLException
+     */
+    public void updateGuildManagerInDatabase(GuildManager manager, List<String> guildsToAdd, List<String> guildsTodelete) throws SQLException {
+        try (Connection con = connectionManager.getConnection()) {
+            con.setAutoCommit(false);
+            updatePersonInformation(con, manager);
+
+            if (guildsToAdd != null && !guildsToAdd.isEmpty()) {
+                for (String guild : guildsToAdd) {
+                    addGuildToManagerInDatabase(con, manager.getID(), guild);
+                }
+            }
+
+            if (guildsTodelete != null && !guildsTodelete.isEmpty()) {
+                for (String guild : guildsTodelete) {
+                    removeGuildFromManagerInDatabase(con, manager.getID(), guild);
+                }
+            }
+            con.commit();
+        }
+    }
+
+    /**
      * Adds a Guild to a Manager in the database.
      *
      * @param con
@@ -57,8 +85,24 @@ public class GuildManagerDAO extends APersonDAO {
      * @param guildName
      * @throws SQLException
      */
-    public void addGuildToManagerInDatabase(Connection con, int personID, String guildName) throws SQLException {
+    private void addGuildToManagerInDatabase(Connection con, int personID, String guildName) throws SQLException {
         String sql = "INSERT INTO GuildManager (PersonID, GuildName) VALUES (?,?)";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, personID);
+        ps.setString(2, guildName);
+        ps.executeUpdate();
+    }
+
+    /**
+     * Deletes a Guild from a Manager in the database.
+     *
+     * @param con
+     * @param personID
+     * @param guildName
+     * @throws SQLException
+     */
+    private void removeGuildFromManagerInDatabase(Connection con, int personID, String guildName) throws SQLException {
+        String sql = "DELETE FROM GuildManager WHERE PersonID = ? AND GuildName = ?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, personID);
         ps.setString(2, guildName);
@@ -101,7 +145,7 @@ public class GuildManagerDAO extends APersonDAO {
     }
 
     /**
-     * Creates a guild manager via a resultset + id.
+     * Creates a guild manager via a resultSet + id.
      *
      * @param person
      * @param id
@@ -177,7 +221,7 @@ public class GuildManagerDAO extends APersonDAO {
      * @param manager
      * @throws SQLException
      */
-    public void addGuildsToASingleGuildManager(Connection con, GuildManager manager) throws SQLException {
+    private void addGuildsToASingleGuildManager(Connection con, GuildManager manager) throws SQLException {
         manager.addAllGuilds(getAllGuildsForOneManager(con, manager.getID()));
     }
 }

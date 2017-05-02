@@ -47,6 +47,10 @@ public class VolunteerModel {
         return cachedVolunteers;
     }
 
+    public void updateVolunteer(Volunteer updatedVulunteer) {
+        volunteerMgr.updateVolunteer(updatedVulunteer);
+    }
+
 //    public void deleteVolunteer(Volunteer deleteVolunteer){
 //        volunteerMgr.deleteGuild(deleteVolunteer);
 //
