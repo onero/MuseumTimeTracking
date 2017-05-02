@@ -115,9 +115,7 @@ public class GuildModel {
                 .forEach(g -> {
                     g.setName(updatedGuild.getName());
                     g.setDescription(updatedGuild.getDescription());
-                });
-        
-        
+                });   
     }
 
 }

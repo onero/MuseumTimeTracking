@@ -116,13 +116,19 @@ public class GuildManagerOverviewController implements Initializable {
             setShowEditability(false);
             setButtonTextToViewMode();
             displayInformation(manager);
+            setSetsToNull();
         }
     }
 
+    /**
+     * Sends the selected GuildManager through the layers to delete it and
+     * returns the buttons to view mode.
+     */
     @FXML
     private void handleDeleteButton() {
-        //TODO MSP: Delete the guildmanager selected in the view through the layers.
-
+        guildManagerModel.deleteGuildManager(lstManagers.getSelectionModel().getSelectedItem());
+        setButtonTextToViewMode();
+        setSetsToNull();
     }
 
     /**
@@ -306,12 +312,19 @@ public class GuildManagerOverviewController implements Initializable {
         manager.setPhone(Integer.parseInt(txtPhone.getText()));
         try {
             guildManagerModel.updateGuildManager(manager, setGuildsToAdd, setGuildsToDelete);
-            setGuildsToAdd = null;
-            setGuildsToDelete = null;
+            setSetsToNull();
         } catch (NullPointerException nex) {
             System.out.println("Couldn't update guildManager from gui.\n"
                     + nex.getMessage());
             nex.printStackTrace();
         }
+    }
+
+    /**
+     * Sets the sets to null.
+     */
+    private void setSetsToNull() {
+        setGuildsToAdd = null;
+        setGuildsToDelete = null;
     }
 }

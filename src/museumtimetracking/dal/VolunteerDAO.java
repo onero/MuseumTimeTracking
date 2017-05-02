@@ -6,6 +6,7 @@
 package museumtimetracking.dal;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -256,6 +257,22 @@ public class VolunteerDAO extends APersonDAO {
             Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    /**
+     * Set the volunteer image
+     *
+     * @param id
+     * @param file
+     */
+    public void setVolunteerImage(int id, File file) {
+        try (Connection con = cm.getConnection()) {
+            setPersonImage(con, id, file);
+        } catch (SQLServerException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

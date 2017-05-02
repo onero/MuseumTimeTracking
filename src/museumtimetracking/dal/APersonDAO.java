@@ -74,25 +74,39 @@ public abstract class APersonDAO {
         ps.executeUpdate();
     }
 
-    public void setPersonImage(Connection con, int id) throws SQLException {
-        File file = new File("healadin.png");
-        System.out.println(file.getAbsolutePath());
-        FileInputStream fis = null;
+    /**
+     * Set convert the
+     *
+     * @param con
+     * @param id
+     * @param file
+     * @throws SQLException
+     */
+    public void setPersonImage(Connection con, int id, File file) throws SQLException {
         String sql = "UPDATE Person "
                 + "SET Picture = ? "
                 + "WHERE ID = ?";
+        InputStream is = null;
         try {
-            fis = new FileInputStream(file);
+            is = new FileInputStream(file);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(APersonDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         PreparedStatement ps = con.prepareStatement(sql);
-        ps.setBlob(1, fis);
+        ps.setBlob(1, is);
         ps.setInt(2, id);
 
         ps.executeUpdate();
     }
 
+    /**
+     * Get the image as binary data from DB
+     *
+     * @param con
+     * @param id
+     * @return
+     * @throws SQLException
+     */
     public Image getPersonImage(Connection con, int id) throws SQLException {
         Image img = null;
         String sql = "SELECT Picture FROM Person "
@@ -108,4 +122,20 @@ public abstract class APersonDAO {
         return img;
     }
 
+    /**
+     * Deletes a person by their ID from the db.
+     *
+     * @param con
+     * @param personID
+     * @throws SQLException
+     */
+    public void deletePersonFromDatabaseByID(Connection con, int personID) throws SQLException {
+        String sql = "DELETE FROM Person "
+                + "WHERE ID = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+
+        ps.setInt(1, personID);
+
+        ps.executeUpdate();
+    }
 }

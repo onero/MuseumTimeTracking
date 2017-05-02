@@ -121,9 +121,9 @@ public class VolunteerOverviewController implements Initializable {
             public void updateItem(Volunteer volunteer, boolean empty) {
                 super.updateItem(volunteer, empty);
                 if (empty) {
-                    setText(null);
+                    textProperty().unbind();
                 } else {
-                    setText(volunteer.getFullName());
+                    textProperty().bind(volunteer.getFullNameProperty());
                 }
             }
         });
@@ -143,6 +143,7 @@ public class VolunteerOverviewController implements Initializable {
 
                 Volunteer deleteVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
                 volunteerModel.deleteVolunteer(deleteVolunteer);
+
             }
         });
     }
@@ -158,17 +159,20 @@ public class VolunteerOverviewController implements Initializable {
 
             // Select the volunteer from the list and updates the new info.
             selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
-            Volunteer updatedVolunteer = new Volunteer(selectedVolunteer.getID(), txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()), false, selectedVolunteer.getLanguage());
-            VolunteerModel.getInstance().updateVolunteer(updatedVolunteer);
+            selectedVolunteer.setFirstName(txtFirstName.getText());
+            selectedVolunteer.setLastName(txtLastName.getText());
+            selectedVolunteer.setEmail(txtEmail.getText());
+            selectedVolunteer.setPhone(Integer.parseInt(txtPhone.getText()));
+            selectedVolunteer.setDescription(txtVolunteerInfo.getText());
+            selectedVolunteer.updateFullName();
+            VolunteerModel.getInstance().updateVolunteer(selectedVolunteer);
         }
     }
 
     @FXML
     private void handleNewVolunteer() throws IOException {
         primStage = (Stage) btnEdit.getScene().getWindow();
-
         Stage newVolunteerModal = modalFactory.createNewModal(primStage, EFXMLName.ADD_NEW_VOLUNTEER);
-
         newVolunteerModal.show();
     }
 
@@ -223,6 +227,7 @@ public class VolunteerOverviewController implements Initializable {
             controller.setCurrentVolunteer(selectedVolunteer);
             inactiveInformationModal.show();
         }
+
     }
 
 }
