@@ -187,7 +187,6 @@ public class VolunteerDAO extends APersonDAO {
      *
      * @param volunteer
      */
-
     public void updateVolunteerPersonInfo(Volunteer volunteer) {
         try (Connection con = cm.getConnection()) {
             // updatePersonInformation is from a abstract class "APersonDAO".
@@ -227,6 +226,25 @@ public class VolunteerDAO extends APersonDAO {
         } catch (SQLException ex) {
             Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    /**
+     * Deletes the selected volunteer from the DB.
+     * @param deleteVolunteer 
+     */
+    public void deleteVolunteer(Volunteer deleteVolunteer) {
+        String sql = "DELETE FROM Person "
+                + "WHERE ID = ?";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, deleteVolunteer.getID());
+            
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Couldn't remove volunteer from the DB");
+            System.out.println(ex);
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
 }

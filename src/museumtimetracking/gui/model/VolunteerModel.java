@@ -46,7 +46,7 @@ public class VolunteerModel {
     public ObservableList<Volunteer> getCachedVolunteers() {
         return cachedVolunteers;
     }
-    
+
     public void setVolunteerDescription(int id, String text) {
         volunteerMgr.setVolunteerDescription(id, text);
     }
@@ -60,10 +60,16 @@ public class VolunteerModel {
         volunteerMgr.updateVolunteer(updatedVulunteer);
     }
 
-//    public void deleteVolunteer(Volunteer deleteVolunteer){
-//        volunteerMgr.deleteGuild(deleteVolunteer);
-//
-//    }
+    /**
+     * Deletes the selected volunteer from DB.
+     *
+     * @param deleteVolunteer
+     */
+    public void deleteVolunteer(Volunteer deleteVolunteer) {
+        volunteerMgr.deleteVolunteer(deleteVolunteer);
+
+    }
+
     /**
      * Adds the volunteer to DB.
      *

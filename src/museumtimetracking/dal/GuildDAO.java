@@ -145,7 +145,7 @@ public class GuildDAO {
     }
 
     /**
-     * Deletes guild(s) from the tableView and DB.
+     * Deletes guild from the tableView and DB.
      * Comes from GuildManager and goes to DB.
      *
      * @param guild
@@ -159,7 +159,7 @@ public class GuildDAO {
 
             ps.executeUpdate();
         } catch (SQLException ex) {
-            System.out.println("Couldn't remove Guild(s) from the DB");
+            System.out.println("Couldn't remove Guild from the DB");
             System.out.println(ex);
             Logger.getLogger(GuildDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

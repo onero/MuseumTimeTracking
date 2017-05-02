@@ -136,7 +136,7 @@ public class VolunteerOverviewController implements Initializable {
             if (type == yesButton) {
 
                 Volunteer deleteVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
-//                volunteerModel.deleteVolunteer(deleteVolunteer);
+                volunteerModel.deleteVolunteer(deleteVolunteer);
             }
         });
     }
@@ -151,8 +151,6 @@ public class VolunteerOverviewController implements Initializable {
             setTextVisibility(false);
 
             // Select the volunteer from the list and updates the new info.
-            selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
-            //TODO Skovgaard: Husk javadoc.
             selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
             Volunteer updatedVolunteer = new Volunteer(selectedVolunteer.getID(), txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()), false, selectedVolunteer.getLanguage());
             VolunteerModel.getInstance().updateVolunteer(updatedVolunteer);

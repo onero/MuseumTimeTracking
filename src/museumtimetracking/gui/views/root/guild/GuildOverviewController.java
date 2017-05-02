@@ -66,7 +66,7 @@ public class GuildOverviewController implements Initializable {
     }
 
     /**
-     * Deletes the selected guild(s) from tableView and DB. Goes to GuildModel.
+     * Deletes the selected guild from tableView and DB. Goes to GuildModel.
      */
     @FXML
     private void handleDeleteGuild() {

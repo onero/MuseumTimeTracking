@@ -67,6 +67,13 @@ public class VolunteerManager {
     public void updateVolunteerIdle(int id, boolean value) {
         volunteerDAO.updateVolunteerIdleStatus(id, value);
     }
+    /**
+     * Deletes the volunteer from DB.
+     * @param deleteVolunteer 
+     */
+    public void deleteVolunteer(Volunteer deleteVolunteer){
+        volunteerDAO.deleteVolunteer(deleteVolunteer);
+    }
 
     /**
      * Updates the volunteer in the DB.
