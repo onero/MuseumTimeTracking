@@ -43,7 +43,7 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
     private final List<String> listGuildsToDelete;
 
     private final Set<String> setGuildsToAdd;
-    private final Set<String> setGuildsDelete;
+    private final Set<String> setGuildsToDelete;
 
     private boolean leftListSelected;
 
@@ -57,7 +57,7 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
         guildModel = GuildModel.getInstance();
 
         setGuildsToAdd = new HashSet<>();
-        setGuildsDelete = new HashSet<>();
+        setGuildsToDelete = new HashSet<>();
     }
 
     /**
@@ -126,7 +126,7 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
             oManagerGuilds.add(guildName);
 
             setGuildsToAdd.add(guildName);
-            setGuildsDelete.remove(guildName);
+            setGuildsToDelete.remove(guildName);
         }
     }
 
@@ -140,7 +140,7 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
             oManagerGuilds.remove(guildName);
             oAvaiableGuilds.add(guildName);
 
-            setGuildsDelete.add(guildName);
+            setGuildsToDelete.add(guildName);
             setGuildsToAdd.remove(guildName);
         }
     }
@@ -157,7 +157,7 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
             System.out.println(name);
         }
         System.out.println("Guilds to delete:");
-        for (String name : setGuildsDelete) {
+        for (String name : setGuildsToDelete) {
             System.out.println(name);
         }
         closeModal();
@@ -176,8 +176,8 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
      *
      * @return
      */
-    public List<String> getListGuildsToAdd() {
-        return listGuildsToAdd;
+    public Set<String> getSetGuildsToAdd() {
+        return setGuildsToAdd;
     }
 
     /**
@@ -186,8 +186,8 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
      *
      * @return
      */
-    public List<String> getListGuildsToDelete() {
-        return listGuildsToDelete;
+    public Set<String> getSetGuildsToDelete() {
+        return setGuildsToDelete;
     }
 
 }
