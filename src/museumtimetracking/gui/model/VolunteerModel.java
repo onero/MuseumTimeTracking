@@ -42,7 +42,10 @@ public class VolunteerModel {
     public ObservableList<Volunteer> getCachedVolunteers() {
         return cachedVolunteers;
     }
-    
+    /**
+     * Updates the volunteer in the DB.
+     * @param updatedVulunteer 
+     */
     public void updateVolunteer(Volunteer updatedVulunteer){
         volunteerMgr.updateVolunteer(updatedVulunteer);
     }
@@ -55,7 +58,6 @@ public class VolunteerModel {
 
     /**
      * Adds the volunteer to DB.
-     *
      * @param volunteer
      */
     public void addVolunteer(Volunteer volunteer) {

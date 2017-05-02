@@ -136,11 +136,15 @@ public class VolunteerDAO extends APersonDAO{
                             .getName()).log(Level.SEVERE, null, sqlException);
         }
     }
-    
+    /**
+     * Updates the new edits for the volunteer and saves it in the DB.
+     * @param volunteer 
+     */
     public void updateVolunteerPersonInfo(Volunteer volunteer){
         Connection con;
         try {
             con = cm.getConnection();
+            // updatePersonInformation is from a abstract class "APersonDAO".
             updatePersonInformation(con, volunteer);
         } catch (SQLServerException ex) {
             Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);

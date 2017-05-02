@@ -145,7 +145,7 @@ public class VolunteerOverviewController implements Initializable {
         } else {
             btnEdit.setText("Rediger");
             setTextVisibility(false);
-            //TODO Skovgaard: Husk javadoc.
+            // Select the volunteer from the list and updates the new info.
             Volunteer selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
             Volunteer updatedVolunteer = new Volunteer(selectedVolunteer.getID(), txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()), false, selectedVolunteer.getLanguage());
             VolunteerModel.getInstance().updateVolunteer(updatedVolunteer);

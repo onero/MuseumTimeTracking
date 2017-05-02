@@ -37,7 +37,10 @@ public class VolunteerManager {
     public List<Volunteer> getAllVolunteersNotIdle() {
         return volunteerDAO.getAllVolunteersNotIdle();
     }
-    
+    /**
+     * Updates the volunteer in the DB.
+     * @param updatedVolunteer 
+     */
     public void updateVolunteer(Volunteer updatedVolunteer){
         volunteerDAO.updateVolunteerPersonInfo(updatedVolunteer);
     }
