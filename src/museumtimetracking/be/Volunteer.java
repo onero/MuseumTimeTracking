@@ -26,9 +26,10 @@ public class Volunteer extends APerson {
         description = new SimpleStringProperty();
     }
 
-    public Volunteer(String firstName, String lastName, String email, int phone) {
+    public Volunteer(String firstName, String lastName, String email, int phone, ELanguage language) {
         super(firstName, lastName, email, phone);
         this.isIdle = new SimpleBooleanProperty(false);
+        this.language = language;
         description = new SimpleStringProperty();
     }
 

@@ -77,6 +77,7 @@ public class VolunteerModel {
      */
     public void addVolunteer(Volunteer volunteer) {
         volunteerMgr.addVolunteer(volunteer);
+        cachedVolunteers.add(volunteer);
     }
 
     public ObservableList<Volunteer> getCachedIdleVolunteers() {
