@@ -45,6 +45,31 @@ public class VolunteerDAO {
     }
 
     /**
+     * Get all idle volunteers
+     *
+     * @return
+     */
+    public List<Volunteer> getAllIdleVolunteers() {
+        List<Volunteer> volunteers = new ArrayList<>();
+
+        String sql = "SELECT * FROM Volunteer v "
+                + "JOIN Person p ON p.ID = v.PersonID "
+                + "WHERE v.IsIdle = 1";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                volunteers.add(getOneVolunteer(rs));
+            }
+        } catch (Exception e) {
+        }
+        return volunteers;
+    }
+
+    /**
      * All the volunteers from DB.
      *
      * @return
@@ -52,7 +77,8 @@ public class VolunteerDAO {
     public List<Volunteer> getAllVolunteersNotIdle() {
         List<Volunteer> volunteers = new ArrayList<>();
         String sql = "SELECT * FROM Volunteer v "
-                + "JOIN Person p ON p.ID = v.PersonID ";
+                + "JOIN Person p ON p.ID = v.PersonID "
+                + "WHERE v.IsIdle = 0 ";
 
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -133,6 +159,29 @@ public class VolunteerDAO {
             Logger
                     .getLogger(VolunteerDAO.class
                             .getName()).log(Level.SEVERE, null, sqlException);
+        }
+    }
+
+    /**
+     * Update the idle status of the volunteer
+     *
+     * @param value
+     */
+    public void updateVolunteerIdleStatus(boolean value) {
+        String sql;
+        if (value) {
+            sql = "UPDATE Volunteer "
+                    + "SET IsIdle = 1";
+        } else {
+            sql = "UPDATE Volunteer "
+                    + "SET IsIdle = 0";
+        }
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.executeUpdate();
+        } catch (Exception e) {
         }
     }
 

@@ -13,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import museumtimetracking.be.Volunteer;
+import museumtimetracking.gui.model.VolunteerModel;
 
 /**
  * FXML Controller class
@@ -22,20 +23,30 @@ import museumtimetracking.be.Volunteer;
 public class IdleVolunteerViewController implements Initializable {
 
     @FXML
-    private TableColumn<String, Volunteer> clmGuildDescription;
+    private TableColumn<Volunteer, String> clmVolunteerDescription;
     @FXML
-    private TableColumn<String, Volunteer> clmGuildName;
+    private TableColumn<Volunteer, String> clmVolunteerName;
     @FXML
     private BorderPane guildTableBorderPane;
     @FXML
     private TableView<Volunteer> tableVolunteer;
+
+    private VolunteerModel volunteerModel;
+
+    public IdleVolunteerViewController() {
+        volunteerModel = VolunteerModel.getInstance();
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        tableVolunteer.setItems();
+        tableVolunteer.setItems(volunteerModel.getCachedIdleVolunteers());
+
+        clmVolunteerName.setCellValueFactory(v -> v.getValue().getFullNameProperty());
+        clmVolunteerDescription.setCellValueFactory(v -> v.getValue().getDescriptionProperty());
+
     }
 
     @FXML

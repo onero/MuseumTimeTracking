@@ -21,6 +21,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.EFXMLName;
@@ -36,6 +37,8 @@ public class VolunteerOverviewController implements Initializable {
 
     @FXML
     private Button btnEdit;
+    @FXML
+    private ToggleGroup language;
 
     @FXML
     private ListView<Volunteer> lstVolunteer;
@@ -188,6 +191,14 @@ public class VolunteerOverviewController implements Initializable {
                 radioDE.setSelected(true);
                 break;
             default:
+        }
+    }
+
+    @FXML
+    private void handleInactiveVolunteer() {
+        Volunteer selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
+        if (selectedVolunteer != null) {
+            volunteerModel.addIdleVolunteer(selectedVolunteer);
         }
     }
 
