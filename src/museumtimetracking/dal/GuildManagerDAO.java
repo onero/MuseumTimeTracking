@@ -225,4 +225,39 @@ public class GuildManagerDAO extends APersonDAO {
     private void addGuildsToASingleGuildManager(Connection con, GuildManager manager) throws SQLException {
         manager.addAllGuilds(getAllGuildsForOneManager(con, manager.getID()));
     }
+
+    /**
+     * Deletes the GuildManager from the GuildManagerTable and from the
+     * PersonTable.
+     *
+     * @param GuildManagerID
+     * @throws SQLException
+     */
+    public void deleteGuildManagerFromDB(int GuildManagerID) throws SQLException {
+        try (Connection con = connectionManager.getConnection()) {
+            con.setAutoCommit(false);
+            //TODO: call 2 methods: 1 for guildmanager deletion + 1 for person deletion.
+            deleteGuildManagerFromTable(con, GuildManagerID);
+            deletePersonFromDatabaseByID(con, GuildManagerID);
+
+            con.commit();
+        }
+    }
+
+    /**
+     * Deletes the manager from the GuildManager table by ID.
+     *
+     * @param con
+     * @param personID
+     * @throws SQLException
+     */
+    public void deleteGuildManagerFromTable(Connection con, int personID) throws SQLException {
+        String sql = "DELETE FROM GuildManager "
+                + "WHERE PersonID = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+
+        ps.setInt(1, personID);
+
+        ps.executeUpdate();
+    }
 }

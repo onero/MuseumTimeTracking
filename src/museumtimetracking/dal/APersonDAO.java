@@ -67,4 +67,20 @@ public abstract class APersonDAO {
         ps.executeUpdate();
     }
 
+    /**
+     * Deletes a person by their ID from the db.
+     *
+     * @param con
+     * @param personID
+     * @throws SQLException
+     */
+    public void deletePersonFromDatabaseByID(Connection con, int personID) throws SQLException {
+        String sql = "DELETE FROM Person "
+                + "WHERE ID = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+
+        ps.setInt(1, personID);
+
+        ps.executeUpdate();
+    }
 }
