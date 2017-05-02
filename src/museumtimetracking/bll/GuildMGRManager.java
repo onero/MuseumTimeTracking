@@ -54,4 +54,13 @@ public class GuildMGRManager {
     public void updateGuildManager(GuildManager manager, List<String> guildsToAdd, List<String> guildsToDele) {
         facadeDAO.updateGuildManager(manager, guildsToAdd, guildsToDele);
     }
+
+    /**
+     * Sends the managerID through the layers to delete it from the db.
+     *
+     * @param GuildManagerID
+     */
+    public void deleteGuildManager(int GuildManagerID) {
+        facadeDAO.deleteGuildManagerFromDB(GuildManagerID);
+    }
 }

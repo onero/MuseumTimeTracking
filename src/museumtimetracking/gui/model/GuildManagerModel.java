@@ -63,4 +63,15 @@ public class GuildManagerModel {
 
     }
 
+    /**
+     * Deletes the manager from the cached list and sends the manager's id
+     * through the layers to delete it from the db.
+     *
+     * @param guildManager
+     */
+    public void deleteGuildManager(GuildManager guildManager) {
+        cachedManagers.remove(guildManager);
+        guildMGRManager.deleteGuildManager(guildManager.getID());
+    }
+
 }

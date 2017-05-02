@@ -118,10 +118,14 @@ public class GuildManagerOverviewController implements Initializable {
         }
     }
 
+    /**
+     * Sends the selected GuildManager through the layers to delete it and
+     * returns the buttons to view mode.
+     */
     @FXML
     private void handleDeleteButton() {
-        //TODO MSP: Delete the guildmanager selected in the view through the layers.
-
+        guildManagerModel.deleteGuildManager(lstManagers.getSelectionModel().getSelectedItem());
+        setButtonTextToViewMode();
     }
 
     /**

@@ -91,4 +91,19 @@ public class FacadeDAO {
         }
     }
 
+    /**
+     * Deletes the manager from the database.
+     *
+     * @param GuildManagerID
+     */
+    public void deleteGuildManagerFromDB(int GuildManagerID) {
+        try {
+            guildManagerDAO.deleteGuildManagerFromDB(GuildManagerID);
+        } catch (SQLException ex) {
+            System.out.println("Couldn't delete GuildManager from database!\n"
+                    + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
 }
