@@ -35,7 +35,7 @@ public class GuildModel {
     private GuildModel() {
         // Instantiate guildManager
         guildManager = new GuildManager();
-        // Puts in all the guilds from DB from Manager to Model.
+        // Puts in all the guilds from DB to Manager and after Model.
         guildsFromDB = guildManager.getAllGuildsNotArchived();
         archivedGuildsFromDB = guildManager.getAllGuildsArchived();
         // Puts the guilds from the DB inside a ObservableList.
@@ -55,7 +55,7 @@ public class GuildModel {
         cachedGuilds.remove(guildToArchive);
     }
 
-    // Made a getter to call in GuildTableViewController.
+    // Made a getter to call in GuildOverviewController to update the tableview.
     public ObservableList<Guild> getCachedGuilds() {
         return cachedGuilds;
     }
@@ -76,6 +76,7 @@ public class GuildModel {
      */
     public void deleteGuild(Guild deleteGuild) {
         guildManager.deleteGuild(deleteGuild);
+        // Removes the guild from the list.
         cachedGuilds.remove(deleteGuild);
     }
 
