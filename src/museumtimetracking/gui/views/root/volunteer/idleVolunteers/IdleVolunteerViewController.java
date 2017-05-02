@@ -51,6 +51,8 @@ public class IdleVolunteerViewController implements Initializable {
 
     @FXML
     private void handleRestoreFromArchive() {
+        Volunteer selectedVolunteer = tableVolunteer.getSelectionModel().getSelectedItem();
+        volunteerModel.updateIdleVolunteer(selectedVolunteer, false);
     }
 
 }

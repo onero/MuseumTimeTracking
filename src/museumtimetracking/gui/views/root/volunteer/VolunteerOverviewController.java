@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
@@ -57,6 +58,8 @@ public class VolunteerOverviewController implements Initializable {
     private Label txtLinkMoreInfo;
     @FXML
     private TextField txtPhone;
+    @FXML
+    private TextArea txtVolunteerInfo;
 
     private final VolunteerModel volunteerModel;
 
@@ -89,6 +92,7 @@ public class VolunteerOverviewController implements Initializable {
         txtLastName.setDisable(!value);
         txtEmail.setDisable(!value);
         txtPhone.setDisable(!value);
+        txtVolunteerInfo.setDisable(!value);
     }
 
     @FXML
@@ -173,6 +177,7 @@ public class VolunteerOverviewController implements Initializable {
             txtEmail.setText(selectedVolunteer.getEmail());
             txtPhone.setText("" + selectedVolunteer.getPhone());
             txtLinkMoreInfo.setVisible(true);
+            txtVolunteerInfo.setText(selectedVolunteer.getDescription());
 
             selectVolunteerLanguage(selectedVolunteer);
         }
@@ -206,7 +211,7 @@ public class VolunteerOverviewController implements Initializable {
             VolunteerInfoViewController controller = modalFactory.getLoader().getController();
             controller.setCurrentVolunteer(selectedVolunteer);
             inactiveInformationModal.showAndWait();
-            volunteerModel.addIdleVolunteer(selectedVolunteer);
+            volunteerModel.updateIdleVolunteer(selectedVolunteer, true);
         }
     }
 

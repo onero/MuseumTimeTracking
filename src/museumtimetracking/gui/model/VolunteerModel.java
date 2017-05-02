@@ -81,11 +81,17 @@ public class VolunteerModel {
      * Set the parsed volunteer as idle
      *
      * @param volunteer
+     * @param value
      */
-    public void addIdleVolunteer(Volunteer volunteer) {
-        cachedVolunteers.remove(volunteer);
-        cachedIdleVolunteers.add(volunteer);
-        volunteerMgr.updateVolunteerIdle(volunteer.getID(), true);
+    public void updateIdleVolunteer(Volunteer volunteer, boolean value) {
+        if (value) {
+            cachedVolunteers.remove(volunteer);
+            cachedIdleVolunteers.add(volunteer);
+        } else {
+            cachedVolunteers.add(volunteer);
+            cachedIdleVolunteers.remove(volunteer);
+        }
+        volunteerMgr.updateVolunteerIdle(volunteer.getID(), value);
     }
 
 }
