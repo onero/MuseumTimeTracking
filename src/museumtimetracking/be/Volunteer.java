@@ -17,7 +17,7 @@ public class Volunteer extends APerson {
 
     private ELanguage language;
 
-    private StringProperty description;
+    private final StringProperty description;
 
     public Volunteer(int ID, String firstName, String lastName, String email, int phone, boolean isIdle, ELanguage language) {
         super(ID, firstName, lastName, email, phone);
@@ -26,9 +26,10 @@ public class Volunteer extends APerson {
         description = new SimpleStringProperty();
     }
 
-    public Volunteer(String firstName, String lastName, String email, int phone) {
+    public Volunteer(String firstName, String lastName, String email, int phone, ELanguage language) {
         super(firstName, lastName, email, phone);
         this.isIdle = new SimpleBooleanProperty(false);
+        this.language = language;
         description = new SimpleStringProperty();
     }
 

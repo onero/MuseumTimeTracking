@@ -20,10 +20,12 @@ public class VolunteerModel {
     private final VolunteerManager volunteerMgr;
 
     private static VolunteerModel instance;
-    
+
     private final ObservableList<Volunteer> cachedVolunteers;
-    
+    private final ObservableList<Volunteer> cachedIdleVolunteers;
+
     private final List<Volunteer> volunteerFromDB;
+    private final List<Volunteer> idleVolunteersFromDB;
 
     public static VolunteerModel getInstance() {
         if (instance == null) {
@@ -36,18 +38,37 @@ public class VolunteerModel {
         // Instantiate volunteerMgr
         volunteerMgr = new VolunteerManager();
         volunteerFromDB = volunteerMgr.getAllVolunteersNotIdle();
+        idleVolunteersFromDB = volunteerMgr.getAllIdleVolunteers();
         cachedVolunteers = FXCollections.observableArrayList(volunteerFromDB);
+        cachedIdleVolunteers = FXCollections.observableArrayList(idleVolunteersFromDB);
     }
 
     public ObservableList<Volunteer> getCachedVolunteers() {
         return cachedVolunteers;
     }
-    
-    
-//    public void deleteVolunteer(Volunteer deleteVolunteer){
-//        volunteerMgr.deleteGuild(deleteVolunteer);
-//        
-//    }
+
+    public void setVolunteerDescription(int id, String text) {
+        volunteerMgr.setVolunteerDescription(id, text);
+    }
+
+    /**
+     * Updates the volunteer in the DB.
+     *
+     * @param updatedVulunteer
+     */
+    public void updateVolunteer(Volunteer updatedVulunteer) {
+        volunteerMgr.updateVolunteer(updatedVulunteer);
+    }
+
+    /**
+     * Deletes the selected volunteer from DB.
+     *
+     * @param deleteVolunteer
+     */
+    public void deleteVolunteer(Volunteer deleteVolunteer) {
+        volunteerMgr.deleteVolunteer(deleteVolunteer);
+
+    }
 
     /**
      * Adds the volunteer to DB.
@@ -56,6 +77,28 @@ public class VolunteerModel {
      */
     public void addVolunteer(Volunteer volunteer) {
         volunteerMgr.addVolunteer(volunteer);
+        cachedVolunteers.add(volunteer);
+    }
+
+    public ObservableList<Volunteer> getCachedIdleVolunteers() {
+        return cachedIdleVolunteers;
+    }
+
+    /**
+     * Set the parsed volunteer as idle
+     *
+     * @param volunteer
+     * @param value
+     */
+    public void updateIdleVolunteer(Volunteer volunteer, boolean value) {
+        if (value) {
+            cachedVolunteers.remove(volunteer);
+            cachedIdleVolunteers.add(volunteer);
+        } else {
+            cachedVolunteers.add(volunteer);
+            cachedIdleVolunteers.remove(volunteer);
+        }
+        volunteerMgr.updateVolunteerIdle(volunteer.getID(), value);
     }
 
 }

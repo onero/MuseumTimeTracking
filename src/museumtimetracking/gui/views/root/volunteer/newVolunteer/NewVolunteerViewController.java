@@ -7,13 +7,14 @@ package museumtimetracking.gui.views.root.volunteer.newVolunteer;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import museumtimetracking.be.Volunteer;
+import museumtimetracking.be.enums.ELanguage;
 import museumtimetracking.gui.model.VolunteerModel;
 
 /**
@@ -24,11 +25,13 @@ import museumtimetracking.gui.model.VolunteerModel;
 public class NewVolunteerViewController implements Initializable {
 
     @FXML
-    private CheckBox checkBoxDanish;
+    private RadioButton checkBoxDanish;
     @FXML
-    private CheckBox checkBoxEnglish;
+    private RadioButton checkBoxEnglish;
     @FXML
-    private CheckBox checkBoxGerman;
+    private RadioButton checkBoxGerman;
+    @FXML
+    private ToggleGroup language;
     @FXML
     private TextField txtEmail;
     @FXML
@@ -46,8 +49,16 @@ public class NewVolunteerViewController implements Initializable {
 
     @FXML
     private void handleAddButton() {
+        ELanguage selectedLanguage;
+        if (checkBoxDanish.isSelected()) {
+            selectedLanguage = ELanguage.DANISH;
+        } else if (checkBoxEnglish.isSelected()) {
+            selectedLanguage = ELanguage.ENGLISH;
+        } else {
+            selectedLanguage = ELanguage.GERMAN;
+        }
 
-        Volunteer newVolunteer = new Volunteer(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()));
+        Volunteer newVolunteer = new Volunteer(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()), selectedLanguage);
         volunteerModel.addVolunteer(newVolunteer);
 
         closeWindow();

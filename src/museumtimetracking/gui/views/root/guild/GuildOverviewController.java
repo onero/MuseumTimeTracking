@@ -33,6 +33,7 @@ public class GuildOverviewController implements Initializable {
 
     @FXML
     private TableColumn<Guild, String> clmGuildDescription;
+    
     @FXML
     private TableColumn<Guild, String> clmGuildName;
 
@@ -65,7 +66,7 @@ public class GuildOverviewController implements Initializable {
     }
 
     /**
-     * Deletes the selected guild(s) from tableView and DB. Goes to GuildModel.
+     * Deletes the selected guild from tableView and DB. Goes to GuildModel.
      */
     @FXML
     private void handleDeleteGuild() {
