@@ -29,6 +29,8 @@ public class VolunteerInfoViewController implements Initializable {
 
     private Volunteer currentVolunteer;
 
+    private Stage primStage;
+
     private final VolunteerModel volunteerModel;
 
     public VolunteerInfoViewController() {
@@ -37,12 +39,13 @@ public class VolunteerInfoViewController implements Initializable {
 
     @FXML
     private void handleBack() {
-        Stage primStage = (Stage) btnEdit.getScene().getWindow();
+        primStage = (Stage) btnEdit.getScene().getWindow();
         primStage.close();
     }
 
     @FXML
     private void handleEditVolunteerInfo() {
+        primStage = (Stage) btnEdit.getScene().getWindow();
         if (btnEdit.getText().equalsIgnoreCase("rediger")) {
             btnEdit.setText("Gem");
             txtVolunteerInfo.setDisable(false);
@@ -51,6 +54,8 @@ public class VolunteerInfoViewController implements Initializable {
             txtVolunteerInfo.setDisable(true);
             currentVolunteer.setDescription(txtVolunteerInfo.getText());
             volunteerModel.setVolunteerDescription(currentVolunteer.getID(), txtVolunteerInfo.getText());
+            volunteerModel.updateIdleVolunteer(currentVolunteer, true);
+            primStage.close();
 
         }
     }

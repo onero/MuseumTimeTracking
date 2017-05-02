@@ -210,8 +210,7 @@ public class VolunteerOverviewController implements Initializable {
             Stage inactiveInformationModal = modalFactory.createNewModal(primStage, EFXMLName.VOLUNTEER_INFO);
             VolunteerInfoViewController controller = modalFactory.getLoader().getController();
             controller.setCurrentVolunteer(selectedVolunteer);
-            inactiveInformationModal.showAndWait();
-            volunteerModel.updateIdleVolunteer(selectedVolunteer, true);
+            inactiveInformationModal.show();
         }
     }
 
