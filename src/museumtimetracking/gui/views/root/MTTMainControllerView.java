@@ -31,6 +31,7 @@ public class MTTMainControllerView implements Initializable {
     private final Node managerOverview;
     private final Node volunteerOverview;
     private final Node archivedGuilds;
+    private final Node idleVolunteer;
 
     public MTTMainControllerView() {
         nodeFactory = NodeFactory.getInstance();
@@ -39,6 +40,7 @@ public class MTTMainControllerView implements Initializable {
         managerOverview = nodeFactory.createNewView(MANAGER_OVERVIEW);
         volunteerOverview = nodeFactory.createNewView(VOLUNTEER_OVERVIEW);
         archivedGuilds = nodeFactory.createNewView(ARCHIVED_TABLE);
+        idleVolunteer = nodeFactory.createNewView(IDLE_VOLUNTEER);
     }
 
     @Override
@@ -50,6 +52,7 @@ public class MTTMainControllerView implements Initializable {
     @FXML
     private void handleGuildsButton() {
         borderPaneMain.setCenter(guildOverview);
+        borderPaneMainAtBottomBorderPane.setCenter(archivedGuilds);
     }
 
     @FXML
@@ -60,6 +63,7 @@ public class MTTMainControllerView implements Initializable {
     @FXML
     private void handleVolunteersButton() {
         borderPaneMain.setCenter(volunteerOverview);
+        borderPaneMainAtBottomBorderPane.setCenter(idleVolunteer);
 
     }
 }

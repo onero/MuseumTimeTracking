@@ -22,8 +22,8 @@
                      <center>
                         <TableView fx:id="tableVolunteer">
                            <columns>
-                              <TableColumn fx:id="clmGuildName" prefWidth="96.0" text="Navn" />
-                              <TableColumn fx:id="clmGuildDescription" prefWidth="168.0" text="Årsag" />
+                              <TableColumn fx:id="clmVolunteerName" prefWidth="96.0" text="Navn" />
+                              <TableColumn fx:id="clmVolunteerDescription" prefWidth="168.0" text="Årsag" />
                            </columns>
                         </TableView>
                      </center>

@@ -20,10 +20,12 @@ public class VolunteerModel {
     private final VolunteerManager volunteerMgr;
 
     private static VolunteerModel instance;
-    
+
     private final ObservableList<Volunteer> cachedVolunteers;
-    
+    private final ObservableList<Volunteer> cachedIdleVolunteers;
+
     private final List<Volunteer> volunteerFromDB;
+    private final List<Volunteer> idleVolunteersFromDB;
 
     public static VolunteerModel getInstance() {
         if (instance == null) {
@@ -36,32 +38,54 @@ public class VolunteerModel {
         // Instantiate volunteerMgr
         volunteerMgr = new VolunteerManager();
         volunteerFromDB = volunteerMgr.getAllVolunteersNotIdle();
+        idleVolunteersFromDB = volunteerMgr.getAllIdleVolunteers();
         cachedVolunteers = FXCollections.observableArrayList(volunteerFromDB);
+        cachedIdleVolunteers = FXCollections.observableArrayList(idleVolunteersFromDB);
     }
 
     public ObservableList<Volunteer> getCachedVolunteers() {
         return cachedVolunteers;
     }
-    /**
-     * Updates the volunteer in the DB.
-     * @param updatedVulunteer 
-     */
-    public void updateVolunteer(Volunteer updatedVulunteer){
-        volunteerMgr.updateVolunteer(updatedVulunteer);
+    
+    public void setVolunteerDescription(int id, String text) {
+        volunteerMgr.setVolunteerDescription(id, text);
     }
-    
-    
-//    public void deleteVolunteer(Volunteer deleteVolunteer){
-//        volunteerMgr.deleteGuild(deleteVolunteer);
-//        
-//    }
 
     /**
+     * Updates the volunteer in the DB.
+     *
+     * @param updatedVulunteer
+     */
+    public void updateVolunteer(Volunteer updatedVulunteer) {
+        volunteerMgr.updateVolunteer(updatedVulunteer);
+    }
+
+//    public void deleteVolunteer(Volunteer deleteVolunteer){
+//        volunteerMgr.deleteGuild(deleteVolunteer);
+//
+//    }
+    /**
      * Adds the volunteer to DB.
+     *
      * @param volunteer
      */
     public void addVolunteer(Volunteer volunteer) {
         volunteerMgr.addVolunteer(volunteer);
+    }
+
+    public ObservableList<Volunteer> getCachedIdleVolunteers() {
+        return cachedIdleVolunteers;
+    }
+
+    /**
+     * Set the parsed volunteer as idle
+     *
+     * @param volunteer
+     */
+    public void addIdleVolunteer(Volunteer volunteer) {
+        cachedVolunteers.remove(volunteer);
+        cachedIdleVolunteers.add(volunteer);
+        volunteerMgr.updateVolunteerIdle(volunteer.getID(), true);
     }
 
 }

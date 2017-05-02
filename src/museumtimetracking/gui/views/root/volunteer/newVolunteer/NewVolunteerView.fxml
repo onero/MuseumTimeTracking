@@ -7,6 +7,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -66,9 +67,12 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </TextField>
-            <RadioButton mnemonicParsing="false" text="DA" />
-            <RadioButton mnemonicParsing="false" text="ENG" />
-            <RadioButton mnemonicParsing="false" text="DE" />
+            <RadioButton mnemonicParsing="false" selected="true" text="DA">
+               <toggleGroup>
+                  <ToggleGroup fx:id="language" />
+               </toggleGroup></RadioButton>
+            <RadioButton mnemonicParsing="false" text="ENG" toggleGroup="$language" />
+            <RadioButton mnemonicParsing="false" text="DE" toggleGroup="$language" />
             <HBox alignment="CENTER" spacing="25.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#handleAddButton" prefWidth="80.0" text="Tilføj">

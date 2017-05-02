@@ -17,7 +17,7 @@ public class Volunteer extends APerson {
 
     private ELanguage language;
 
-    private StringProperty description;
+    private final StringProperty description;
 
     public Volunteer(int ID, String firstName, String lastName, String email, int phone, boolean isIdle, ELanguage language) {
         super(ID, firstName, lastName, email, phone);

@@ -14,21 +14,31 @@ import museumtimetracking.dal.VolunteerDAO;
  * @author Skovgaard
  */
 public class VolunteerManager {
-    
+
     private final VolunteerDAO volunteerDAO;
-    
-    public VolunteerManager(){
+
+    public VolunteerManager() {
         volunteerDAO = VolunteerDAO.getInstance();
     }
-    
+
     /**
      * Adds a new volunteer to DB.
-     * @param volunteerToAdd 
+     *
+     * @param volunteerToAdd
      */
-    public void addVolunteer(Volunteer volunteerToAdd){
+    public void addVolunteer(Volunteer volunteerToAdd) {
         volunteerDAO.createVolunteer(volunteerToAdd);
     }
-    
+
+    /**
+     * Get all idle volunteers in DB
+     *
+     * @return
+     */
+    public List<Volunteer> getAllIdleVolunteers() {
+        return volunteerDAO.getAllIdleVolunteers();
+    }
+
     /**
      * Gets all the volunteers from the DB.
      *
@@ -37,12 +47,33 @@ public class VolunteerManager {
     public List<Volunteer> getAllVolunteersNotIdle() {
         return volunteerDAO.getAllVolunteersNotIdle();
     }
+
+    /**
+     * Set the description in DB
+     *
+     * @param id
+     * @param text
+     */
+    public void setVolunteerDescription(int id, String text) {
+        volunteerDAO.setVolunteerDescription(id, text);
+    }
+
+    /**
+     * Update the volunteer status
+     *
+     * @param id
+     * @param value
+     */
+    public void updateVolunteerIdle(int id, boolean value) {
+        volunteerDAO.updateVolunteerIdleStatus(id, value);
+    }
+
     /**
      * Updates the volunteer in the DB.
-     * @param updatedVolunteer 
+     *
+     * @param updatedVolunteer
      */
-    public void updateVolunteer(Volunteer updatedVolunteer){
+    public void updateVolunteer(Volunteer updatedVolunteer) {
         volunteerDAO.updateVolunteerPersonInfo(updatedVolunteer);
     }
-    
 }

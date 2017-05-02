@@ -113,6 +113,7 @@
                     <buttons>
                         <Button mnemonicParsing="false" onAction="#handleNewVolunteer" text="Ny Frivillig" />
                         <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#handleEditVolunteer" prefWidth="75.0" text="Rediger" />
+                        <Button mnemonicParsing="false" onAction="#handleInactiveVolunteer" text="Gør Inaktiv" />
                         <Button mnemonicParsing="false" onAction="#handleDeleteVolunteer" prefWidth="75.0" text="Slet" />
                     </buttons>
                   </ButtonBar>
