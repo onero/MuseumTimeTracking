@@ -65,7 +65,10 @@ public class VolunteerDAO extends APersonDAO {
             while (rs.next()) {
                 volunteers.add(getOneVolunteer(rs));
             }
-        } catch (Exception e) {
+        } catch (SQLServerException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return volunteers;
     }
@@ -184,7 +187,10 @@ public class VolunteerDAO extends APersonDAO {
             PreparedStatement ps = con.prepareStatement(sql);
 
             ps.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLServerException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
