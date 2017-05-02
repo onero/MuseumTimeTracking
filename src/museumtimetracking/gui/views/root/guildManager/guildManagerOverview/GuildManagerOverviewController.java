@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -69,6 +70,9 @@ public class GuildManagerOverviewController implements Initializable {
 
     private final ModalFactory modalFactory;
 
+    private Set<String> setGuildsToAdd;
+    private Set<String> setGuildsToDelete;
+
     public GuildManagerOverviewController() {
         nodeFactory = NodeFactory.getInstance();
         guildManagerModel = GuildManagerModel.getInstance();
@@ -109,9 +113,6 @@ public class GuildManagerOverviewController implements Initializable {
             setButtonTextToEditMode();
 
         } else if (btnEdit.getText().equals(CANCEL_BUTTON_TEXT)) {
-            //TODO MSP: Update the textfields with the old data
-            //- RKL: Refactored to not throw a nullPointerException.
-            //Might wanna not be able to edit, if no manager is seleceted?
             setShowEditability(false);
             setButtonTextToViewMode();
             displayInformation(manager);
@@ -157,9 +158,9 @@ public class GuildManagerOverviewController implements Initializable {
             protected void updateItem(GuildManager item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty) {
-                    setText(null);
+                    textProperty().unbind();
                 } else {
-                    setText(item.getFullName());
+                    textProperty().bind(item.getFullNameProperty());
                 }
             }
         });
@@ -283,16 +284,34 @@ public class GuildManagerOverviewController implements Initializable {
 
         stage.showAndWait();
 
+        setGuildsToAdd = controller.getSetGuildsToAdd();
+        setGuildsToDelete = controller.getSetGuildsToDelete();
+        lstGuilds.setItems(controller.getManagerGuilds());
     }
 
     /**
-     *
+     * Gets the information and sends it down to the database.
      *
      */
     @FXML
     private void handleSaveGuildManagerButton() {
         setButtonTextToViewMode();
         setShowEditability(false);
-        //TODO MSP: Make save funtionality. send Manager, List of new Guild Names, list of guilds to delete.
+
+        GuildManager manager = lstManagers.getSelectionModel().getSelectedItem();
+        manager.setFirstName(txtFirstName.getText());
+        manager.setLastName(txtLastName.getText());
+        manager.updateFullName();
+        manager.setEmail(txtEmail.getText());
+        manager.setPhone(Integer.parseInt(txtPhone.getText()));
+        try {
+            guildManagerModel.updateGuildManager(manager, setGuildsToAdd, setGuildsToDelete);
+            setGuildsToAdd = null;
+            setGuildsToDelete = null;
+        } catch (NullPointerException nex) {
+            System.out.println("Couldn't update guildManager from gui.\n"
+                    + nex.getMessage());
+            nex.printStackTrace();
+        }
     }
 }

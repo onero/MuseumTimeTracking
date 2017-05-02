@@ -39,9 +39,6 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
     private ObservableList<String> oAvaiableGuilds;
     private ObservableList<String> oManagerGuilds;
 
-    private final List<String> listGuildsToAdd;
-    private final List<String> listGuildsToDelete;
-
     private final Set<String> setGuildsToAdd;
     private final Set<String> setGuildsToDelete;
 
@@ -50,9 +47,6 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
     public ManageGuildManagerGuildsViewController() {
         oAvaiableGuilds = FXCollections.observableArrayList();
         oManagerGuilds = FXCollections.observableArrayList();
-
-        listGuildsToAdd = new ArrayList<>();
-        listGuildsToDelete = new ArrayList<>();
 
         guildModel = GuildModel.getInstance();
 
@@ -146,20 +140,12 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
     }
 
     @FXML
-    private void handleCancelButton(ActionEvent event) {
+    private void handleCancelButton() {
         closeModal();
     }
 
     @FXML
-    private void handleOkButton(ActionEvent event) {
-        System.out.println("Guilds to add:");
-        for (String name : setGuildsToAdd) {
-            System.out.println(name);
-        }
-        System.out.println("Guilds to delete:");
-        for (String name : setGuildsToDelete) {
-            System.out.println(name);
-        }
+    private void handleOkButton() {
         closeModal();
     }
 
@@ -188,6 +174,15 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
      */
     public Set<String> getSetGuildsToDelete() {
         return setGuildsToDelete;
+    }
+
+    /**
+     * Returns the observable list containing how his guilds looks.
+     *
+     * @return
+     */
+    public ObservableList<String> getManagerGuilds() {
+        return oManagerGuilds;
     }
 
 }

@@ -6,6 +6,7 @@
 package museumtimetracking.gui.model;
 
 import java.util.List;
+import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import museumtimetracking.be.APerson;
@@ -59,8 +60,15 @@ public class GuildManagerModel {
         return cachedManagers;
     }
 
-    public void updateGuildManager(GuildManager manager, List<String> guildsToAdd, List<String> guildsToDelete) {
-
+    /**
+     * Sends the guildManagers data to the database that should be updated.
+     *
+     * @param manager
+     * @param guildsToAdd
+     * @param guildsToDelete
+     */
+    public void updateGuildManager(GuildManager manager, Set<String> guildsToAdd, Set<String> guildsToDelete) {
+        guildMGRManager.updateGuildManager(manager, guildsToAdd, guildsToDelete);
     }
 
 }
