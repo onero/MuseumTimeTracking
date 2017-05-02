@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.GuildManager;
 
@@ -57,7 +58,7 @@ public class GuildManagerDAO extends APersonDAO {
      * @param guildsTodelete
      * @throws SQLException
      */
-    public void updateGuildManagerInDatabase(GuildManager manager, List<String> guildsToAdd, List<String> guildsTodelete) throws SQLException {
+    public void updateGuildManagerInDatabase(GuildManager manager, Set<String> guildsToAdd, Set<String> guildsTodelete) throws SQLException {
         try (Connection con = connectionManager.getConnection()) {
             con.setAutoCommit(false);
             updatePersonInformation(con, manager);
