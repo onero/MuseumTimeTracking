@@ -26,6 +26,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.EFXMLName;
+import museumtimetracking.bll.VolunteerManager;
 import museumtimetracking.gui.model.VolunteerModel;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.root.volunteer.volunteerInfo.VolunteerInfoViewController;
@@ -41,7 +42,6 @@ public class VolunteerOverviewController implements Initializable {
     private Button btnEdit;
     @FXML
     private ToggleGroup language;
-
     @FXML
     private ListView<Volunteer> lstVolunteer;
     @FXML
@@ -56,8 +56,6 @@ public class VolunteerOverviewController implements Initializable {
     private TextField txtFirstName;
     @FXML
     private TextField txtLastName;
-    @FXML
-    private Label txtLinkMoreInfo;
     @FXML
     private TextField txtPhone;
     @FXML
@@ -76,9 +74,7 @@ public class VolunteerOverviewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        txtLinkMoreInfo.setVisible(false);
-                
-                
+
         lstVolunteer.setItems(volunteerModel.getCachedVolunteers());
         setVolunteerCellFactory();
 
@@ -98,7 +94,6 @@ public class VolunteerOverviewController implements Initializable {
         txtVolunteerInfo.setDisable(!value);
     }
 
-    @FXML
     private void handleVolunteerInfo() throws IOException {
         primStage = (Stage) btnEdit.getScene().getWindow();
 
@@ -140,29 +135,32 @@ public class VolunteerOverviewController implements Initializable {
 
                 Volunteer deleteVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
                 volunteerModel.deleteVolunteer(deleteVolunteer);
-                
             }
         });
     }
 
     @FXML
     private void handleEditVolunteer() {
-        if (btnEdit.getText().equalsIgnoreCase("rediger")) {
-            btnEdit.setText("Gem");
-            setTextVisibility(true);
-        } else {
-            btnEdit.setText("Rediger");
-            setTextVisibility(false);
+        Volunteer volunteer = lstVolunteer.getSelectionModel().getSelectedItem();
+        // The first 'if' starts by telling if the volunteer != null.
+        if (volunteer != null) {
+            if (btnEdit.getText().equalsIgnoreCase("rediger")) {
+                btnEdit.setText("Gem");
+                setTextVisibility(true);
+            } else {
+                btnEdit.setText("Rediger");
+                setTextVisibility(false);
 
-            // Select the volunteer from the list and updates the new info.
-            selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
-            selectedVolunteer.setFirstName(txtFirstName.getText());
-            selectedVolunteer.setLastName(txtLastName.getText());
-            selectedVolunteer.setEmail(txtEmail.getText());
-            selectedVolunteer.setPhone(Integer.parseInt(txtPhone.getText()));
-            selectedVolunteer.setDescription(txtVolunteerInfo.getText());
-            selectedVolunteer.updateFullName();
-            VolunteerModel.getInstance().updateVolunteer(selectedVolunteer);
+                // Select the volunteer from the list and updates the new info.
+                selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
+                selectedVolunteer.setFirstName(txtFirstName.getText());
+                selectedVolunteer.setLastName(txtLastName.getText());
+                selectedVolunteer.setEmail(txtEmail.getText());
+                selectedVolunteer.setPhone(Integer.parseInt(txtPhone.getText()));
+                selectedVolunteer.setDescription(txtVolunteerInfo.getText());
+                selectedVolunteer.updateFullName();
+                VolunteerModel.getInstance().updateVolunteer(selectedVolunteer);
+            }
         }
     }
 
@@ -181,9 +179,7 @@ public class VolunteerOverviewController implements Initializable {
             txtLastName.setText(selectedVolunteer.getLastName());
             txtEmail.setText(selectedVolunteer.getEmail());
             txtPhone.setText("" + selectedVolunteer.getPhone());
-            txtLinkMoreInfo.setVisible(true);
             txtVolunteerInfo.setText(selectedVolunteer.getDescription());
-
             selectVolunteerLanguage(selectedVolunteer);
         }
     }
@@ -217,7 +213,7 @@ public class VolunteerOverviewController implements Initializable {
             controller.setCurrentVolunteer(selectedVolunteer);
             inactiveInformationModal.show();
         }
-    
+
     }
 
 }
