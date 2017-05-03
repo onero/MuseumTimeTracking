@@ -192,7 +192,7 @@ public class VolunteerOverviewController implements Initializable {
      *
      * @throws NumberFormatException
      */
-    public void updateVolunteer() throws NumberFormatException {
+    public void updateVolunteer() {
         // Select the volunteer from the list and updates the new info.
         selectedVolunteer.setFirstName(txtFirstName.getText());
         selectedVolunteer.setLastName(txtLastName.getText());
@@ -203,7 +203,7 @@ public class VolunteerOverviewController implements Initializable {
     }
 
     @FXML
-    private void handleNewVolunteer() throws IOException {
+    private void handleNewVolunteer() {
         primStage = (Stage) btnEdit.getScene().getWindow();
         Stage newVolunteerModal = modalFactory.createNewModal(primStage, EFXMLName.ADD_NEW_VOLUNTEER);
         newVolunteerModal.show();
@@ -264,24 +264,34 @@ public class VolunteerOverviewController implements Initializable {
     private void handleSelectVolunteerImage(MouseEvent event) throws IOException {
         primStage = (Stage) btnEdit.getScene().getWindow();
         if (event.getClickCount() == 2) {
-            FileChooser fc = new FileChooser();
-            fc.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("All Images", "*.*"),
-                    new FileChooser.ExtensionFilter("JPG", "*.jpg"),
-                    new FileChooser.ExtensionFilter("PNG", "*.png"));
-            fc.setInitialDirectory(new File(System.getProperty("user.home")));
+            FileChooser fc = createFileChooser();
             File file = fc.showOpenDialog(primStage.getScene().getWindow());
             if (file != null) {
                 try {
                     volunteerModel.setVolunteerImage(selectedVolunteer.getID(), file);
+                    Image img = new Image(file.toURI().toASCIIString());
+                    selectedVolunteer.setImage(img);
+                    imgProfile.setImage(img);
                 } catch (DALException | FileNotFoundException ex) {
                     ExceptionDisplayer.display(ex);
                 }
-                Image img = new Image(file.toURI().toASCIIString());
-                selectedVolunteer.setImage(img);
-                imgProfile.setImage(img);
             }
         }
+    }
+
+    /**
+     * Create the file chooser
+     *
+     * @return
+     */
+    private FileChooser createFileChooser() {
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("All Images", "*.*"),
+                new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+                new FileChooser.ExtensionFilter("PNG", "*.png"));
+        fc.setInitialDirectory(new File(System.getProperty("user.home")));
+        return fc;
     }
 
 }

@@ -204,6 +204,7 @@ public class VolunteerDAO extends APersonDAO {
      * Deletes the selected volunteer from the DB.
      *
      * @param id
+     * @throws com.microsoft.sqlserver.jdbc.SQLServerException
      */
     public void deleteVolunteer(int id) throws SQLServerException, SQLException {
         try (Connection con = cm.getConnection()) {
@@ -218,6 +219,7 @@ public class VolunteerDAO extends APersonDAO {
      * @param id
      * @param file
      * @throws com.microsoft.sqlserver.jdbc.SQLServerException
+     * @throws java.io.FileNotFoundException
      */
     public void setVolunteerImage(int id, File file) throws SQLServerException, SQLException, FileNotFoundException {
         try (Connection con = cm.getConnection()) {
