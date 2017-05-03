@@ -17,8 +17,8 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController">
-   <center>
-      <AnchorPane id="AnchorPane">
+   <right>
+      <AnchorPane id="AnchorPane" BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="25.0" layoutY="14.0" text="Frivillig Oversigt">
                <font>
@@ -118,7 +118,7 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox layoutX="21.0" layoutY="372.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="61.0">
+            <HBox layoutX="14.0" layoutY="373.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="68.0">
                <children>
                   <ButtonBar buttonMinWidth="100.0">
                     <buttons>
@@ -135,5 +135,8 @@
             </HBox>
          </children>
       </AnchorPane>
-   </center>
+   </right>
+   <bottom>
+      <Button mnemonicParsing="false" onAction="#handleDocumentHoursButton" prefHeight="31.0" prefWidth="160.0" text="Dokumentér" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>

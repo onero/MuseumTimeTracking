@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -268,6 +269,36 @@ public class VolunteerDAO extends APersonDAO {
         } catch (SQLException ex) {
             Logger.getLogger(VolunteerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * Adds hours to a volunteer in the database.
+     *
+     * @param volunteerID
+     * @param guildName
+     * @param date
+     * @param hours
+     * @return
+     */
+    public boolean addHoursToVolunteer(int volunteerID, String guildName, Date date, int hours) {
+        boolean updateSuccesfull = false;
+        String sql = "INSERT INTO VolunteerWork "
+                + "(VolunteerID, GuildName, Date, Hours) "
+                + "VALUES (?,?,?,?)";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, volunteerID);
+            ps.setString(2, guildName);
+            ps.setDate(3, date);
+            ps.setInt(4, hours);
+
+            updateSuccesfull = ps.execute();
+        } catch (SQLException ex) {
+            System.out.println("Couldn't add hours to volunteers in database!\n"
+                    + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return updateSuccesfull;
     }
 
 }

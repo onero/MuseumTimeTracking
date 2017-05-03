@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,9 +32,11 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.EFXMLName;
+import static museumtimetracking.be.enums.EFXMLName.ADD_HOURS_VOLUNTEER;
 import static museumtimetracking.be.enums.EFXMLName.LIST_CELL_VOLUNTEER;
 import museumtimetracking.gui.model.VolunteerModel;
 import museumtimetracking.gui.views.ModalFactory;
+import museumtimetracking.gui.views.root.volunteer.addHours.AddVolunteersHoursViewController;
 import museumtimetracking.gui.views.root.volunteer.controls.ListCellVolunter;
 import museumtimetracking.gui.views.root.volunteer.controls.VolunteerListCellViewController;
 import museumtimetracking.gui.views.root.volunteer.volunteerInfo.VolunteerInfoViewController;
@@ -256,6 +259,20 @@ public class VolunteerOverviewController implements Initializable {
                 selectedVolunteer.setImage(img);
                 imgProfile.setImage(img);
             }
+        }
+    }
+
+    @FXML
+    private void handleDocumentHoursButton(ActionEvent event) {
+        Volunteer volunteer = lstVolunteer.getSelectionModel().getSelectedItem();
+        if (volunteer != null) {
+            Stage primeryStage = (Stage) txtEmail.getScene().getWindow();
+            Stage stage = modalFactory.createNewModal(primeryStage, ADD_HOURS_VOLUNTEER);
+            AddVolunteersHoursViewController controller = modalFactory.getLoader().getController();
+            controller.setVolunteer(volunteer);
+            stage.show();
+        } else {
+            //TODO RKL: Show @Adam's awesome errorhandling.
         }
     }
 
