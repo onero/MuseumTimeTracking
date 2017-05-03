@@ -5,6 +5,7 @@
  */
 package museumtimetracking.gui.views.root.volunteer;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,13 +17,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import museumtimetracking.be.Volunteer;
@@ -44,8 +48,9 @@ public class VolunteerOverviewController implements Initializable {
     @FXML
     private Button btnEdit;
     @FXML
+    private ImageView imgProfile;
+    @FXML
     private ToggleGroup language;
-
     @FXML
     private ListView<Volunteer> lstVolunteer;
     @FXML
@@ -61,11 +66,11 @@ public class VolunteerOverviewController implements Initializable {
     @FXML
     private TextField txtLastName;
     @FXML
-    private Label txtLinkMoreInfo;
-    @FXML
     private TextField txtPhone;
     @FXML
     private TextArea txtVolunteerInfo;
+
+    public static final String NO_PHOTO = "/museumtimetracking/asset/img/no-photo.jpg";
 
     private final VolunteerModel volunteerModel;
 
@@ -80,7 +85,6 @@ public class VolunteerOverviewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        txtLinkMoreInfo.setVisible(false);
 
         lstVolunteer.setItems(volunteerModel.getCachedVolunteers());
         setVolunteerCellFactory();
@@ -101,7 +105,6 @@ public class VolunteerOverviewController implements Initializable {
         txtVolunteerInfo.setDisable(!value);
     }
 
-    @FXML
     private void handleVolunteerInfo() throws IOException {
         primStage = (Stage) btnEdit.getScene().getWindow();
 
@@ -149,29 +152,32 @@ public class VolunteerOverviewController implements Initializable {
 
                 Volunteer deleteVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
                 volunteerModel.deleteVolunteer(deleteVolunteer);
-
             }
         });
     }
 
     @FXML
     private void handleEditVolunteer() {
-        if (btnEdit.getText().equalsIgnoreCase("rediger")) {
-            btnEdit.setText("Gem");
-            setTextVisibility(true);
-        } else {
-            btnEdit.setText("Rediger");
-            setTextVisibility(false);
+        Volunteer volunteer = lstVolunteer.getSelectionModel().getSelectedItem();
+        // The first 'if' starts by telling if the volunteer != null.
+        if (volunteer != null) {
+            if (btnEdit.getText().equalsIgnoreCase("rediger")) {
+                btnEdit.setText("Gem");
+                setTextVisibility(true);
+            } else {
+                btnEdit.setText("Rediger");
+                setTextVisibility(false);
 
-            // Select the volunteer from the list and updates the new info.
-            selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
-            selectedVolunteer.setFirstName(txtFirstName.getText());
-            selectedVolunteer.setLastName(txtLastName.getText());
-            selectedVolunteer.setEmail(txtEmail.getText());
-            selectedVolunteer.setPhone(Integer.parseInt(txtPhone.getText()));
-            selectedVolunteer.setDescription(txtVolunteerInfo.getText());
-            selectedVolunteer.updateFullName();
-            VolunteerModel.getInstance().updateVolunteer(selectedVolunteer);
+                // Select the volunteer from the list and updates the new info.
+                selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
+                selectedVolunteer.setFirstName(txtFirstName.getText());
+                selectedVolunteer.setLastName(txtLastName.getText());
+                selectedVolunteer.setEmail(txtEmail.getText());
+                selectedVolunteer.setPhone(Integer.parseInt(txtPhone.getText()));
+                selectedVolunteer.setDescription(txtVolunteerInfo.getText());
+                selectedVolunteer.updateFullName();
+                VolunteerModel.getInstance().updateVolunteer(selectedVolunteer);
+            }
         }
     }
 
@@ -190,10 +196,15 @@ public class VolunteerOverviewController implements Initializable {
             txtLastName.setText(selectedVolunteer.getLastName());
             txtEmail.setText(selectedVolunteer.getEmail());
             txtPhone.setText("" + selectedVolunteer.getPhone());
-            txtLinkMoreInfo.setVisible(true);
             txtVolunteerInfo.setText(selectedVolunteer.getDescription());
-
             selectVolunteerLanguage(selectedVolunteer);
+
+            if (selectedVolunteer.getImage() != null) {
+                imgProfile.setImage(selectedVolunteer.getImage());
+            } else {
+                Image img = new Image(this.getClass().getResourceAsStream(NO_PHOTO));
+                imgProfile.setImage(img);
+            }
         }
     }
 
@@ -226,7 +237,26 @@ public class VolunteerOverviewController implements Initializable {
             controller.setCurrentVolunteer(selectedVolunteer);
             inactiveInformationModal.show();
         }
+    }
 
+    @FXML
+    private void handleSelectVolunteerImage(MouseEvent event) throws IOException {
+        primStage = (Stage) btnEdit.getScene().getWindow();
+        if (event.getClickCount() == 2) {
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("All Images", "*.*"),
+                    new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+                    new FileChooser.ExtensionFilter("PNG", "*.png"));
+            fc.setInitialDirectory(new File(System.getProperty("user.home")));
+            File file = fc.showOpenDialog(primStage.getScene().getWindow());
+            if (file != null) {
+                volunteerModel.setVolunteerImage(selectedVolunteer.getID(), file);
+                Image img = new Image(file.toURI().toASCIIString());
+                selectedVolunteer.setImage(img);
+                imgProfile.setImage(img);
+            }
+        }
     }
 
 }

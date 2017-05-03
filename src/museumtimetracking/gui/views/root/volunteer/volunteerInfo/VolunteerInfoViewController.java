@@ -56,12 +56,13 @@ public class VolunteerInfoViewController implements Initializable {
             volunteerModel.setVolunteerDescription(currentVolunteer.getID(), txtVolunteerInfo.getText());
             volunteerModel.updateIdleVolunteer(currentVolunteer, true);
             primStage.close();
-
         }
     }
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -77,5 +78,4 @@ public class VolunteerInfoViewController implements Initializable {
         currentVolunteer = volunteer;
         txtVolunteerInfo.setText(currentVolunteer.getDescription());
     }
-
 }

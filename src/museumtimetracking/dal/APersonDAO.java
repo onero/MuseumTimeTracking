@@ -5,10 +5,17 @@
  */
 package museumtimetracking.dal;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.image.Image;
 import museumtimetracking.be.APerson;
 
 /**
@@ -65,6 +72,54 @@ public abstract class APersonDAO {
         ps.setInt(5, person.getID());
 
         ps.executeUpdate();
+    }
+
+    /**
+     * Set convert the
+     *
+     * @param con
+     * @param id
+     * @param file
+     * @throws SQLException
+     */
+    public void setPersonImage(Connection con, int id, File file) throws SQLException {
+        String sql = "UPDATE Person "
+                + "SET Picture = ? "
+                + "WHERE ID = ?";
+        InputStream is = null;
+        try {
+            is = new FileInputStream(file);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(APersonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setBlob(1, is);
+        ps.setInt(2, id);
+
+        ps.executeUpdate();
+    }
+
+    /**
+     * Get the image as binary data from DB
+     *
+     * @param con
+     * @param id
+     * @return
+     * @throws SQLException
+     */
+    public Image getPersonImage(Connection con, int id) throws SQLException {
+        Image img = null;
+        String sql = "SELECT Picture FROM Person "
+                + "WHERE ID = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, id);
+
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            InputStream in = rs.getBinaryStream("Picture");
+            img = new Image(in);
+        }
+        return img;
     }
 
     /**
