@@ -5,6 +5,7 @@
  */
 package museumtimetracking.gui.views.root.volunteer.volunteerInfo;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -13,6 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import museumtimetracking.be.Volunteer;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.VolunteerModel;
 
 /**
@@ -31,10 +34,15 @@ public class VolunteerInfoViewController implements Initializable {
 
     private Stage primStage;
 
-    private final VolunteerModel volunteerModel;
+    private VolunteerModel volunteerModel;
 
     public VolunteerInfoViewController() {
-        volunteerModel = VolunteerModel.getInstance();
+        volunteerModel = null;
+        try {
+            volunteerModel = VolunteerModel.getInstance();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
     @FXML
@@ -53,8 +61,12 @@ public class VolunteerInfoViewController implements Initializable {
             btnEdit.setText("Rediger");
             txtVolunteerInfo.setDisable(true);
             currentVolunteer.setDescription(txtVolunteerInfo.getText());
-            volunteerModel.setVolunteerDescription(currentVolunteer.getID(), txtVolunteerInfo.getText());
-            volunteerModel.updateIdleVolunteer(currentVolunteer, true);
+            try {
+                volunteerModel.setVolunteerDescription(currentVolunteer.getID(), txtVolunteerInfo.getText());
+                volunteerModel.updateIdleVolunteer(currentVolunteer, true);
+            } catch (DALException ex) {
+                ExceptionDisplayer.display(ex);
+            }
             primStage.close();
 
         }
