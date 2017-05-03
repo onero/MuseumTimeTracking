@@ -1,0 +1,263 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 03-05-2017, 12:14:15
+    Author     : Skovgaard
+*/
+
+/* COLORS
+
+Buttons:
+White: #fff
+Dark Grey: #333333
+Grey: #585859
+Black: #000000
+Light Grey: #616161
+Mid Grey: #424242
+Light Black: #1f2429
+Grey/blue: #38424b
+All buttons has the same color codes and effects.
+
+TableList: 
+Green: #105100
+Red: #910000
+
+PieChart:
+Red: #910000
+Green: #105100
+Other colors are random.
+
+Background:
+Small pictures of "CoarseGrid.png". (dots)
+Dark Grey: #333333
+Grey: #585859
+
+
+*/
+
+
+.borderPane{
+    -fx-background-image: url("CoarseGrid.png"); /* <===  puts in small pictures in the background */
+    -fx-background-repeat: repeat; /* <===  Repeats till the background is filled. */
+    -fx-background-color:
+        linear-gradient(#38424b 0%, #1f2429 100%, #191d22 100%),
+        linear-gradient(#585859, #333333),
+        radial-gradient(center 100% 100%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+}
+
+.check-box .mark {
+    -fx-background-color: transparent;
+}
+
+.border{
+    -fx-border-color: rgb(0, 0, 0);
+    -fx-border-width: 1;
+}
+
+.studentInfo{
+    -fx-background-image: url("CoarseGrid.png");
+    -fx-background-repeat: repeat;
+    -fx-background-color:
+        linear-gradient(#38424b 0%, #1f2429 100%, #191d22 100%),
+        linear-gradient(#000000, #000000),
+        radial-gradient(center 50% 50%, radius 85%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+}
+
+.mainBackground{
+    -fx-background-image: url("CoarseGrid.png");
+    -fx-background-repeat: repeat;
+    -fx-background-color:
+        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
+        linear-gradient(#000000, #050404),
+        radial-gradient(center 80% 60%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+}
+
+.whiteBackground{
+    -fx-background-color: #fff;
+}
+
+.padding{
+    -fx-padding: 10 15 10 15;
+}
+
+.padding-left{
+    -fx-padding: 0 0 0 15;
+}
+
+.loginButton{ /* <=== Only diff is font size. */
+    -fx-background-color:
+        rgba(255, 255, 255, 0.08),
+        rgba(0, 0, 0, 0.8),
+        #090a0c,
+        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
+        linear-gradient(#242a2e, #23282e),
+        radial-gradient(center 50% 0%, radius 100%, rgba(135,142,148,0.9),
+        rgba(255,255,255,0));
+    -fx-background-radius: 7, 6, 5, 4, 3, 5;
+    -fx-background-insets: -3 -3 -4 -3, -3, 0, 1, 2, 0;
+    -fx-font-family: "Arial";
+    -fx-font-size: 35;
+    -fx-text-fill: white;
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-padding: 10 20 10 20;
+}
+
+.button{ /* <=== Makes all buttons the same. */
+    -fx-background-color:
+        rgba(255, 255, 255, 0.08),
+        rgba(0, 0, 0, 0.8),
+        #090a0c,
+        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
+        linear-gradient(#242a2e, #23282e),
+        radial-gradient(center 50% 0%, radius 100%, rgba(135,142,148,0.9),
+        rgba(255,255,255,0));
+    -fx-background-radius: 7, 6, 5, 4, 3, 5;
+    -fx-background-insets: -3 -3 -4 -3, -3, 0, 1, 2, 0;
+    -fx-font-family: "Arial";
+    -fx-text-fill: white;
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-padding: 10 20 10 20;
+}
+/*.button:hover{  <===  When you have your mouse over the button. 
+    -fx-background-color:   
+        rgba(255, 255, 255, 0.08), 
+        rgba(48, 48, 48, 1), 
+        #090a0c,
+        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
+        linear-gradient(#242a2e, #23282e),
+        radial-gradient(center 50% 0%, radius 100%, rgba(135,142,148,0.9),
+        rgba(255,255,255,0));
+}*/
+.button:pressed{ /* <=== When button is pressed. */
+    -fx-background-color:
+        rgba(255, 255, 255, 0.08),
+        rgba(0, 0, 0, 0.8),
+        #090a0c,
+        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
+        linear-gradient(#242a2e, #23282e),
+        radial-gradient(center 50% 0%, radius 100%, rgba(200,200,200,0.9),
+        rgba(255,255,255,0));
+}
+.chart-pie-label{
+    -fx-font-family: "Arial";
+    -fx-fill: #fff; 
+    -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 1), 0, 0.0 , 0 , 1 );
+}
+.chart-pie{
+    -fx-border-width: 0px;
+}
+
+.label{ /* <=== All labels */
+    -fx-font-family: "Arial";
+    -fx-text-fill: #fff;
+    -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 1), 0, 0.0 , 0 , 1 );
+}
+
+.labelss{ /* <=== Labels to be black. */
+    -fx-font-family: "Arial";
+    -fx-text-fill: #000000;
+    -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 0.2), 0, 0.0 , 0 , 1 );
+}
+
+.table-view{
+    -fx-background-color: transparent;
+}
+
+.table-view:focused{
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(#000000 0%, #424141 100%);
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: transparent;
+    -fx-text-fill: white; /* <=== White text in TableView. */
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-cell{
+    -fx-text-fill: white;
+}
+
+.table-row-cell{
+    -fx-background-color: -fx-table-cell-border-color, #616161;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+
+.table-row-cell:odd{
+    -fx-background-color: -fx-table-cell-border-color, #424242;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; 
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #424242;
+    -fx-background-insets: 0;
+    -fx-background-radius: 1;
+}
+.table-view > .virtual-flow > .scroll-bar:vertical, /* <=== Color of scrollbar. */
+.table-view > .virtual-flow > .scroll-bar:vertical > .track,
+.table-view > .virtual-flow > .scroll-bar:vertical > .track-background, 
+.table-view > .virtual-flow > .scroll-bar:horizontal,
+.table-view > .virtual-flow > .scroll-bar:horizontal > .track,
+.table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
+    -fx-background-color: #333333;
+}
+
+.table-view > .virtual-flow > .scroll-bar > .increment-button, 
+.table-view > .virtual-flow > .scroll-bar > .decrement-button {
+    -fx-opacity: 0;
+}
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: rgba(255, 255, 255, 0.08),
+        rgba(0, 0, 0, 0.8),
+        #090a0c,
+        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
+        linear-gradient(#242a2e, #23282e),
+        radial-gradient(center 50% 0%, radius 100%, rgba(135,142,148,0.9),
+        rgba(255,255,255,0));
+    -fx-text-fill: white;
+}
+
+.list-cell:even { /* <=== changed to even */
+    -fx-background-color:#333333;
+    -fx-text-fill: #ffffff;
+}
+
+.list-cell:odd{
+    -fx-background-color:#424242;
+    -fx-text-fill: #ffffff;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color:#666666;
+    -fx-text-fill: white;
+}
+
+.data0.chart-pie { -fx-pie-color: #086d00; } /* <=== Green slice piechart */
+.data1.chart-pie { -fx-pie-color: #910000; } /* <=== Red */
+
+
+.chart-legend{
+    -fx-background-color: linear-gradient(#38424b 0%, #000000 20%, #000000 100%);
+}
+
+#red{ /* <=== Red tableList*/
+    -fx-background-color: #910000;    
+}
+
+#green{ /* <=== Green tableList*/
+    -fx-background-color: #105000;
+}
+
+

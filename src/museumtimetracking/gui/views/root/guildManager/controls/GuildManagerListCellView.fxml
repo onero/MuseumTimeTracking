@@ -4,7 +4,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.controls.GuildManagerListCellViewController">
+<BorderPane stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.controls.GuildManagerListCellViewController">
    <center>
       <Label fx:id="lblName" text="&lt;&lt;GuildmanagerName&gt;&gt;" BorderPane.alignment="CENTER" />
    </center>
