@@ -112,8 +112,14 @@
                         <Insets bottom="15.0" top="15.0" />
                      </HBox.margin>
                      <children>
-                        <ImageView fx:id="imgProfile" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#handleSelectVolunteerImage" pickOnBounds="true" preserveRatio="true" />
-                        <TextArea fx:id="txtVolunteerInfo" prefHeight="135.0" prefWidth="200.0" />
+                        <ImageView fx:id="imgProfile" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#handleSelectVolunteerImage" pickOnBounds="true" preserveRatio="true">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin></ImageView>
+                        <TextArea fx:id="txtVolunteerInfo" prefHeight="135.0" prefWidth="200.0">
+                           <VBox.margin>
+                              <Insets top="3.0" />
+                           </VBox.margin></TextArea>
                      </children>
                   </VBox>
                </children>
