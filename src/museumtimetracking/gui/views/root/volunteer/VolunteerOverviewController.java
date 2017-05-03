@@ -25,6 +25,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.EFXMLName;
@@ -229,19 +230,25 @@ public class VolunteerOverviewController implements Initializable {
             controller.setCurrentVolunteer(selectedVolunteer);
             inactiveInformationModal.show();
         }
-
     }
 
     @FXML
     private void handleSelectVolunteerImage(MouseEvent event) throws IOException {
-
+        primStage = (Stage) btnEdit.getScene().getWindow();
         if (event.getClickCount() == 2) {
-            //TODO ALH: Convert this to a filechooser
-            File file = new File("fisherman.jpg");
-            volunteerModel.setVolunteerImage(selectedVolunteer.getID(), file);
-            Image img = new Image(file.toURI().toASCIIString());
-            selectedVolunteer.setImage(img);
-            imgProfile.setImage(img);
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("All Images", "*.*"),
+                    new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+                    new FileChooser.ExtensionFilter("PNG", "*.png"));
+            fc.setInitialDirectory(new File(System.getProperty("user.home")));
+            File file = fc.showOpenDialog(primStage.getScene().getWindow());
+            if (file != null) {
+                volunteerModel.setVolunteerImage(selectedVolunteer.getID(), file);
+                Image img = new Image(file.toURI().toASCIIString());
+                selectedVolunteer.setImage(img);
+                imgProfile.setImage(img);
+            }
         }
     }
 
