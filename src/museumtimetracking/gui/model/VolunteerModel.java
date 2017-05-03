@@ -5,6 +5,7 @@
  */
 package museumtimetracking.gui.model;
 
+import java.io.File;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,13 +53,23 @@ public class VolunteerModel {
     }
 
     /**
+     * Set the volunteer Image
+     *
+     * @param id
+     * @param file
+     */
+    public void setVolunteerImage(int id, File file) {
+        volunteerMgr.setVolunteerImage(id, file);
+    }
+
+    /**
      * Updates the volunteer in the DB.
      *
      * @param updatedVolunteer
      */
     public void updateVolunteer(Volunteer updatedVolunteer) {
         volunteerMgr.updateVolunteer(updatedVolunteer);
-        
+
     }
 
     /**
