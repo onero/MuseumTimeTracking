@@ -22,20 +22,15 @@ public class FacadeDAO {
 
     private GuildManagerDAO guildManagerDAO;
 
-    public static FacadeDAO getInstance() {
+    public static FacadeDAO getInstance() throws IOException {
         if (instance == null) {
             instance = new FacadeDAO();
         }
         return instance;
     }
 
-    private FacadeDAO() {
-        try {
-            guildManagerDAO = new GuildManagerDAO();
-        } catch (IOException ex) {
-            System.out.println("Couldn't get guildManagerDAO\n" + ex.getMessage());
-            ex.printStackTrace();
-        }
+    private FacadeDAO() throws IOException {
+        guildManagerDAO = new GuildManagerDAO();
     }
 
     /**

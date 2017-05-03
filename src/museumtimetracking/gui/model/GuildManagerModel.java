@@ -5,6 +5,7 @@
  */
 package museumtimetracking.gui.model;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import javafx.collections.FXCollections;
@@ -26,14 +27,14 @@ public class GuildManagerModel {
     private final List<GuildManager> managersFromDB;
     private final ObservableList<GuildManager> cachedManagers;
 
-    public static GuildManagerModel getInstance() {
+    public static GuildManagerModel getInstance() throws IOException {
         if (instance == null) {
             instance = new GuildManagerModel();
         }
         return instance;
     }
 
-    private GuildManagerModel() {
+    private GuildManagerModel() throws IOException {
         guildMGRManager = new GuildMGRManager();
         managersFromDB = guildMGRManager.getAllGuildManagers();
         cachedManagers = FXCollections.observableArrayList(managersFromDB);

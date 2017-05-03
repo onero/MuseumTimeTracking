@@ -5,6 +5,7 @@
  */
 package museumtimetracking.gui.views.root.guildManager.newGuildManager;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
@@ -58,7 +59,7 @@ public class NewGuildManagerViewController implements Initializable {
      * information alert telling the informtion is incorrect.
      */
     @FXML
-    private void handleAddButton() {
+    private void handleAddButton() throws IOException {
         if (validateData()) {
             APerson person = new GuildManager(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()));
             String guildName = comboGuild.getSelectionModel().getSelectedItem();

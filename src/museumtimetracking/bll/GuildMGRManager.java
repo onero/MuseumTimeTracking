@@ -5,6 +5,7 @@
  */
 package museumtimetracking.bll;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import javafx.collections.ObservableList;
@@ -20,7 +21,7 @@ public class GuildMGRManager {
 
     private final FacadeDAO facadeDAO;
 
-    public GuildMGRManager() {
+    public GuildMGRManager() throws IOException {
         facadeDAO = FacadeDAO.getInstance();
     }
 

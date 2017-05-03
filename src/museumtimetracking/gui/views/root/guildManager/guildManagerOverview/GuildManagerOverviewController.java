@@ -73,7 +73,7 @@ public class GuildManagerOverviewController implements Initializable {
     private Set<String> setGuildsToAdd;
     private Set<String> setGuildsToDelete;
 
-    public GuildManagerOverviewController() {
+    public GuildManagerOverviewController() throws IOException {
         nodeFactory = NodeFactory.getInstance();
         guildManagerModel = GuildManagerModel.getInstance();
         modalFactory = ModalFactory.getInstance();
