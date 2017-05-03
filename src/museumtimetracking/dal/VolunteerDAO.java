@@ -176,7 +176,7 @@ public class VolunteerDAO extends APersonDAO {
      */
     public void setVolunteerDescription(int id, String text) {
         try (Connection con = cm.getConnection()) {
-            String sql = "UPDATE VOlunteer "
+            String sql = "UPDATE Volunteer "
                     + "SET Description = ? "
                     + "WHERE PersonID = ?";
 
@@ -241,16 +241,11 @@ public class VolunteerDAO extends APersonDAO {
     /**
      * Deletes the selected volunteer from the DB.
      *
-     * @param deleteVolunteer
+     * @param id
      */
-    public void deleteVolunteer(Volunteer deleteVolunteer) {
-        String sql = "DELETE FROM Person "
-                + "WHERE ID = ?";
+    public void deleteVolunteer(int id) {
         try (Connection con = cm.getConnection()) {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, deleteVolunteer.getID());
-
-            ps.executeUpdate();
+            deletePersonFromDatabaseByID(con, id);
         } catch (SQLException ex) {
             System.out.println("Couldn't remove volunteer from the DB");
             System.out.println(ex);

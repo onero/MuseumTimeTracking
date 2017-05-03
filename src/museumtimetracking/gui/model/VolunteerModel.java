@@ -78,7 +78,7 @@ public class VolunteerModel {
      * @param deleteVolunteer
      */
     public void deleteVolunteer(Volunteer deleteVolunteer) {
-        volunteerMgr.deleteVolunteer(deleteVolunteer);
+        volunteerMgr.deleteVolunteer(deleteVolunteer.getID());
         // Removes the volunteer from the listview.
         cachedVolunteers.remove(deleteVolunteer);
     }

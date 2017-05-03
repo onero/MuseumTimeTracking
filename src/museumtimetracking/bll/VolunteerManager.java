@@ -82,10 +82,10 @@ public class VolunteerManager {
     /**
      * Deletes the volunteer from DB.
      *
-     * @param deleteVolunteer
+     * @param id
      */
-    public void deleteVolunteer(Volunteer deleteVolunteer) {
-        volunteerDAO.deleteVolunteer(deleteVolunteer);
+    public void deleteVolunteer(int id) {
+        volunteerDAO.deleteVolunteer(id);
     }
 
     /**
