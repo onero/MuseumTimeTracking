@@ -5,6 +5,7 @@
  */
 package museumtimetracking.gui.views.root.volunteer.idleVolunteers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -13,6 +14,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import museumtimetracking.be.Volunteer;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.VolunteerModel;
 
 /**
@@ -31,10 +34,15 @@ public class IdleVolunteerViewController implements Initializable {
     @FXML
     private TableView<Volunteer> tableVolunteer;
 
-    private final VolunteerModel volunteerModel;
+    private VolunteerModel volunteerModel;
 
     public IdleVolunteerViewController() {
-        volunteerModel = VolunteerModel.getInstance();
+        volunteerModel = null;
+        try {
+            volunteerModel = VolunteerModel.getInstance();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
     /**
@@ -52,7 +60,11 @@ public class IdleVolunteerViewController implements Initializable {
     @FXML
     private void handleRestoreFromArchive() {
         Volunteer selectedVolunteer = tableVolunteer.getSelectionModel().getSelectedItem();
-        volunteerModel.updateIdleVolunteer(selectedVolunteer, false);
+        try {
+            volunteerModel.updateIdleVolunteer(selectedVolunteer, false);
+        } catch (DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
 }

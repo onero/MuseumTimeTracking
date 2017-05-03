@@ -13,8 +13,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.image.Image;
 import museumtimetracking.be.APerson;
 
@@ -81,17 +79,13 @@ public abstract class APersonDAO {
      * @param id
      * @param file
      * @throws SQLException
+     * @throws java.io.FileNotFoundException
      */
-    public void setPersonImage(Connection con, int id, File file) throws SQLException {
+    public void setPersonImage(Connection con, int id, File file) throws SQLException, FileNotFoundException {
         String sql = "UPDATE Person "
                 + "SET Picture = ? "
                 + "WHERE ID = ?";
-        InputStream is = null;
-        try {
-            is = new FileInputStream(file);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(APersonDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        InputStream is = new FileInputStream(file);
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setBlob(1, is);
         ps.setInt(2, id);

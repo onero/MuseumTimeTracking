@@ -5,6 +5,7 @@
  */
 package museumtimetracking.gui.views.root.volunteer.newVolunteer;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -15,6 +16,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.ELanguage;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.VolunteerModel;
 
 /**
@@ -41,10 +44,15 @@ public class NewVolunteerViewController implements Initializable {
     @FXML
     private TextField txtPhone;
 
-    private final VolunteerModel volunteerModel;
+    private VolunteerModel volunteerModel;
 
     public NewVolunteerViewController() {
-        volunteerModel = VolunteerModel.getInstance();
+        volunteerModel = null;
+        try {
+            volunteerModel = VolunteerModel.getInstance();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
     @FXML
@@ -59,7 +67,11 @@ public class NewVolunteerViewController implements Initializable {
         }
 
         Volunteer newVolunteer = new Volunteer(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()), selectedLanguage);
-        volunteerModel.addVolunteer(newVolunteer);
+        try {
+            volunteerModel.addVolunteer(newVolunteer);
+        } catch (DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
 
         closeWindow();
     }

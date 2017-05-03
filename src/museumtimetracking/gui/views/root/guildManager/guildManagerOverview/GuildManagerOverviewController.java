@@ -27,6 +27,8 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import museumtimetracking.be.GuildManager;
 import static museumtimetracking.be.enums.EFXMLName.*;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.NodeFactory;
@@ -64,7 +66,7 @@ public class GuildManagerOverviewController implements Initializable {
 
     private final NodeFactory nodeFactory;
 
-    private final GuildManagerModel guildManagerModel;
+    private GuildManagerModel guildManagerModel;
 
     private List<TextField> textFields;
 
@@ -79,9 +81,14 @@ public class GuildManagerOverviewController implements Initializable {
     private Set<String> setGuildsToDelete;
 
     public GuildManagerOverviewController() {
-        nodeFactory = NodeFactory.getInstance();
-        guildManagerModel = GuildManagerModel.getInstance();
         modalFactory = ModalFactory.getInstance();
+        nodeFactory = NodeFactory.getInstance();
+        guildManagerModel = null;
+        try {
+            guildManagerModel = GuildManagerModel.getInstance();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
     /**
@@ -99,7 +106,7 @@ public class GuildManagerOverviewController implements Initializable {
     }
 
     @FXML
-    private void handleNewManagerButton() throws IOException {
+    private void handleNewManagerButton() {
         if (btnNewGuildManager.getText().equals(NEW_GUILD_MANAGER)) {
             newManagerModal();
         } else if (btnNewGuildManager.getText().equals(ADD_GUILD_BUTTON_TEXT)) {
@@ -131,7 +138,11 @@ public class GuildManagerOverviewController implements Initializable {
      */
     @FXML
     private void handleDeleteButton() {
-        guildManagerModel.deleteGuildManager(lstManagers.getSelectionModel().getSelectedItem());
+        try {
+            guildManagerModel.deleteGuildManager(lstManagers.getSelectionModel().getSelectedItem());
+        } catch (DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
         setButtonTextToViewMode();
         setSetsToNull();
     }
@@ -292,7 +303,7 @@ public class GuildManagerOverviewController implements Initializable {
      *
      * @throws IOException
      */
-    private void showGuildManagementModal() throws IOException {
+    private void showGuildManagementModal() {
         Stage primStage = (Stage) lstGuilds.getScene().getWindow();
         Stage stage = modalFactory.createNewModal(primStage, MANAGE_MANAGER_GUILDS);
         ManageGuildManagerGuildsViewController controller = modalFactory.getLoader().getController();
@@ -320,10 +331,8 @@ public class GuildManagerOverviewController implements Initializable {
         try {
             guildManagerModel.updateGuildManager(manager, setGuildsToAdd, setGuildsToDelete);
             setSetsToNull();
-        } catch (NullPointerException nex) {
-            System.out.println("Couldn't update guildManager from gui.\n"
-                    + nex.getMessage());
-            nex.printStackTrace();
+        } catch (DALException ex) {
+            ExceptionDisplayer.display(ex);
         }
     }
 

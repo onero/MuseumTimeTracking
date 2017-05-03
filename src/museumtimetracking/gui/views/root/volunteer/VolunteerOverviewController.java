@@ -6,6 +6,7 @@
 package museumtimetracking.gui.views.root.volunteer;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,8 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
@@ -32,6 +31,9 @@ import javafx.util.Callback;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.EFXMLName;
 import static museumtimetracking.be.enums.EFXMLName.LIST_CELL_VOLUNTEER;
+import museumtimetracking.exception.AlertFactory;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.VolunteerModel;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.root.volunteer.controls.ListCellVolunter;
@@ -72,7 +74,7 @@ public class VolunteerOverviewController implements Initializable {
 
     public static final String NO_PHOTO = "/museumtimetracking/asset/img/no-photo.jpg";
 
-    private final VolunteerModel volunteerModel;
+    private VolunteerModel volunteerModel;
 
     private final ModalFactory modalFactory;
 
@@ -94,7 +96,12 @@ public class VolunteerOverviewController implements Initializable {
 
     public VolunteerOverviewController() {
         modalFactory = ModalFactory.getInstance();
-        volunteerModel = VolunteerModel.getInstance();
+        volunteerModel = null;
+        try {
+            volunteerModel = VolunteerModel.getInstance();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
     private void setTextVisibility(boolean value) {
@@ -140,45 +147,59 @@ public class VolunteerOverviewController implements Initializable {
 
     @FXML
     private void handleDeleteVolunteer() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("ADVARSEL!");
-        alert.setHeaderText(" Tryk 'Ja' for at slette permanent. \n Tryk 'Nej' for at fortryde.");
-        ButtonType yesButton = new ButtonType("Ja", ButtonBar.ButtonData.YES);
-        ButtonType noButton = new ButtonType("Nej", ButtonBar.ButtonData.CANCEL_CLOSE);
-        alert.getButtonTypes().setAll(yesButton, noButton);
+        String message = "Tryk 'Ja' for at slette permanent. \n Tryk 'Nej' for at fortryde.";
+        Alert alert = AlertFactory.createAlert(Alert.AlertType.WARNING, message);
         alert.showAndWait().ifPresent(type -> {
-
-            if (type == yesButton) {
-
+            //If user clicks first button
+            if (type == alert.getButtonTypes().get(0)) {
                 Volunteer deleteVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
-                volunteerModel.deleteVolunteer(deleteVolunteer);
+                try {
+                    volunteerModel.deleteVolunteer(deleteVolunteer);
+                } catch (DALException ex) {
+                    ExceptionDisplayer.display(ex);
+                }
             }
         });
     }
 
     @FXML
     private void handleEditVolunteer() {
-        Volunteer volunteer = lstVolunteer.getSelectionModel().getSelectedItem();
-        // The first 'if' starts by telling if the volunteer != null.
-        if (volunteer != null) {
+        selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
+        //Validate that a volunteer is selected
+        if (selectedVolunteer != null) {
+            //If we're not in edit mode
             if (btnEdit.getText().equalsIgnoreCase("rediger")) {
                 btnEdit.setText("Gem");
                 setTextVisibility(true);
+                //If we are in edit mode
             } else {
                 btnEdit.setText("Rediger");
                 setTextVisibility(false);
 
-                // Select the volunteer from the list and updates the new info.
-                selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
-                selectedVolunteer.setFirstName(txtFirstName.getText());
-                selectedVolunteer.setLastName(txtLastName.getText());
-                selectedVolunteer.setEmail(txtEmail.getText());
-                selectedVolunteer.setPhone(Integer.parseInt(txtPhone.getText()));
-                selectedVolunteer.setDescription(txtVolunteerInfo.getText());
-                selectedVolunteer.updateFullName();
-                VolunteerModel.getInstance().updateVolunteer(selectedVolunteer);
+                updateVolunteer();
+                //Update volunteer in DB
+                try {
+                    VolunteerModel.getInstance().updateVolunteer(selectedVolunteer);
+                } catch (IOException | DALException ex) {
+                    ExceptionDisplayer.display(ex);
+                }
             }
         }
+    }
+
+    /**
+     * Update the information for the volunteer
+     *
+     * @throws NumberFormatException
+     */
+    public void updateVolunteer() throws NumberFormatException {
+        // Select the volunteer from the list and updates the new info.
+        selectedVolunteer.setFirstName(txtFirstName.getText());
+        selectedVolunteer.setLastName(txtLastName.getText());
+        selectedVolunteer.setEmail(txtEmail.getText());
+        selectedVolunteer.setPhone(Integer.parseInt(txtPhone.getText()));
+        selectedVolunteer.setDescription(txtVolunteerInfo.getText());
+        selectedVolunteer.updateFullName();
     }
 
     @FXML
@@ -251,7 +272,11 @@ public class VolunteerOverviewController implements Initializable {
             fc.setInitialDirectory(new File(System.getProperty("user.home")));
             File file = fc.showOpenDialog(primStage.getScene().getWindow());
             if (file != null) {
-                volunteerModel.setVolunteerImage(selectedVolunteer.getID(), file);
+                try {
+                    volunteerModel.setVolunteerImage(selectedVolunteer.getID(), file);
+                } catch (DALException | FileNotFoundException ex) {
+                    ExceptionDisplayer.display(ex);
+                }
                 Image img = new Image(file.toURI().toASCIIString());
                 selectedVolunteer.setImage(img);
                 imgProfile.setImage(img);
