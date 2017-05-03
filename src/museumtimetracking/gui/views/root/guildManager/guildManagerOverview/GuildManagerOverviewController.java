@@ -30,8 +30,8 @@ import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.NodeFactory;
-import museumtimetracking.gui.views.root.guildManager.components.GuildManagerListCellViewController;
-import museumtimetracking.gui.views.root.guildManager.components.ListCellGuildManager;
+import museumtimetracking.gui.views.root.guildManager.controls.GuildManagerListCellViewController;
+import museumtimetracking.gui.views.root.guildManager.controls.ListCellGuildManager;
 import museumtimetracking.gui.views.root.guildManager.guildManagerOverview.manageGuildManagerGuilds.ManageGuildManagerGuildsViewController;
 
 /**
@@ -164,17 +164,6 @@ public class GuildManagerOverviewController implements Initializable {
      * Managers.
      */
     private void setListOfManagersCellFactory() {
-//        lstManagers.setCellFactory(v -> new ListCell<GuildManager>() {
-//            @Override
-//            protected void updateItem(GuildManager item, boolean empty) {
-//                super.updateItem(item, empty);
-//                if (empty) {
-//                    textProperty().unbind();
-//                } else {
-//                    textProperty().bind(item.getFullNameProperty());
-//                }
-//            }
-//        });
         lstManagers.setCellFactory(new Callback<ListView<GuildManager>, ListCell<GuildManager>>() {
             @Override
             public ListCell<GuildManager> call(ListView<GuildManager> param) {

@@ -3,23 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package museumtimetracking.gui.views.root.guildManager.components;
+package museumtimetracking.gui.views.root.volunteer.controls;
 
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
-import museumtimetracking.be.GuildManager;
+import museumtimetracking.be.Volunteer;
 
 /**
  *
  * @author Rasmus
  */
-public class ListCellGuildManager extends ListCell<GuildManager> {
+public class ListCellVolunter extends ListCell<Volunteer> {
 
+    private VolunteerListCellViewController controller;
     private Node view;
-    private GuildManagerListCellViewController controller;
 
     @Override
-    protected void updateItem(GuildManager item, boolean empty) {
+    protected void updateItem(Volunteer item, boolean empty) {
         super.updateItem(item, empty);
         if (empty) {
             setGraphic(null);
@@ -30,16 +30,16 @@ public class ListCellGuildManager extends ListCell<GuildManager> {
     }
 
     /**
-     * Sets the controller for this ListCell.
+     * Sets the controller of the ListCell.
      *
      * @param controller
      */
-    public void setController(GuildManagerListCellViewController controller) {
+    public void setController(VolunteerListCellViewController controller) {
         this.controller = controller;
     }
 
     /**
-     * Sets the view to display this ListCell.
+     * Sets the view of the ListCell.
      *
      * @param view
      */
