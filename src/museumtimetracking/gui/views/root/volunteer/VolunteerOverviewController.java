@@ -10,12 +10,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
@@ -27,11 +28,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.EFXMLName;
-import museumtimetracking.bll.VolunteerManager;
+import static museumtimetracking.be.enums.EFXMLName.LIST_CELL_VOLUNTEER;
 import museumtimetracking.gui.model.VolunteerModel;
 import museumtimetracking.gui.views.ModalFactory;
+import museumtimetracking.gui.views.root.volunteer.controls.ListCellVolunter;
+import museumtimetracking.gui.views.root.volunteer.controls.VolunteerListCellViewController;
 import museumtimetracking.gui.views.root.volunteer.volunteerInfo.VolunteerInfoViewController;
 
 /**
@@ -115,15 +119,21 @@ public class VolunteerOverviewController implements Initializable {
      * For each Volunteer in the list, show only their full name
      */
     private void setVolunteerCellFactory() {
-        lstVolunteer.setCellFactory(v -> new ListCell<Volunteer>() {
+        lstVolunteer.setCellFactory(new Callback<ListView<Volunteer>, ListCell<Volunteer>>() {
             @Override
-            public void updateItem(Volunteer volunteer, boolean empty) {
-                super.updateItem(volunteer, empty);
-                if (empty) {
-                    textProperty().unbind();
-                } else {
-                    textProperty().bind(volunteer.getFullNameProperty());
+            public ListCell<Volunteer> call(ListView<Volunteer> param) {
+                ListCellVolunter cell = new ListCellVolunter();
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(LIST_CELL_VOLUNTEER.toString()));
+                    Node node = loader.load();
+                    VolunteerListCellViewController controller = loader.getController();
+                    cell.setController(controller);
+                    cell.setView(node);
+                    cell.setGraphic(node);
+                } catch (IOException ioe) {
+
                 }
+                return cell;
             }
         });
     }
