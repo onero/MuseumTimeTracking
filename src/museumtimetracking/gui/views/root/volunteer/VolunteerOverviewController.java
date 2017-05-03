@@ -5,11 +5,10 @@
  */
 package museumtimetracking.gui.views.root.volunteer;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -23,6 +22,10 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.EFXMLName;
@@ -40,6 +43,8 @@ public class VolunteerOverviewController implements Initializable {
 
     @FXML
     private Button btnEdit;
+    @FXML
+    private ImageView imgProfile;
     @FXML
     private ToggleGroup language;
     @FXML
@@ -60,6 +65,8 @@ public class VolunteerOverviewController implements Initializable {
     private TextField txtPhone;
     @FXML
     private TextArea txtVolunteerInfo;
+
+    public static final String NO_PHOTO = "/museumtimetracking/asset/img/no-photo.jpg";
 
     private final VolunteerModel volunteerModel;
 
@@ -181,6 +188,13 @@ public class VolunteerOverviewController implements Initializable {
             txtPhone.setText("" + selectedVolunteer.getPhone());
             txtVolunteerInfo.setText(selectedVolunteer.getDescription());
             selectVolunteerLanguage(selectedVolunteer);
+
+            if (selectedVolunteer.getImage() != null) {
+                imgProfile.setImage(selectedVolunteer.getImage());
+            } else {
+                Image img = new Image(this.getClass().getResourceAsStream(NO_PHOTO));
+                imgProfile.setImage(img);
+            }
         }
     }
 
@@ -213,7 +227,26 @@ public class VolunteerOverviewController implements Initializable {
             controller.setCurrentVolunteer(selectedVolunteer);
             inactiveInformationModal.show();
         }
+    }
 
+    @FXML
+    private void handleSelectVolunteerImage(MouseEvent event) throws IOException {
+        primStage = (Stage) btnEdit.getScene().getWindow();
+        if (event.getClickCount() == 2) {
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("All Images", "*.*"),
+                    new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+                    new FileChooser.ExtensionFilter("PNG", "*.png"));
+            fc.setInitialDirectory(new File(System.getProperty("user.home")));
+            File file = fc.showOpenDialog(primStage.getScene().getWindow());
+            if (file != null) {
+                volunteerModel.setVolunteerImage(selectedVolunteer.getID(), file);
+                Image img = new Image(file.toURI().toASCIIString());
+                selectedVolunteer.setImage(img);
+                imgProfile.setImage(img);
+            }
+        }
     }
 
 }
