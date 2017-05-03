@@ -36,8 +36,8 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
 
     private final GuildModel guildModel;
 
-    private ObservableList<String> oAvaiableGuilds;
-    private ObservableList<String> oManagerGuilds;
+    private final ObservableList<String> oAvaiableGuilds;
+    private final ObservableList<String> oManagerGuilds;
 
     private final Set<String> setGuildsToAdd;
     private final Set<String> setGuildsToDelete;

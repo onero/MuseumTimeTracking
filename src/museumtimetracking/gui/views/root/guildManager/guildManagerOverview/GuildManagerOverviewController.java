@@ -285,6 +285,7 @@ public class GuildManagerOverviewController implements Initializable {
         Stage primStage = (Stage) lstGuilds.getScene().getWindow();
         Stage stage = modalFactory.createNewModal(primStage, MANAGE_MANAGER_GUILDS);
         ManageGuildManagerGuildsViewController controller = modalFactory.getLoader().getController();
+
         GuildManager manager = lstManagers.getSelectionModel().getSelectedItem();
         controller.addGuilds(manager.getListOfGuilds());
 
@@ -304,12 +305,7 @@ public class GuildManagerOverviewController implements Initializable {
         setButtonTextToViewMode();
         setShowEditability(false);
 
-        GuildManager manager = lstManagers.getSelectionModel().getSelectedItem();
-        manager.setFirstName(txtFirstName.getText());
-        manager.setLastName(txtLastName.getText());
-        manager.updateFullName();
-        manager.setEmail(txtEmail.getText());
-        manager.setPhone(Integer.parseInt(txtPhone.getText()));
+        GuildManager manager = getNewInformation();
         try {
             guildManagerModel.updateGuildManager(manager, setGuildsToAdd, setGuildsToDelete);
             setSetsToNull();
@@ -326,5 +322,21 @@ public class GuildManagerOverviewController implements Initializable {
     private void setSetsToNull() {
         setGuildsToAdd = null;
         setGuildsToDelete = null;
+    }
+
+    /**
+     * Gets all the new information about the manager that has been edited and
+     * gives it to him.
+     *
+     * @return
+     */
+    private GuildManager getNewInformation() {
+        GuildManager manager = lstManagers.getSelectionModel().getSelectedItem();
+        manager.setFirstName(txtFirstName.getText());
+        manager.setLastName(txtLastName.getText());
+        manager.updateFullName();
+        manager.setEmail(txtEmail.getText());
+        manager.setPhone(Integer.parseInt(txtPhone.getText()));
+        return manager;
     }
 }
