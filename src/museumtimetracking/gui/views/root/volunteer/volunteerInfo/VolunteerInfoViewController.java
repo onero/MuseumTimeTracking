@@ -68,12 +68,13 @@ public class VolunteerInfoViewController implements Initializable {
                 ExceptionDisplayer.display(ex);
             }
             primStage.close();
-
         }
     }
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -89,5 +90,4 @@ public class VolunteerInfoViewController implements Initializable {
         currentVolunteer = volunteer;
         txtVolunteerInfo.setText(currentVolunteer.getDescription());
     }
-
 }

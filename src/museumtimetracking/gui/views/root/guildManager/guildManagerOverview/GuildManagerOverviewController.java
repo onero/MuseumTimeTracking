@@ -13,7 +13,9 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,6 +24,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import museumtimetracking.be.GuildManager;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.exception.DALException;
@@ -29,6 +32,8 @@ import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.NodeFactory;
+import museumtimetracking.gui.views.root.guildManager.controls.GuildManagerListCellViewController;
+import museumtimetracking.gui.views.root.guildManager.controls.ListCellGuildManager;
 import museumtimetracking.gui.views.root.guildManager.guildManagerOverview.manageGuildManagerGuilds.ManageGuildManagerGuildsViewController;
 
 /**
@@ -170,15 +175,21 @@ public class GuildManagerOverviewController implements Initializable {
      * Managers.
      */
     private void setListOfManagersCellFactory() {
-        lstManagers.setCellFactory(v -> new ListCell<GuildManager>() {
+        lstManagers.setCellFactory(new Callback<ListView<GuildManager>, ListCell<GuildManager>>() {
             @Override
-            protected void updateItem(GuildManager item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    textProperty().unbind();
-                } else {
-                    textProperty().bind(item.getFullNameProperty());
+            public ListCell<GuildManager> call(ListView<GuildManager> param) {
+                ListCellGuildManager cell = new ListCellGuildManager();
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(LIST_CELL_GUILD_MANAGER.toString()));
+                    Node node = loader.load();
+                    GuildManagerListCellViewController controller = loader.getController();
+                    cell.setController(controller);
+                    cell.setView(node);
+                    cell.setGraphic(node);
+                } catch (IOException ioe) {
+
                 }
+                return cell;
             }
         });
     }
