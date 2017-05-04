@@ -171,7 +171,27 @@ public class VolunteerDAO extends APersonDAO {
         try (Connection con = cm.getConnection()) {
             // updatePersonInformation is from a abstract class "APersonDAO".
             updatePersonInformation(con, volunteer);
+            updateVolunteerInfo(con, volunteer);
         }
+    }
+
+    /**
+     * Update volunteer description
+     *
+     * @param con
+     * @param volunteer
+     * @throws SQLException
+     */
+    private void updateVolunteerInfo(Connection con, Volunteer volunteer) throws SQLException {
+        String sql = "UPDATE Volunteer "
+                + "SET Description = ? "
+                + "WHERE PersonID = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, volunteer.getDescription());
+        ps.setInt(2, volunteer.getID());
+
+        ps.executeUpdate();
+
     }
 
     /**
