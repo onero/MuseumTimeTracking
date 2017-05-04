@@ -149,19 +149,20 @@ public class VolunteerOverviewController implements Initializable {
 
     @FXML
     private void handleDeleteVolunteer() {
-        String message = "Tryk 'Ja' for at slette permanent. \n Tryk 'Nej' for at fortryde.";
-        Alert alert = AlertFactory.createAlert(Alert.AlertType.WARNING, message);
-        alert.showAndWait().ifPresent(type -> {
-            //If user clicks first button
-            if (type == alert.getButtonTypes().get(0)) {
-                Volunteer deleteVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
-                try {
-                    volunteerModel.deleteVolunteer(deleteVolunteer);
-                } catch (DALException ex) {
-                    ExceptionDisplayer.display(ex);
+        Volunteer volunteerToDelete = lstVolunteer.getSelectionModel().getSelectedItem();
+        if (volunteerToDelete != null) {
+            Alert deleteAlert = AlertFactory.createDeleteAlert();
+            deleteAlert.showAndWait().ifPresent(type -> {
+                //If user clicks first button
+                if (type == deleteAlert.getButtonTypes().get(0)) {
+                    try {
+                        volunteerModel.deleteVolunteer(volunteerToDelete);
+                    } catch (DALException ex) {
+                        ExceptionDisplayer.display(ex);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     @FXML

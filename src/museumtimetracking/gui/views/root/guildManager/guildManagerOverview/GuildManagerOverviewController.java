@@ -20,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -29,6 +30,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import museumtimetracking.be.GuildManager;
 import static museumtimetracking.be.enums.EFXMLName.*;
+import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
@@ -140,11 +142,21 @@ public class GuildManagerOverviewController implements Initializable {
      */
     @FXML
     private void handleDeleteButton() {
-        try {
-            guildManagerModel.deleteGuildManager(lstManagers.getSelectionModel().getSelectedItem());
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
+        GuildManager managerToDelete = lstManagers.getSelectionModel().getSelectedItem();
+        if (managerToDelete != null) {
+            Alert deleteAlert = AlertFactory.createDeleteAlert();
+            deleteAlert.showAndWait().ifPresent(type -> {
+                //If user clicks first button
+                if (type == deleteAlert.getButtonTypes().get(0)) {
+                    try {
+                        guildManagerModel.deleteGuildManager(managerToDelete);
+                    } catch (DALException ex) {
+                        ExceptionDisplayer.display(ex);
+                    }
+                }
+            });
         }
+
         setButtonTextToViewMode();
         setSetsToNull();
     }
