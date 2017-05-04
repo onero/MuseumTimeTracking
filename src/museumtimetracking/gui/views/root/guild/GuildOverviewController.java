@@ -10,6 +10,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
@@ -35,15 +37,14 @@ public class GuildOverviewController implements Initializable {
 
     @FXML
     private TableColumn<Guild, String> clmGuildDescription;
-
     @FXML
     private TableColumn<Guild, String> clmGuildName;
-
     @FXML
     private BorderPane guildBorderPane;
-
     @FXML
     private TableView<Guild> tableGuild;
+    @FXML
+    private BarChart<String, Integer> chartHoursOverview;
 
     private final ModalFactory modalFactory;
 
@@ -69,6 +70,7 @@ public class GuildOverviewController implements Initializable {
 
         clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
         clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
+        initializeChartHoursOverview();
     }
 
     /**
@@ -87,7 +89,6 @@ public class GuildOverviewController implements Initializable {
                 } catch (DALException ex) {
                     ExceptionDisplayer.display(ex);
                 }
-
             }
         });
 
@@ -131,6 +132,17 @@ public class GuildOverviewController implements Initializable {
 
         editGuildModal.show();
 
+    }
+
+    private void initializeChartHoursOverview() {
+        chartHoursOverview.setTitle("Dokumenterede Timer");
+        XYChart.Series test = new XYChart.Series<>();
+        test.setName("Test");
+        test.getData().add(new XYChart.Data<>("numse", guildModel.getHoursForSpecificGuild("numse")));
+        test.getData().add(new XYChart.Data<>("Syerske", guildModel.getHoursForSpecificGuild("Syerske")));
+        test.getData().add(new XYChart.Data<>("Mathias' Laug", guildModel.getHoursForSpecificGuild("Mathias' Laug")));
+
+        chartHoursOverview.getData().add(test);
     }
 
 }

@@ -12,7 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import museumtimetracking.be.Guild;
 
 /**
@@ -122,8 +124,8 @@ public class GuildDAO {
     }
 
     /**
-     * Deletes guild from the tableView and DB.
-     * Comes from GuildManager and goes to DB.
+     * Deletes guild from the tableView and DB. Comes from GuildManager and goes
+     * to DB.
      *
      * @param deleteGuild
      * @throws com.microsoft.sqlserver.jdbc.SQLServerException
@@ -180,4 +182,45 @@ public class GuildDAO {
         }
     }
 
+    /**
+     * Returns a Map containing all the hours worked for each guild. Key = Name
+     * of the guild. Value = hours worked.
+     *
+     * @param guildNames
+     * @return
+     * @throws SQLException
+     */
+    public Map<String, Integer> getVolunteerWorkHours(List<String> guildNames) throws SQLException {
+        Map<String, Integer> workHours = new HashMap<>();
+        try (Connection con = cm.getConnection()) {
+            for (String guildName : guildNames) {
+                int hours = getAllVoluteerHoursForOneGuild(con, guildName);
+                workHours.put(guildName, hours);
+            }
+        }
+        return workHours;
+    }
+
+    /**
+     * Returns all the volunteer hours for at single guild.
+     *
+     * @param con
+     * @param guildName
+     * @return
+     * @throws SQLException
+     */
+    private int getAllVoluteerHoursForOneGuild(Connection con, String guildName) throws SQLException {
+        String sql = "SELECT Hours "
+                + "FROM VolunteerWork "
+                + "WHERE guildName = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, guildName);
+
+        ResultSet rs = ps.executeQuery();
+        int hours = 0;
+        while (rs.next()) {
+            hours += rs.getInt("Hours");
+        }
+        return hours;
+    }
 }
