@@ -124,8 +124,22 @@ public class GuildModel {
                 });
     }
 
-    public int getHoursForSpecificGuild(String guildName) {
-        return guildHours.get(guildName);
+    /**
+     * Returns the Map containg the hours worked for each Guild.
+     *
+     * @return
+     */
+    public Map<String, Integer> getMapOfHoursPerGuild() {
+        return guildHours;
+    }
+
+    /**
+     * Returns the List containg the Guilds gotten from DB.
+     *
+     * @return
+     */
+    public List<Guild> getGuildsFromDB() {
+        return guildsFromDB;
     }
 
 }

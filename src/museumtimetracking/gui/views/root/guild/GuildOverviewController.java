@@ -7,6 +7,8 @@ package museumtimetracking.gui.views.root.guild;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -134,15 +136,31 @@ public class GuildOverviewController implements Initializable {
 
     }
 
+    /**
+     * Sets the title of the chart and give it it's initial data.
+     */
     private void initializeChartHoursOverview() {
         chartHoursOverview.setTitle("Dokumenterede Timer");
-        XYChart.Series test = new XYChart.Series<>();
-        test.setName("Test");
-        test.getData().add(new XYChart.Data<>("numse", guildModel.getHoursForSpecificGuild("numse")));
-        test.getData().add(new XYChart.Data<>("Syerske", guildModel.getHoursForSpecificGuild("Syerske")));
-        test.getData().add(new XYChart.Data<>("Mathias' Laug", guildModel.getHoursForSpecificGuild("Mathias' Laug")));
+        giveDataToChartHoursOverview("Laug");
+    }
 
-        chartHoursOverview.getData().add(test);
+    /**
+     *
+     * @param title
+     */
+    private void giveDataToChartHoursOverview(String title) {
+        chartHoursOverview.getData().clear();
+        List<Guild> guilds = guildModel.getGuildsFromDB();
+        Map<String, Integer> guildHours = guildModel.getMapOfHoursPerGuild();
+
+        XYChart.Series hoursSeries = new XYChart.Series<>();
+        hoursSeries.setName(title);
+
+        for (Guild guild : guilds) {
+            hoursSeries.getData().add(new XYChart.Data<>(guild.getName(), guildHours.get(guild.getName())));
+        }
+
+        chartHoursOverview.getData().add(hoursSeries);
     }
 
 }
