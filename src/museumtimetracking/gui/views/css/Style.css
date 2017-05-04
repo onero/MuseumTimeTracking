@@ -21,19 +21,34 @@ Light Black: #1f2429
 Grey/blue: #38424b
 All buttons has the same color codes and effects.
 
-TableList: 
-Green: #105100
-Red: #910000
-
-PieChart:
-Red: #910000
-Green: #105100
-Other colors are random.
-
 Background:
 Small pictures of "CoarseGrid.png". (dots)
 Dark Grey: #333333
-Grey: #585859
+Light Grey: #666666
+
+TableView: 
+
+Cornor: #333333
+ScrollBar: #333333
+ScrollBarBtn: #333333
+ScroolBarTrack: #333333
+ScrollBarMainThumb: #666666
+ColorCodes for the rows: #333333 & #424242
+Hover: #666666
+Selected: #666666
+
+ListView:
+
+Cornor: #333333
+ScrollBar: #333333
+ScrollBarBtn: #333333
+ScroolBarTrack: #333333
+ScrollBarMainThumb: #666666
+ColorCodes for the rows: #333333 & #424242
+Hover: #666666
+Selected: #666666
+
+
 
 
 */
@@ -43,31 +58,11 @@ Grey: #585859
     -fx-background-image: url("CoarseGrid.png"); /* <===  puts in small pictures in the background */
     -fx-background-repeat: repeat; /* <===  Repeats till the background is filled. */
     -fx-background-color:
-        /*linear-gradient(#38424b 100%, #1f2429 100%, #191d22 100%),*/
-        linear-gradient(#585859, #333333);
-    
-        /*radial-gradient(center 100% 100%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));*/
-}
-
-.check-box .mark {
-    -fx-background-color: transparent;
-}
-
-.border{
-    -fx-border-color: rgb(0, 0, 0);
-    -fx-border-width: 1;
+        linear-gradient(#666666, #333333);
 }
 
 .whiteBackground{
     -fx-background-color: #fff;
-}
-
-.padding{
-    -fx-padding: 10 15 10 15;
-}
-
-.padding-left{
-    -fx-padding: 0 0 0 15;
 }
 
 /* Makes all buttons the same. */
@@ -75,42 +70,32 @@ Grey: #585859
     -fx-background-color:
         rgba(255, 255, 255, 0.08),
         rgba(0, 0, 0, 0.8),
-        #090a0c,
+        black,
         linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
         linear-gradient(#242a2e, #23282e),
         radial-gradient(center 50% 0%, radius 100%, rgba(135,142,148,0.9),
         rgba(255,255,255,0));
-    -fx-background-radius: 7, 6, 5, 4, 3, 5;
-    -fx-background-insets: -3 -3 -4 -3, -3, 0, 1, 2, 0;
     -fx-font-family: "Arial";
     -fx-text-fill: white;
     -fx-text-fill: linear-gradient(white, #d0d0d0);
-    -fx-padding: 10 20 10 20;
+    -fx-padding: 5 10 5 10;
 }
 
-/* When you have your mouse over the button. */
-.button:hover{ 
+/*  When you have your mouse over the button. 
+    When button is pressed. */
+.button:hover,
+.button:pressed { 
     -fx-background-color:   
-        rgba(255, 255, 255, 0.08), 
-        rgba(48, 48, 48, 1), 
-        #090a0c,
+        black, 
+        #666666, 
+        black,
         linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
         linear-gradient(#242a2e, #23282e),
-        radial-gradient(center 50% 0%, radius 100%, rgba(135,142,148,0.9),
+        radial-gradient(center 50% 0%, radius 80%, rgba(135,142,148,0.9),
         rgba(255,255,255,0));
+    -fx-padding: 5 10 5 10;
 }
 
-/* When button is pressed. */
-.button:pressed{ 
-    -fx-background-color:
-        rgba(255, 255, 255, 0.08),
-        rgba(0, 0, 0, 0.8),
-        #090a0c,
-        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
-        linear-gradient(#242a2e, #23282e),
-        radial-gradient(center 50% 0%, radius 100%, rgba(200,200,200,0.9),
-        rgba(255,255,255,0));
-}
 /* All labels */
 .label{ 
     -fx-font-family: "Arial";
@@ -188,7 +173,7 @@ Grey: #585859
 /*color on scroll bar.*/
 .scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb {
- -fx-background-color: #666666;
+    -fx-background-color: #666666;
 }
 
 /*When pressed and selecting a cell.*/
@@ -223,7 +208,7 @@ Grey: #585859
 /* The main scrollbar **track** CSS class  */
 .mylistview .scroll-bar:horizontal .track ,
 .mylistview .scroll-bar:vertical .track{
-     -fx-background-color: #333333;
+    -fx-background-color: #333333;
 }
 
 /* The increment and decrement button CSS class of scrollbar */
@@ -238,10 +223,15 @@ Grey: #585859
 .mylistview  .scroll-bar:vertical{
     -fx-background-color: #333333;
 }
+
 /*The cornor of the two scrollbars.*/
 .corner {
     -fx-background-color: #333333;
 }
+
+
+
+
 
 /*Accordion background. */ 
 .accordion .titled-pane > *.content{
@@ -259,7 +249,7 @@ Grey: #585859
 }
 .accordion .titled-pane .title:hover {
     -fx-background-color:
-    rgba(255, 255, 255, 0.3),
+        rgba(255, 255, 255, 0.3),
         rgba(0, 0, 0, 0.8),
         #090a0c,
         linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
