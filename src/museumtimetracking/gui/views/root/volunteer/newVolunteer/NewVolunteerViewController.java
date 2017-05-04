@@ -16,6 +16,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.ELanguage;
+import museumtimetracking.bll.APersonManager;
+import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.VolunteerModel;
@@ -57,6 +59,28 @@ public class NewVolunteerViewController implements Initializable {
     @FXML
     private void handleAddButton() {
         ELanguage selectedLanguage;
+        selectedLanguage = setSelectedLanguage();
+
+        if (validateInput()) {
+            Volunteer newVolunteer = new Volunteer(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()), selectedLanguage);
+            try {
+                volunteerModel.addVolunteer(newVolunteer);
+            } catch (DALException ex) {
+                ExceptionDisplayer.display(ex);
+            }
+            closeWindow();
+        } else {
+            AlertFactory.createValidationAlert().show();
+        }
+    }
+
+    /**
+     * Get user selected language
+     *
+     * @return
+     */
+    private ELanguage setSelectedLanguage() {
+        ELanguage selectedLanguage;
         if (checkBoxDanish.isSelected()) {
             selectedLanguage = ELanguage.DANISH;
         } else if (checkBoxEnglish.isSelected()) {
@@ -64,15 +88,20 @@ public class NewVolunteerViewController implements Initializable {
         } else {
             selectedLanguage = ELanguage.GERMAN;
         }
+        return selectedLanguage;
+    }
 
-        Volunteer newVolunteer = new Volunteer(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()), selectedLanguage);
-        try {
-            volunteerModel.addVolunteer(newVolunteer);
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
-
-        closeWindow();
+    /**
+     * Validate user input
+     *
+     * @return
+     */
+    private boolean validateInput() {
+        boolean isFirstNameThere = !txtFirstName.getText().isEmpty();
+        boolean isLastNameThere = !txtLastName.getText().isEmpty();
+        String phone = txtPhone.getText();
+        boolean isPhoneValid = APersonManager.validatePhone(phone);
+        return APersonManager.checkAllValidation(isFirstNameThere, isLastNameThere, isPhoneValid);
     }
 
     @FXML

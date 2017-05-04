@@ -142,4 +142,15 @@ public class GuildModel {
         return guildsFromDB;
     }
 
+    public void searchGuilds(String newValue) {
+        cachedGuilds.clear();
+        guildsFromDB.stream()
+                .filter(g -> g.getName().toLowerCase().contains(newValue.toLowerCase()))
+                .forEach(g -> cachedGuilds.add(g));
+    }
+
+    public void resetGuilds() {
+        cachedGuilds.clear();
+        cachedGuilds.addAll(guildsFromDB);
+    }
 }
