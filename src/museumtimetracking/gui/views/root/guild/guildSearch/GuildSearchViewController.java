@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package museumtimetracking.gui.views.root.searchBar;
+package museumtimetracking.gui.views.root.guild.guildSearch;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,29 +11,24 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
-import static museumtimetracking.be.enums.EFXMLName.*;
+import museumtimetracking.gui.views.root.sharedComponents.search.ISearch;
 
 /**
  * FXML Controller class
  *
  * @author Mathias
  */
-public class SearchBarViewController implements Initializable {
+public class GuildSearchViewController implements Initializable, ISearch {
 
     @FXML
     private TextField txtSearchBar;
-
-    private final String TEXT_FOR_SEARCHBAR = "Søg";
-
-    private String mode;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        mode = GUILDMANAGER_MODE.toString();
-        txtSearchBar.setPromptText(TEXT_FOR_SEARCHBAR);
+        setPromptText();
         initializeListenerForTextField();
     }
 
@@ -42,31 +37,27 @@ public class SearchBarViewController implements Initializable {
         clearSearchBar();
     }
 
-    private void initializeListenerForTextField() {
+    @Override
+    public void initializeListenerForTextField() {
         txtSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
-            updateListView(newValue, mode);
+            updateListView(newValue);
         });
     }
 
-    private void updateListView(String newValue, String mode) {
-        switch (mode) {
-            case "guild":
-                //TODO
-                break;
-            case "guildManager":
-                //TODO
-                break;
-            case "volunteer":
-                //TODO
-                break;
-        }
+    @Override
+    public void updateListView(String newValue) {
+        //TODO MSP: Update ListView
+        System.out.println("Laug + " + newValue);
     }
 
-    public void setMode(String mode) {
-        this.mode = mode;
+    @Override
+    public void setPromptText() {
+        txtSearchBar.setPromptText(TEXT_FOR_SEARCHBAR);
     }
 
-    private void clearSearchBar() {
+    @Override
+    public void clearSearchBar() {
         txtSearchBar.clear();
+        System.out.println("Cleared from GUILD");
     }
 }

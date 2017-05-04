@@ -17,6 +17,8 @@ public class NodeFactory {
 
     private static NodeFactory instance;
 
+    private FXMLLoader loader;
+
     public static NodeFactory getInstance() {
         if (instance == null) {
             instance = new NodeFactory();
@@ -32,7 +34,7 @@ public class NodeFactory {
      */
     public Node createNewView(EFXMLName viewName) {
         Node node = null;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(viewName.toString()));
+        loader = new FXMLLoader(getClass().getResource(viewName.toString()));
         try {
             node = loader.load();
         } catch (IOException ex) {
@@ -40,6 +42,10 @@ public class NodeFactory {
             Logger.getLogger(NodeFactory.class.getName()).log(Level.SEVERE, null, ex);
         }
         return node;
+    }
+
+    public FXMLLoader getLoader() {
+        return loader;
     }
 
     /**

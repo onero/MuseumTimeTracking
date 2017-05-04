@@ -31,15 +31,11 @@ public enum EFXMLName {
     VOLUNTEER_INFO(MAIN_FOLER + "volunteer/volunteerInfo/VolunteerInfoView.fxml"),
     LIST_CELL_VOLUNTEER(MAIN_FOLER + "volunteer/controls/VolunteerListCellView.fxml"),
     /**
-     * SearchBar
+     * SearchViews
      */
-    SEARCH_BAR(MAIN_FOLER + "searchBar/SearchBarView.fxml"),
-    /**
-     * Search Modes
-     */
-    GUILD_MODE("guild"),
-    GUILDMANAGER_MODE("guildManager"),
-    VOLUNTEER_MODE("volunteer");
+    GUILD_SEARCH(MAIN_FOLER + "guild/guildSearch/GuildSearchView.fxml"),
+    GUILD_MANAGER_SEARCH(MAIN_FOLER + "guildManager/guildManagerSearch/GuildManagerSearch.fxml"),
+    VOLUNTEER_SEARCH(MAIN_FOLER + "volunteer/volunteerSearch/VolunteerSearch.fxml");
 
     private final String text;
 
