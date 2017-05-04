@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 import museumtimetracking.be.APerson;
+import museumtimetracking.be.Guild;
 import museumtimetracking.be.GuildManager;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.exception.DALException;
@@ -26,6 +27,8 @@ public class FacadeDAO {
 
     public static final String DB_CONNECTION_ERROR = "Kunne ikke forbinde til DB";
 
+    private final GuildDAO guildDAO;
+
     private final VolunteerDAO volunteerDAO;
 
     private final GuildManagerDAO guildManagerDAO;
@@ -38,8 +41,109 @@ public class FacadeDAO {
     }
 
     private FacadeDAO() throws IOException {
+        guildDAO = new GuildDAO();
         volunteerDAO = new VolunteerDAO();
         guildManagerDAO = new GuildManagerDAO();
+    }
+
+    /**
+     * Adds a new guild to DB.
+     *
+     * @param guildToAdd
+     * @throws museumtimetracking.exception.DALException
+     */
+    public void addGuild(Guild guildToAdd) throws DALException {
+        try {
+            guildDAO.addGuild(guildToAdd);
+        } catch (SQLException ex) {
+            throw new DALException(DB_CONNECTION_ERROR, ex);
+        }
+    }
+
+    /**
+     * Update guild in DB with new info
+     *
+     * @param guildToUpdate
+     * @param updatedGuild
+     * @throws museumtimetracking.exception.DALException
+     */
+    public void updateGuild(String guildToUpdate, Guild updatedGuild) throws DALException {
+        try {
+            guildDAO.updateGuild(guildToUpdate, updatedGuild);
+        } catch (SQLException ex) {
+            throw new DALException(DB_CONNECTION_ERROR, ex);
+        }
+    }
+
+    /**
+     * Archive guild in in DB
+     *
+     * @param guildToArchive
+     * @throws museumtimetracking.exception.DALException
+     */
+    public void archiveGuild(Guild guildToArchive) throws DALException {
+        try {
+            guildDAO.archiveGuild(guildToArchive);
+        } catch (SQLException ex) {
+            throw new DALException(DB_CONNECTION_ERROR, ex);
+        }
+    }
+
+    /**
+     * Deletes guilds from tableView and DB.
+     * Comes from GuildModel and goes to GuildDao.
+     *
+     * @param deleteGuild
+     * @throws museumtimetracking.exception.DALException
+     */
+    public void deleteGuild(Guild deleteGuild) throws DALException {
+        try {
+            guildDAO.deleteGuild(deleteGuild);
+        } catch (SQLException ex) {
+            throw new DALException(DB_CONNECTION_ERROR, ex);
+        }
+    }
+
+    /**
+     * Gets all the guilds from the DB.
+     *
+     * @return
+     * @throws museumtimetracking.exception.DALException
+     */
+    public List<Guild> getAllGuildsArchived() throws DALException {
+        try {
+            return guildDAO.getAllGuildsArchived();
+        } catch (SQLException ex) {
+            throw new DALException(DB_CONNECTION_ERROR, ex);
+        }
+    }
+
+    /**
+     * Gets all the guilds from the DB.
+     *
+     * @return
+     * @throws museumtimetracking.exception.DALException
+     */
+    public List<Guild> getAllGuildsNotArchived() throws DALException {
+        try {
+            return guildDAO.getAllGuildsNotArchived();
+        } catch (SQLException ex) {
+            throw new DALException(DB_CONNECTION_ERROR, ex);
+        }
+    }
+
+    /**
+     * Restore guild from archive in DB
+     *
+     * @param guildToRestore
+     * @throws museumtimetracking.exception.DALException
+     */
+    public void restoreGuild(Guild guildToRestore) throws DALException {
+        try {
+            guildDAO.restoreGuild(guildToRestore);
+        } catch (SQLException ex) {
+            throw new DALException(DB_CONNECTION_ERROR, ex);
+        }
     }
 
     /**
