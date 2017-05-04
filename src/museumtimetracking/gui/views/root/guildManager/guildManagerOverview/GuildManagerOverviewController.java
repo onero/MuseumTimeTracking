@@ -11,13 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -27,7 +23,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import museumtimetracking.be.GuildManager;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.exception.AlertFactory;
@@ -36,8 +31,6 @@ import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.NodeFactory;
-import museumtimetracking.gui.views.root.guildManager.controls.GuildManagerListCellViewController;
-import museumtimetracking.gui.views.root.guildManager.controls.ListCellGuildManager;
 import museumtimetracking.gui.views.root.guildManager.guildManagerOverview.manageGuildManagerGuilds.ManageGuildManagerGuildsViewController;
 
 /**
@@ -159,6 +152,7 @@ public class GuildManagerOverviewController implements Initializable {
 
         setButtonTextToViewMode();
         setSetsToNull();
+        lstManagers.refresh();
     }
 
     /**
@@ -189,21 +183,15 @@ public class GuildManagerOverviewController implements Initializable {
      * Managers.
      */
     private void setListOfManagersCellFactory() {
-        lstManagers.setCellFactory(new Callback<ListView<GuildManager>, ListCell<GuildManager>>() {
+        lstManagers.setCellFactory(m -> new ListCell<GuildManager>() {
             @Override
-            public ListCell<GuildManager> call(ListView<GuildManager> param) {
-                ListCellGuildManager cell = new ListCellGuildManager();
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource(LIST_CELL_GUILD_MANAGER.toString()));
-                    Node node = loader.load();
-                    GuildManagerListCellViewController controller = loader.getController();
-                    cell.setController(controller);
-                    cell.setView(node);
-                    cell.setGraphic(node);
-                } catch (IOException ex) {
-                    Logger.getLogger(GuildManagerOverviewController.class.getName()).log(Level.SEVERE, null, ex);
+            protected void updateItem(GuildManager guildManager, boolean empty) {
+                super.updateItem(guildManager, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(guildManager.getFullName());
                 }
-                return cell;
             }
         });
     }
@@ -214,15 +202,14 @@ public class GuildManagerOverviewController implements Initializable {
     private void setListOfGuildsCellFactory() {
         lstGuilds.setCellFactory(g -> new ListCell<String>() {
             @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
+            protected void updateItem(String guildName, boolean empty) {
+                super.updateItem(guildName, empty);
                 if (empty) {
                     setText(null);
                 } else {
-                    setText(item);
+                    setText(guildName);
                 }
             }
-
         });
     }
 
@@ -231,7 +218,7 @@ public class GuildManagerOverviewController implements Initializable {
      */
     private void addListeners() {
         lstManagers.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends GuildManager> observable, GuildManager oldValue, GuildManager newValue) -> {
-            if (newValue != oldValue) {
+            if (newValue != oldValue && newValue != null) {
                 displayInformation(newValue);
             }
         });
