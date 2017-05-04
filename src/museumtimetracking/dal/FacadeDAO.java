@@ -8,6 +8,7 @@ package museumtimetracking.dal;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
@@ -219,5 +220,17 @@ public class FacadeDAO {
         } catch (SQLException ex) {
             throw new DALException(DB_CONNECTION_ERROR, ex);
         }
+    }
+
+    /**
+     * Adds hours to a volunteer in the database.
+     *
+     * @param volunteerID
+     * @param guildName
+     * @param date
+     * @param hours
+     */
+    public void addHoursToVolunteer(int volunteerID, String guildName, Date date, int hours) {
+        volunteerDAO.addHoursToVolunteer(volunteerID, guildName, date, hours);
     }
 }

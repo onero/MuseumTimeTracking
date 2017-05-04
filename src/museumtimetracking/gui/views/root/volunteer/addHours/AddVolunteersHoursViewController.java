@@ -5,6 +5,7 @@
  */
 package museumtimetracking.gui.views.root.volunteer.addHours;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -20,7 +21,10 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.stage.Stage;
 import museumtimetracking.be.Guild;
 import museumtimetracking.be.Volunteer;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.model.VolunteerModel;
 
 /**
  * FXML Controller class
@@ -40,11 +44,17 @@ public class AddVolunteersHoursViewController implements Initializable {
     private final int MAXIMUM_RANGE = 20;
     private final int INITIAL_VALUE = 8;
 
-    private final GuildModel guildmodel;
+    private GuildModel guildModel;
+    private VolunteerModel volunteerModel;
     private Volunteer volunteer;
 
     public AddVolunteersHoursViewController() {
-        guildmodel = GuildModel.getInstance();
+        try {
+            guildModel = GuildModel.getInstance();
+            volunteerModel = VolunteerModel.getInstance();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
     /**
@@ -53,14 +63,21 @@ public class AddVolunteersHoursViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setCellFactory();
-        lstGuilds.setItems(guildmodel.getCachedGuilds());
+        lstGuilds.setItems(guildModel.getCachedGuilds());
         addListeners();
         initializeSpinner();
     }
 
     @FXML
     private void handleDocumenButton(ActionEvent event) {
-        closeModal();
+        Guild guild = lstGuilds.getSelectionModel().getSelectedItem();
+        if (guild != null) {
+            int hours = spnHours.getValue();
+            volunteerModel.addHoursToVolunteer(volunteer.getID(), guild.getName(), hours);
+            closeModal();
+        } else {
+            System.out.println("Select a guild!");
+        }
     }
 
     @FXML
@@ -116,6 +133,10 @@ public class AddVolunteersHoursViewController implements Initializable {
         stage.close();
     }
 
+    /**
+     * Creates a new SpinnerValueFactory for Integer and sets the minnimum,
+     * maximum and initial values.
+     */
     private void initializeSpinner() {
         SpinnerValueFactory.IntegerSpinnerValueFactory valueFactory
                 = new SpinnerValueFactory.IntegerSpinnerValueFactory(

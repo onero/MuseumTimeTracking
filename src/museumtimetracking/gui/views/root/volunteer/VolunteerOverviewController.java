@@ -99,7 +99,6 @@ public class VolunteerOverviewController implements Initializable {
 
     public VolunteerOverviewController() {
         modalFactory = ModalFactory.getInstance();
-        volunteerModel = null;
         try {
             volunteerModel = VolunteerModel.getInstance();
         } catch (IOException | DALException ex) {
