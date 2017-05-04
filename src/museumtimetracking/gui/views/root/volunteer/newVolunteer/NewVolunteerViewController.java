@@ -47,7 +47,6 @@ public class NewVolunteerViewController implements Initializable {
     private VolunteerModel volunteerModel;
 
     public NewVolunteerViewController() {
-        volunteerModel = null;
         try {
             volunteerModel = VolunteerModel.getInstance();
         } catch (IOException | DALException ex) {

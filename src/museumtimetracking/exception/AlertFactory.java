@@ -12,6 +12,7 @@ import javafx.scene.control.ButtonType;
 
 public class AlertFactory {
 
+    public static final String DELETE_WARNING = "Tryk 'Ja' for at slette permanent. \n Tryk 'Nej' for at fortryde.";
     public static final String ALERT_TITLE = "OBS!";
 
     /**
@@ -25,9 +26,18 @@ public class AlertFactory {
         Alert alert = new Alert(type);
         alert.setTitle(ALERT_TITLE);
         alert.setHeaderText(alertText);
+        createSingleButton(alert);
+        return alert;
+    }
+
+    /**
+     * Create a single button
+     *
+     * @param alert
+     */
+    private static void createSingleButton(Alert alert) {
         ButtonType yesButton = new ButtonType("OK", ButtonBar.ButtonData.YES);
         alert.getButtonTypes().setAll(yesButton);
-        return alert;
     }
 
     /**
@@ -41,9 +51,30 @@ public class AlertFactory {
         Alert alert = new Alert(type);
         alert.setTitle(ALERT_TITLE);
         alert.setHeaderText(message);
+        createTwoButtons(alert);
+        return alert;
+    }
+
+    /**
+     * Create two buttons
+     *
+     * @param alert
+     */
+    public static void createTwoButtons(Alert alert) {
         ButtonType yesButton = new ButtonType("JA", ButtonBar.ButtonData.YES);
         ButtonType noButton = new ButtonType("NEJ", ButtonBar.ButtonData.NO);
         alert.getButtonTypes().setAll(yesButton, noButton);
+    }
+
+    /**
+     * Create an alert for deleting
+     *
+     * @return
+     */
+    public static Alert createDeleteAlert() {
+        String message = DELETE_WARNING;
+        Alert alert = AlertFactory.createAlert(Alert.AlertType.WARNING, message);
+        createTwoButtons(alert);
         return alert;
     }
 
@@ -57,8 +88,7 @@ public class AlertFactory {
         Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle(ALERT_TITLE);
         alert.setHeaderText(message);
-        ButtonType yesButton = new ButtonType("OK", ButtonBar.ButtonData.YES);
-        alert.getButtonTypes().setAll(yesButton);
+        createSingleButton(alert);
         return alert;
     }
 
