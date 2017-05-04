@@ -186,7 +186,8 @@ Grey: #585859
 }
 
 /*color on scroll bar.*/
-.scroll-bar:horizontal .thumb {
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
  -fx-background-color: #666666;
 }
 
@@ -238,6 +239,34 @@ Grey: #585859
     -fx-background-color: #333333;
 }
 /*The cornor of the two scrollbars.*/
-.corner {-fx-background-color: #333333;}
+.corner {
+    -fx-background-color: #333333;
+}
 
+/*Accordion background. */ 
+.accordion .titled-pane > *.content{
+    -fx-background-color: transparent;
+}
+/*The view of the accordion.*/
+.accordion .titled-pane .title {
+    -fx-background-color:
+        rgba(255, 255, 255, 0.1),
+        rgba(0, 0, 0, 0.8),
+        #090a0c,
+        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
+        linear-gradient(#242a2e, #23282e),
+        rgba(255,255,255,0.2);
+}
+.accordion .titled-pane .title:hover {
+    -fx-background-color:
+    rgba(255, 255, 255, 0.3),
+        rgba(0, 0, 0, 0.8),
+        #090a0c,
+        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
+        rgba(255,255,255,0.3);
+}
 
+/*The text in the accordion.*/
+.titled-pane {
+    -fx-text-fill: white;
+}

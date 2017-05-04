@@ -16,7 +16,7 @@
    <left>
       <Accordion BorderPane.alignment="CENTER">
         <panes>
-          <TitledPane animated="false" text="Arkiverede Laug">
+          <TitledPane animated="false" styleClass="accordion" stylesheets="@../../../css/Style.css" text="Arkiverede Laug">
                <content>
                   <BorderPane fx:id="guildTableBorderPane" prefHeight="307.0">
                      <center>
