@@ -234,17 +234,14 @@ public class GuildManagerOverviewController implements Initializable {
      */
     private void setShowEditability(boolean shown) {
         lstGuilds.setDisable(true);
-//        lstGuilds.setStyle("-fx-opacity: 1.0; -fx-text-fill: white; -fx-background-color: lightgrey;");
         for (TextField textField : textFields) {
             textField.setDisable(!shown);
         }
         if (!shown) {
             for (TextField textField : textFields) {
-//                textField.setStyle("-fx-opacity: 1.0; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-color: lightgrey");
             }
         } else {
             for (TextField textField : textFields) {
-//                textField.setStyle("-fx-text-fill: black;");
             }
         }
     }

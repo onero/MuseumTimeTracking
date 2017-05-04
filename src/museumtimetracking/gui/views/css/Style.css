@@ -38,14 +38,15 @@ Grey: #585859
 
 */
 
-
+/*The background of all the views.*/
 .borderPane{
     -fx-background-image: url("CoarseGrid.png"); /* <===  puts in small pictures in the background */
     -fx-background-repeat: repeat; /* <===  Repeats till the background is filled. */
     -fx-background-color:
-        linear-gradient(#38424b 100%, #1f2429 100%, #191d22 100%),
-        linear-gradient(#585859, #333333),
-        radial-gradient(center 100% 100%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+        /*linear-gradient(#38424b 100%, #1f2429 100%, #191d22 100%),*/
+        linear-gradient(#585859, #333333);
+    
+        /*radial-gradient(center 100% 100%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));*/
 }
 
 .check-box .mark {
@@ -55,24 +56,6 @@ Grey: #585859
 .border{
     -fx-border-color: rgb(0, 0, 0);
     -fx-border-width: 1;
-}
-
-.studentInfo{
-    -fx-background-image: url("CoarseGrid.png");
-    -fx-background-repeat: repeat;
-    -fx-background-color:
-        linear-gradient(#38424b 0%, #1f2429 100%, #191d22 100%),
-        linear-gradient(#000000, #000000),
-        radial-gradient(center 50% 50%, radius 85%, rgba(114,131,148,0.9), rgba(255,255,255,0));
-}
-
-.mainBackground{
-    -fx-background-image: url("CoarseGrid.png");
-    -fx-background-repeat: repeat;
-    -fx-background-color:
-        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
-        linear-gradient(#000000, #050404),
-        radial-gradient(center 80% 60%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
 }
 
 .whiteBackground{
@@ -87,7 +70,8 @@ Grey: #585859
     -fx-padding: 0 0 0 15;
 }
 
-.loginButton{ /* <=== Only diff is font size. */
+/* Makes all buttons the same. */
+.button{ 
     -fx-background-color:
         rgba(255, 255, 255, 0.08),
         rgba(0, 0, 0, 0.8),
@@ -99,29 +83,13 @@ Grey: #585859
     -fx-background-radius: 7, 6, 5, 4, 3, 5;
     -fx-background-insets: -3 -3 -4 -3, -3, 0, 1, 2, 0;
     -fx-font-family: "Arial";
-    -fx-font-size: 35;
     -fx-text-fill: white;
     -fx-text-fill: linear-gradient(white, #d0d0d0);
     -fx-padding: 10 20 10 20;
 }
 
-.button{ /* <=== Makes all buttons the same. */
-    -fx-background-color:
-        rgba(255, 255, 255, 0.08),
-        rgba(0, 0, 0, 0.8),
-        #090a0c,
-        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
-        linear-gradient(#242a2e, #23282e),
-        radial-gradient(center 50% 0%, radius 100%, rgba(135,142,148,0.9),
-        rgba(255,255,255,0));
-    -fx-background-radius: 7, 6, 5, 4, 3, 5;
-    -fx-background-insets: -3 -3 -4 -3, -3, 0, 1, 2, 0;
-    -fx-font-family: "Arial";
-    -fx-text-fill: white;
-    -fx-text-fill: linear-gradient(white, #d0d0d0);
-    -fx-padding: 10 20 10 20;
-}
-.button:hover{ /* <===  When you have your mouse over the button. */
+/* When you have your mouse over the button. */
+.button:hover{ 
     -fx-background-color:   
         rgba(255, 255, 255, 0.08), 
         rgba(48, 48, 48, 1), 
@@ -131,7 +99,9 @@ Grey: #585859
         radial-gradient(center 50% 0%, radius 100%, rgba(135,142,148,0.9),
         rgba(255,255,255,0));
 }
-.button:pressed{ /* <=== When button is pressed. */
+
+/* When button is pressed. */
+.button:pressed{ 
     -fx-background-color:
         rgba(255, 255, 255, 0.08),
         rgba(0, 0, 0, 0.8),
@@ -141,23 +111,26 @@ Grey: #585859
         radial-gradient(center 50% 0%, radius 100%, rgba(200,200,200,0.9),
         rgba(255,255,255,0));
 }
-
-.label{ /* <=== All labels */
+/* All labels */
+.label{ 
     -fx-font-family: "Arial";
     -fx-text-fill: #fff;
     -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 1), 0, 0.0 , 0 , 1 );
 }
 
-.labelsBlack{ /* <=== Labels to be black. */
+/* Labels to be black. */
+.labelsBlack{ 
     -fx-font-family: "Arial";
     -fx-text-fill: #000000;
     -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 0.2), 0, 0.0 , 0 , 1 );
 }
+
 /*The frames of the tableView (Around)*/
 .table-view{
     -fx-background-color: transparent;
 } 
-/*The frames of the tableView (Insiide)*/
+
+/*The frames of the tableView (Inside)*/
 .table-view:focused{
     -fx-background-color: transparent;
 }
@@ -175,9 +148,8 @@ Grey: #585859
 /* Row hovered to a diff color.*/
 .table-view:row-selection .table-row-cell:filled:hover {
     -fx-background-color: #666666;
-    -fx-background-insets: 0, 0 0 1 0;
-    -fx-text-fill: -fx-text-inner-color;
 }
+
 /*Makes the header transparent.*/
 .table-view .column-header {
     -fx-background-color: transparent;
@@ -187,68 +159,85 @@ Grey: #585859
 .table-view .table-cell{
     -fx-text-fill: white;
 }
+
 /*Makes the first row in the tableView (color)*/
 .table-row-cell:even{
     -fx-background-color: -fx-table-cell-border-color, #424242;
-    -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: 0.0em;
 }
+
 /*Makes the second row in the tableView (color)*/
 .table-row-cell:odd{
     -fx-background-color: -fx-table-cell-border-color, #333333;
-    -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: 0.0em; 
 }
+
 /*When the row is selected (color)*/
 .table-row-cell:selected {
     -fx-background-color: #666666;
-    -fx-background-insets: 0;
-    -fx-background-radius: 1;
 }
-.table-view > .virtual-flow > .scroll-bar:vertical, /* <=== Color of scrollbar. */
+
+/*Color of scrollbar.*/ 
+.table-view > .virtual-flow > .scroll-bar:vertical,  
 .table-view > .virtual-flow > .scroll-bar:vertical > .track,
 .table-view > .virtual-flow > .scroll-bar:vertical > .track-background, 
-.table-view > .virtual-flow > .scroll-bar:horizontal,
+.table-view > .virtual-flow > .scroll-bar:horizontal, 
 .table-view > .virtual-flow > .scroll-bar:horizontal > .track,
 .table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
     -fx-background-color: #333333;
 }
 
-.table-view > .virtual-flow > .scroll-bar > .increment-button, 
-.table-view > .virtual-flow > .scroll-bar > .decrement-button {
-    -fx-opacity: 0;
+/*color on scroll bar.*/
+.scroll-bar:horizontal .thumb {
+ -fx-background-color: #666666;
 }
 
-.list-cell:filled:selected:focused, .list-cell:filled:selected {
-    -fx-background-color: rgba(255, 255, 255, 0.08),
-        rgba(0, 0, 0, 0.8),
-        #090a0c,
-        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
-        linear-gradient(#242a2e, #23282e),
-        radial-gradient(center 50% 0%, radius 100%, rgba(135,142,148,0.9),
-        rgba(255,255,255,0));
-    -fx-text-fill: white;
+/*When pressed and selecting a cell.*/
+.list-cell:filled:selected {
+    -fx-background-color: #666666;
+    -fx-text-fill: white; 
 }
-
-.list-cell:even { /* <=== changed to even */
-    -fx-background-color:#333333;
-    -fx-text-fill: #ffffff;
-}
-
-.list-cell:odd{
-    -fx-background-color:#424242;
-    -fx-text-fill: #ffffff;
-}
-
+/*Where the mouse is over a row.*/
 .list-cell:filled:hover {
     -fx-background-color:#666666;
     -fx-text-fill: white;
 }
 
-.data0.chart-pie { -fx-pie-color: #086d00; } /* <=== Green slice piechart */
-.data1.chart-pie { -fx-pie-color: #910000; } /* <=== Red */
-
-
-.chart-legend{
-    -fx-background-color: linear-gradient(#38424b 0%, #000000 20%, #000000 100%);
+/*One of the colorcodes for the row*/
+.list-cell:even {
+    -fx-background-color:#333333;
+    -fx-text-fill: #ffffff;
 }
+
+/*One of the colorcodes for the row*/
+.list-cell:odd{
+    -fx-background-color:#424242;
+    -fx-text-fill: #ffffff;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.mylistview .scroll-bar:horizontal .thumb,
+.mylistview .scroll-bar:vertical .thumb {
+    -fx-background-color: #666666;
+}
+
+/* The main scrollbar **track** CSS class  */
+.mylistview .scroll-bar:horizontal .track ,
+.mylistview .scroll-bar:vertical .track{
+     -fx-background-color: #333333;
+}
+
+/* The increment and decrement button CSS class of scrollbar */
+.mylistview .increment-button ,
+.mylistview .decrement-button {
+    -fx-background-color: #333333;
+    -fx-border-color: #333333;
+}
+
+/* The main scrollbar CSS class of ListView */
+.mylistview .scroll-bar:horizontal ,
+.mylistview  .scroll-bar:vertical{
+    -fx-background-color: #333333;
+}
+/*The cornor of the two scrollbars.*/
+.corner {-fx-background-color: #333333;}
+
+
