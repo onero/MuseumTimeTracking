@@ -7,6 +7,7 @@ package museumtimetracking.gui.model;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import museumtimetracking.be.Guild;
@@ -34,6 +35,8 @@ public class GuildModel {
 
     private final GuildManager guildManager;
 
+    private Map<String, Integer> guildHours;
+
     private GuildModel() throws IOException, DALException {
         // Instantiate guildManager
         guildManager = new GuildManager();
@@ -43,6 +46,7 @@ public class GuildModel {
         // Puts the guilds from the DB inside a ObservableList.
         cachedGuilds = FXCollections.observableArrayList(guildsFromDB);
         cachedArchivedGuilds = FXCollections.observableArrayList(archivedGuildsFromDB);
+        guildHours = guildManager.getAllHoursWorked(guildsFromDB);
 
     }
 
@@ -71,8 +75,8 @@ public class GuildModel {
     }
 
     /**
-     * Deletes the guild from tableView and DB.
-     * Comes from GuildTableViewController and goes to GuildManager.
+     * Deletes the guild from tableView and DB. Comes from
+     * GuildTableViewController and goes to GuildManager.
      *
      * @param deleteGuild
      */
@@ -120,4 +124,33 @@ public class GuildModel {
                 });
     }
 
+    /**
+     * Returns the Map containg the hours worked for each Guild.
+     *
+     * @return
+     */
+    public Map<String, Integer> getMapOfHoursPerGuild() {
+        return guildHours;
+    }
+
+    /**
+     * Returns the List containg the Guilds gotten from DB.
+     *
+     * @return
+     */
+    public List<Guild> getGuildsFromDB() {
+        return guildsFromDB;
+    }
+
+    public void searchGuilds(String newValue) {
+        cachedGuilds.clear();
+        guildsFromDB.stream()
+                .filter(g -> g.getName().toLowerCase().contains(newValue.toLowerCase()))
+                .forEach(g -> cachedGuilds.add(g));
+    }
+
+    public void resetGuilds() {
+        cachedGuilds.clear();
+        cachedGuilds.addAll(guildsFromDB);
+    }
 }
