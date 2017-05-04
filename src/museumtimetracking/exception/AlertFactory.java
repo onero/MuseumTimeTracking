@@ -13,6 +13,9 @@ import javafx.scene.control.ButtonType;
 public class AlertFactory {
 
     public static final String DELETE_WARNING = "Tryk 'Ja' for at slette permanent. \n Tryk 'Nej' for at fortryde.";
+    public static final String VALIDATION_WARNING = "Skal udfyldes:\nFornavn.\nEfternavn\n\n"
+            + "Tjekt eventuelt at:\n"
+            + "Telefon nummeret kun indeholder tal.";
     public static final String ALERT_TITLE = "OBS!";
 
     /**
@@ -89,6 +92,17 @@ public class AlertFactory {
         alert.setTitle(ALERT_TITLE);
         alert.setHeaderText(message);
         createSingleButton(alert);
+        return alert;
+    }
+
+    /**
+     * Create alert for validation errors
+     *
+     * @return
+     */
+    public static Alert createValidationAlert() {
+        String text = VALIDATION_WARNING;
+        Alert alert = AlertFactory.createAlertWithoutCancel(AlertType.INFORMATION, text);
         return alert;
     }
 
