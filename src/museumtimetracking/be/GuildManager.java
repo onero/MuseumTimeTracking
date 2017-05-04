@@ -7,6 +7,8 @@ package museumtimetracking.be;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -19,27 +21,26 @@ public class GuildManager extends APerson {
     private final List<String> listOfGuilds;
     private final ObservableList<String> observableListOfGuilds;
 
-    public GuildManager() {
-        super(null, null, null, 0);
-        this.listOfGuilds = null;
-        this.observableListOfGuilds = null;
-    }
+    private StringProperty description;
 
     public GuildManager(String firstName, String lastName, String email, int phone) {
         super(firstName, lastName, email, phone);
         listOfGuilds = new ArrayList();
         observableListOfGuilds = FXCollections.observableArrayList();
+        this.description = new SimpleStringProperty();
     }
 
-    public GuildManager(String firstName, String lastName, String email, int phone, int ID) {
+    public GuildManager(int ID, String firstName, String lastName, String email, int phone, String description) {
         super(ID, firstName, lastName, email, phone);
         listOfGuilds = new ArrayList();
         observableListOfGuilds = FXCollections.observableArrayList();
+        this.description = new SimpleStringProperty(description);
     }
 
     public GuildManager(String firstName, String lastName, String email, int phone, int ID, String... guildNames) {
         super(ID, firstName, lastName, email, phone);
         listOfGuilds = new ArrayList();
+        this.description = new SimpleStringProperty();
         for (String guildName : guildNames) {
             listOfGuilds.add(guildName);
         }
@@ -56,6 +57,10 @@ public class GuildManager extends APerson {
      */
     public List<String> getListOfGuilds() {
         return listOfGuilds;
+    }
+
+    public void setDescription(String description) {
+        this.description.set(description);
     }
 
     /**
@@ -86,6 +91,10 @@ public class GuildManager extends APerson {
      */
     public ObservableList<String> getObservableListOfGuilds() {
         return observableListOfGuilds;
+    }
+
+    public StringProperty getDescription() {
+        return description;
     }
 
 }

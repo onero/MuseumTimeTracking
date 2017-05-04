@@ -6,7 +6,6 @@
 package museumtimetracking.bll;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 import javafx.collections.ObservableList;
 import museumtimetracking.be.APerson;
@@ -27,6 +26,15 @@ public class GuildMGRManager {
     }
 
     /**
+     * Archive a manager
+     *
+     * @param selectedManager
+     */
+    public void archiveManager(int id, boolean value) throws DALException {
+        facadeDAO.archiveManager(id, value);
+    }
+
+    /**
      * Sends the Person object through to the facadeDAO to add it to the DB.
      * Returns the new GuildManager.
      *
@@ -40,14 +48,23 @@ public class GuildMGRManager {
     }
 
     /**
-     * Gets a list of GuildManagers from the FacadeDAO that holds all
+     * Get all guild managers not idle
+     *
+     * @return
+     */
+    public Set<GuildManager> getAllGuildManagersNotIdle() throws DALException {
+        return facadeDAO.getAllGuildManagersNotIdle();
+    }
+
+    /**
+     * Gets a list of idle Guild Managers
      * GuildManagers and it's Guilds.
      *
      * @return
      * @throws museumtimetracking.exception.DALException
      */
-    public List<GuildManager> getAllGuildManagers() throws DALException {
-        return facadeDAO.getAllGuildManagers();
+    public Set<GuildManager> getAllIdleGuildManagers() throws DALException {
+        return facadeDAO.getAllIdleGuildManagers();
     }
 
     /**

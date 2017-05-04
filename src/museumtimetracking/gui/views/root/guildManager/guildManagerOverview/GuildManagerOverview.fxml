@@ -2,16 +2,16 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController">
+<BorderPane prefHeight="490.0" prefWidth="422.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController">
    <center>
       <AnchorPane id="AnchorPane" prefHeight="336.0" prefWidth="422.0">
          <children>
@@ -66,22 +66,18 @@
                   <ListView fx:id="lstGuilds" prefHeight="117.0" prefWidth="167.0" />
                </children>
             </VBox>
+            <ButtonBar layoutX="5.0" layoutY="361.0">
+               <buttons>
+                  <Button fx:id="btnNewGuildManager" mnemonicParsing="false" onAction="#handleNewManagerButton" prefWidth="110.0" />
+                  <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#handleDeleteButton" prefWidth="75.0" text="Slet" />
+                  <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="75.0" />
+                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handleSaveGuildManagerButton" prefWidth="75.0" text="Gem" />
+               </buttons>
+            </ButtonBar>
+            <Button layoutX="179.0" layoutY="400.0" mnemonicParsing="false" onAction="#handleArchiveGM" text="Gør Inaktiv" />
          </children>
       </AnchorPane>
    </center>
-   <bottom>
-      <Pane prefHeight="47.0" prefWidth="422.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="btnNewGuildManager" layoutX="14.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleNewManagerButton" prefWidth="110.0" />
-            <Button fx:id="btnDelete" layoutX="139.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefWidth="75.0" text="Slet" />
-            <Button fx:id="btnEdit" layoutX="322.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="75.0" />
-            <Button fx:id="btnSave" layoutX="229.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleSaveGuildManagerButton" prefWidth="75.0" text="Gem" />
-         </children>
-         <BorderPane.margin>
-            <Insets top="10.0" />
-         </BorderPane.margin>
-      </Pane>
-   </bottom>
    <top>
       <Label text="Tovholder Oversigt" BorderPane.alignment="CENTER">
          <font>

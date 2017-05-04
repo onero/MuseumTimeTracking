@@ -6,7 +6,6 @@
 package museumtimetracking.gui.model;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,8 +24,11 @@ public class GuildManagerModel {
 
     private final GuildMGRManager guildMGRManager;
 
-    private final List<GuildManager> managersFromDB;
+    private final Set<GuildManager> managersFromDB;
     private final ObservableList<GuildManager> cachedManagers;
+
+    private final Set<GuildManager> idleGuildManagersFromDB;
+    private final ObservableList<GuildManager> cachedIdleGuildManagers;
 
     public static GuildManagerModel getInstance() throws IOException, DALException {
         if (instance == null) {
@@ -37,8 +39,26 @@ public class GuildManagerModel {
 
     private GuildManagerModel() throws IOException, DALException {
         guildMGRManager = new GuildMGRManager();
-        managersFromDB = guildMGRManager.getAllGuildManagers();
+        managersFromDB = guildMGRManager.getAllGuildManagersNotIdle();
+        idleGuildManagersFromDB = guildMGRManager.getAllIdleGuildManagers();
         cachedManagers = FXCollections.observableArrayList(managersFromDB);
+        cachedIdleGuildManagers = FXCollections.observableArrayList(idleGuildManagersFromDB);
+    }
+
+    /**
+     * Archive a manager
+     *
+     * @param selectedManager
+     */
+    public void updateIdleManager(GuildManager selectedManager, boolean value) throws DALException {
+        if (value) {
+            cachedManagers.remove(selectedManager);
+            cachedIdleGuildManagers.add(selectedManager);
+        } else {
+            cachedManagers.add(selectedManager);
+            cachedIdleGuildManagers.remove(selectedManager);
+        }
+        guildMGRManager.archiveManager(selectedManager.getID(), value);
     }
 
     /**
@@ -83,6 +103,14 @@ public class GuildManagerModel {
     public void deleteGuildManager(GuildManager guildManager) throws DALException {
         cachedManagers.remove(guildManager);
         guildMGRManager.deleteGuildManager(guildManager.getID());
+    }
+
+    /**
+     *
+     * @return
+     */
+    public ObservableList<GuildManager> getCachedIdleGuildManagers() {
+        return cachedIdleGuildManagers;
     }
 
 }
