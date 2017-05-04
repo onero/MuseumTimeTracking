@@ -5,18 +5,22 @@
  */
 package museumtimetracking.gui.views.root.guildManager.newGuildManager;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.Guild;
 import museumtimetracking.be.GuildManager;
+import museumtimetracking.bll.APersonManager;
+import museumtimetracking.exception.AlertFactory;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.model.GuildModel;
 
@@ -38,10 +42,14 @@ public class NewGuildManagerViewController implements Initializable {
     @FXML
     private ComboBox<String> comboGuild;
 
-    private final GuildModel guildModel;
+    private GuildModel guildModel;
 
     public NewGuildManagerViewController() {
-        guildModel = GuildModel.getInstance();
+        try {
+            guildModel = GuildModel.getInstance();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
     /**
@@ -62,10 +70,14 @@ public class NewGuildManagerViewController implements Initializable {
         if (validateData()) {
             APerson person = new GuildManager(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()));
             String guildName = comboGuild.getSelectionModel().getSelectedItem();
-            GuildManagerModel.getInstance().createNewGuildManager(person, guildName);
+            try {
+                GuildManagerModel.getInstance().createNewGuildManager(person, guildName);
+            } catch (IOException | DALException ex) {
+                ExceptionDisplayer.display(ex);
+            }
             closeWindow();
         } else {
-            showWrongInformationWarning();
+            AlertFactory.createValidationAlert().show();
         }
     }
 
@@ -89,28 +101,16 @@ public class NewGuildManagerViewController implements Initializable {
      * @return
      */
     private boolean validateData() {
-        //TODO RKL: Make this in bll.
         boolean isFirstNameThere = !txtFirstName.getText().isEmpty();
         boolean isLastNameThere = !txtLastName.getText().isEmpty();
-        //Checks if the textfield only contains numbers. //TODO RKL: Make regex a constant variable.
-        boolean isPhoneValid = (txtPhone.getText().matches("[0-9]+") && txtPhone.getText().length() == 8);
-        boolean isGuildSelected = (comboGuild.getSelectionModel().getSelectedItem() != null);
-
-        return (isFirstNameThere == true && isLastNameThere == true && isPhoneValid == true && isGuildSelected == true);
-    }
-
-    /**
-     * Shows a InformationAlert saying it's wrong information that has been
-     * entered.
-     */
-    private void showWrongInformationWarning() {
-        //TODO RKL: Remove "Message" from topbar.
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText("Den indtastede information er ikke gyldig.");
-        alert.setContentText("Skal udfyldes:\nFornavn.\nEfternavn\n\n"
-                + "Tjekt eventuelt at:\n"
-                + "Telefon nummeret kun indeholder tal.\nTelefon nummeret er 8 cifre.");
-        alert.show();
+        String phone = txtPhone.getText();
+        String selectedGuild = comboGuild.getSelectionModel().getSelectedItem();
+        boolean isPhoneValid = APersonManager.validatePhone(phone);
+        boolean isGuildSelected = (selectedGuild != null);
+        if (isGuildSelected) {
+            return APersonManager.checkAllValidation(isFirstNameThere, isLastNameThere, isPhoneValid);
+        }
+        return false;
     }
 
     /**

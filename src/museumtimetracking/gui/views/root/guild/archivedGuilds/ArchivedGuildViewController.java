@@ -5,6 +5,7 @@
  */
 package museumtimetracking.gui.views.root.guild.archivedGuilds;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -14,6 +15,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import museumtimetracking.be.Guild;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
 
 /**
@@ -34,16 +37,24 @@ public class ArchivedGuildViewController implements Initializable {
     @FXML
     private TableView<Guild> tableGuild;
 
-    private final GuildModel guildModel;
+    private GuildModel guildModel;
 
     public ArchivedGuildViewController() {
-        guildModel = GuildModel.getInstance();
+        try {
+            guildModel = GuildModel.getInstance();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
     @FXML
     private void handleRestoreFromArchive() {
         Guild guildToRestore = tableGuild.getSelectionModel().getSelectedItem();
-        guildModel.restoreGuild(guildToRestore);
+        try {
+            guildModel.restoreGuild(guildToRestore);
+        } catch (DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
     /**

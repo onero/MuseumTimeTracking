@@ -5,6 +5,7 @@
  */
 package museumtimetracking.gui.views.root.guildManager.guildManagerOverview.manageGuildManagerGuilds;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,6 +21,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import museumtimetracking.be.Guild;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
 
 /**
@@ -34,7 +37,7 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
     @FXML
     private ListView<String> lstManagerGuilds;
 
-    private final GuildModel guildModel;
+    private GuildModel guildModel;
 
     private final ObservableList<String> oAvaiableGuilds;
     private final ObservableList<String> oManagerGuilds;
@@ -48,7 +51,11 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
         oAvaiableGuilds = FXCollections.observableArrayList();
         oManagerGuilds = FXCollections.observableArrayList();
 
-        guildModel = GuildModel.getInstance();
+        try {
+            guildModel = GuildModel.getInstance();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
 
         setGuildsToAdd = new HashSet<>();
         setGuildsToDelete = new HashSet<>();

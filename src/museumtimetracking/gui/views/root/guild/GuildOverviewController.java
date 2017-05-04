@@ -11,8 +11,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
@@ -20,6 +19,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import museumtimetracking.be.Guild;
 import museumtimetracking.be.enums.EFXMLName;
+import museumtimetracking.exception.AlertFactory;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.root.guild.editGuild.EditGuildViewController;
@@ -33,7 +35,7 @@ public class GuildOverviewController implements Initializable {
 
     @FXML
     private TableColumn<Guild, String> clmGuildDescription;
-    
+
     @FXML
     private TableColumn<Guild, String> clmGuildName;
 
@@ -45,13 +47,17 @@ public class GuildOverviewController implements Initializable {
 
     private final ModalFactory modalFactory;
 
-    private final GuildModel guildModel;
+    private GuildModel guildModel;
 
     private Stage primStage;
 
     public GuildOverviewController() {
         modalFactory = ModalFactory.getInstance();
-        this.guildModel = GuildModel.getInstance();
+        try {
+            this.guildModel = GuildModel.getInstance();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
     /**
@@ -70,17 +76,17 @@ public class GuildOverviewController implements Initializable {
      */
     @FXML
     private void handleDeleteGuild() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("ADVARSEL!");
-        alert.setHeaderText(" Tryk 'Ja' for at slette permanent. \n Tryk 'Nej' for at fortryde.");
-        ButtonType yesButton = new ButtonType("Ja", ButtonBar.ButtonData.YES);
-        ButtonType noButton = new ButtonType("Nej", ButtonBar.ButtonData.CANCEL_CLOSE);
-        alert.getButtonTypes().setAll(yesButton, noButton);
+        String message = "Tryk 'Ja' for at slette permanent. \n Tryk 'Nej' for at fortryde.";
+        Alert alert = AlertFactory.createAlert(AlertType.WARNING, message);
         alert.showAndWait().ifPresent(type -> {
-
-            if (type == yesButton) {
+            //If the first button ("YES") is clicked
+            if (type == alert.getButtonTypes().get(0)) {
                 Guild deleteGuild = tableGuild.getSelectionModel().getSelectedItem();
-                guildModel.deleteGuild(deleteGuild);
+                try {
+                    guildModel.deleteGuild(deleteGuild);
+                } catch (DALException ex) {
+                    ExceptionDisplayer.display(ex);
+                }
 
             }
         });
@@ -91,7 +97,11 @@ public class GuildOverviewController implements Initializable {
     private void handleArchiveBtn() {
         Guild guildToArchive = tableGuild.getSelectionModel().getSelectedItem();
         if (guildToArchive != null) {
-            guildModel.archiveGuild(guildToArchive);
+            try {
+                guildModel.archiveGuild(guildToArchive);
+            } catch (DALException ex) {
+                ExceptionDisplayer.display(ex);
+            }
         }
     }
 

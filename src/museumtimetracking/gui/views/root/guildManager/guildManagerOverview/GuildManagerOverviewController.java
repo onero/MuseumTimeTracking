@@ -13,25 +13,24 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import museumtimetracking.be.GuildManager;
 import static museumtimetracking.be.enums.EFXMLName.*;
+import museumtimetracking.exception.AlertFactory;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.NodeFactory;
-import museumtimetracking.gui.views.root.guildManager.controls.GuildManagerListCellViewController;
-import museumtimetracking.gui.views.root.guildManager.controls.ListCellGuildManager;
 import museumtimetracking.gui.views.root.guildManager.guildManagerOverview.manageGuildManagerGuilds.ManageGuildManagerGuildsViewController;
 
 /**
@@ -64,7 +63,7 @@ public class GuildManagerOverviewController implements Initializable {
 
     private final NodeFactory nodeFactory;
 
-    private final GuildManagerModel guildManagerModel;
+    private GuildManagerModel guildManagerModel;
 
     private List<TextField> textFields;
 
@@ -79,9 +78,14 @@ public class GuildManagerOverviewController implements Initializable {
     private Set<String> setGuildsToDelete;
 
     public GuildManagerOverviewController() {
-        nodeFactory = NodeFactory.getInstance();
-        guildManagerModel = GuildManagerModel.getInstance();
         modalFactory = ModalFactory.getInstance();
+        nodeFactory = NodeFactory.getInstance();
+        guildManagerModel = null;
+        try {
+            guildManagerModel = GuildManagerModel.getInstance();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
     /**
@@ -99,7 +103,7 @@ public class GuildManagerOverviewController implements Initializable {
     }
 
     @FXML
-    private void handleNewManagerButton() throws IOException {
+    private void handleNewManagerButton() {
         if (btnNewGuildManager.getText().equals(NEW_GUILD_MANAGER)) {
             newManagerModal();
         } else if (btnNewGuildManager.getText().equals(ADD_GUILD_BUTTON_TEXT)) {
@@ -131,9 +135,24 @@ public class GuildManagerOverviewController implements Initializable {
      */
     @FXML
     private void handleDeleteButton() {
-        guildManagerModel.deleteGuildManager(lstManagers.getSelectionModel().getSelectedItem());
+        GuildManager managerToDelete = lstManagers.getSelectionModel().getSelectedItem();
+        if (managerToDelete != null) {
+            Alert deleteAlert = AlertFactory.createDeleteAlert();
+            deleteAlert.showAndWait().ifPresent(type -> {
+                //If user clicks first button
+                if (type == deleteAlert.getButtonTypes().get(0)) {
+                    try {
+                        guildManagerModel.deleteGuildManager(managerToDelete);
+                    } catch (DALException ex) {
+                        ExceptionDisplayer.display(ex);
+                    }
+                }
+            });
+        }
+
         setButtonTextToViewMode();
         setSetsToNull();
+        lstManagers.refresh();
     }
 
     /**
@@ -164,21 +183,15 @@ public class GuildManagerOverviewController implements Initializable {
      * Managers.
      */
     private void setListOfManagersCellFactory() {
-        lstManagers.setCellFactory(new Callback<ListView<GuildManager>, ListCell<GuildManager>>() {
+        lstManagers.setCellFactory(m -> new ListCell<GuildManager>() {
             @Override
-            public ListCell<GuildManager> call(ListView<GuildManager> param) {
-                ListCellGuildManager cell = new ListCellGuildManager();
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource(LIST_CELL_GUILD_MANAGER.toString()));
-                    Node node = loader.load();
-                    GuildManagerListCellViewController controller = loader.getController();
-                    cell.setController(controller);
-                    cell.setView(node);
-                    cell.setGraphic(node);
-                } catch (IOException ioe) {
-
+            protected void updateItem(GuildManager guildManager, boolean empty) {
+                super.updateItem(guildManager, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(guildManager.getFullName());
                 }
-                return cell;
             }
         });
     }
@@ -189,15 +202,14 @@ public class GuildManagerOverviewController implements Initializable {
     private void setListOfGuildsCellFactory() {
         lstGuilds.setCellFactory(g -> new ListCell<String>() {
             @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
+            protected void updateItem(String guildName, boolean empty) {
+                super.updateItem(guildName, empty);
                 if (empty) {
                     setText(null);
                 } else {
-                    setText(item);
+                    setText(guildName);
                 }
             }
-
         });
     }
 
@@ -206,7 +218,7 @@ public class GuildManagerOverviewController implements Initializable {
      */
     private void addListeners() {
         lstManagers.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends GuildManager> observable, GuildManager oldValue, GuildManager newValue) -> {
-            if (newValue != oldValue) {
+            if (newValue != oldValue && newValue != null) {
                 displayInformation(newValue);
             }
         });
@@ -289,7 +301,7 @@ public class GuildManagerOverviewController implements Initializable {
      *
      * @throws IOException
      */
-    private void showGuildManagementModal() throws IOException {
+    private void showGuildManagementModal() {
         Stage primStage = (Stage) lstGuilds.getScene().getWindow();
         Stage stage = modalFactory.createNewModal(primStage, MANAGE_MANAGER_GUILDS);
         ManageGuildManagerGuildsViewController controller = modalFactory.getLoader().getController();
@@ -317,10 +329,8 @@ public class GuildManagerOverviewController implements Initializable {
         try {
             guildManagerModel.updateGuildManager(manager, setGuildsToAdd, setGuildsToDelete);
             setSetsToNull();
-        } catch (NullPointerException nex) {
-            System.out.println("Couldn't update guildManager from gui.\n"
-                    + nex.getMessage());
-            nex.printStackTrace();
+        } catch (DALException ex) {
+            ExceptionDisplayer.display(ex);
         }
     }
 

@@ -6,11 +6,14 @@
 package museumtimetracking.gui.model;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.VolunteerManager;
+import museumtimetracking.exception.DALException;
 
 /**
  *
@@ -28,14 +31,14 @@ public class VolunteerModel {
     private final List<Volunteer> volunteerFromDB;
     private final List<Volunteer> idleVolunteersFromDB;
 
-    public static VolunteerModel getInstance() {
+    public static VolunteerModel getInstance() throws IOException, DALException {
         if (instance == null) {
             instance = new VolunteerModel();
         }
         return instance;
     }
 
-    public VolunteerModel() {
+    public VolunteerModel() throws IOException, DALException {
         // Instantiate volunteerMgr
         volunteerMgr = new VolunteerManager();
         volunteerFromDB = volunteerMgr.getAllVolunteersNotIdle();
@@ -48,7 +51,7 @@ public class VolunteerModel {
         return cachedVolunteers;
     }
 
-    public void setVolunteerDescription(int id, String text) {
+    public void setVolunteerDescription(int id, String text) throws DALException {
         volunteerMgr.setVolunteerDescription(id, text);
     }
 
@@ -57,8 +60,10 @@ public class VolunteerModel {
      *
      * @param id
      * @param file
+     * @throws museumtimetracking.exception.DALException
+     * @throws java.io.FileNotFoundException
      */
-    public void setVolunteerImage(int id, File file) {
+    public void setVolunteerImage(int id, File file) throws DALException, FileNotFoundException {
         volunteerMgr.setVolunteerImage(id, file);
     }
 
@@ -66,8 +71,9 @@ public class VolunteerModel {
      * Updates the volunteer in the DB.
      *
      * @param updatedVolunteer
+     * @throws museumtimetracking.exception.DALException
      */
-    public void updateVolunteer(Volunteer updatedVolunteer) {
+    public void updateVolunteer(Volunteer updatedVolunteer) throws DALException {
         volunteerMgr.updateVolunteer(updatedVolunteer);
 
     }
@@ -76,8 +82,9 @@ public class VolunteerModel {
      * Deletes the selected volunteer from DB.
      *
      * @param deleteVolunteer
+     * @throws museumtimetracking.exception.DALException
      */
-    public void deleteVolunteer(Volunteer deleteVolunteer) {
+    public void deleteVolunteer(Volunteer deleteVolunteer) throws DALException {
         volunteerMgr.deleteVolunteer(deleteVolunteer.getID());
         // Removes the volunteer from the listview.
         cachedVolunteers.remove(deleteVolunteer);
@@ -87,8 +94,9 @@ public class VolunteerModel {
      * Adds the volunteer to DB.
      *
      * @param volunteer
+     * @throws museumtimetracking.exception.DALException
      */
-    public void addVolunteer(Volunteer volunteer) {
+    public void addVolunteer(Volunteer volunteer) throws DALException {
         volunteerMgr.addVolunteer(volunteer);
         cachedVolunteers.add(volunteer);
     }
@@ -102,8 +110,9 @@ public class VolunteerModel {
      *
      * @param volunteer
      * @param value
+     * @throws museumtimetracking.exception.DALException
      */
-    public void updateIdleVolunteer(Volunteer volunteer, boolean value) {
+    public void updateIdleVolunteer(Volunteer volunteer, boolean value) throws DALException {
         if (value) {
             cachedVolunteers.remove(volunteer);
             cachedIdleVolunteers.add(volunteer);
@@ -112,6 +121,18 @@ public class VolunteerModel {
             cachedIdleVolunteers.remove(volunteer);
         }
         volunteerMgr.updateVolunteerIdle(volunteer.getID(), value);
+    }
+
+    /**
+     * Adds hours to a volunteer.
+     *
+     * @param volunteerID
+     * @param guildName
+     * @param hours
+     * @throws museumtimetracking.exception.DALException
+     */
+    public void addHoursToVolunteer(int volunteerID, String guildName, int hours) throws DALException {
+        volunteerMgr.addHoursToVolunteer(volunteerID, guildName, hours);
     }
 
 }
