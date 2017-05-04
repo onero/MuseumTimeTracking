@@ -21,19 +21,10 @@ import museumtimetracking.be.Guild;
  */
 public class GuildDAO {
 
-    private static GuildDAO instance;
-
     private final DBConnectionManager cm;
 
-    public static GuildDAO getInstance() throws IOException {
-        if (instance == null) {
-            instance = new GuildDAO();
-        }
-        return instance;
-    }
-
-    private GuildDAO() throws IOException {
-        cm = DBConnectionManager.getInstance();
+    public GuildDAO() throws IOException {
+        this.cm = DBConnectionManager.getInstance();
     }
 
     /**

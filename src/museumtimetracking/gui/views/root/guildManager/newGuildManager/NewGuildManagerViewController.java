@@ -43,10 +43,14 @@ public class NewGuildManagerViewController implements Initializable {
     @FXML
     private ComboBox<String> comboGuild;
 
-    private final GuildModel guildModel;
+    private GuildModel guildModel;
 
     public NewGuildManagerViewController() {
-        guildModel = GuildModel.getInstance();
+        try {
+            guildModel = GuildModel.getInstance();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
     /**

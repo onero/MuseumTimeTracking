@@ -5,9 +5,11 @@
  */
 package museumtimetracking.bll;
 
+import java.io.IOException;
 import java.util.List;
 import museumtimetracking.be.Guild;
-import museumtimetracking.dal.GuildDAO;
+import museumtimetracking.dal.FacadeDAO;
+import museumtimetracking.exception.DALException;
 
 /**
  *
@@ -15,63 +17,71 @@ import museumtimetracking.dal.GuildDAO;
  */
 public class GuildManager {
 
-    private final GuildDAO guildDAO;
+    private final FacadeDAO facadeDAO;
 
-    public GuildManager() {
-        guildDAO = GuildDAO.getInstance();
+    public GuildManager() throws IOException {
+        facadeDAO = FacadeDAO.getInstance();
     }
 
     /**
      * Adds a new guild to DB.
      *
      * @param guildToAdd
+     * @throws museumtimetracking.exception.DALException
      */
-    public void addGuild(Guild guildToAdd) {
-        guildDAO.addGuild(guildToAdd);
+    public void addGuild(Guild guildToAdd) throws DALException {
+        facadeDAO.addGuild(guildToAdd);
     }
+
     /**
      * Deletes guilds from tableView and DB.
      * Comes from GuildModel and goes to GuildDao.
-     * @param deleteGuild 
+     *
+     * @param deleteGuild
+     * @throws museumtimetracking.exception.DALException
      */
-    public void deleteGuild(Guild deleteGuild){
-        guildDAO.deleteGuild(deleteGuild);
+    public void deleteGuild(Guild deleteGuild) throws DALException {
+        facadeDAO.deleteGuild(deleteGuild);
     }
 
     /**
      * Archive guild in in DB
      *
      * @param guildToArchive
+     * @throws museumtimetracking.exception.DALException
      */
-    public void archiveGuild(Guild guildToArchive) {
-        guildDAO.archiveGuild(guildToArchive);
+    public void archiveGuild(Guild guildToArchive) throws DALException {
+        facadeDAO.archiveGuild(guildToArchive);
     }
 
     /**
      * Gets all the guilds from the DB.
      *
      * @return
+     * @throws museumtimetracking.exception.DALException
      */
-    public List<Guild> getAllGuildsNotArchived() {
-        return guildDAO.getAllGuildsNotArchived();
+    public List<Guild> getAllGuildsNotArchived() throws DALException {
+        return facadeDAO.getAllGuildsNotArchived();
     }
 
     /**
      * Gets all the guilds from the DB.
      *
      * @return
+     * @throws museumtimetracking.exception.DALException
      */
-    public List<Guild> getAllGuildsArchived() {
-        return guildDAO.getAllGuildsArchived();
+    public List<Guild> getAllGuildsArchived() throws DALException {
+        return facadeDAO.getAllGuildsArchived();
     }
 
     /**
      * Restore guild from archive in DB
      *
      * @param guildToRestore
+     * @throws museumtimetracking.exception.DALException
      */
-    public void restoreGuild(Guild guildToRestore) {
-        guildDAO.restoreGuild(guildToRestore);
+    public void restoreGuild(Guild guildToRestore) throws DALException {
+        facadeDAO.restoreGuild(guildToRestore);
     }
 
     /**
@@ -80,8 +90,8 @@ public class GuildManager {
      * @param guildToUpdate
      * @param updatedGuild
      */
-    public void updateGuild(String guildToUpdate, Guild updatedGuild) {
-        guildDAO.updateGuild(guildToUpdate, updatedGuild);
+    public void updateGuild(String guildToUpdate, Guild updatedGuild) throws DALException {
+        facadeDAO.updateGuild(guildToUpdate, updatedGuild);
     }
 
 }
