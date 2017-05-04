@@ -21,7 +21,6 @@ public enum EFXMLName {
     MANAGER_OVERVIEW(MAIN_FOLER + "guildManager/guildManagerOverview/GuildManagerOverview.fxml"),
     NEW_MANAGER(MAIN_FOLER + "guildManager/newGuildManager/NewGuildManagerView.fxml"),
     MANAGE_MANAGER_GUILDS(MAIN_FOLER + "guildManager/guildManagerOverview/manageGuildManagerGuilds/ManageGuildManagerGuildsView.fxml"),
-    LIST_CELL_GUILD_MANAGER(MAIN_FOLER + "guildManager/controls/GuildManagerListCellView.fxml"),
     /*
      * Volunteer
      */
@@ -29,7 +28,6 @@ public enum EFXMLName {
     ADD_NEW_VOLUNTEER(MAIN_FOLER + "volunteer/newVolunteer/NewVolunteerView.fxml"),
     IDLE_VOLUNTEER(MAIN_FOLER + "volunteer/idleVolunteers/IdleVolunteerView.fxml"),
     VOLUNTEER_INFO(MAIN_FOLER + "volunteer/volunteerInfo/VolunteerInfoView.fxml"),
-    LIST_CELL_VOLUNTEER(MAIN_FOLER + "volunteer/controls/VolunteerListCellView.fxml"),
     ADD_HOURS_VOLUNTEER(MAIN_FOLER + "volunteer/addHours/AddVolunteersHoursView.fxml");
 
     private final String text;
