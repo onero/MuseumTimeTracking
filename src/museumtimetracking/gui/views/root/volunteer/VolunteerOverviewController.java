@@ -30,12 +30,14 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.EFXMLName;
+import static museumtimetracking.be.enums.EFXMLName.ADD_HOURS_VOLUNTEER;
 import static museumtimetracking.be.enums.EFXMLName.LIST_CELL_VOLUNTEER;
 import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.VolunteerModel;
 import museumtimetracking.gui.views.ModalFactory;
+import museumtimetracking.gui.views.root.volunteer.addHours.AddVolunteersHoursViewController;
 import museumtimetracking.gui.views.root.volunteer.controls.ListCellVolunter;
 import museumtimetracking.gui.views.root.volunteer.controls.VolunteerListCellViewController;
 import museumtimetracking.gui.views.root.volunteer.volunteerInfo.VolunteerInfoViewController;
@@ -73,6 +75,7 @@ public class VolunteerOverviewController implements Initializable {
     private TextArea txtVolunteerInfo;
 
     public static final String NO_PHOTO = "/museumtimetracking/asset/img/no-photo.jpg";
+    private static final String NO_VOLUNTEER = "Der er ikke valgt nogen frivillig.";
 
     private VolunteerModel volunteerModel;
 
@@ -96,7 +99,6 @@ public class VolunteerOverviewController implements Initializable {
 
     public VolunteerOverviewController() {
         modalFactory = ModalFactory.getInstance();
-        volunteerModel = null;
         try {
             volunteerModel = VolunteerModel.getInstance();
         } catch (IOException | DALException ex) {
@@ -276,6 +278,20 @@ public class VolunteerOverviewController implements Initializable {
                     ExceptionDisplayer.display(ex);
                 }
             }
+        }
+    }
+
+    @FXML
+    private void handleDocumentHoursButton() {
+        Volunteer volunteer = lstVolunteer.getSelectionModel().getSelectedItem();
+        if (volunteer != null) {
+            Stage primeryStage = (Stage) txtEmail.getScene().getWindow();
+            Stage stage = modalFactory.createNewModal(primeryStage, ADD_HOURS_VOLUNTEER);
+            AddVolunteersHoursViewController controller = modalFactory.getLoader().getController();
+            controller.setVolunteer(volunteer);
+            stage.show();
+        } else {
+            ExceptionDisplayer.display(new NullPointerException(NO_VOLUNTEER));
         }
     }
 

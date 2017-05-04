@@ -8,6 +8,7 @@ package museumtimetracking.bll;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.dal.FacadeDAO;
@@ -107,5 +108,19 @@ public class VolunteerManager {
      */
     public void updateVolunteer(Volunteer updatedVolunteer) throws DALException {
         facadeDAO.updateVolunteerPersonInfo(updatedVolunteer);
+    }
+
+    /**
+     * Finds the current date. Then adds the parsed hours to the parsed
+     * volunteer in the database.
+     *
+     * @param volunteerID
+     * @param guildName
+     * @param hours
+     * @throws museumtimetracking.exception.DALException
+     */
+    public void addHoursToVolunteer(int volunteerID, String guildName, int hours) throws DALException {
+        Date date = new Date(System.currentTimeMillis());
+        facadeDAO.addHoursToVolunteer(volunteerID, guildName, date, hours);
     }
 }
