@@ -6,17 +6,14 @@
 package museumtimetracking.gui.views.root.volunteer;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
@@ -28,14 +25,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.EFXMLName;
-import static museumtimetracking.be.enums.EFXMLName.LIST_CELL_VOLUNTEER;
+import static museumtimetracking.be.enums.EFXMLName.ADD_HOURS_VOLUNTEER;
+import museumtimetracking.exception.AlertFactory;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.VolunteerModel;
 import museumtimetracking.gui.views.ModalFactory;
-import museumtimetracking.gui.views.root.volunteer.controls.ListCellVolunter;
-import museumtimetracking.gui.views.root.volunteer.controls.VolunteerListCellViewController;
+import museumtimetracking.gui.views.root.volunteer.addHours.AddVolunteersHoursViewController;
 import museumtimetracking.gui.views.root.volunteer.volunteerInfo.VolunteerInfoViewController;
 
 /**
@@ -71,8 +69,9 @@ public class VolunteerOverviewController implements Initializable {
     private TextArea txtVolunteerInfo;
 
     public static final String NO_PHOTO = "/museumtimetracking/asset/img/no-photo.jpg";
+    private static final String NO_VOLUNTEER = "Der er ikke valgt nogen frivillig.";
 
-    private final VolunteerModel volunteerModel;
+    private VolunteerModel volunteerModel;
 
     private final ModalFactory modalFactory;
 
@@ -94,7 +93,11 @@ public class VolunteerOverviewController implements Initializable {
 
     public VolunteerOverviewController() {
         modalFactory = ModalFactory.getInstance();
-        volunteerModel = VolunteerModel.getInstance();
+        try {
+            volunteerModel = VolunteerModel.getInstance();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
     private void setTextVisibility(boolean value) {
@@ -119,70 +122,98 @@ public class VolunteerOverviewController implements Initializable {
      * For each Volunteer in the list, show only their full name
      */
     private void setVolunteerCellFactory() {
-        lstVolunteer.setCellFactory(new Callback<ListView<Volunteer>, ListCell<Volunteer>>() {
+//        lstVolunteer.setCellFactory(new Callback<ListView<Volunteer>, ListCell<Volunteer>>() {
+//            @Override
+//            public ListCell<Volunteer> call(ListView<Volunteer> param) {
+//                ListCellVolunter cell = new ListCellVolunter();
+//                try {
+//                    FXMLLoader loader = new FXMLLoader(getClass().getResource(LIST_CELL_VOLUNTEER.toString()));
+//                    Node node = loader.load();
+//                    VolunteerListCellViewController controller = loader.getController();
+//                    cell.setController(controller);
+//                    cell.setView(node);
+//                    cell.setGraphic(node);
+//                } catch (IOException ioe) {
+//
+//                }
+//                return cell;
+//            }
+//        });
+        lstVolunteer.setCellFactory(v -> new ListCell<Volunteer>() {
             @Override
-            public ListCell<Volunteer> call(ListView<Volunteer> param) {
-                ListCellVolunter cell = new ListCellVolunter();
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource(LIST_CELL_VOLUNTEER.toString()));
-                    Node node = loader.load();
-                    VolunteerListCellViewController controller = loader.getController();
-                    cell.setController(controller);
-                    cell.setView(node);
-                    cell.setGraphic(node);
-                } catch (IOException ioe) {
-
+            protected void updateItem(Volunteer volunteer, boolean empty) {
+                super.updateItem(volunteer, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(volunteer.getFullName());
                 }
-                return cell;
             }
+
         });
     }
 
     @FXML
     private void handleDeleteVolunteer() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("ADVARSEL!");
-        alert.setHeaderText(" Tryk 'Ja' for at slette permanent. \n Tryk 'Nej' for at fortryde.");
-        ButtonType yesButton = new ButtonType("Ja", ButtonBar.ButtonData.YES);
-        ButtonType noButton = new ButtonType("Nej", ButtonBar.ButtonData.CANCEL_CLOSE);
-        alert.getButtonTypes().setAll(yesButton, noButton);
-        alert.showAndWait().ifPresent(type -> {
-
-            if (type == yesButton) {
-
-                Volunteer deleteVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
-                volunteerModel.deleteVolunteer(deleteVolunteer);
-            }
-        });
+        Volunteer volunteerToDelete = lstVolunteer.getSelectionModel().getSelectedItem();
+        if (volunteerToDelete != null) {
+            Alert deleteAlert = AlertFactory.createDeleteAlert();
+            deleteAlert.showAndWait().ifPresent(type -> {
+                //If user clicks first button
+                if (type == deleteAlert.getButtonTypes().get(0)) {
+                    try {
+                        volunteerModel.deleteVolunteer(volunteerToDelete);
+                    } catch (DALException ex) {
+                        ExceptionDisplayer.display(ex);
+                    }
+                }
+            });
+        }
+        lstVolunteer.refresh();
     }
 
     @FXML
     private void handleEditVolunteer() {
-        Volunteer volunteer = lstVolunteer.getSelectionModel().getSelectedItem();
-        // The first 'if' starts by telling if the volunteer != null.
-        if (volunteer != null) {
+        selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
+        //Validate that a volunteer is selected
+        if (selectedVolunteer != null) {
+            //If we're not in edit mode
             if (btnEdit.getText().equalsIgnoreCase("rediger")) {
                 btnEdit.setText("Gem");
                 setTextVisibility(true);
+                //If we are in edit mode
             } else {
                 btnEdit.setText("Rediger");
                 setTextVisibility(false);
 
-                // Select the volunteer from the list and updates the new info.
-                selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
-                selectedVolunteer.setFirstName(txtFirstName.getText());
-                selectedVolunteer.setLastName(txtLastName.getText());
-                selectedVolunteer.setEmail(txtEmail.getText());
-                selectedVolunteer.setPhone(Integer.parseInt(txtPhone.getText()));
-                selectedVolunteer.setDescription(txtVolunteerInfo.getText());
-                selectedVolunteer.updateFullName();
-                VolunteerModel.getInstance().updateVolunteer(selectedVolunteer);
+                updateVolunteer();
+                //Update volunteer in DB
+                try {
+                    VolunteerModel.getInstance().updateVolunteer(selectedVolunteer);
+                } catch (IOException | DALException ex) {
+                    ExceptionDisplayer.display(ex);
+                }
             }
         }
     }
 
+    /**
+     * Update the information for the volunteer
+     *
+     * @throws NumberFormatException
+     */
+    public void updateVolunteer() {
+        // Select the volunteer from the list and updates the new info.
+        selectedVolunteer.setFirstName(txtFirstName.getText());
+        selectedVolunteer.setLastName(txtLastName.getText());
+        selectedVolunteer.setEmail(txtEmail.getText());
+        selectedVolunteer.setPhone(Integer.parseInt(txtPhone.getText()));
+        selectedVolunteer.setDescription(txtVolunteerInfo.getText());
+        selectedVolunteer.updateFullName();
+    }
+
     @FXML
-    private void handleNewVolunteer() throws IOException {
+    private void handleNewVolunteer() {
         primStage = (Stage) btnEdit.getScene().getWindow();
         Stage newVolunteerModal = modalFactory.createNewModal(primStage, EFXMLName.ADD_NEW_VOLUNTEER);
         newVolunteerModal.show();
@@ -243,20 +274,48 @@ public class VolunteerOverviewController implements Initializable {
     private void handleSelectVolunteerImage(MouseEvent event) throws IOException {
         primStage = (Stage) btnEdit.getScene().getWindow();
         if (event.getClickCount() == 2) {
-            FileChooser fc = new FileChooser();
-            fc.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("All Images", "*.*"),
-                    new FileChooser.ExtensionFilter("JPG", "*.jpg"),
-                    new FileChooser.ExtensionFilter("PNG", "*.png"));
-            fc.setInitialDirectory(new File(System.getProperty("user.home")));
+            FileChooser fc = createFileChooser();
             File file = fc.showOpenDialog(primStage.getScene().getWindow());
             if (file != null) {
-                volunteerModel.setVolunteerImage(selectedVolunteer.getID(), file);
-                Image img = new Image(file.toURI().toASCIIString());
-                selectedVolunteer.setImage(img);
-                imgProfile.setImage(img);
+                try {
+                    volunteerModel.setVolunteerImage(selectedVolunteer.getID(), file);
+                    Image img = new Image(file.toURI().toASCIIString());
+                    selectedVolunteer.setImage(img);
+                    imgProfile.setImage(img);
+                } catch (DALException | FileNotFoundException ex) {
+                    ExceptionDisplayer.display(ex);
+                }
             }
         }
+    }
+
+    @FXML
+    private void handleDocumentHoursButton() {
+        Volunteer volunteer = lstVolunteer.getSelectionModel().getSelectedItem();
+        if (volunteer != null) {
+            Stage primeryStage = (Stage) txtEmail.getScene().getWindow();
+            Stage stage = modalFactory.createNewModal(primeryStage, ADD_HOURS_VOLUNTEER);
+            AddVolunteersHoursViewController controller = modalFactory.getLoader().getController();
+            controller.setVolunteer(volunteer);
+            stage.show();
+        } else {
+            ExceptionDisplayer.display(new NullPointerException(NO_VOLUNTEER));
+        }
+    }
+
+    /**
+     * Create the file chooser
+     *
+     * @return
+     */
+    private FileChooser createFileChooser() {
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("All Images", "*.*"),
+                new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+                new FileChooser.ExtensionFilter("PNG", "*.png"));
+        fc.setInitialDirectory(new File(System.getProperty("user.home")));
+        return fc;
     }
 
 }

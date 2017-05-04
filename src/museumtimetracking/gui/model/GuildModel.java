@@ -5,17 +5,19 @@
  */
 package museumtimetracking.gui.model;
 
+import java.io.IOException;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import museumtimetracking.be.Guild;
 import museumtimetracking.bll.GuildManager;
+import museumtimetracking.exception.DALException;
 
 public class GuildModel {
 
     private static GuildModel instance;
 
-    public static GuildModel getInstance() {
+    public static GuildModel getInstance() throws IOException, DALException {
         if (instance == null) {
             instance = new GuildModel();
         }
@@ -32,7 +34,7 @@ public class GuildModel {
 
     private final GuildManager guildManager;
 
-    private GuildModel() {
+    private GuildModel() throws IOException, DALException {
         // Instantiate guildManager
         guildManager = new GuildManager();
         // Puts in all the guilds from DB to Manager and after Model.
@@ -49,7 +51,7 @@ public class GuildModel {
      *
      * @param guildToArchive
      */
-    public void archiveGuild(Guild guildToArchive) {
+    public void archiveGuild(Guild guildToArchive) throws DALException {
         cachedArchivedGuilds.add(guildToArchive);
         guildManager.archiveGuild(guildToArchive);
         cachedGuilds.remove(guildToArchive);
@@ -74,7 +76,7 @@ public class GuildModel {
      *
      * @param deleteGuild
      */
-    public void deleteGuild(Guild deleteGuild) {
+    public void deleteGuild(Guild deleteGuild) throws DALException {
         guildManager.deleteGuild(deleteGuild);
         // Removes the guild from the list.
         cachedGuilds.remove(deleteGuild);
@@ -85,7 +87,7 @@ public class GuildModel {
      *
      * @param guild
      */
-    public void addGuild(Guild guild) {
+    public void addGuild(Guild guild) throws DALException {
         guildManager.addGuild(guild);
         cachedGuilds.add(guild);
     }
@@ -95,7 +97,7 @@ public class GuildModel {
      *
      * @param guildToRestore
      */
-    public void restoreGuild(Guild guildToRestore) {
+    public void restoreGuild(Guild guildToRestore) throws DALException {
         guildManager.restoreGuild(guildToRestore);
         cachedArchivedGuilds.remove(guildToRestore);
         cachedGuilds.add(guildToRestore);
@@ -107,7 +109,7 @@ public class GuildModel {
      * @param guildToUpdate
      * @param updatedGuild
      */
-    public void updateGuild(String guildToUpdate, Guild updatedGuild) {
+    public void updateGuild(String guildToUpdate, Guild updatedGuild) throws DALException {
         guildManager.updateGuild(guildToUpdate, updatedGuild);
         // Made a stream with lamda which updates the list from the database.
         cachedGuilds.stream()
@@ -115,7 +117,7 @@ public class GuildModel {
                 .forEach(g -> {
                     g.setName(updatedGuild.getName());
                     g.setDescription(updatedGuild.getDescription());
-                });   
+                });
     }
 
 }
