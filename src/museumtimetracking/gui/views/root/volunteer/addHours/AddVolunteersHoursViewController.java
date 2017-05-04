@@ -10,7 +10,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -39,6 +38,8 @@ public class AddVolunteersHoursViewController implements Initializable {
     private Label lblGuildName;
     @FXML
     private Spinner<Integer> spnHours;
+
+    private static final String NO_GUILD = "Der er ikke valgt et Laug.";
 
     private final int MINNIMUM_RANGE = 0;
     private final int MAXIMUM_RANGE = 20;
@@ -69,7 +70,7 @@ public class AddVolunteersHoursViewController implements Initializable {
     }
 
     @FXML
-    private void handleDocumenButton(ActionEvent event) {
+    private void handleDocumenButton() {
         Guild guild = lstGuilds.getSelectionModel().getSelectedItem();
         if (guild != null) {
             try {
@@ -80,12 +81,12 @@ public class AddVolunteersHoursViewController implements Initializable {
                 ExceptionDisplayer.display(ex);
             }
         } else {
-            ExceptionDisplayer.display(new NullPointerException("Der er ikke valgt noget Laug!"));
+            ExceptionDisplayer.display(new NullPointerException(NO_GUILD));
         }
     }
 
     @FXML
-    private void handleCancelButton(ActionEvent event) {
+    private void handleCancelButton() {
         closeModal();
     }
 

@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -76,6 +75,7 @@ public class VolunteerOverviewController implements Initializable {
     private TextArea txtVolunteerInfo;
 
     public static final String NO_PHOTO = "/museumtimetracking/asset/img/no-photo.jpg";
+    private static final String NO_VOLUNTEER = "Der er ikke valgt nogen frivillig.";
 
     private VolunteerModel volunteerModel;
 
@@ -282,7 +282,7 @@ public class VolunteerOverviewController implements Initializable {
     }
 
     @FXML
-    private void handleDocumentHoursButton(ActionEvent event) {
+    private void handleDocumentHoursButton() {
         Volunteer volunteer = lstVolunteer.getSelectionModel().getSelectedItem();
         if (volunteer != null) {
             Stage primeryStage = (Stage) txtEmail.getScene().getWindow();
@@ -291,7 +291,7 @@ public class VolunteerOverviewController implements Initializable {
             controller.setVolunteer(volunteer);
             stage.show();
         } else {
-            //TODO RKL: Show @Adam's awesome errorhandling.
+            ExceptionDisplayer.display(new NullPointerException(NO_VOLUNTEER));
         }
     }
 
