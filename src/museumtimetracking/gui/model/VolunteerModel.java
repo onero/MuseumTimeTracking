@@ -129,8 +129,9 @@ public class VolunteerModel {
      * @param volunteerID
      * @param guildName
      * @param hours
+     * @throws museumtimetracking.exception.DALException
      */
-    public void addHoursToVolunteer(int volunteerID, String guildName, int hours) {
+    public void addHoursToVolunteer(int volunteerID, String guildName, int hours) throws DALException {
         volunteerMgr.addHoursToVolunteer(volunteerID, guildName, hours);
     }
 

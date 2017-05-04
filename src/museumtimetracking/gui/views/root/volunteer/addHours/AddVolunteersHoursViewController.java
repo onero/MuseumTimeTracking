@@ -72,11 +72,15 @@ public class AddVolunteersHoursViewController implements Initializable {
     private void handleDocumenButton(ActionEvent event) {
         Guild guild = lstGuilds.getSelectionModel().getSelectedItem();
         if (guild != null) {
-            int hours = spnHours.getValue();
-            volunteerModel.addHoursToVolunteer(volunteer.getID(), guild.getName(), hours);
-            closeModal();
+            try {
+                int hours = spnHours.getValue();
+                volunteerModel.addHoursToVolunteer(volunteer.getID(), guild.getName(), hours);
+                closeModal();
+            } catch (DALException ex) {
+                ExceptionDisplayer.display(ex);
+            }
         } else {
-            System.out.println("Select a guild!");
+            ExceptionDisplayer.display(new NullPointerException("Der er ikke valgt noget Laug!"));
         }
     }
 

@@ -234,7 +234,7 @@ public class VolunteerDAO extends APersonDAO {
      * @param date
      * @param hours
      */
-    public void addHoursToVolunteer(int volunteerID, String guildName, Date date, int hours) {
+    public void addHoursToVolunteer(int volunteerID, String guildName, Date date, int hours) throws SQLException {
         String sql = "INSERT INTO VolunteerWork "
                 + "(VolunteerID, GuildName, Date, Hours) "
                 + "VALUES (?,?,?,?)";
@@ -246,11 +246,6 @@ public class VolunteerDAO extends APersonDAO {
             ps.setInt(4, hours);
 
             ps.executeUpdate();
-        } catch (SQLException ex) {
-            System.out.println("Couldn't add hours to volunteers in database!\n"
-                    + ex.getMessage());
-            ex.printStackTrace();
         }
     }
-
 }

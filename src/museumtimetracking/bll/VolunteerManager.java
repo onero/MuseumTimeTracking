@@ -117,8 +117,9 @@ public class VolunteerManager {
      * @param volunteerID
      * @param guildName
      * @param hours
+     * @throws museumtimetracking.exception.DALException
      */
-    public void addHoursToVolunteer(int volunteerID, String guildName, int hours) {
+    public void addHoursToVolunteer(int volunteerID, String guildName, int hours) throws DALException {
         Date date = new Date(System.currentTimeMillis());
         facadeDAO.addHoursToVolunteer(volunteerID, guildName, date, hours);
     }

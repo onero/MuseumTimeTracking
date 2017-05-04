@@ -229,8 +229,14 @@ public class FacadeDAO {
      * @param guildName
      * @param date
      * @param hours
+     * @throws museumtimetracking.exception.DALException
      */
-    public void addHoursToVolunteer(int volunteerID, String guildName, Date date, int hours) {
-        volunteerDAO.addHoursToVolunteer(volunteerID, guildName, date, hours);
+    public void addHoursToVolunteer(int volunteerID, String guildName, Date date, int hours) throws DALException {
+        try {
+            volunteerDAO.addHoursToVolunteer(volunteerID, guildName, date, hours);
+        } catch (SQLException ex) {
+            throw new DALException(
+                    "Den frivillige har allerede fået dokumenteret tid får dette Laug idag.", ex);
+        }
     }
 }
