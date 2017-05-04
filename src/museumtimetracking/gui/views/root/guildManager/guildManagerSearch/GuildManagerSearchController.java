@@ -5,12 +5,16 @@
  */
 package museumtimetracking.gui.views.root.guildManager.guildManagerSearch;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.views.root.sharedComponents.search.ISearch;
 
 /**
@@ -46,8 +50,11 @@ public class GuildManagerSearchController implements Initializable, ISearch {
 
     @Override
     public void updateListView(String newValue) {
-        //TODO MSP: Update ListView
-        System.out.println("Tovholder + " + newValue);
+        try {
+            GuildManagerModel.getInstance().searchGuildManagers(newValue);
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
     @Override
@@ -57,7 +64,11 @@ public class GuildManagerSearchController implements Initializable, ISearch {
 
     @Override
     public void clearSearchBar() {
-        txtSearchBar.clear();
-        System.out.println("Cleared from GUILDMANAGER");
+        try {
+            txtSearchBar.clear();
+            GuildManagerModel.getInstance().resetGuildManagers();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 }

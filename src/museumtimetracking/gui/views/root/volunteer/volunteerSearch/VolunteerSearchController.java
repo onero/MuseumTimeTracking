@@ -5,12 +5,16 @@
  */
 package museumtimetracking.gui.views.root.volunteer.volunteerSearch;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.model.VolunteerModel;
 import museumtimetracking.gui.views.root.sharedComponents.search.ISearch;
 
 /**
@@ -46,8 +50,11 @@ public class VolunteerSearchController implements Initializable, ISearch {
 
     @Override
     public void updateListView(String newValue) {
-        //TODO MSP: Update ListView
-        System.out.println("Frivillig + " + newValue);
+        try {
+            VolunteerModel.getInstance().searchVolunteers(newValue);
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
     @Override
@@ -57,7 +64,11 @@ public class VolunteerSearchController implements Initializable, ISearch {
 
     @Override
     public void clearSearchBar() {
-        txtSearchBar.clear();
-        System.out.println("Cleared from VOLUNTEER");
+        try {
+            txtSearchBar.clear();
+            VolunteerModel.getInstance().resetGuilds();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 }

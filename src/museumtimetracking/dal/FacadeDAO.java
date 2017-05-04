@@ -91,8 +91,8 @@ public class FacadeDAO {
     }
 
     /**
-     * Deletes guilds from tableView and DB.
-     * Comes from GuildModel and goes to GuildDao.
+     * Deletes guilds from tableView and DB. Comes from GuildModel and goes to
+     * GuildDao.
      *
      * @param deleteGuild
      * @throws museumtimetracking.exception.DALException
@@ -182,7 +182,7 @@ public class FacadeDAO {
      */
     public List<Volunteer> getAllVolunteersNotIdle() throws DALException {
         try {
-            return volunteerDAO.getAllIdleVolunteers();
+            return volunteerDAO.getAllVolunteersNotIdle();
         } catch (SQLException ex) {
             throw new DALException(DB_CONNECTION_ERROR, ex);
         }

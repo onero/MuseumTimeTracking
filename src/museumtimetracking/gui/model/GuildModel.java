@@ -71,8 +71,8 @@ public class GuildModel {
     }
 
     /**
-     * Deletes the guild from tableView and DB.
-     * Comes from GuildTableViewController and goes to GuildManager.
+     * Deletes the guild from tableView and DB. Comes from
+     * GuildTableViewController and goes to GuildManager.
      *
      * @param deleteGuild
      */
@@ -120,4 +120,15 @@ public class GuildModel {
                 });
     }
 
+    public void searchGuilds(String newValue) {
+        cachedGuilds.clear();
+        guildsFromDB.stream()
+                .filter(g -> g.getName().toLowerCase().contains(newValue.toLowerCase()))
+                .forEach(g -> cachedGuilds.add(g));
+    }
+
+    public void resetGuilds() {
+        cachedGuilds.clear();
+        cachedGuilds.addAll(guildsFromDB);
+    }
 }
