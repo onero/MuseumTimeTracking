@@ -20,6 +20,8 @@ import javafx.stage.Stage;
 import museumtimetracking.be.Guild;
 import museumtimetracking.be.enums.EFXMLName;
 import museumtimetracking.exception.AlertFactory;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.root.guild.editGuild.EditGuildViewController;
@@ -45,13 +47,17 @@ public class GuildOverviewController implements Initializable {
 
     private final ModalFactory modalFactory;
 
-    private final GuildModel guildModel;
+    private GuildModel guildModel;
 
     private Stage primStage;
 
     public GuildOverviewController() {
         modalFactory = ModalFactory.getInstance();
-        this.guildModel = GuildModel.getInstance();
+        try {
+            this.guildModel = GuildModel.getInstance();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
     /**
@@ -76,7 +82,11 @@ public class GuildOverviewController implements Initializable {
             //If the first button ("YES") is clicked
             if (type == alert.getButtonTypes().get(0)) {
                 Guild deleteGuild = tableGuild.getSelectionModel().getSelectedItem();
-                guildModel.deleteGuild(deleteGuild);
+                try {
+                    guildModel.deleteGuild(deleteGuild);
+                } catch (DALException ex) {
+                    ExceptionDisplayer.display(ex);
+                }
 
             }
         });
@@ -87,7 +97,11 @@ public class GuildOverviewController implements Initializable {
     private void handleArchiveBtn() {
         Guild guildToArchive = tableGuild.getSelectionModel().getSelectedItem();
         if (guildToArchive != null) {
-            guildModel.archiveGuild(guildToArchive);
+            try {
+                guildModel.archiveGuild(guildToArchive);
+            } catch (DALException ex) {
+                ExceptionDisplayer.display(ex);
+            }
         }
     }
 

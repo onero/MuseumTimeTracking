@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -186,8 +188,8 @@ public class GuildManagerOverviewController implements Initializable {
                     cell.setController(controller);
                     cell.setView(node);
                     cell.setGraphic(node);
-                } catch (IOException ioe) {
-
+                } catch (IOException ex) {
+                    Logger.getLogger(GuildManagerOverviewController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return cell;
             }
