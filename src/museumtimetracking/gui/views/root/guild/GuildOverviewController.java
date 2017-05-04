@@ -7,9 +7,13 @@ package museumtimetracking.gui.views.root.guild;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
@@ -35,15 +39,14 @@ public class GuildOverviewController implements Initializable {
 
     @FXML
     private TableColumn<Guild, String> clmGuildDescription;
-
     @FXML
     private TableColumn<Guild, String> clmGuildName;
-
     @FXML
     private BorderPane guildBorderPane;
-
     @FXML
     private TableView<Guild> tableGuild;
+    @FXML
+    private BarChart<String, Integer> chartHoursOverview;
 
     private final ModalFactory modalFactory;
 
@@ -69,6 +72,7 @@ public class GuildOverviewController implements Initializable {
 
         clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
         clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
+        initializeChartHoursOverview();
     }
 
     /**
@@ -87,7 +91,6 @@ public class GuildOverviewController implements Initializable {
                 } catch (DALException ex) {
                     ExceptionDisplayer.display(ex);
                 }
-
             }
         });
 
@@ -131,6 +134,33 @@ public class GuildOverviewController implements Initializable {
 
         editGuildModal.show();
 
+    }
+
+    /**
+     * Sets the title of the chart and give it it's initial data.
+     */
+    private void initializeChartHoursOverview() {
+        chartHoursOverview.setTitle("Dokumenterede Timer");
+        giveDataToChartHoursOverview("Laug");
+    }
+
+    /**
+     *
+     * @param title
+     */
+    private void giveDataToChartHoursOverview(String title) {
+        chartHoursOverview.getData().clear();
+        List<Guild> guilds = guildModel.getGuildsFromDB();
+        Map<String, Integer> guildHours = guildModel.getMapOfHoursPerGuild();
+
+        XYChart.Series hoursSeries = new XYChart.Series<>();
+        hoursSeries.setName(title);
+
+        for (Guild guild : guilds) {
+            hoursSeries.getData().add(new XYChart.Data<>(guild.getName(), guildHours.get(guild.getName())));
+        }
+
+        chartHoursOverview.getData().add(hoursSeries);
     }
 
 }

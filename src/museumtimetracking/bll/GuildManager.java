@@ -6,7 +6,9 @@
 package museumtimetracking.bll;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import museumtimetracking.be.Guild;
 import museumtimetracking.dal.FacadeDAO;
 import museumtimetracking.exception.DALException;
@@ -34,8 +36,8 @@ public class GuildManager {
     }
 
     /**
-     * Deletes guilds from tableView and DB.
-     * Comes from GuildModel and goes to GuildDao.
+     * Deletes guilds from tableView and DB. Comes from GuildModel and goes to
+     * GuildDao.
      *
      * @param deleteGuild
      * @throws museumtimetracking.exception.DALException
@@ -92,6 +94,21 @@ public class GuildManager {
      */
     public void updateGuild(String guildToUpdate, Guild updatedGuild) throws DALException {
         facadeDAO.updateGuild(guildToUpdate, updatedGuild);
+    }
+
+    /**
+     * Returns a Map containg all hours worked for each guild.
+     *
+     * @param guilds
+     * @return
+     * @throws DALException
+     */
+    public Map<String, Integer> getAllHoursWorked(List<Guild> guilds) throws DALException {
+        List<String> guildNames = new LinkedList<>();
+        for (Guild guild : guilds) {
+            guildNames.add(guild.getName());
+        }
+        return facadeDAO.getAllHoursWorked(guildNames);
     }
 
 }

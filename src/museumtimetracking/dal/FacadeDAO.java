@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.Guild;
@@ -130,6 +131,21 @@ public class FacadeDAO {
             return guildDAO.getAllGuildsNotArchived();
         } catch (SQLException ex) {
             throw new DALException(DB_CONNECTION_ERROR, ex);
+        }
+    }
+
+    /**
+     * Returns a Map of hours worked for each guild.
+     *
+     * @param guildNames
+     * @return
+     * @throws DALException
+     */
+    public Map<String, Integer> getAllHoursWorked(List<String> guildNames) throws DALException {
+        try {
+            return guildDAO.getVolunteerWorkHours(guildNames);
+        } catch (SQLException ex) {
+            throw new DALException("Det var ikke muligt at hente de dokumenterede timer.", ex);
         }
     }
 

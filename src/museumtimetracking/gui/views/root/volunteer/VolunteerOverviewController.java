@@ -79,6 +79,15 @@ public class VolunteerOverviewController implements Initializable {
 
     private Volunteer selectedVolunteer;
 
+    public VolunteerOverviewController() {
+        modalFactory = ModalFactory.getInstance();
+        try {
+            volunteerModel = VolunteerModel.getInstance();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
+    }
+
     /**
      * Initializes the controller class.
      */
@@ -89,15 +98,6 @@ public class VolunteerOverviewController implements Initializable {
         setVolunteerCellFactory();
 
         setTextVisibility(false);
-    }
-
-    public VolunteerOverviewController() {
-        modalFactory = ModalFactory.getInstance();
-        try {
-            volunteerModel = VolunteerModel.getInstance();
-        } catch (IOException | DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
     }
 
     private void setTextVisibility(boolean value) {

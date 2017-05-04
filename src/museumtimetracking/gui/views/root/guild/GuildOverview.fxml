@@ -14,7 +14,7 @@
    <right>
       <BorderPane BorderPane.alignment="CENTER">
          <center>
-            <BarChart BorderPane.alignment="CENTER">
+            <BarChart fx:id="chartHoursOverview" BorderPane.alignment="CENTER">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>

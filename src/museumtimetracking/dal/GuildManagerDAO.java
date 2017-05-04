@@ -71,7 +71,7 @@ public class GuildManagerDAO extends APersonDAO {
 
             if (guildsTodelete != null && !guildsTodelete.isEmpty()) {
                 for (String guild : guildsTodelete) {
-                    removeGuildFromManagerInDatabase(con, manager.getID(), guild);
+                    removeGuildFromManagerFromDatabase(con, manager.getID(), guild);
                 }
             }
             con.commit();
@@ -102,7 +102,7 @@ public class GuildManagerDAO extends APersonDAO {
      * @param guildName
      * @throws SQLException
      */
-    private void removeGuildFromManagerInDatabase(Connection con, int personID, String guildName) throws SQLException {
+    private void removeGuildFromManagerFromDatabase(Connection con, int personID, String guildName) throws SQLException {
         String sql = "DELETE FROM GuildManager WHERE PersonID = ? AND GuildName = ?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, personID);
