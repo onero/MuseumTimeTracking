@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
@@ -38,6 +39,8 @@ public class NewVolunteerViewController implements Initializable {
     @FXML
     private ToggleGroup language;
     @FXML
+    private TextArea txtDescription;
+    @FXML
     private TextField txtEmail;
     @FXML
     private TextField txtFirstName;
@@ -62,7 +65,13 @@ public class NewVolunteerViewController implements Initializable {
         selectedLanguage = setSelectedLanguage();
 
         if (validateInput()) {
-            Volunteer newVolunteer = new Volunteer(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()), selectedLanguage);
+            String firstName = txtFirstName.getText();
+            String lastname = txtLastName.getText();
+            String email = txtEmail.getText();
+            int phone = Integer.parseInt(txtPhone.getText());
+            String description = txtDescription.getText();
+            Volunteer newVolunteer = new Volunteer(firstName, lastname, email, phone, selectedLanguage);
+            newVolunteer.setDescription(description);
             try {
                 volunteerModel.addVolunteer(newVolunteer);
             } catch (DALException ex) {

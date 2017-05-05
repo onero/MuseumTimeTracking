@@ -63,6 +63,19 @@ public class FacadeDAO {
     }
 
     /**
+     * Get all guild managers not idle
+     *
+     * @return
+     */
+    public Set<GuildManager> getAllGuildManagersNotIdle() throws DALException {
+        try {
+            return guildManagerDAO.getAllGuildManagersNotIdle();
+        } catch (SQLException ex) {
+            throw new DALException(DB_CONNECTION_ERROR, ex);
+        }
+    }
+
+    /**
      * Update guild in DB with new info
      *
      * @param guildToUpdate
@@ -298,15 +311,15 @@ public class FacadeDAO {
     }
 
     /**
-     * Gets a list of guild managers that are each filled with the appropriate
+     * Gets a list of idle guild manager
      * guilds from the GuildManagerDAO.
      *
      * @return
      * @throws museumtimetracking.exception.DALException
      */
-    public List<GuildManager> getAllGuildManagers() throws DALException {
+    public Set<GuildManager> getAllIdleGuildManagers() throws DALException {
         try {
-            return guildManagerDAO.addGuildsToGuildManagers(guildManagerDAO.getAllGuildManagers());
+            return guildManagerDAO.getAllIdleGuildManagers();
         } catch (SQLException ex) {
             throw new DALException(DB_CONNECTION_ERROR, ex);
         }
@@ -337,6 +350,19 @@ public class FacadeDAO {
     public void deleteGuildManagerFromDB(int GuildManagerID) throws DALException {
         try {
             guildManagerDAO.deleteGuildManagerFromDB(GuildManagerID);
+        } catch (SQLException ex) {
+            throw new DALException(DB_CONNECTION_ERROR, ex);
+        }
+    }
+
+    /**
+     * Archive a manager
+     *
+     * @param selectedManager
+     */
+    public void archiveManager(int id, boolean value) throws DALException {
+        try {
+            guildManagerDAO.archiveManager(id, value);
         } catch (SQLException ex) {
             throw new DALException(DB_CONNECTION_ERROR, ex);
         }

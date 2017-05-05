@@ -360,4 +360,16 @@ public class GuildManagerOverviewController implements Initializable {
         manager.setPhone(Integer.parseInt(txtPhone.getText()));
         return manager;
     }
+
+    @FXML
+    private void handleArchiveGM() {
+        GuildManager selectedManager = lstManagers.getSelectionModel().getSelectedItem();
+        if (selectedManager != null) {
+            try {
+                guildManagerModel.updateIdleManager(selectedManager, true);
+            } catch (DALException ex) {
+                ExceptionDisplayer.display(ex);
+            }
+        }
+    }
 }

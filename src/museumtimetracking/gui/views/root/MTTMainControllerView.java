@@ -35,6 +35,7 @@ public class MTTMainControllerView implements Initializable {
     private final Node volunteerOverview;
     private final Node archivedGuilds;
     private final Node idleVolunteer;
+    private final Node idleGuildManager;
     private final Node guildSearch;
     private final Node guildManagerSearch;
     private final Node volunteerSearch;
@@ -51,6 +52,7 @@ public class MTTMainControllerView implements Initializable {
         volunteerOverview = nodeFactory.createNewView(VOLUNTEER_OVERVIEW);
         archivedGuilds = nodeFactory.createNewView(ARCHIVED_TABLE);
         idleVolunteer = nodeFactory.createNewView(IDLE_VOLUNTEER);
+        idleGuildManager = nodeFactory.createNewView(IDLE_MANAGER);
 
         //Initializes the SearchViews.
         guildSearch = nodeFactory.createNewView(GUILD_SEARCH);
@@ -79,6 +81,7 @@ public class MTTMainControllerView implements Initializable {
     @FXML
     private void handleGuildManagersButton() {
         borderPaneMain.setCenter(managerOverview);
+        borderPaneMainAtBottomBorderPane.setCenter(idleGuildManager);
         borderPaneMain.setTop(guildManagerSearch);
         guildManagerSearchController.clearSearchBar();
     }
