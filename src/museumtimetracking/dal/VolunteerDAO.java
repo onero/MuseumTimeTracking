@@ -117,7 +117,7 @@ public class VolunteerDAO extends APersonDAO {
     public void createVolunteer(Volunteer newVolunteer) throws SQLServerException, SQLException {
         try (Connection con = cm.getConnection()) {
             int id = createNewPersonInDatabase(con, newVolunteer);
-            addVolunteer(id);
+            addVolunteer(con, id);
             updateVolunteerInfo(con, newVolunteer.getDescription(), id);
         }
     }
@@ -127,18 +127,16 @@ public class VolunteerDAO extends APersonDAO {
      *
      * @param personID
      */
-    private void addVolunteer(int personID) throws SQLServerException, SQLException {
+    private void addVolunteer(Connection con, int personID) throws SQLServerException, SQLException {
         String sql = "INSERT INTO Volunteer "
                 + "(PersonID, IsIdle) "
                 + "VALUES (?, ?)";
-        try (Connection con = cm.getConnection()) {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, personID);
-            ps.setInt(2, 0);
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, personID);
+        ps.setInt(2, 0);
 
-            ps.executeUpdate();
+        ps.executeUpdate();
 
-        }
     }
 
     /**
