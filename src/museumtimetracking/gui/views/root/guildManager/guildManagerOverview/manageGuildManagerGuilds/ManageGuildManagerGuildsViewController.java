@@ -15,7 +15,6 @@ import java.util.Set;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
@@ -75,7 +74,8 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
     }
 
     @FXML
-    private void handleMoveGuildButton(ActionEvent event) {
+    private void handleMoveGuildButton() {
+        //TODO rkl: Check for rightside.
         if (leftListSelected) {
             moveFromAvailableToManager();
         } else {
@@ -90,6 +90,8 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
      * @param managerGuilds
      */
     public void addGuilds(List<String> managerGuilds) {
+        //TODO rkl: More comments/refactor. Ask Adam about streams.
+        //Just use the manager guilds.
         oManagerGuilds.addAll(managerGuilds);
         for (Guild cachedGuild : guildModel.getCachedGuilds()) {
             oAvaiableGuilds.add(cachedGuild.getName());

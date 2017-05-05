@@ -91,7 +91,7 @@ public class GuildManagerDAO extends APersonDAO {
         try (Connection con = cm.getConnection()) {
             con.setAutoCommit(false);
             updatePersonInformation(con, manager);
-
+            //TODO rkl: remove isEmpty.
             if (guildsToAdd != null && !guildsToAdd.isEmpty()) {
                 for (String guild : guildsToAdd) {
                     addGuildToManagerInDatabase(con, manager.getID(), guild);
@@ -116,7 +116,9 @@ public class GuildManagerDAO extends APersonDAO {
      * @throws SQLException
      */
     private void addGuildToManagerInDatabase(Connection con, int personID, String guildName) throws SQLException {
-        String sql = "INSERT INTO GuildManager (PersonID, GuildName) VALUES (?,?)";
+        String sql = "INSERT INTO "
+                + "GuildManager (PersonID, GuildName) "
+                + "VALUES (?,?)";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, personID);
         ps.setString(2, guildName);
@@ -132,7 +134,9 @@ public class GuildManagerDAO extends APersonDAO {
      * @throws SQLException
      */
     private void removeGuildFromManagerFromDatabase(Connection con, int personID, String guildName) throws SQLException {
-        String sql = "DELETE FROM GuildManager WHERE PersonID = ? AND GuildName = ?";
+        String sql = "DELETE FROM GuildManager "
+                + "WHERE PersonID = ? "
+                + "AND GuildName = ?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, personID);
         ps.setString(2, guildName);

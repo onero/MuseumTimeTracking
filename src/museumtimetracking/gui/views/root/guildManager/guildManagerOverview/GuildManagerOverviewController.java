@@ -67,10 +67,10 @@ public class GuildManagerOverviewController implements Initializable {
 
     private List<TextField> textFields;
 
-    private final String ADD_GUILD_BUTTON_TEXT = "Tilføj Laug";
-    private final String EDIT_BUTTON_TEXT = "Rediger";
-    private final String CANCEL_BUTTON_TEXT = "Anuller";
-    private final String NEW_GUILD_MANAGER = "Ny Tovholder";
+    private static final String ADD_GUILD_BUTTON_TEXT = "Tilføj Laug";
+    private static final String EDIT_BUTTON_TEXT = "Rediger";
+    private static final String CANCEL_BUTTON_TEXT = "Anuller";
+    private static final String NEW_GUILD_MANAGER = "Ny Tovholder";
 
     private final ModalFactory modalFactory;
 
