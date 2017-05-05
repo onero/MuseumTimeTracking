@@ -13,6 +13,9 @@ import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.gui.views.NodeFactory;
+import museumtimetracking.gui.views.root.guild.guildSearch.GuildSearchViewController;
+import museumtimetracking.gui.views.root.guildManager.guildManagerSearch.GuildManagerSearchController;
+import museumtimetracking.gui.views.root.volunteer.volunteerSearch.VolunteerSearchController;
 
 /**
  *
@@ -33,6 +36,13 @@ public class MTTMainControllerView implements Initializable {
     private final Node archivedGuilds;
     private final Node idleVolunteer;
     private final Node idleGuildManager;
+    private final Node guildSearch;
+    private final Node guildManagerSearch;
+    private final Node volunteerSearch;
+
+    private final GuildSearchViewController guildSearchViewController;
+    private final GuildManagerSearchController guildManagerSearchController;
+    private final VolunteerSearchController volunteerSearchController;
 
     public MTTMainControllerView() {
         nodeFactory = NodeFactory.getInstance();
@@ -43,17 +53,28 @@ public class MTTMainControllerView implements Initializable {
         archivedGuilds = nodeFactory.createNewView(ARCHIVED_TABLE);
         idleVolunteer = nodeFactory.createNewView(IDLE_VOLUNTEER);
         idleGuildManager = nodeFactory.createNewView(IDLE_MANAGER);
+
+        //Initializes the SearchViews.
+        guildSearch = nodeFactory.createNewView(GUILD_SEARCH);
+        guildSearchViewController = nodeFactory.getLoader().getController();
+        guildManagerSearch = nodeFactory.createNewView(GUILD_MANAGER_SEARCH);
+        guildManagerSearchController = nodeFactory.getLoader().getController();
+        volunteerSearch = nodeFactory.createNewView(VOLUNTEER_SEARCH);
+        volunteerSearchController = nodeFactory.getLoader().getController();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         borderPaneMain.setCenter(guildOverview);
+        borderPaneMain.setTop(guildSearch);
         borderPaneMainAtBottomBorderPane.setCenter(archivedGuilds);
     }
 
     @FXML
     private void handleGuildsButton() {
         borderPaneMain.setCenter(guildOverview);
+        borderPaneMain.setTop(guildSearch);
+        guildSearchViewController.clearSearchBar();
         borderPaneMainAtBottomBorderPane.setCenter(archivedGuilds);
     }
 
@@ -61,12 +82,15 @@ public class MTTMainControllerView implements Initializable {
     private void handleGuildManagersButton() {
         borderPaneMain.setCenter(managerOverview);
         borderPaneMainAtBottomBorderPane.setCenter(idleGuildManager);
+        borderPaneMain.setTop(guildManagerSearch);
+        guildManagerSearchController.clearSearchBar();
     }
 
     @FXML
     private void handleVolunteersButton() {
         borderPaneMain.setCenter(volunteerOverview);
+        borderPaneMain.setTop(volunteerSearch);
+        volunteerSearchController.clearSearchBar();
         borderPaneMainAtBottomBorderPane.setCenter(idleVolunteer);
-
     }
 }

@@ -104,8 +104,8 @@ public class FacadeDAO {
     }
 
     /**
-     * Deletes guilds from tableView and DB.
-     * Comes from GuildModel and goes to GuildDao.
+     * Deletes guilds from tableView and DB. Comes from GuildModel and goes to
+     * GuildDao.
      *
      * @param deleteGuild
      * @throws museumtimetracking.exception.DALException

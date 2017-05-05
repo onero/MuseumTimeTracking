@@ -113,4 +113,15 @@ public class GuildManagerModel {
         return cachedIdleGuildManagers;
     }
 
+    public void searchGuildManagers(String newValue) {
+        cachedManagers.clear();
+        managersFromDB.stream()
+                .filter(g -> g.getFullName().toLowerCase().contains(newValue.toLowerCase()))
+                .forEach(g -> cachedManagers.add(g));
+    }
+
+    public void resetGuildManagers() {
+        cachedManagers.clear();
+        cachedManagers.addAll(managersFromDB);
+    }
 }
