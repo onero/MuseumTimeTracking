@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.volunteer.addHours.AddVolunteersHoursViewController">
+<BorderPane styleClass="borderPane" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.volunteer.addHours.AddVolunteersHoursViewController">
    <center>
       <AnchorPane id="AnchorPane" prefHeight="150.0" prefWidth="442.0">
          <children>

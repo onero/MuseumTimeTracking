@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane fx:id="borderPaneMain" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.MTTMainControllerView">
+<BorderPane fx:id="borderPaneMain" styleClass="borderPane" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.MTTMainControllerView">
    <bottom>
       <BorderPane fx:id="borderPaneMainAtBottomBorderPane" BorderPane.alignment="CENTER">
          <BorderPane.margin>

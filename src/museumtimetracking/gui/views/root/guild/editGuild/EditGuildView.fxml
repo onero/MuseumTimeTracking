@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="editGuildBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="206.0" prefWidth="399.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guild.editGuild.EditGuildViewController">
+<BorderPane fx:id="editGuildBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="206.0" prefWidth="399.0" styleClass="borderPane" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guild.editGuild.EditGuildViewController">
    <center>
       <VBox prefHeight="265.0" prefWidth="468.0" BorderPane.alignment="CENTER">
          <children>
@@ -22,7 +22,7 @@
             </Label>
             <TextField fx:id="txtGuildName">
                <VBox.margin>
-                  <Insets bottom="10.0" />
+                  <Insets bottom="10.0" left="5.0" right="5.0" />
                </VBox.margin>
             </TextField>
             <Label text="Laug Beskrivelse">
@@ -30,7 +30,10 @@
                   <Font name="System Italic" size="15.0" />
                </font>
             </Label>
-            <TextArea fx:id="txtGuildDescription" prefHeight="200.0" prefWidth="200.0" />
+            <TextArea fx:id="txtGuildDescription" prefHeight="200.0" prefWidth="200.0">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </VBox.margin></TextArea>
             <HBox>
                <children>
                   <ButtonBar>
