@@ -117,7 +117,8 @@ public class VolunteerDAO extends APersonDAO {
     public void createVolunteer(Volunteer newVolunteer) throws SQLServerException, SQLException {
         try (Connection con = cm.getConnection()) {
             int id = createNewPersonInDatabase(con, newVolunteer);
-            addVolunteer(id);
+            addVolunteer(con, id);
+            updateVolunteerInfo(con, newVolunteer.getDescription(), id);
         }
     }
 
@@ -126,18 +127,16 @@ public class VolunteerDAO extends APersonDAO {
      *
      * @param personID
      */
-    private void addVolunteer(int personID) throws SQLServerException, SQLException {
+    private void addVolunteer(Connection con, int personID) throws SQLServerException, SQLException {
         String sql = "INSERT INTO Volunteer "
                 + "(PersonID, IsIdle) "
                 + "VALUES (?, ?)";
-        try (Connection con = cm.getConnection()) {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, personID);
-            ps.setInt(2, 0);
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, personID);
+        ps.setInt(2, 0);
 
-            ps.executeUpdate();
+        ps.executeUpdate();
 
-        }
     }
 
     /**
@@ -171,7 +170,7 @@ public class VolunteerDAO extends APersonDAO {
         try (Connection con = cm.getConnection()) {
             // updatePersonInformation is from a abstract class "APersonDAO".
             updatePersonInformation(con, volunteer);
-            updateVolunteerInfo(con, volunteer);
+            updateVolunteerInfo(con, volunteer.getDescription(), volunteer.getID());
         }
     }
 
@@ -182,13 +181,13 @@ public class VolunteerDAO extends APersonDAO {
      * @param volunteer
      * @throws SQLException
      */
-    private void updateVolunteerInfo(Connection con, Volunteer volunteer) throws SQLException {
+    private void updateVolunteerInfo(Connection con, String description, int id) throws SQLException {
         String sql = "UPDATE Volunteer "
                 + "SET Description = ? "
                 + "WHERE PersonID = ?";
         PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(1, volunteer.getDescription());
-        ps.setInt(2, volunteer.getID());
+        ps.setString(1, description);
+        ps.setInt(2, id);
 
         ps.executeUpdate();
 

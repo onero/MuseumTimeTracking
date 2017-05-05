@@ -41,9 +41,9 @@ public class AddVolunteersHoursViewController implements Initializable {
 
     private static final String NO_GUILD = "Der er ikke valgt et Laug.";
 
-    private final int MINNIMUM_RANGE = 0;
-    private final int MAXIMUM_RANGE = 20;
-    private final int INITIAL_VALUE = 8;
+    private static final int MINNIMUM_RANGE = 0;
+    private static final int MAXIMUM_RANGE = 20;
+    private static final int INITIAL_VALUE = 8;
 
     private GuildModel guildModel;
     private VolunteerModel volunteerModel;
@@ -110,12 +110,12 @@ public class AddVolunteersHoursViewController implements Initializable {
     private void setCellFactory() {
         lstGuilds.setCellFactory(g -> new ListCell<Guild>() {
             @Override
-            protected void updateItem(Guild item, boolean empty) {
-                super.updateItem(item, empty);
+            protected void updateItem(Guild guildName, boolean empty) {
+                super.updateItem(guildName, empty);
                 if (empty) {
                     setText(null);
                 } else {
-                    setText(item.getName());
+                    setText(guildName.getName());
                 }
             }
         });

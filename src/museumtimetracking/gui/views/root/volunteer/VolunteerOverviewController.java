@@ -122,23 +122,6 @@ public class VolunteerOverviewController implements Initializable {
      * For each Volunteer in the list, show only their full name
      */
     private void setVolunteerCellFactory() {
-//        lstVolunteer.setCellFactory(new Callback<ListView<Volunteer>, ListCell<Volunteer>>() {
-//            @Override
-//            public ListCell<Volunteer> call(ListView<Volunteer> param) {
-//                ListCellVolunter cell = new ListCellVolunter();
-//                try {
-//                    FXMLLoader loader = new FXMLLoader(getClass().getResource(LIST_CELL_VOLUNTEER.toString()));
-//                    Node node = loader.load();
-//                    VolunteerListCellViewController controller = loader.getController();
-//                    cell.setController(controller);
-//                    cell.setView(node);
-//                    cell.setGraphic(node);
-//                } catch (IOException ioe) {
-//
-//                }
-//                return cell;
-//            }
-//        });
         lstVolunteer.setCellFactory(v -> new ListCell<Volunteer>() {
             @Override
             protected void updateItem(Volunteer volunteer, boolean empty) {

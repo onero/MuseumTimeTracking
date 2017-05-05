@@ -6,14 +6,13 @@
 package museumtimetracking.gui.views;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import museumtimetracking.be.enums.EFXMLName;
+import museumtimetracking.exception.ExceptionDisplayer;
 
 public class ModalFactory {
 
@@ -43,7 +42,7 @@ public class ModalFactory {
         try {
             root = loader.load();
         } catch (IOException ex) {
-            Logger.getLogger(ModalFactory.class.getName()).log(Level.SEVERE, null, ex);
+            ExceptionDisplayer.display(ex);
         }
 
         Stage modalStage = new Stage();

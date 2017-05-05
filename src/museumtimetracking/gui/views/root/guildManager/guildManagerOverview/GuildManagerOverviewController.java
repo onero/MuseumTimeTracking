@@ -67,10 +67,10 @@ public class GuildManagerOverviewController implements Initializable {
 
     private List<TextField> textFields;
 
-    private final String ADD_GUILD_BUTTON_TEXT = "Tilføj Laug";
-    private final String EDIT_BUTTON_TEXT = "Rediger";
-    private final String CANCEL_BUTTON_TEXT = "Anuller";
-    private final String NEW_GUILD_MANAGER = "Ny Tovholder";
+    private static final String ADD_GUILD_BUTTON_TEXT = "Tilføj Laug";
+    private static final String EDIT_BUTTON_TEXT = "Rediger";
+    private static final String CANCEL_BUTTON_TEXT = "Anuller";
+    private static final String NEW_GUILD_MANAGER = "Ny Tovholder";
 
     private final ModalFactory modalFactory;
 
@@ -310,7 +310,7 @@ public class GuildManagerOverviewController implements Initializable {
         controller.addGuilds(manager.getListOfGuilds());
 
         stage.showAndWait();
-
+        //TODO ALH: Clean up this mess!
         setGuildsToAdd = controller.getSetGuildsToAdd();
         setGuildsToDelete = controller.getSetGuildsToDelete();
         lstGuilds.setItems(controller.getManagerGuilds());
@@ -356,5 +356,17 @@ public class GuildManagerOverviewController implements Initializable {
         manager.setEmail(txtEmail.getText());
         manager.setPhone(Integer.parseInt(txtPhone.getText()));
         return manager;
+    }
+
+    @FXML
+    private void handleArchiveGM() {
+        GuildManager selectedManager = lstManagers.getSelectionModel().getSelectedItem();
+        if (selectedManager != null) {
+            try {
+                guildManagerModel.updateIdleManager(selectedManager, true);
+            } catch (DALException ex) {
+                ExceptionDisplayer.display(ex);
+            }
+        }
     }
 }

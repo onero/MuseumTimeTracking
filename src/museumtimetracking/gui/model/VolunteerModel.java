@@ -81,13 +81,13 @@ public class VolunteerModel {
     /**
      * Deletes the selected volunteer from DB.
      *
-     * @param deleteVolunteer
+     * @param volunteerToDelete
      * @throws museumtimetracking.exception.DALException
      */
-    public void deleteVolunteer(Volunteer deleteVolunteer) throws DALException {
-        volunteerMgr.deleteVolunteer(deleteVolunteer.getID());
+    public void deleteVolunteer(Volunteer volunteerToDelete) throws DALException {
+        volunteerMgr.deleteVolunteer(volunteerToDelete.getID());
         // Removes the volunteer from the listview.
-        cachedVolunteers.remove(deleteVolunteer);
+        cachedVolunteers.remove(volunteerToDelete);
     }
 
     /**
