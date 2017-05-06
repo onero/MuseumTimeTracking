@@ -1,53 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="guildBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="borderPane" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guild.GuildOverviewController">
-   <right>
-      <BorderPane BorderPane.alignment="CENTER">
-         <center>
-            <BarChart fx:id="chartHoursOverview" BorderPane.alignment="CENTER">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" />
-              </yAxis>
-            </BarChart>
-         </center>
-      </BorderPane>
-   </right>
-   <left>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <center>
-            <TableView fx:id="tableGuild" onMouseClicked="#handleEditGuild" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-              <columns>
-                <TableColumn fx:id="clmGuildName" prefWidth="127.0" text="Laug" />
-                <TableColumn fx:id="clmGuildDescription" prefWidth="212.0" text="Beskrivelse" />
-              </columns>
-            </TableView>
-         </center>
-         <bottom>
-            <HBox BorderPane.alignment="CENTER">
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <GridPane fx:id="gridPaneGuild" gridLinesVisible="true" prefHeight="414.0" prefWidth="951.0" AnchorPane.bottomAnchor="131.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="413.0" minHeight="10.0" prefHeight="337.0" vgrow="SOMETIMES" />
+               </rowConstraints>
                <children>
-                  <ButtonBar buttonMinWidth="100.0" prefHeight="40.0">
-                     <buttons>
-                        <Button mnemonicParsing="false" onAction="#handleAddGuildBtn" text="Tilføj Laug" />
-                        <Button mnemonicParsing="false" onAction="#handleArchiveBtn" text="Arkiver" />
-                        <Button mnemonicParsing="false" onAction="#handleDeleteGuild" text="Fjern" />
-                     </buttons>
-                  </ButtonBar>
+                  <TableView fx:id="tblGuild" onMouseClicked="#handleEditGuild" prefWidth="424.0" stylesheets="@../../css/Style.css">
+                     <columns>
+                        <TableColumn fx:id="clmGuildName" prefWidth="219.0" text="Laug" />
+                     </columns>
+                  </TableView>
+                  <BarChart fx:id="chartHoursOverview" prefHeight="293.0" title="Dokumenterede Timer" GridPane.columnIndex="1">
+                     <xAxis>
+                        <CategoryAxis side="BOTTOM" />
+                     </xAxis>
+                     <yAxis>
+                        <NumberAxis side="LEFT" />
+                     </yAxis>
+                  </BarChart>
                </children>
-            </HBox>
-         </bottom>
-      </BorderPane>
-   </left>
+            </GridPane>
+            <Pane layoutX="164.0" layoutY="413.0" prefHeight="151.0" prefWidth="711.0">
+               <children>
+                  <Label id="h1" layoutX="104.0" layoutY="12.0" text="Nyt Laug:">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="54.0" text="Laugets Tovholder:">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField fx:id="txtGuildName" layoutX="226.0" layoutY="15.0" promptText="Navn på Laug" />
+                  <JFXComboBox fx:id="cmbGuildManager" layoutX="224.0" layoutY="57.0" onAction="#handleSelectGuildManager" prefHeight="25.0" prefWidth="138.0" promptText="Vælg Tovholder" />
+                  <Button layoutX="273.0" layoutY="106.0" mnemonicParsing="false" onAction="#handleAddGuild" prefHeight="36.0" prefWidth="61.0" stylesheets="@../../css/Style.css" text="Tilføj" />
+                  <JFXTextArea fx:id="txtDescription" layoutX="396.0" layoutY="7.0" prefHeight="126.0" prefWidth="215.0" promptText="Beskrivelse af laug" wrapText="true" />
+               </children>
+            </Pane>
+            <VBox fx:id="vBoxGuildOptions" layoutX="14.0" layoutY="449.0" spacing="15.0" stylesheets="@../../css/Style.css">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#handleArchiveGuid" text="Arkiver Laug" />
+                  <Button mnemonicParsing="false" onAction="#handleDeleteGuid" text="Slet Laug" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </center>
 </BorderPane>

@@ -51,7 +51,7 @@ Selected: #666666
 
 
 
-*/
+
 
 /*The background of all the views.*/
 .borderPane{
@@ -59,6 +59,10 @@ Selected: #666666
     -fx-background-repeat: repeat; /* <===  Repeats till the background is filled. */
     -fx-background-color:
         linear-gradient(#666666, #333333);
+}
+
+h1 {
+    -fx-text-fill: #fff;
 }
 
 .whiteBackground{
