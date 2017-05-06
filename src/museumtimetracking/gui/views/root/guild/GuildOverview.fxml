@@ -37,6 +37,7 @@
                   <TableView fx:id="tblGuild" onMouseClicked="#handleEditGuild" prefWidth="424.0" stylesheets="@../../css/Style.css">
                      <columns>
                         <TableColumn fx:id="clmGuildName" prefWidth="219.0" text="Laug" />
+                        <TableColumn fx:id="clmGuildDescription" prefWidth="255.0" text="Beskrivelse" />
                      </columns>
                   </TableView>
                   <BarChart fx:id="chartHoursOverview" prefHeight="293.0" title="Dokumenterede Timer" GridPane.columnIndex="1">
