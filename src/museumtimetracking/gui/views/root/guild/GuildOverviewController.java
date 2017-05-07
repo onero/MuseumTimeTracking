@@ -22,7 +22,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -44,17 +43,17 @@ import museumtimetracking.gui.views.root.guild.editGuild.EditGuildViewController
 public class GuildOverviewController implements Initializable {
 
     @FXML
-    private TableView<Guild> tblGuild;
+    private GridPane gridPane;
+
+    @FXML
+    private TableView<Guild> tableGuild;
+
     @FXML
     private TableColumn<Guild, String> clmGuildName;
     @FXML
     private TableColumn<Guild, String> clmGuildDescription;
     @FXML
     private JFXComboBox<GuildManager> cmbGuildManager;
-    @FXML
-    private GridPane gridPaneGuild;
-    @FXML
-    private BorderPane guildBorderPane;
     @FXML
     private BarChart<String, Integer> chartHoursOverview;
     @FXML
@@ -80,17 +79,15 @@ public class GuildOverviewController implements Initializable {
     }
 
     @FXML
-    private void handleEditGuild(MouseEvent event) {
+    private void handleSelectGuild(MouseEvent event) {
         setGuildOptionsVisibility(true);
 
-        selectedGuild = tblGuild.getSelectionModel().getSelectedItem();
-
-        giveDataToChartHoursOverview(selectedGuild.getName());
+        selectedGuild = tableGuild.getSelectionModel().getSelectedItem();
 
         //Enter edit mode
         if (event.getClickCount() == 2) {
 
-            Stage primStage = (Stage) tblGuild.getScene().getWindow();
+            Stage primStage = (Stage) tableGuild.getScene().getWindow();
 
             Stage editGuildModal = modalFactory.createNewModal(primStage, EFXMLName.EDIT_GUILD);
 
@@ -100,6 +97,24 @@ public class GuildOverviewController implements Initializable {
 
             editGuildModal.show();
         }
+    }
+
+    @FXML
+    private void handleSelectGuildManager(ActionEvent event) {
+    }
+
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        setGuildOptionsVisibility(false);
+
+        tableGuild.setItems(guildModel.getCachedGuilds());
+
+        clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
+        clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
+        giveDataToChartHoursOverview("Dokumenterede Timer i år");
     }
 
     /**
@@ -148,22 +163,6 @@ public class GuildOverviewController implements Initializable {
                 }
             }
         });
-
-    }
-
-    @FXML
-    private void handleSelectGuildManager(ActionEvent event) {
-    }
-
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        tblGuild.setItems(guildModel.getCachedGuilds());
-
-        clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
-        clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
 
     }
 

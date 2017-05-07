@@ -10,8 +10,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
@@ -19,62 +17,56 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="guildBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="borderPane" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guild.GuildOverviewController">
-   <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+<GridPane fx:id="gridPane" alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guild.GuildOverviewController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="834.0" minWidth="10.0" prefWidth="418.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="424.0" minWidth="0.0" prefWidth="416.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="284.0" minHeight="10.0" prefHeight="284.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="234.0" minHeight="10.0" prefHeight="194.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <TableView fx:id="tableGuild" onMouseClicked="#handleSelectGuild">
+         <columns>
+            <TableColumn fx:id="clmGuildName" prefWidth="182.0" text="Laug" />
+            <TableColumn fx:id="clmGuildDescription" prefWidth="234.0" text="Beskrivelse" />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <BarChart fx:id="chartHoursOverview" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" title="Dokumenterede Timer" GridPane.columnIndex="1">
+         <xAxis>
+            <CategoryAxis side="BOTTOM" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis side="LEFT" />
+         </yAxis>
+      </BarChart>
+      <Pane GridPane.rowIndex="1" GridPane.rowSpan="2147483647">
          <children>
-            <GridPane fx:id="gridPaneGuild" gridLinesVisible="true" prefHeight="414.0" prefWidth="951.0" AnchorPane.bottomAnchor="131.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <columnConstraints>
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="413.0" minHeight="10.0" prefHeight="337.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <TableView fx:id="tblGuild" onMouseClicked="#handleEditGuild" prefWidth="424.0" stylesheets="@../../css/Style.css">
-                     <columns>
-                        <TableColumn fx:id="clmGuildName" prefWidth="219.0" text="Laug" />
-                        <TableColumn fx:id="clmGuildDescription" prefWidth="255.0" text="Beskrivelse" />
-                     </columns>
-                  </TableView>
-                  <BarChart fx:id="chartHoursOverview" prefHeight="293.0" title="Dokumenterede Timer" GridPane.columnIndex="1">
-                     <xAxis>
-                        <CategoryAxis side="BOTTOM" />
-                     </xAxis>
-                     <yAxis>
-                        <NumberAxis side="LEFT" />
-                     </yAxis>
-                  </BarChart>
-               </children>
-            </GridPane>
-            <Pane layoutX="164.0" layoutY="413.0" prefHeight="151.0" prefWidth="711.0">
-               <children>
-                  <Label id="h1" layoutX="104.0" layoutY="12.0" text="Nyt Laug:">
-                     <font>
-                        <Font size="21.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="14.0" layoutY="54.0" text="Laugets Tovholder:">
-                     <font>
-                        <Font size="21.0" />
-                     </font>
-                  </Label>
-                  <JFXTextField fx:id="txtGuildName" layoutX="226.0" layoutY="15.0" promptText="Navn på Laug" />
-                  <JFXComboBox fx:id="cmbGuildManager" layoutX="224.0" layoutY="57.0" onAction="#handleSelectGuildManager" prefHeight="25.0" prefWidth="138.0" promptText="Vælg Tovholder" />
-                  <Button layoutX="273.0" layoutY="106.0" mnemonicParsing="false" onAction="#handleAddGuild" prefHeight="36.0" prefWidth="61.0" stylesheets="@../../css/Style.css" text="Tilføj" />
-                  <JFXTextArea fx:id="txtDescription" layoutX="396.0" layoutY="7.0" prefHeight="126.0" prefWidth="215.0" promptText="Beskrivelse af laug" wrapText="true" />
-               </children>
-            </Pane>
-            <VBox fx:id="vBoxGuildOptions" layoutX="14.0" layoutY="449.0" spacing="15.0" stylesheets="@../../css/Style.css">
+            <Label id="h1" layoutX="229.0" layoutY="38.0" text="Nyt Laug:">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Label layoutX="139.0" layoutY="80.0" text="Laugets Tovholder:">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="txtGuildName" layoutX="358.0" layoutY="48.0" promptText="Navn på Laug" />
+            <JFXComboBox fx:id="cmbGuildManager" layoutX="356.0" layoutY="90.0" onAction="#handleSelectGuildManager" prefHeight="25.0" prefWidth="138.0" promptText="Vælg Tovholder" />
+            <Button layoutX="405.0" layoutY="139.0" mnemonicParsing="false" onAction="#handleAddGuild" prefHeight="36.0" prefWidth="61.0" stylesheets="@../../css/Style.css" text="Tilføj" />
+            <JFXTextArea fx:id="txtDescription" layoutX="552.0" layoutY="40.0" prefHeight="126.0" prefWidth="215.0" promptText="Beskrivelse af laug" wrapText="true" />
+            <VBox fx:id="vBoxGuildOptions" layoutX="14.0" layoutY="41.0" spacing="15.0" stylesheets="@../../css/Style.css">
                <children>
                   <Button mnemonicParsing="false" onAction="#handleArchiveGuid" text="Arkiver Laug" />
                   <Button mnemonicParsing="false" onAction="#handleDeleteGuid" text="Slet Laug" />
                </children>
             </VBox>
          </children>
-      </AnchorPane>
-   </center>
-</BorderPane>
+      </Pane>
+   </children>
+</GridPane>
