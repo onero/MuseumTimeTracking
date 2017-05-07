@@ -5,14 +5,12 @@
  */
 package museumtimetracking.gui.views.root;
 
-import com.jfoenix.controls.JFXTabPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
-import javafx.scene.layout.BorderPane;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.gui.views.NodeFactory;
 
@@ -24,11 +22,7 @@ import museumtimetracking.gui.views.NodeFactory;
 public class MTTMainControllerView implements Initializable {
 
     @FXML
-    private BorderPane borderPane;
-    @FXML
     private Tab tabGM;
-    @FXML
-    private JFXTabPane tabPane;
     @FXML
     private Tab tabPaneActiveGuild;
     @FXML
@@ -38,6 +32,8 @@ public class MTTMainControllerView implements Initializable {
 
     private final Node guildOverView;
     private final Node archivedGuild;
+    private final Node manager;
+    private final Node volunteer;
 
     private final NodeFactory nodeFactory;
 
@@ -46,6 +42,8 @@ public class MTTMainControllerView implements Initializable {
 
         guildOverView = nodeFactory.createNewView(GUILD_OVERVIEW);
         archivedGuild = nodeFactory.createNewView(ARCHIVED_TABLE);
+        manager = nodeFactory.createNewView(MANAGER_OVERVIEW);
+        volunteer = nodeFactory.createNewView(VOLUNTEER_OVERVIEW);
     }
 
     /**
@@ -55,6 +53,8 @@ public class MTTMainControllerView implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         tabPaneActiveGuild.setContent(guildOverView);
         tabPaneArchivedGuild.setContent(archivedGuild);
+        tabGM.setContent(manager);
+        tabVolunteer.setContent(volunteer);
     }
 
 }

@@ -11,138 +11,124 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController">
-   <right>
-      <AnchorPane id="AnchorPane" BorderPane.alignment="CENTER">
+
+<AnchorPane styleClass="borderPane" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController">
+   <children>
+      <Label layoutX="25.0" layoutY="14.0" text="Frivillig Oversigt">
+         <font>
+            <Font name="System Bold Italic" size="24.0" />
+         </font>
+      </Label>
+      <ListView fx:id="lstVolunteer" layoutX="14.0" layoutY="58.0" onMouseClicked="#handleSelectVolunteer" prefHeight="294.0" prefWidth="200.0" styleClass="mylistview" stylesheets="@../../css/Style.css" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="58.0" />
+      <VBox layoutX="221.0" layoutY="61.0" AnchorPane.leftAnchor="221.0">
          <children>
-            <Label layoutX="25.0" layoutY="14.0" text="Frivillig Oversigt">
+            <ImageView fx:id="imgProfile" fitHeight="150.0" fitWidth="300.0" onMouseClicked="#handleSelectVolunteerImage" pickOnBounds="true">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </ImageView>
+            <TextArea fx:id="txtVolunteerInfo" prefHeight="135.0" prefWidth="200.0">
+               <VBox.margin>
+                  <Insets top="3.0" />
+               </VBox.margin>
+            </TextArea>
+         </children>
+      </VBox>
+      <VBox layoutX="530.0" layoutY="63.0" prefHeight="315.0" prefWidth="189.0" AnchorPane.leftAnchor="530.0" AnchorPane.rightAnchor="23.0">
+         <children>
+            <Label text="Fornavn">
                <font>
-                  <Font name="System Bold Italic" size="24.0" />
+                  <Font name="System Italic" size="15.0" />
                </font>
             </Label>
-            <ListView fx:id="lstVolunteer" layoutX="14.0" layoutY="58.0" onMouseClicked="#handleSelectVolunteer" prefHeight="294.0" prefWidth="200.0" styleClass="mylistview" stylesheets="@../../css/Style.css" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="58.0" />
-            <HBox layoutX="230.0" layoutY="58.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="0.0">
+            <TextField fx:id="txtFirstName">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label text="Efternavn">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtLastName">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label text="Email">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtEmail">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label text="Telefon nr.">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtPhone">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+            </TextField>
+            <Label text="Sprog til kommunikation">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </Label>
+            <HBox>
                <children>
-                  <VBox prefHeight="315.0" prefWidth="189.0">
-                     <children>
-                        <Label text="Fornavn">
-                           <font>
-                              <Font name="System Italic" size="15.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="txtFirstName">
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                        </TextField>
-                        <Label text="Efternavn">
-                           <font>
-                              <Font name="System Italic" size="15.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="txtLastName">
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                        </TextField>
-                        <Label text="Email">
-                           <font>
-                              <Font name="System Italic" size="15.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="txtEmail">
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                        </TextField>
-                        <Label text="Telefon nr.">
-                           <font>
-                              <Font name="System Italic" size="15.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="txtPhone">
-                           <VBox.margin>
-                              <Insets bottom="15.0" />
-                           </VBox.margin>
-                        </TextField>
-                        <Label text="Sprog til kommunikation">
-                           <font>
-                              <Font name="System Italic" size="15.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="5.0" />
-                           </VBox.margin>
-                        </Label>
-                        <HBox>
-                           <children>
-                              <RadioButton fx:id="radioDA" mnemonicParsing="false" selected="true" style="-fx-text-fill: white;" text="DA">
-                                 <HBox.margin>
-                                    <Insets right="5.0" />
-                                 </HBox.margin>
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="language" />
-                                 </toggleGroup>
-                              </RadioButton>
-                              <RadioButton fx:id="radioENG" mnemonicParsing="false" style="-fx-text-fill: white;" text="ENG" toggleGroup="$language">
-                                 <HBox.margin>
-                                    <Insets right="5.0" />
-                                 </HBox.margin>
-                              </RadioButton>
-                              <RadioButton fx:id="radioDE" mnemonicParsing="false" style="-fx-text-fill: white;" text="DE" toggleGroup="$language" />
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" />
-                           </VBox.margin>
-                        </HBox>
-                     </children>
-                     <padding>
-                        <Insets bottom="10.0" />
-                     </padding>
+                  <RadioButton fx:id="radioDA" mnemonicParsing="false" selected="true" style="-fx-text-fill: white;" text="DA">
                      <HBox.margin>
-                        <Insets right="15.0" />
+                        <Insets right="5.0" />
                      </HBox.margin>
-                  </VBox>
-                  <VBox>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="language" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="radioENG" mnemonicParsing="false" style="-fx-text-fill: white;" text="ENG" toggleGroup="$language">
                      <HBox.margin>
-                        <Insets bottom="15.0" top="15.0" />
+                        <Insets right="5.0" />
                      </HBox.margin>
-                     <children>
-                        <ImageView fx:id="imgProfile" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#handleSelectVolunteerImage" pickOnBounds="true" preserveRatio="true">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin></ImageView>
-                        <TextArea fx:id="txtVolunteerInfo" prefHeight="135.0" prefWidth="200.0">
-                           <VBox.margin>
-                              <Insets top="3.0" />
-                           </VBox.margin></TextArea>
-                     </children>
-                  </VBox>
+                  </RadioButton>
+                  <RadioButton fx:id="radioDE" mnemonicParsing="false" style="-fx-text-fill: white;" text="DE" toggleGroup="$language" />
                </children>
-            </HBox>
-            <HBox layoutX="14.0" layoutY="373.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="68.0">
-               <children>
-                  <ButtonBar buttonMinWidth="100.0">
-                    <buttons>
-                        <Button mnemonicParsing="false" onAction="#handleNewVolunteer" text="Ny Frivillig" />
-                        <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#handleEditVolunteer" prefWidth="75.0" text="Rediger" />
-                        <Button mnemonicParsing="false" onAction="#handleInactiveVolunteer" text="Gør Inaktiv" />
-                        <Button mnemonicParsing="false" onAction="#handleDeleteVolunteer" prefWidth="75.0" text="Slet" />
-                    </buttons>
-                  </ButtonBar>
-               </children>
-               <padding>
-                  <Insets top="15.0" />
-               </padding>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
             </HBox>
          </children>
-      </AnchorPane>
-   </right>
-   <bottom>
-      <Button mnemonicParsing="false" onAction="#handleDocumentHoursButton" prefHeight="31.0" prefWidth="160.0" text="Dokumentér" BorderPane.alignment="CENTER" />
-   </bottom>
-</BorderPane>
+         <padding>
+            <Insets bottom="10.0" />
+         </padding>
+      </VBox>
+      <HBox layoutX="14.0" layoutY="373.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="68.0">
+         <children>
+            <ButtonBar buttonMinWidth="100.0">
+               <buttons>
+                  <Button mnemonicParsing="false" onAction="#handleNewVolunteer" text="Ny Frivillig" />
+                  <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#handleEditVolunteer" prefWidth="75.0" text="Rediger" />
+                  <Button mnemonicParsing="false" onAction="#handleInactiveVolunteer" text="Gør Inaktiv" />
+                  <Button mnemonicParsing="false" onAction="#handleDeleteVolunteer" prefWidth="75.0" text="Slet" />
+                  <Button mnemonicParsing="false" onAction="#handleDocumentHoursButton" prefHeight="19.0" prefWidth="97.0" text="Dokumentér" />
+               </buttons>
+            </ButtonBar>
+         </children>
+         <padding>
+            <Insets top="15.0" />
+         </padding>
+      </HBox>
+   </children>
+</AnchorPane>

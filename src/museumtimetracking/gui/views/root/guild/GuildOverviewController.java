@@ -131,6 +131,7 @@ public class GuildOverviewController implements Initializable {
     private void handleAddGuild() {
         String name = txtGuildName.getText();
         String description = txtDescription.getText();
+        //TODO ALH: Add GM!
         if (name != null && description != null) {
             Guild newGuild = new Guild(name, description, false);
             try {
@@ -139,6 +140,8 @@ public class GuildOverviewController implements Initializable {
                 ExceptionDisplayer.display(ex);
             }
         }
+        txtGuildName.setText("");
+        txtDescription.setText("");
     }
 
     @FXML

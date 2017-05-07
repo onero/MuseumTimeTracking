@@ -100,6 +100,15 @@ h1 {
     -fx-padding: 5 10 5 10;
 }
 
+.text-input {
+    -fx-text-fill: #0000ff;
+}
+
+.text-input:focused {
+    
+    -fx-text-fill: #0000ff;
+}
+
 /* All labels */
 .label{ 
     -fx-font-family: "Arial";
