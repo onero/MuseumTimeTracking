@@ -31,7 +31,7 @@
       </TableView>
       <Pane GridPane.rowIndex="1" GridPane.rowSpan="2147483647">
          <children>
-            <JFXTextArea fx:id="txtDescription" layoutX="203.0" prefHeight="188.0" prefWidth="215.0" promptText="Beskrivelse af laug" unFocusColor="WHITE" wrapText="true">
+            <JFXTextArea fx:id="txtDescription" editable="false" layoutX="203.0" prefHeight="188.0" prefWidth="215.0" promptText="Beskrivelse af laug" unFocusColor="WHITE" wrapText="true">
                <font>
                   <Font size="17.0" />
                </font></JFXTextArea>
