@@ -297,4 +297,43 @@ public class GuildManagerDAO extends APersonDAO {
         gm.setDescription(description);
         return gm;
     }
+
+    /**
+     * Get all GuildManager candidates
+     *
+     * @return
+     * @throws SQLServerException
+     * @throws SQLException
+     */
+    public List<GuildManager> getGMCandidates() throws SQLServerException, SQLException {
+        List<GuildManager> gmCandidates = new ArrayList<>();
+        String sql = "SELECT * FROM Person p "
+                + "WHERE p.ID "
+                + "NOT IN "
+                + "(SELECT PersonID FROM Volunteer)";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                gmCandidates.add(getOneGMCandidate(rs));
+            }
+        }
+        return gmCandidates;
+    }
+
+    /**
+     * Return one GM Candidate
+     *
+     * @param rs
+     * @return
+     */
+    private GuildManager getOneGMCandidate(ResultSet rs) throws SQLException {
+        int ID = rs.getInt("ID");
+        String firstName = rs.getString("FirstName");
+        String lastName = rs.getString("LastName");
+        String email = rs.getString("Email");
+        int phone = rs.getInt("Phone");
+        GuildManager gm = new GuildManager(ID, firstName, lastName, email, phone, "");
+        return gm;
+    }
 }

@@ -326,6 +326,20 @@ public class FacadeDAO {
     }
 
     /**
+     * Get all GuildManager candidates
+     *
+     * @return
+     * @throws DALException
+     */
+    public List<GuildManager> getAllGMCandidates() throws DALException {
+        try {
+            return guildManagerDAO.getGMCandidates();
+        } catch (SQLException ex) {
+            throw new DALException(DB_CONNECTION_ERROR, ex);
+        }
+    }
+
+    /**
      * Updates the guildManager in the database.
      *
      * @param manager

@@ -15,6 +15,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
@@ -26,6 +28,7 @@ import museumtimetracking.be.enums.EFXMLName;
 import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.model.GuildModel;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.root.activeGuilds.editGuild.EditGuildViewController;
@@ -36,6 +39,9 @@ import museumtimetracking.gui.views.root.activeGuilds.editGuild.EditGuildViewCon
  * @author gta1
  */
 public class GuildOverviewController implements Initializable {
+
+    @FXML
+    private ListView<GuildManager> listPeople;
 
     @FXML
     private TableView<Guild> tableGuild;
@@ -49,11 +55,15 @@ public class GuildOverviewController implements Initializable {
     @FXML
     private JFXTextArea txtDescription;
     @FXML
+    private JFXTextField txtGMCandidateSearch;
+    @FXML
     private JFXTextField txtGuildName;
     @FXML
     private VBox vBoxGuildOptions;
 
     private GuildModel guildModel;
+
+    private GuildManagerModel guildManagerModel;
 
     private ModalFactory modalFactory;
 
@@ -63,9 +73,14 @@ public class GuildOverviewController implements Initializable {
         modalFactory = ModalFactory.getInstance();
         try {
             this.guildModel = GuildModel.getInstance();
+            guildManagerModel = GuildManagerModel.getInstance();
         } catch (IOException | DALException ex) {
             ExceptionDisplayer.display(ex);
         }
+    }
+
+    @FXML
+    private void handleAssignGM(MouseEvent event) {
     }
 
     /**
@@ -80,6 +95,19 @@ public class GuildOverviewController implements Initializable {
         clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
         clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
 
+        listPeople.setItems(guildManagerModel.getCachedGMCandidates());
+
+        listPeople.setCellFactory(gm -> new ListCell<GuildManager>() {
+            @Override
+            protected void updateItem(GuildManager guildManager, boolean empty) {
+                super.updateItem(guildManager, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(guildManager.getFullName());
+                }
+            }
+        });
     }
 
     @FXML
