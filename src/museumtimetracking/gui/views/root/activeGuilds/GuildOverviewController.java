@@ -183,7 +183,7 @@ public class GuildOverviewController implements Initializable {
         //Enter edit mode
         if (event.getClickCount() == 2) {
 
-            Stage primStage = (Stage) tableGuild.getScene().getWindow();
+            Stage primStage = (Stage) btnAssignGM.getScene().getWindow();
 
             Stage editGuildModal = modalFactory.createNewModal(primStage, EFXMLName.EDIT_GUILD);
 
