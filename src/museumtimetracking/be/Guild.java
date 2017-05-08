@@ -18,14 +18,15 @@ public class Guild {
 
     private final BooleanProperty isArchived;
 
+    private GuildManager guildManager;
+
     public Guild(String name, String description, boolean archived) {
         this.name = new SimpleStringProperty(name);
         this.description = new SimpleStringProperty(description);
         isArchived = new SimpleBooleanProperty(archived);
     }
-    
-    // TODO Skovgaard: Make a new constructor which take a new name and description.
 
+    // TODO Skovgaard: Make a new constructor which take a new name and description.
     /**
      *
      * @return name property
@@ -83,6 +84,14 @@ public class Guild {
      */
     public void setIsArchived(boolean value) {
         this.isArchived.set(value);
+    }
+
+    public GuildManager getGuildManager() {
+        return guildManager;
+    }
+
+    public void setGuildManager(GuildManager guildManager) {
+        this.guildManager = guildManager;
     }
 
 }

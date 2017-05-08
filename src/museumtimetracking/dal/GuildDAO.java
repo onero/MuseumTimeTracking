@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import museumtimetracking.be.Guild;
+import museumtimetracking.be.GuildManager;
 
 /**
  *
@@ -64,7 +65,7 @@ public class GuildDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                guilds.add(getOneGuild(rs));
+                guilds.add(getOneGuild(rs, con));
             }
         }
         return guilds;
@@ -86,7 +87,7 @@ public class GuildDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                guilds.add(getOneGuild(rs));
+                guilds.add(getOneGuild(rs, con));
             }
         }
         return guilds;
@@ -112,13 +113,53 @@ public class GuildDAO {
         }
     }
 
+    /**
+     * Get the manager for the guild
+     *
+     * @param guildName
+     * @return
+     * @throws SQLServerException
+     * @throws SQLException
+     */
+    private GuildManager getMangerForGuild(Connection con, String guildName) throws SQLServerException, SQLException {
+        String sql = "SELECT p.ID, "
+                + "p.FirstName, "
+                + "p.LastName, "
+                + "p.Email, "
+                + "p.Phone, "
+                + "gm.Description "
+                + "FROM Person p "
+                + "JOIN GuildManager gm ON gm.PersonID = p.ID "
+                + "WHERE gm.GuildName = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, guildName);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            int id = rs.getInt("ID");
+            String firstName = rs.getString("FirstName");
+            String lastName = rs.getString("LastName");
+            String email = rs.getString("Email");
+            int phone = rs.getInt("Phone");
+            String description = rs.getString("Description");
+
+            GuildManager gm = new GuildManager(id, firstName, lastName, email, phone, email);
+            gm.setDescription(description);
+            return gm;
+        }
+        return null;
+    }
+
     // Get one guild from DB.
-    private Guild getOneGuild(ResultSet rs) throws SQLException {
+    private Guild getOneGuild(ResultSet rs, Connection con) throws SQLException {
         String name = rs.getString("Name");
         String description = rs.getString("Description");
         boolean isArchived = rs.getBoolean("IsArchived");
 
         Guild guild = new Guild(name, description, isArchived);
+        GuildManager gm = getMangerForGuild(con, guild.getName());
+        if (gm != null) {
+            guild.setGuildManager(gm);
+        }
 
         return guild;
     }
@@ -244,7 +285,7 @@ public class GuildDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                guilds.add(getOneGuild(rs));
+                guilds.add(getOneGuild(rs, con));
             }
         }
         return guilds;

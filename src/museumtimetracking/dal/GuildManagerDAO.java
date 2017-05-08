@@ -330,7 +330,7 @@ public class GuildManagerDAO extends APersonDAO {
      * @throws SQLException
      */
     public void assignGuildToManager(int id, String guildName) throws SQLServerException, SQLException {
-        String sql = "INSERT INTO GuildManager ('PersonID', 'GuildName') "
+        String sql = "INSERT INTO GuildManager (PersonID, GuildName) "
                 + "VALUES (?, ?)";
         try (Connection con = cm.getConnection()) {
             PreparedStatement ps = con.prepareStatement(sql);
