@@ -67,10 +67,14 @@ Selected: #666666
 }
 
 .jfx-tab-pane .tab-header-background {
-    -fx-background-color: #ed9e00;
+    /*-fx-background-color: #ed9e00;*/
+    
+    -fx-background-color:  linear-gradient(to right, rgba(237,158,0,0.54) 0%, rgba(237,158,0,0.54) 0%, rgba(237,158,0,0.54) 36%, rgba(237,158,0,1) 57%, rgba(237,158,0,1) 82%);
+
+    
 }
 .jfx-tab-pane .tab-selected-line {
-    -fx-background-color: yellow;
+    -fx-background-color: black;
 }
 
 .tab:hover{
