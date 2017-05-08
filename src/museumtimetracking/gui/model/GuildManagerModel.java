@@ -12,6 +12,7 @@ import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import museumtimetracking.be.APerson;
+import museumtimetracking.be.Guild;
 import museumtimetracking.be.GuildManager;
 import museumtimetracking.bll.GuildMGRManager;
 import museumtimetracking.exception.DALException;
@@ -50,6 +51,15 @@ public class GuildManagerModel {
         idleGuildManagersFromDB = guildMGRManager.getAllIdleGuildManagers();
         cachedManagers = FXCollections.observableArrayList(managersFromDB);
         cachedIdleGuildManagers = FXCollections.observableArrayList(idleGuildManagersFromDB);
+    }
+
+    public void searchForPersonWithoutGuild(String searchString) {
+        cachedGMCandidates.clear();
+        gmCandidatesFromDB.stream()
+                .filter(gm -> gm.getFullName().toLowerCase().contains(searchString.toLowerCase()))
+                .forEach(foundGM -> {
+                    cachedGMCandidates.add(foundGM);
+                });
     }
 
     /**
@@ -143,8 +153,9 @@ public class GuildManagerModel {
      * @param guildName
      * @throws DALException
      */
-    public void assignGuildToManager(int id, String guildName) throws DALException {
-        guildMGRManager.assignGuildToManager(id, guildName);
+    public void assignGuildToManager(GuildManager gm, Guild guild) throws DALException {
+        guildMGRManager.assignGuildToManager(gm.getID(), guild.getName());
+        guild.setGuildManager(gm);
     }
 
 }
