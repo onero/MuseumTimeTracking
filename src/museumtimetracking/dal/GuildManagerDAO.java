@@ -148,7 +148,7 @@ public class GuildManagerDAO extends APersonDAO {
      * @throws java.sql.SQLException
      */
     public Set<GuildManager> getAllGuildManagersNotIdle() throws SQLException {
-        Set<GuildManager> listOfGuildManagers = new HashSet<>();
+        Set<GuildManager> setOfGuildManagers = new HashSet<>();
         String sql = "SELECT p.ID, "
                 + "p.FirstName, "
                 + "p.LastName, "
@@ -163,15 +163,16 @@ public class GuildManagerDAO extends APersonDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 GuildManager newGuildManager = getOneGuildManager(rs);
-                boolean idExists = listOfGuildManagers
+                boolean idExists = setOfGuildManagers
                         .stream()
                         .anyMatch(gm -> gm.getID() == newGuildManager.getID());
                 if (!idExists) {
-                    listOfGuildManagers.add(newGuildManager);
+                    setOfGuildManagers.add(newGuildManager);
                 }
             }
         }
-        return listOfGuildManagers;
+        addGuildsToGuildManagers(setOfGuildManagers);
+        return setOfGuildManagers;
     }
 
     /**
@@ -214,7 +215,7 @@ public class GuildManagerDAO extends APersonDAO {
      * @return
      * @throws SQLException
      */
-    public List<GuildManager> addGuildsToGuildManagers(List<GuildManager> guildManagers) throws SQLException {
+    public Set<GuildManager> addGuildsToGuildManagers(Set<GuildManager> guildManagers) throws SQLException {
         try (Connection con = cm.getConnection()) {
             for (GuildManager guildManager : guildManagers) {
                 guildManager.addAllGuilds(getAllGuildsForOneManager(con, guildManager.getID()));
