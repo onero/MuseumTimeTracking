@@ -63,13 +63,13 @@
             <ListView fx:id="lstGuilds" prefHeight="117.0" prefWidth="167.0" />
          </children>
       </VBox>
-      <ButtonBar layoutX="5.0" layoutY="361.0">
+      <ButtonBar layoutX="5.0" layoutY="361.0" prefHeight="31.0">
          <buttons>
-            <Button fx:id="btnNewGuildManager" mnemonicParsing="false" onAction="#handleNewManagerButton" prefWidth="110.0" />
-            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#handleDeleteButton" prefWidth="75.0" text="Slet" />
-            <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="75.0" />
+            <Button fx:id="btnDelete" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefWidth="140.0" text="Slet" />
+            <Button fx:id="btnEdit" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="140.0" />
+            <Button fx:id="btnNewGuildManager" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleNewManagerButton" prefWidth="140.0" />
+            <Button maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleArchiveGM" prefWidth="140.0" text="Gør Inaktiv" />
          </buttons>
       </ButtonBar>
-      <Button layoutX="179.0" layoutY="400.0" mnemonicParsing="false" onAction="#handleArchiveGM" text="Gør Inaktiv" />
    </children>
 </AnchorPane>
