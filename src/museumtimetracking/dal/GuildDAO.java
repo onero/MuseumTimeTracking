@@ -223,4 +223,30 @@ public class GuildDAO {
         }
         return hours;
     }
+
+    /**
+     * Gets the Guilds from the DB that has no GuildManager connected.
+     *
+     * @return
+     * @throws SQLException
+     */
+    public List<Guild> getGuildsWithoutManagers() throws SQLException {
+        List<Guild> guilds = new ArrayList<>();
+        String sql = "SELECT * "
+                + "FROM Guild g "
+                + "WHERE g.Name "
+                + "NOT IN "
+                + "(SELECT gm.GuildName FROM GuildManager gm)";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                guilds.add(getOneGuild(rs));
+            }
+        }
+        return guilds;
+    }
 }

@@ -311,8 +311,7 @@ public class FacadeDAO {
     }
 
     /**
-     * Gets a list of idle guild manager
-     * guilds from the GuildManagerDAO.
+     * Gets a list of idle guild manager guilds from the GuildManagerDAO.
      *
      * @return
      * @throws museumtimetracking.exception.DALException
@@ -320,6 +319,20 @@ public class FacadeDAO {
     public Set<GuildManager> getAllIdleGuildManagers() throws DALException {
         try {
             return guildManagerDAO.getAllIdleGuildManagers();
+        } catch (SQLException ex) {
+            throw new DALException(DB_CONNECTION_ERROR, ex);
+        }
+    }
+
+    /**
+     * Get all GuildManager candidates
+     *
+     * @return
+     * @throws DALException
+     */
+    public List<GuildManager> getAllGMCandidates() throws DALException {
+        try {
+            return guildManagerDAO.getGMCandidates();
         } catch (SQLException ex) {
             throw new DALException(DB_CONNECTION_ERROR, ex);
         }
@@ -336,6 +349,20 @@ public class FacadeDAO {
     public void updateGuildManager(GuildManager manager, Set<String> guildsToAdd, Set<String> guildsToDelete) throws DALException {
         try {
             guildManagerDAO.updateGuildManagerInDatabase(manager, guildsToAdd, guildsToDelete);
+        } catch (SQLException ex) {
+            throw new DALException(DB_CONNECTION_ERROR, ex);
+        }
+    }
+
+    /**
+     * Assign guild to manager
+     *
+     * @param it
+     * @param guildName
+     */
+    public void assignGuildToManager(int it, String guildName) throws DALException {
+        try {
+            guildManagerDAO.assignGuildToManager(it, guildName);
         } catch (SQLException ex) {
             throw new DALException(DB_CONNECTION_ERROR, ex);
         }
@@ -383,6 +410,15 @@ public class FacadeDAO {
         } catch (SQLException ex) {
             throw new DALException(
                     "Den frivillige har allerede fået dokumenteret tid får dette Laug idag.", ex);
+        }
+    }
+
+    public List<Guild> getGuildsWithoutManagers() throws DALException {
+        try {
+            return guildDAO.getGuildsWithoutManagers();
+        } catch (SQLException ex) {
+            throw new DALException(
+                    "De ledige laug uden tovholdere kunne ikke hentes fra databasen.", ex);
         }
     }
 }

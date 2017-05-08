@@ -25,11 +25,9 @@ import museumtimetracking.be.GuildManager;
 public class GuildManagerDAO extends APersonDAO {
 
     private final DBConnectionManager cm;
-    private final List<Integer> guildManagerIDs;
 
     public GuildManagerDAO() throws IOException {
         cm = DBConnectionManager.getInstance();
-        guildManagerIDs = new ArrayList<>();
     }
 
     /**
@@ -164,7 +162,13 @@ public class GuildManagerDAO extends APersonDAO {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                listOfGuildManagers.add(getOneGuildManager(rs));
+                GuildManager newGuildManager = getOneGuildManager(rs);
+                boolean idExists = listOfGuildManagers
+                        .stream()
+                        .anyMatch(gm -> gm.getID() == newGuildManager.getID());
+                if (!idExists) {
+                    listOfGuildManagers.add(newGuildManager);
+                }
             }
         }
         return listOfGuildManagers;
@@ -291,6 +295,65 @@ public class GuildManagerDAO extends APersonDAO {
 
         GuildManager gm = new GuildManager(id, firstName, lastName, email, phone, email);
         gm.setDescription(description);
+        return gm;
+    }
+
+    /**
+     * Get all GuildManager candidates
+     *
+     * @return
+     * @throws SQLServerException
+     * @throws SQLException
+     */
+    public List<GuildManager> getGMCandidates() throws SQLServerException, SQLException {
+        List<GuildManager> gmCandidates = new ArrayList<>();
+        String sql = "SELECT * FROM Person p "
+                + "WHERE p.ID "
+                + "NOT IN "
+                + "(SELECT PersonID FROM Volunteer)";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                gmCandidates.add(getOneGMCandidate(rs));
+            }
+        }
+        return gmCandidates;
+    }
+
+    /**
+     * Assign guild to manager
+     *
+     * @param id
+     * @param guildName
+     * @throws SQLServerException
+     * @throws SQLException
+     */
+    public void assignGuildToManager(int id, String guildName) throws SQLServerException, SQLException {
+        String sql = "INSERT INTO GuildManager ('PersonID', 'GuildName') "
+                + "VALUES (?, ?)";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.setString(2, guildName);
+
+            ps.executeUpdate();
+        }
+    }
+
+    /**
+     * Return one GM Candidate
+     *
+     * @param rs
+     * @return
+     */
+    private GuildManager getOneGMCandidate(ResultSet rs) throws SQLException {
+        int ID = rs.getInt("ID");
+        String firstName = rs.getString("FirstName");
+        String lastName = rs.getString("LastName");
+        String email = rs.getString("Email");
+        int phone = rs.getInt("Phone");
+        GuildManager gm = new GuildManager(ID, firstName, lastName, email, phone, "");
         return gm;
     }
 }

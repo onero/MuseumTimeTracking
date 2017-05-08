@@ -6,6 +6,7 @@
 package museumtimetracking.bll;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 import javafx.collections.ObservableList;
 import museumtimetracking.be.APerson;
@@ -109,5 +110,25 @@ public class GuildMGRManager {
      */
     public void deleteGuildManager(int GuildManagerID) throws DALException {
         facadeDAO.deleteGuildManagerFromDB(GuildManagerID);
+    }
+
+    /**
+     * Get all GuildManager candidates
+     *
+     * @return
+     * @throws DALException
+     */
+    public List<GuildManager> getAllGMCandidates() throws DALException {
+        return facadeDAO.getAllGMCandidates();
+    }
+
+    /**
+     * Assign guild to manager
+     *
+     * @param id
+     * @param guildName
+     */
+    public void assignGuildToManager(int id, String guildName) throws DALException {
+        facadeDAO.assignGuildToManager(id, guildName);
     }
 }
