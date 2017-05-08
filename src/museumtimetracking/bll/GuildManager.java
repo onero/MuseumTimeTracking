@@ -111,4 +111,8 @@ public class GuildManager {
         return facadeDAO.getAllHoursWorked(guildNames);
     }
 
+    public List<Guild> getGuildsWithoutManagers() throws DALException {
+        return facadeDAO.getGuildsWithoutManagers();
+    }
+
 }

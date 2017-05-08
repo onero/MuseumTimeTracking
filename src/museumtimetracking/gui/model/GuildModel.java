@@ -29,6 +29,8 @@ public class GuildModel {
 
     private final ObservableList<Guild> cachedGuilds;
 
+    private final ObservableList<Guild> cachedAvailableGuilds;
+
     private final List<Guild> archivedGuildsFromDB;
 
     private final ObservableList<Guild> cachedArchivedGuilds;
@@ -45,6 +47,7 @@ public class GuildModel {
         archivedGuildsFromDB = guildManager.getAllGuildsArchived();
         // Puts the guilds from the DB inside a ObservableList.
         cachedGuilds = FXCollections.observableArrayList(guildsFromDB);
+        cachedAvailableGuilds = FXCollections.observableArrayList(guildManager.getGuildsWithoutManagers());
         cachedArchivedGuilds = FXCollections.observableArrayList(archivedGuildsFromDB);
         guildHours = guildManager.getAllHoursWorked(guildsFromDB);
 
@@ -152,5 +155,9 @@ public class GuildModel {
     public void resetGuilds() {
         cachedGuilds.clear();
         cachedGuilds.addAll(guildsFromDB);
+    }
+
+    public ObservableList<Guild> getCachedAvailableGuilds() {
+        return cachedAvailableGuilds;
     }
 }
