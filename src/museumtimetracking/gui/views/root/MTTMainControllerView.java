@@ -24,26 +24,34 @@ public class MTTMainControllerView implements Initializable {
     @FXML
     private Tab tabGM;
     @FXML
+    private Tab tabIdle;
+    @FXML
     private Tab tabPaneActiveGuild;
     @FXML
     private Tab tabPaneArchivedGuild;
     @FXML
+    private Tab tabStatistics;
+    @FXML
     private Tab tabVolunteer;
 
+    private final Node statistics;
     private final Node guildOverView;
     private final Node archivedGuild;
     private final Node manager;
     private final Node volunteer;
+    private final Node idle;
 
     private final NodeFactory nodeFactory;
 
     public MTTMainControllerView() {
         nodeFactory = NodeFactory.getInstance();
 
+        statistics = nodeFactory.createNewView(STATISTICS_OVERVIEW);
         guildOverView = nodeFactory.createNewView(GUILD_OVERVIEW);
         archivedGuild = nodeFactory.createNewView(ARCHIVED_TABLE);
         manager = nodeFactory.createNewView(MANAGER_OVERVIEW);
         volunteer = nodeFactory.createNewView(VOLUNTEER_OVERVIEW);
+        idle = nodeFactory.createNewView(IDLE_OVERVIEW);
     }
 
     /**
@@ -51,10 +59,13 @@ public class MTTMainControllerView implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        tabStatistics.setContent(statistics);
         tabPaneActiveGuild.setContent(guildOverView);
         tabPaneArchivedGuild.setContent(archivedGuild);
         tabGM.setContent(manager);
         tabVolunteer.setContent(volunteer);
+        tabIdle.setContent(idle);
+
     }
 
 }

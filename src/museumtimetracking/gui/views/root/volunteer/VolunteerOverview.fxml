@@ -15,7 +15,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane styleClass="borderPane" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController">
    <children>
       <Label layoutX="25.0" layoutY="14.0" text="Frivillig Oversigt">
@@ -90,7 +89,7 @@
             </Label>
             <HBox>
                <children>
-                  <RadioButton fx:id="radioDA" mnemonicParsing="false" selected="true" style="-fx-text-fill: white;" text="DA">
+                  <RadioButton fx:id="radioDA" mnemonicParsing="false" selected="true" text="DA">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
@@ -98,12 +97,12 @@
                         <ToggleGroup fx:id="language" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="radioENG" mnemonicParsing="false" style="-fx-text-fill: white;" text="ENG" toggleGroup="$language">
+                  <RadioButton fx:id="radioENG" mnemonicParsing="false" text="ENG" toggleGroup="$language">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
                   </RadioButton>
-                  <RadioButton fx:id="radioDE" mnemonicParsing="false" style="-fx-text-fill: white;" text="DE" toggleGroup="$language" />
+                  <RadioButton fx:id="radioDE" mnemonicParsing="false" text="DE" toggleGroup="$language" />
                </children>
                <VBox.margin>
                   <Insets bottom="5.0" />

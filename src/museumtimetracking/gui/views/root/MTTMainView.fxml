@@ -6,13 +6,14 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="463.0" prefWidth="834.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.MTTMainControllerView">
    <center>
-      <JFXTabPane side="BOTTOM" stylesheets="@../css/Main.css" BorderPane.alignment="CENTER">
+      <JFXTabPane side="BOTTOM" styleClass="borderPane" stylesheets="@../css/Style.css" BorderPane.alignment="CENTER">
          <tabs>
+            <Tab fx:id="tabStatistics" text="Statistik" />
             <Tab fx:id="tabPaneActiveGuild" text="Aktive Laug" />
-            <Tab fx:id="tabPaneArchivedGuild" text="Gamle Laug" />
+            <Tab fx:id="tabPaneArchivedGuild" text="Inaktive Laug" />
             <Tab fx:id="tabGM" text="Tovholdere" />
             <Tab fx:id="tabVolunteer" text="Frivillige" />
-            <Tab text="Inaktive " />
+            <Tab fx:id="tabIdle" text="Passive" />
          </tabs>
       </JFXTabPane>
    </center>

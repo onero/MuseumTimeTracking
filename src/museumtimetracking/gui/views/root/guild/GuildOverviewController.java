@@ -10,19 +10,14 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import museumtimetracking.be.Guild;
@@ -43,9 +38,6 @@ import museumtimetracking.gui.views.root.guild.editGuild.EditGuildViewController
 public class GuildOverviewController implements Initializable {
 
     @FXML
-    private GridPane gridPane;
-
-    @FXML
     private TableView<Guild> tableGuild;
 
     @FXML
@@ -54,8 +46,6 @@ public class GuildOverviewController implements Initializable {
     private TableColumn<Guild, String> clmGuildDescription;
     @FXML
     private JFXComboBox<GuildManager> cmbGuildManager;
-    @FXML
-    private BarChart<String, Integer> chartHoursOverview;
     @FXML
     private JFXTextArea txtDescription;
     @FXML
@@ -76,6 +66,20 @@ public class GuildOverviewController implements Initializable {
         } catch (IOException | DALException ex) {
             ExceptionDisplayer.display(ex);
         }
+    }
+
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        setGuildOptionsVisibility(false);
+
+        tableGuild.setItems(guildModel.getCachedGuilds());
+
+        clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
+        clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
+
     }
 
     @FXML
@@ -101,20 +105,6 @@ public class GuildOverviewController implements Initializable {
 
     @FXML
     private void handleSelectGuildManager(ActionEvent event) {
-    }
-
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        setGuildOptionsVisibility(false);
-
-        tableGuild.setItems(guildModel.getCachedGuilds());
-
-        clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
-        clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
-        giveDataToChartHoursOverview("Dokumenterede Timer i år");
     }
 
     /**
@@ -167,25 +157,6 @@ public class GuildOverviewController implements Initializable {
             }
         });
 
-    }
-
-    /**
-     *
-     * @param title
-     */
-    private void giveDataToChartHoursOverview(String title) {
-        chartHoursOverview.getData().clear();
-        chartHoursOverview.setTitle(title);
-        List<Guild> guilds = guildModel.getGuildsFromDB();
-        Map<String, Integer> guildHours = guildModel.getMapOfHoursPerGuild();
-
-        XYChart.Series hoursSeries = new XYChart.Series<>();
-
-        for (Guild guild : guilds) {
-            hoursSeries.getData().add(new XYChart.Data<>(guild.getName(), guildHours.get(guild.getName())));
-        }
-
-        chartHoursOverview.getData().add(hoursSeries);
     }
 
 }
