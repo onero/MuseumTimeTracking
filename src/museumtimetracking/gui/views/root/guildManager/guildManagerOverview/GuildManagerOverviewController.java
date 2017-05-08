@@ -57,8 +57,6 @@ public class GuildManagerOverviewController implements Initializable {
     @FXML
     private Button btnNewGuildManager;
     @FXML
-    private Button btnSave;
-    @FXML
     private Button btnDelete;
 
     private final NodeFactory nodeFactory;
@@ -69,7 +67,7 @@ public class GuildManagerOverviewController implements Initializable {
 
     private static final String ADD_GUILD_BUTTON_TEXT = "Tilføj Laug";
     private static final String EDIT_BUTTON_TEXT = "Rediger";
-    private static final String CANCEL_BUTTON_TEXT = "Anuller";
+    private static final String SAVE_BUTTON_TEXT = "Gem";
     private static final String NEW_GUILD_MANAGER = "Ny Tovholder";
 
     private final ModalFactory modalFactory;
@@ -112,6 +110,23 @@ public class GuildManagerOverviewController implements Initializable {
     }
 
     /**
+     * Gets the information and sends it down to the database.
+     *
+     */
+    private void handleSaveGuildManagerButton() {
+        setButtonTextToViewMode();
+        setShowEditability(false);
+
+        GuildManager manager = getNewInformation();
+        try {
+            guildManagerModel.updateGuildManager(manager, setGuildsToAdd, setGuildsToDelete);
+            setSetsToNull();
+        } catch (DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
+    }
+
+    /**
      * Checks which button name is set, and handles the correlating functions.
      */
     @FXML
@@ -121,11 +136,17 @@ public class GuildManagerOverviewController implements Initializable {
             setShowEditability(true);
             setButtonTextToEditMode();
 
-        } else if (btnEdit.getText().equals(CANCEL_BUTTON_TEXT)) {
-            setShowEditability(false);
+        } else if (btnEdit.getText().equals(SAVE_BUTTON_TEXT)) {
             setButtonTextToViewMode();
-            displayInformation(manager);
-            setSetsToNull();
+            setShowEditability(false);
+
+            manager = getNewInformation();
+            try {
+                guildManagerModel.updateGuildManager(manager, setGuildsToAdd, setGuildsToDelete);
+                setSetsToNull();
+            } catch (DALException ex) {
+                ExceptionDisplayer.display(ex);
+            }
         }
     }
 
@@ -274,11 +295,9 @@ public class GuildManagerOverviewController implements Initializable {
      */
     private void setButtonTextToEditMode() {
         btnNewGuildManager.setText(ADD_GUILD_BUTTON_TEXT);
-        btnSave.setDisable(false);
-        btnSave.setVisible(true);
         btnDelete.setDisable(false);
         btnDelete.setVisible(true);
-        btnEdit.setText(CANCEL_BUTTON_TEXT);
+        btnEdit.setText(SAVE_BUTTON_TEXT);
         lstManagers.setDisable(true);
     }
 
@@ -288,8 +307,6 @@ public class GuildManagerOverviewController implements Initializable {
      */
     private void setButtonTextToViewMode() {
         btnNewGuildManager.setText(NEW_GUILD_MANAGER);
-        btnSave.setDisable(true);
-        btnSave.setVisible(false);
         btnDelete.setDisable(true);
         btnDelete.setVisible(false);
         btnEdit.setText(EDIT_BUTTON_TEXT);
@@ -314,24 +331,6 @@ public class GuildManagerOverviewController implements Initializable {
         setGuildsToAdd = controller.getSetGuildsToAdd();
         setGuildsToDelete = controller.getSetGuildsToDelete();
         lstGuilds.setItems(controller.getManagerGuilds());
-    }
-
-    /**
-     * Gets the information and sends it down to the database.
-     *
-     */
-    @FXML
-    private void handleSaveGuildManagerButton() {
-        setButtonTextToViewMode();
-        setShowEditability(false);
-
-        GuildManager manager = getNewInformation();
-        try {
-            guildManagerModel.updateGuildManager(manager, setGuildsToAdd, setGuildsToDelete);
-            setSetsToNull();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
     }
 
     /**
