@@ -152,11 +152,19 @@ public class GuildModel {
                 .forEach(g -> cachedGuilds.add(g));
     }
 
+    /**
+     * Clears the cached list and adds them anew.
+     */
     public void resetGuilds() {
         cachedGuilds.clear();
         cachedGuilds.addAll(guildsFromDB);
     }
 
+    /**
+     * Return the list of available guilds.
+     *
+     * @return
+     */
     public ObservableList<Guild> getCachedAvailableGuilds() {
         return cachedAvailableGuilds;
     }

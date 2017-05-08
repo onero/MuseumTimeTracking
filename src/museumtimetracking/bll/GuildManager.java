@@ -111,6 +111,12 @@ public class GuildManager {
         return facadeDAO.getAllHoursWorked(guildNames);
     }
 
+    /**
+     * Gets all guilds with no manager from DAO
+     *
+     * @return
+     * @throws DALException
+     */
     public List<Guild> getGuildsWithoutManagers() throws DALException {
         return facadeDAO.getGuildsWithoutManagers();
     }
