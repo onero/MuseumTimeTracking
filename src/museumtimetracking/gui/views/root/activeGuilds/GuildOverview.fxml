@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="501.0" prefWidth="636.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController">
+<AnchorPane prefHeight="501.0" prefWidth="636.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController">
    <children>
       <TableView fx:id="tableGuild" layoutX="204.0" layoutY="14.0" onMouseClicked="#handleSelectGuild" prefHeight="428.0" prefWidth="319.0" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <columns>
@@ -60,11 +60,11 @@
       <VBox fx:id="vBoxGuildOptions" layoutX="46.0" layoutY="414.0" spacing="15.0" stylesheets="@../../css/Style.css" />
       <ButtonBar layoutX="207.0" layoutY="447.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="450.0">
         <buttons>
-            <Button mnemonicParsing="false" onAction="#handleArchiveGuid" prefHeight="31.0" prefWidth="120.0" text="Arkiver Laug" />
+            <Button mnemonicParsing="false" onAction="#handleArchiveGuid" prefHeight="22.0" prefWidth="120.0" text="Arkiver Laug" />
             <Button mnemonicParsing="false" onAction="#handleDeleteGuid" prefHeight="22.0" prefWidth="89.0" text="Slet Laug" />
         </buttons>
       </ButtonBar>
-      <JFXTextArea fx:id="txtDescription" layoutX="-22.0" layoutY="304.0" maxWidth="413.0" minWidth="255.0" promptText="Beskrivelse af laug" unFocusColor="WHITE" wrapText="true" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0">
+      <JFXTextArea fx:id="txtDescription" layoutX="-22.0" layoutY="304.0" maxWidth="413.0" minWidth="255.0" promptText="Beskrivelse af laug" styleClass="jfx-textarea" stylesheets="@../../css/Style.css" unFocusColor="WHITE" wrapText="true" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0">
          <font>
             <Font size="21.0" />
          </font>
