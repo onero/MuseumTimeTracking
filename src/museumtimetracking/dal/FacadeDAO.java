@@ -325,6 +325,20 @@ public class FacadeDAO {
     }
 
     /**
+     * Get all GuildManager candidates
+     *
+     * @return
+     * @throws DALException
+     */
+    public List<GuildManager> getAllGMCandidates() throws DALException {
+        try {
+            return guildManagerDAO.getGMCandidates();
+        } catch (SQLException ex) {
+            throw new DALException(DB_CONNECTION_ERROR, ex);
+        }
+    }
+
+    /**
      * Updates the guildManager in the database.
      *
      * @param manager
@@ -335,6 +349,20 @@ public class FacadeDAO {
     public void updateGuildManager(GuildManager manager, Set<String> guildsToAdd, Set<String> guildsToDelete) throws DALException {
         try {
             guildManagerDAO.updateGuildManagerInDatabase(manager, guildsToAdd, guildsToDelete);
+        } catch (SQLException ex) {
+            throw new DALException(DB_CONNECTION_ERROR, ex);
+        }
+    }
+
+    /**
+     * Assign guild to manager
+     *
+     * @param it
+     * @param guildName
+     */
+    public void assignGuildToManager(int it, String guildName) throws DALException {
+        try {
+            guildManagerDAO.assignGuildToManager(it, guildName);
         } catch (SQLException ex) {
             throw new DALException(DB_CONNECTION_ERROR, ex);
         }

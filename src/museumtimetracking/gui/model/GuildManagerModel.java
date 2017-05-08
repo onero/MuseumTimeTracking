@@ -6,6 +6,8 @@
 package museumtimetracking.gui.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,6 +32,9 @@ public class GuildManagerModel {
     private final Set<GuildManager> idleGuildManagersFromDB;
     private final ObservableList<GuildManager> cachedIdleGuildManagers;
 
+    private final List<GuildManager> gmCandidatesFromDB;
+    private final ObservableList<GuildManager> cachedGMCandidates;
+
     public static GuildManagerModel getInstance() throws IOException, DALException {
         if (instance == null) {
             instance = new GuildManagerModel();
@@ -39,6 +44,8 @@ public class GuildManagerModel {
 
     private GuildManagerModel() throws IOException, DALException {
         guildMGRManager = new GuildMGRManager();
+        gmCandidatesFromDB = new ArrayList<>(guildMGRManager.getAllGMCandidates());
+        cachedGMCandidates = FXCollections.observableArrayList(gmCandidatesFromDB);
         managersFromDB = guildMGRManager.getAllGuildManagersNotIdle();
         idleGuildManagersFromDB = guildMGRManager.getAllIdleGuildManagers();
         cachedManagers = FXCollections.observableArrayList(managersFromDB);
@@ -124,4 +131,20 @@ public class GuildManagerModel {
         cachedManagers.clear();
         cachedManagers.addAll(managersFromDB);
     }
+
+    public ObservableList<GuildManager> getCachedGMCandidates() {
+        return cachedGMCandidates;
+    }
+
+    /**
+     * Assign guild to manager
+     *
+     * @param id
+     * @param guildName
+     * @throws DALException
+     */
+    public void assignGuildToManager(int id, String guildName) throws DALException {
+        guildMGRManager.assignGuildToManager(id, guildName);
+    }
+
 }
