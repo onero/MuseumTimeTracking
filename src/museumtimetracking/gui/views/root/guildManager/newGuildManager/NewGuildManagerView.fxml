@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox styleClass="borderPane" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.newGuildManager.NewGuildManagerViewController">
+<VBox id="background" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.newGuildManager.NewGuildManagerViewController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="186.0" text="Ny Tovholder">
          <font>

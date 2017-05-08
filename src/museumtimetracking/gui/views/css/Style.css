@@ -54,7 +54,7 @@ Selected: #666666
 
 
 /*The background of all the views.*/
-.borderPane{
+#background{
     -fx-background-image: url("pattern-dust.png"); /* <===  puts in small pictures in the background */
     -fx-background-repeat: repeat; /* <===  Repeats till the background is filled. */
 /*    -fx-background-color:

@@ -9,15 +9,15 @@ public enum EFXMLName {
 
     MAIN_FOLER("/museumtimetracking/gui/views/root/"),
     /*
-     * Guild
+     * Statistic
      */
     STATISTICS_OVERVIEW(MAIN_FOLER + "statistics/StatisticsView.fxml"),
     /*
      * Guild
      */
-    GUILD_OVERVIEW(MAIN_FOLER + "guild/GuildOverview.fxml"),
-    ARCHIVED_TABLE(MAIN_FOLER + "guild/archivedGuilds/ArchivedGuildView.fxml"),
+    ACTIVE_GUILD(MAIN_FOLER + "guild/GuildOverview.fxml"),
     EDIT_GUILD(MAIN_FOLER + "guild/editGuild/EditGuildView.fxml"),
+    ARCHIVED_GUILD(MAIN_FOLER + "guild/archivedGuilds/ArchivedGuildView.fxml"),
     /*
      * Manager
      */
@@ -35,14 +35,7 @@ public enum EFXMLName {
     /**
      * Idle
      */
-    IDLE_OVERVIEW(MAIN_FOLER + "idle/IdleView.fxml"),
-    /**
-     * SearchViews
-     */
-    GUILD_SEARCH(MAIN_FOLER
-            + "guild/guildSearch/GuildSearchView.fxml"),
-    GUILD_MANAGER_SEARCH(MAIN_FOLER + "guildManager/guildManagerSearch/GuildManagerSearch.fxml"),
-    VOLUNTEER_SEARCH(MAIN_FOLER + "volunteer/volunteerSearch/VolunteerSearch.fxml");
+    IDLE_OVERVIEW(MAIN_FOLER + "idle/IdleView.fxml");
 
     private final String text;
 

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="gridPane" alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" styleClass="borderPane" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guild.archivedGuilds.ArchivedGuildViewController">
+<GridPane id="background" fx:id="gridPane" alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guild.archivedGuilds.ArchivedGuildViewController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="834.0" minWidth="10.0" prefWidth="418.0" />
    </columnConstraints>
@@ -35,7 +35,7 @@
                <font>
                   <Font size="17.0" />
                </font></JFXTextArea>
-            <VBox fx:id="vBoxGuildOptions" layoutX="14.0" layoutY="41.0" spacing="15.0" stylesheets="@../../../css/Style.css">
+            <VBox fx:id="vBoxGuildOptions" layoutX="14.0" layoutY="41.0" spacing="15.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#handlerestoreGuid" text="Genaktiver Laug" />
                   <Button mnemonicParsing="false" onAction="#handleDeleteGuid" text="Slet Laug" />

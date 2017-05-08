@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package museumtimetracking.gui.views.root.guild;
+package museumtimetracking.gui.views.root.activeGuilds;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
@@ -28,7 +28,7 @@ import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
 import museumtimetracking.gui.views.ModalFactory;
-import museumtimetracking.gui.views.root.guild.editGuild.EditGuildViewController;
+import museumtimetracking.gui.views.root.activeGuilds.editGuild.EditGuildViewController;
 
 /**
  * FXML Controller class

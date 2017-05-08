@@ -51,8 +51,8 @@ public class MTTMainControllerView implements Initializable {
         nodeFactory = NodeFactory.getInstance();
 
         statistics = nodeFactory.createNewView(STATISTICS_OVERVIEW);
-        guildOverView = nodeFactory.createNewView(GUILD_OVERVIEW);
-        archivedGuild = nodeFactory.createNewView(ARCHIVED_TABLE);
+        guildOverView = nodeFactory.createNewView(ACTIVE_GUILD);
+        archivedGuild = nodeFactory.createNewView(ARCHIVED_GUILD);
         manager = nodeFactory.createNewView(MANAGER_OVERVIEW);
         volunteer = nodeFactory.createNewView(VOLUNTEER_OVERVIEW);
         idle = nodeFactory.createNewView(IDLE_OVERVIEW);
