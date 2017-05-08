@@ -15,17 +15,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="background" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController">
+<AnchorPane id="background" prefHeight="447.0" prefWidth="845.0" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController">
    <children>
       <Label layoutX="25.0" layoutY="14.0" text="Frivillig Oversigt">
          <font>
             <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
-      <ListView fx:id="lstVolunteer" layoutX="14.0" layoutY="58.0" onMouseClicked="#handleSelectVolunteer" prefHeight="294.0" prefWidth="200.0" styleClass="mylistview" stylesheets="@../../css/Style.css" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="58.0" />
-      <VBox layoutX="221.0" layoutY="61.0" AnchorPane.leftAnchor="221.0">
+      <ListView fx:id="lstVolunteer" layoutX="14.0" layoutY="58.0" onMouseClicked="#handleSelectVolunteer" prefHeight="315.0" prefWidth="200.0" styleClass="mylistview" stylesheets="@../../css/Style.css" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="58.0" />
+      <VBox layoutX="221.0" layoutY="61.0" prefHeight="330.0" prefWidth="300.0" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="221.0" AnchorPane.topAnchor="58.0">
          <children>
-            <ImageView fx:id="imgProfile" fitHeight="150.0" fitWidth="300.0" onMouseClicked="#handleSelectVolunteerImage" pickOnBounds="true">
+            <ImageView fx:id="imgProfile" fitHeight="192.0" fitWidth="300.0" onMouseClicked="#handleSelectVolunteerImage" pickOnBounds="true">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -113,7 +113,7 @@
             <Insets bottom="10.0" />
          </padding>
       </VBox>
-      <HBox layoutX="14.0" layoutY="373.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="68.0">
+      <HBox layoutY="373.0" prefWidth="763.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="79.0">
          <children>
             <ButtonBar buttonMinWidth="100.0">
                <buttons>

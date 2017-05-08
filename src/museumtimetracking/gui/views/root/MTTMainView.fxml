@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXTabPane?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.Pane?>
 
-<BorderPane id="background" minHeight="600.0" prefHeight="600.0" minWidth="850.0" prefWidth="850.0" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.MTTMainControllerView">
+<BorderPane id="background" minHeight="600.0" minWidth="850.0" prefHeight="600.0" prefWidth="850.0" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.MTTMainControllerView">
    <center>
       <JFXTabPane side="BOTTOM" styleClass="borderPane" stylesheets="@../css/Style.css" BorderPane.alignment="CENTER">
          <tabs>
@@ -27,35 +24,25 @@
       </JFXTabPane>
    </center>
    <top>
-      <GridPane BorderPane.alignment="CENTER">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="779.0" minWidth="10.0" prefWidth="463.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="371.0" minWidth="10.0" prefWidth="371.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-         </rowConstraints>
+      <Pane prefWidth="850.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="90.0" fitWidth="835.0" pickOnBounds="true" preserveRatio="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+            <ImageView fitHeight="89.0" fitWidth="850.0" layoutX="8.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../asset/img/bg_header.jpg" />
                </image>
             </ImageView>
-            <ImageView fitHeight="87.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="87.0" fitWidth="200.0" layoutX="17.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../asset/img/logo.png" />
                </image>
             </ImageView>
-            <HBox GridPane.columnIndex="1">
+            <HBox alignment="TOP_RIGHT" layoutX="620.0" layoutY="33.0" prefHeight="20.0" prefWidth="216.0">
                <children>
                   <TextField fx:id="txtSearchBar" />
                   <Button mnemonicParsing="false" onAction="#handleClearSearchBar" text="X" />
                </children>
-               <padding>
-                  <Insets top="20.0" />
-               </padding>
             </HBox>
          </children>
-      </GridPane>
+      </Pane>
    </top>
 </BorderPane>
