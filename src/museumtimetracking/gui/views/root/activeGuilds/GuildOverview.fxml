@@ -66,6 +66,7 @@
                      <columns>
                         <TableColumn fx:id="clmGuildName" prefWidth="182.0" text="Laug" />
                         <TableColumn fx:id="clmGuildDescription" prefWidth="234.0" text="Beskrivelse" />
+                        <TableColumn fx:id="clmGM" prefWidth="75.0" text="Tovholder" />
                      </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -92,7 +93,7 @@
                         </VBox>
                         <VBox prefHeight="174.0" prefWidth="202.0">
                            <children>
-                              <JFXTextField fx:id="txtGMCandidateSearch" promptText="Søg efter person" />
+                              <JFXTextField fx:id="txtGMCandidateSearch" onKeyTyped="#handleSearchForGM" promptText="Søg efter person" />
                               <ListView fx:id="listPeople" onMouseClicked="#handleSelectGuildManager" />
                            </children>
                         </VBox>

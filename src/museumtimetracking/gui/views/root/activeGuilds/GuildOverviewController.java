@@ -11,6 +11,7 @@ import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -42,6 +43,8 @@ public class GuildOverviewController implements Initializable {
 
     @FXML
     private Button btnAssignGM;
+    @FXML
+    private TableColumn<Guild, String> clmGM;
 
     @FXML
     private ListView<GuildManager> listPeople;
@@ -84,6 +87,12 @@ public class GuildOverviewController implements Initializable {
         }
     }
 
+    @FXML
+    private void handleSearchForGM() {
+        String searchString = txtGMCandidateSearch.getText();
+        guildManagerModel.searchForPersonWithoutGuild(searchString);
+    }
+
     /**
      * Initializes the controller class.
      */
@@ -113,7 +122,8 @@ public class GuildOverviewController implements Initializable {
     @FXML
     private void handleAssignGM() {
         try {
-            guildManagerModel.assignGuildToManager(selectedGuildManager.getID(), selectedGuild.getName());
+            guildManagerModel.assignGuildToManager(selectedGuildManager, selectedGuild);
+            tableGuild.refresh();
         } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
@@ -140,6 +150,12 @@ public class GuildOverviewController implements Initializable {
 
         clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
         clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
+        clmGM.setCellValueFactory(gm -> {
+            if (gm.getValue().getGuildManager() != null) {
+                return gm.getValue().getGuildManager().getFullNameProperty();
+            }
+            return new SimpleStringProperty("");
+        });
     }
 
     private void initializeGMCandidateList() {
@@ -204,11 +220,11 @@ public class GuildOverviewController implements Initializable {
     private void handleAddGuild() {
         String name = txtGuildName.getText();
         String description = txtDescription.getText();
-        //TODO ALH: Add GM!
         if (name != null && description != null) {
             Guild newGuild = new Guild(name, description, false);
             try {
                 guildModel.addGuild(newGuild);
+                guildManagerModel.assignGuildToManager(selectedGuildManager, newGuild);
             } catch (DALException ex) {
                 ExceptionDisplayer.display(ex);
             }
