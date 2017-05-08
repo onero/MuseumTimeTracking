@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane id="background" prefWidth="940.0" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guild.GuildOverviewController">
+<BorderPane id="background" prefWidth="940.0" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController">
    <center>
       <AnchorPane>
          <children>

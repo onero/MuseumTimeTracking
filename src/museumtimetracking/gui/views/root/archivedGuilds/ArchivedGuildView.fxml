@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane id="background" fx:id="gridPane" alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guild.archivedGuilds.ArchivedGuildViewController">
+<GridPane id="background" fx:id="gridPane" alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.archivedGuilds.ArchivedGuildViewController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="834.0" minWidth="10.0" prefWidth="418.0" />
    </columnConstraints>

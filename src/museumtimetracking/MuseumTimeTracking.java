@@ -19,7 +19,7 @@ public class MuseumTimeTracking extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("gui/views/root/MTTMainView.fxml"));
 
         Scene scene = new Scene(root);
-        stage.getIcons().add(new Image("museumtimetracking/asset/img/logo.gif"));
+        stage.getIcons().add(new Image("museumtimetracking/asset/img/icon.gif"));
         stage.setScene(scene);
         stage.show();
 

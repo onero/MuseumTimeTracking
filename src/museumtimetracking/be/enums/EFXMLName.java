@@ -15,9 +15,9 @@ public enum EFXMLName {
     /*
      * Guild
      */
-    ACTIVE_GUILD(MAIN_FOLER + "guild/GuildOverview.fxml"),
-    EDIT_GUILD(MAIN_FOLER + "guild/editGuild/EditGuildView.fxml"),
-    ARCHIVED_GUILD(MAIN_FOLER + "guild/archivedGuilds/ArchivedGuildView.fxml"),
+    ACTIVE_GUILD(MAIN_FOLER + "activeGuilds/GuildOverview.fxml"),
+    EDIT_GUILD(MAIN_FOLER + "activeGuilds/editGuild/EditGuildView.fxml"),
+    ARCHIVED_GUILD(MAIN_FOLER + "archivedGuilds/ArchivedGuildView.fxml"),
     /*
      * Manager
      */
