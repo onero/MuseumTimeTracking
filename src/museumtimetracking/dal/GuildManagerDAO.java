@@ -25,11 +25,9 @@ import museumtimetracking.be.GuildManager;
 public class GuildManagerDAO extends APersonDAO {
 
     private final DBConnectionManager cm;
-    private final List<Integer> guildManagerIDs;
 
     public GuildManagerDAO() throws IOException {
         cm = DBConnectionManager.getInstance();
-        guildManagerIDs = new ArrayList<>();
     }
 
     /**
@@ -164,7 +162,13 @@ public class GuildManagerDAO extends APersonDAO {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                listOfGuildManagers.add(getOneGuildManager(rs));
+                GuildManager newGuildManager = getOneGuildManager(rs);
+                boolean idExists = listOfGuildManagers
+                        .stream()
+                        .anyMatch(gm -> gm.getID() == newGuildManager.getID());
+                if (!idExists) {
+                    listOfGuildManagers.add(newGuildManager);
+                }
             }
         }
         return listOfGuildManagers;
