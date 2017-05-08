@@ -11,13 +11,17 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import museumtimetracking.be.Guild;
+import museumtimetracking.be.GuildManager;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.model.GuildModel;
 
 /**
@@ -35,8 +39,25 @@ public class EditGuildViewController implements Initializable {
     private TextArea txtGuildDescription;
     @FXML
     private TextField txtGuildName;
+    @FXML
+    private ListView<GuildManager> listPeople;
+    @FXML
+    private Button btnAssignGM;
+    @FXML
+    private TextField txtGMCandidateSearch;
 
     private Guild currentGuild;
+    private GuildManagerModel guildManagerModel;
+
+    private GuildManager selectedGuildManager;
+
+    public EditGuildViewController() {
+        try {
+            guildManagerModel = GuildManagerModel.getInstance();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
+    }
 
     @FXML
     private void handleBack() {
@@ -50,6 +71,18 @@ public class EditGuildViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setTextFieldVisibility(false);
+        initializeGMCandidateList();
+        setAssignGMVisibility(false);
+    }
+
+    /**
+     * Set visibility of assignGM button
+     *
+     * @param value
+     */
+    private void setAssignGMVisibility(boolean value) {
+        btnAssignGM.setDisable(!value);
+        btnAssignGM.setVisible(value);
     }
 
     private void setTextFieldVisibility(boolean visible) {
@@ -92,5 +125,44 @@ public class EditGuildViewController implements Initializable {
     private void setTextFields(String name, String description) {
         txtGuildName.setText(name);
         txtGuildDescription.setText(description);
+    }
+
+    @FXML
+    private void handleSearchForGM() {
+        String searchString = txtGMCandidateSearch.getText();
+        guildManagerModel.searchForPersonWithoutGuild(searchString);
+    }
+
+    private void initializeGMCandidateList() {
+        listPeople.setItems(guildManagerModel.getCachedGMCandidates());
+
+        listPeople.setCellFactory(gm -> new ListCell<GuildManager>() {
+            @Override
+            protected void updateItem(GuildManager guildManager, boolean empty) {
+                super.updateItem(guildManager, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(guildManager.getFullName());
+                }
+            }
+        });
+    }
+
+    @FXML
+    private void handleAssignGM() {
+        try {
+            guildManagerModel.assignGuildToManager(selectedGuildManager, currentGuild);
+        } catch (DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
+    }
+
+    @FXML
+    private void handleSelectGuildManager() {
+        if (listPeople.getSelectionModel().getSelectedItem() != null) {
+            selectedGuildManager = listPeople.getSelectionModel().getSelectedItem();
+            setAssignGMVisibility(true);
+        }
     }
 }

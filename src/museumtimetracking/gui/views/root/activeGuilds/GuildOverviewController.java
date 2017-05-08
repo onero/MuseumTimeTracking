@@ -12,16 +12,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import museumtimetracking.be.Guild;
 import museumtimetracking.be.GuildManager;
@@ -42,12 +40,7 @@ import museumtimetracking.gui.views.root.activeGuilds.editGuild.EditGuildViewCon
 public class GuildOverviewController implements Initializable {
 
     @FXML
-    private Button btnAssignGM;
-    @FXML
     private TableColumn<Guild, String> clmGM;
-
-    @FXML
-    private ListView<GuildManager> listPeople;
 
     @FXML
     private TableView<Guild> tableGuild;
@@ -61,11 +54,7 @@ public class GuildOverviewController implements Initializable {
     @FXML
     private JFXTextArea txtDescription;
     @FXML
-    private JFXTextField txtGMCandidateSearch;
-    @FXML
     private JFXTextField txtGuildName;
-    @FXML
-    private VBox vBoxGuildOptions;
 
     private GuildModel guildModel;
 
@@ -87,38 +76,17 @@ public class GuildOverviewController implements Initializable {
         }
     }
 
-    @FXML
-    private void handleSearchForGM() {
-        String searchString = txtGMCandidateSearch.getText();
-        guildManagerModel.searchForPersonWithoutGuild(searchString);
-    }
-
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setGuildOptionsVisibility(false);
 
         initializeGuildTable();
-
-        initializeGMCandidateList();
         initializeComboBox();
 
-        setAssignGMVisibility(false);
     }
 
-    /**
-     * Set visibility of assignGM button
-     *
-     * @param value
-     */
-    private void setAssignGMVisibility(boolean value) {
-        btnAssignGM.setDisable(!value);
-        btnAssignGM.setVisible(value);
-    }
-
-    @FXML
     private void handleAssignGM() {
         try {
             guildManagerModel.assignGuildToManager(selectedGuildManager, selectedGuild);
@@ -157,32 +125,15 @@ public class GuildOverviewController implements Initializable {
         });
     }
 
-    private void initializeGMCandidateList() {
-        listPeople.setItems(guildManagerModel.getCachedGMCandidates());
-
-        listPeople.setCellFactory(gm -> new ListCell<GuildManager>() {
-            @Override
-            protected void updateItem(GuildManager guildManager, boolean empty) {
-                super.updateItem(guildManager, empty);
-                if (empty) {
-                    setText(null);
-                } else {
-                    setText(guildManager.getFullName());
-                }
-            }
-        });
-    }
-
     @FXML
     private void handleSelectGuild(MouseEvent event) {
-        setGuildOptionsVisibility(true);
 
         selectedGuild = tableGuild.getSelectionModel().getSelectedItem();
 
         //Enter edit mode
         if (event.getClickCount() == 2) {
 
-            Stage primStage = (Stage) btnAssignGM.getScene().getWindow();
+            Stage primStage = (Stage) txtDescription.getScene().getWindow();
 
             Stage editGuildModal = modalFactory.createNewModal(primStage, EFXMLName.EDIT_GUILD);
 
@@ -190,29 +141,9 @@ public class GuildOverviewController implements Initializable {
 
             controller.setCurrentGuild(selectedGuild);
 
-            editGuildModal.show();
+            editGuildModal.showAndWait();
+            tableGuild.refresh();
         }
-    }
-
-    @FXML
-    private void handleSelectGuildManager() {
-        if (cmbGuildManager.getSelectionModel().getSelectedItem() != null) {
-            selectedGuildManager = cmbGuildManager.getSelectionModel().getSelectedItem();
-        }
-        if (listPeople.getSelectionModel().getSelectedItem() != null) {
-            selectedGuildManager = listPeople.getSelectionModel().getSelectedItem();
-            setAssignGMVisibility(true);
-        }
-    }
-
-    /**
-     * Set the visibility of guild options
-     *
-     * @param shown
-     */
-    public void setGuildOptionsVisibility(boolean shown) {
-        vBoxGuildOptions.setDisable(!shown);
-        vBoxGuildOptions.setVisible(shown);
     }
 
     @FXML
@@ -223,7 +154,11 @@ public class GuildOverviewController implements Initializable {
             Guild newGuild = new Guild(name, description, false);
             try {
                 guildModel.addGuild(newGuild);
-                guildManagerModel.assignGuildToManager(selectedGuildManager, newGuild);
+                //TODO RKL: Make sure "selectedGuildManager" is sat to null where needed.
+                if (selectedGuildManager != null) {
+                    guildManagerModel.assignGuildToManager(selectedGuildManager, newGuild);
+                    selectedGuildManager = null;
+                }
             } catch (DALException ex) {
                 ExceptionDisplayer.display(ex);
             }
@@ -255,6 +190,13 @@ public class GuildOverviewController implements Initializable {
             }
         });
 
+    }
+
+    @FXML
+    private void handleSelectGuildManager(ActionEvent event) {
+        if (cmbGuildManager.getSelectionModel().getSelectedItem() != null) {
+            selectedGuildManager = cmbGuildManager.getSelectionModel().getSelectedItem();
+        }
     }
 
 }
