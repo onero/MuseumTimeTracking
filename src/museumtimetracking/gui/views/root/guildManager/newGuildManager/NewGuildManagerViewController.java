@@ -117,7 +117,7 @@ public class NewGuildManagerViewController implements Initializable {
      * Adds all the guildNames to the comboBox.
      */
     private void addInfoToComboBox() {
-        ObservableList<Guild> listOfGuilds = guildModel.getCachedGuilds();
+        ObservableList<Guild> listOfGuilds = guildModel.getCachedAvailableGuilds();
         for (Guild listOfGuild : listOfGuilds) {
             comboGuild.getItems().add(listOfGuild.getName());
         }

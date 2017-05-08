@@ -311,8 +311,7 @@ public class FacadeDAO {
     }
 
     /**
-     * Gets a list of idle guild manager
-     * guilds from the GuildManagerDAO.
+     * Gets a list of idle guild manager guilds from the GuildManagerDAO.
      *
      * @return
      * @throws museumtimetracking.exception.DALException
@@ -383,6 +382,15 @@ public class FacadeDAO {
         } catch (SQLException ex) {
             throw new DALException(
                     "Den frivillige har allerede fået dokumenteret tid får dette Laug idag.", ex);
+        }
+    }
+
+    public List<Guild> getGuildsWithoutManagers() throws DALException {
+        try {
+            return guildDAO.getGuildsWithoutManagers();
+        } catch (SQLException ex) {
+            throw new DALException(
+                    "De ledige laug uden tovholdere kunne ikke hentes fra databasen.", ex);
         }
     }
 }
