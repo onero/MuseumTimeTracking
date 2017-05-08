@@ -10,10 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="336.0" prefWidth="422.0" styleClass="borderPane" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController">
+<AnchorPane prefHeight="431.0" prefWidth="468.0" styleClass="borderPane" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController">
    <children>
-      <ListView fx:id="lstManagers" layoutX="14.0" prefHeight="350.0" prefWidth="200.0" styleClass="mylistview" stylesheets="@../../../css/Style.css" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="0.0" />
+      <ListView fx:id="lstManagers" layoutX="14.0" prefHeight="350.0" prefWidth="200.0" styleClass="mylistview" stylesheets="@../../../css/Style.css" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="5.0" />
       <VBox layoutX="231.0" layoutY="1.0" prefHeight="349.0" prefWidth="167.0" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="24.0">
          <children>
             <Label text="Fornavn:">

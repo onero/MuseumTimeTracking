@@ -79,7 +79,7 @@
                   </Pane>
                   <VBox fx:id="vBoxGuildOptions" spacing="15.0" stylesheets="@../../css/Style.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#handleArchiveGuid" prefHeight="25.0" prefWidth="89.0" text="Arkiver Laug" />
+                        <Button mnemonicParsing="false" onAction="#handleArchiveGuid" prefHeight="31.0" prefWidth="120.0" text="Arkiver Laug" />
                         <Button mnemonicParsing="false" onAction="#handleDeleteGuid" prefHeight="22.0" prefWidth="89.0" text="Slet Laug" />
                      </children>
                      <GridPane.margin>
