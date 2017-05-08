@@ -57,20 +57,31 @@ Selected: #666666
 #background{
     -fx-background-image: url("pattern-dust.png"); /* <===  puts in small pictures in the background */
     -fx-background-repeat: repeat; /* <===  Repeats till the background is filled. */
-/*    -fx-background-color:
-        linear-gradient(#666666, #333333);*/
+    /*    -fx-background-color:
+            linear-gradient(#666666, #333333);*/
 }
 
 .jfx-tab-pane .tab-label {
-    -fx-text-fill: #000;
+    -fx-text-fill: black;
     -fx-font-weight: normal;
 }
 
 .jfx-tab-pane .tab-header-background {
-     -fx-background-color: #ed9e00;
+    /*-fx-background-color: #ed9e00;*/
+    
+    -fx-background-color:  linear-gradient(to right, rgba(237,158,0,0.54) 0%, rgba(237,158,0,0.54) 0%, rgba(237,158,0,0.54) 36%, rgba(237,158,0,1) 57%, rgba(237,158,0,1) 82%);
+
+    
 }
 .jfx-tab-pane .tab-selected-line {
-    -fx-background-color: #4741f4;
+    -fx-background-color: black;
+}
+
+.tab:hover{
+    -fx-background-color: #fcc14e;  /* <-- hover color. */
+    -fx-text-fill: black;
+    -fx-font-weight: normal;
+    -fx-font-size: 16;
 }
 
 .default-color0.chart-bar { 
@@ -81,13 +92,153 @@ Selected: #666666
     -fx-background-color: #ed9e00;
 }
 
-/*h1 {
-    -fx-text-fill: #fff;
+/*  When you have your mouse over the button. 
+    When button is pressed. */
+.button:hover,
+.button:pressed { 
+    -fx-background-color: #fcc14e;
 }
 
-.whiteBackground{
-    -fx-background-color: #fff;
-}*/
+
+
+/*TABLEVIEW!*/
+
+
+/*The frames of the tableView (Around)*/
+.table-view{
+    -fx-background-color: transparent;
+} 
+
+/*The frames of the tableView (Inside)*/
+.table-view:focused{
+    -fx-background-color: transparent;
+}
+
+.mylistview{
+    -fx-background-color: transparent;
+}
+.mylistview:focused{
+    -fx-background-color: transparent;
+}
+
+
+/*The header over the tableView*/ 
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(#f7d48f 0%, #fcc14e 100%);
+}
+
+/*Row hovered to a diff color.*/
+.table-view:row-selection .table-row-cell:filled:hover {
+    -fx-background-color: #fcc14e;
+}
+
+/*Makes the header transparent.*/
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+/*Makes the first row in the tableView (color)*/
+.table-row-cell:even{
+    -fx-background-color: #efefef;
+}
+
+/*Makes the second row in the tableView (color)*/
+.table-row-cell:odd{
+    -fx-background-color: #cccccc;
+}
+
+/*When the row is selected (color)*/
+.table-row-cell:selected {
+    -fx-background-color: #f7d48f;
+}
+
+/** Keep black text color, when user selects row */
+.table-row-cell:focused {
+    -fx-dark-text-color: #000000;
+    -fx-mid-text-color: #000000;
+    -fx-light-text-color: #000000;
+}
+
+/*Color of scrollbar.*/ 
+.table-view > .virtual-flow > .scroll-bar:vertical,  
+.table-view > .virtual-flow > .scroll-bar:vertical > .track,
+.table-view > .virtual-flow > .scroll-bar:vertical > .track-background, 
+.table-view > .virtual-flow > .scroll-bar:horizontal, 
+.table-view > .virtual-flow > .scroll-bar:horizontal > .track,
+.table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
+    -fx-background-color: #f7d48f;
+}
+
+/*color on scroll bar. */
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #ed9e00;
+}
+
+/*When pressed and selecting a cell.*/
+.list-cell:filled:selected {
+    -fx-background-color: #f7d48f;
+}
+/*Where the mouse is over a row.*/
+.list-cell:filled:hover {
+    -fx-background-color: #fcc14e;
+}
+
+/*One of the colorcodes for the row*/
+.list-cell:even {
+    -fx-background-color:#cccccc;
+}
+
+/*One of the colorcodes for the row*/
+.list-cell:odd{
+    -fx-background-color:#efefef;
+}
+
+/*The main scrollbar **thumb** CSS class which we drag every time (movable)*/ 
+.mylistview .scroll-bar:horizontal .thumb,
+.mylistview .scroll-bar:vertical .thumb {
+    -fx-background-color: #ed9e00;
+}
+
+/*The main scrollbar **track** CSS class*/  
+.mylistview .scroll-bar:horizontal .track ,
+.mylistview .scroll-bar:vertical .track{
+    -fx-background-color: #f7d48f;
+}
+
+/*The increment and decrement button CSS class of scrollbar*/ 
+.mylistview .increment-button ,
+.mylistview .decrement-button {
+    -fx-background-color: #f7d48f;
+    -fx-border-color: #f7d48f;
+}
+
+/*The main scrollbar CSS class of ListView*/ 
+.mylistview .scroll-bar:horizontal ,
+.mylistview  .scroll-bar:vertical{
+    -fx-background-color: #f7d48f;
+}
+
+/** Keep black text color, when user selects row */
+.mylistview:focused {
+    -fx-dark-text-color: #000000;
+    -fx-mid-text-color: #000000;
+    -fx-light-text-color: #000000;
+}
+
+/*The cornor of the two scrollbars.*/
+.corner {
+    -fx-background-color: #f7d48f;
+}
+
+
+
+
+
+
+
+
+
 
 /* Makes all buttons the same. */
 /*.button{ 

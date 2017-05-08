@@ -57,6 +57,7 @@ public class GuildModel {
      * Archives the parsed guild in DB
      *
      * @param guildToArchive
+     * @throws museumtimetracking.exception.DALException
      */
     public void archiveGuild(Guild guildToArchive) throws DALException {
         cachedArchivedGuilds.add(guildToArchive);

@@ -57,9 +57,9 @@ public class GuildManagerOverviewController implements Initializable {
     @FXML
     private Button btnNewGuildManager;
     @FXML
-    private Button btnSave;
-    @FXML
     private Button btnDelete;
+    @FXML
+    private Button btnArchiveManager;
 
     private final NodeFactory nodeFactory;
 
@@ -69,8 +69,8 @@ public class GuildManagerOverviewController implements Initializable {
 
     private static final String ADD_GUILD_BUTTON_TEXT = "Tilføj Laug";
     private static final String EDIT_BUTTON_TEXT = "Rediger";
-    private static final String CANCEL_BUTTON_TEXT = "Anuller";
-    private static final String NEW_GUILD_MANAGER = "Ny Tovholder";
+    private static final String SAVE_BUTTON_TEXT = "Gem";
+    private static final String NEW_GUILD_MANAGER_TEXT = "Ny Tovholder";
 
     private final ModalFactory modalFactory;
 
@@ -104,7 +104,7 @@ public class GuildManagerOverviewController implements Initializable {
 
     @FXML
     private void handleNewManagerButton() {
-        if (btnNewGuildManager.getText().equals(NEW_GUILD_MANAGER)) {
+        if (btnNewGuildManager.getText().equals(NEW_GUILD_MANAGER_TEXT)) {
             newManagerModal();
         } else if (btnNewGuildManager.getText().equals(ADD_GUILD_BUTTON_TEXT)) {
             showGuildManagementModal();
@@ -121,11 +121,21 @@ public class GuildManagerOverviewController implements Initializable {
             setShowEditability(true);
             setButtonTextToEditMode();
 
-        } else if (btnEdit.getText().equals(CANCEL_BUTTON_TEXT)) {
-            setShowEditability(false);
-            setButtonTextToViewMode();
-            displayInformation(manager);
+        } else if (btnEdit.getText().equals(SAVE_BUTTON_TEXT)) {
+            saveInformation();
+        }
+    }
+
+    private void saveInformation() {
+        GuildManager manager;
+        setButtonTextToViewMode();
+        setShowEditability(false);
+        manager = getNewInformation();
+        try {
+            guildManagerModel.updateGuildManager(manager, setGuildsToAdd, setGuildsToDelete);
             setSetsToNull();
+        } catch (DALException ex) {
+            ExceptionDisplayer.display(ex);
         }
     }
 
@@ -274,12 +284,13 @@ public class GuildManagerOverviewController implements Initializable {
      */
     private void setButtonTextToEditMode() {
         btnNewGuildManager.setText(ADD_GUILD_BUTTON_TEXT);
-        btnSave.setDisable(false);
-        btnSave.setVisible(true);
-        btnDelete.setDisable(false);
-        btnDelete.setVisible(true);
-        btnEdit.setText(CANCEL_BUTTON_TEXT);
+        btnDelete.setDisable(true);
+        btnDelete.setVisible(false);
+        btnEdit.setText(SAVE_BUTTON_TEXT);
         lstManagers.setDisable(true);
+        btnArchiveManager.setDisable(true);
+        btnArchiveManager.setVisible(false);
+
     }
 
     /**
@@ -287,13 +298,13 @@ public class GuildManagerOverviewController implements Initializable {
      * meant only for viewing.
      */
     private void setButtonTextToViewMode() {
-        btnNewGuildManager.setText(NEW_GUILD_MANAGER);
-        btnSave.setDisable(true);
-        btnSave.setVisible(false);
-        btnDelete.setDisable(true);
-        btnDelete.setVisible(false);
+        btnNewGuildManager.setText(NEW_GUILD_MANAGER_TEXT);
+        btnDelete.setDisable(false);
+        btnDelete.setVisible(true);
         btnEdit.setText(EDIT_BUTTON_TEXT);
         lstManagers.setDisable(false);
+        btnArchiveManager.setDisable(false);
+        btnArchiveManager.setVisible(true);
     }
 
     /**
@@ -314,24 +325,6 @@ public class GuildManagerOverviewController implements Initializable {
         setGuildsToAdd = controller.getSetGuildsToAdd();
         setGuildsToDelete = controller.getSetGuildsToDelete();
         lstGuilds.setItems(controller.getManagerGuilds());
-    }
-
-    /**
-     * Gets the information and sends it down to the database.
-     *
-     */
-    @FXML
-    private void handleSaveGuildManagerButton() {
-        setButtonTextToViewMode();
-        setShowEditability(false);
-
-        GuildManager manager = getNewInformation();
-        try {
-            guildManagerModel.updateGuildManager(manager, setGuildsToAdd, setGuildsToDelete);
-            setSetsToNull();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
     }
 
     /**

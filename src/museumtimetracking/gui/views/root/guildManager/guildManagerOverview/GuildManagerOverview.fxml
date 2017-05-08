@@ -10,10 +10,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="background" prefHeight="431.0" prefWidth="468.0" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController">
+<AnchorPane id="background" prefHeight="431.0" prefWidth="468.0" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController">
    <children>
-      <ListView fx:id="lstManagers" layoutX="14.0" prefHeight="350.0" prefWidth="200.0" styleClass="mylistview" stylesheets="@../../../css/Style.css" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="5.0" />
-      <VBox layoutX="231.0" layoutY="1.0" prefHeight="349.0" prefWidth="167.0" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="24.0">
+      <ListView fx:id="lstManagers" layoutX="14.0" prefHeight="367.0" prefWidth="200.0" styleClass="mylistview" stylesheets="@../../../css/Style.css" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="5.0" />
+      <VBox layoutX="231.0" layoutY="1.0" prefHeight="367.0" prefWidth="358.0" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="5.0">
          <children>
             <Label text="Fornavn:">
                <font>
@@ -63,14 +63,13 @@
             <ListView fx:id="lstGuilds" prefHeight="117.0" prefWidth="167.0" />
          </children>
       </VBox>
-      <ButtonBar layoutX="5.0" layoutY="361.0">
+      <ButtonBar layoutX="3.0" layoutY="386.0" prefHeight="31.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="3.0">
          <buttons>
-            <Button fx:id="btnNewGuildManager" mnemonicParsing="false" onAction="#handleNewManagerButton" prefWidth="110.0" />
-            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#handleDeleteButton" prefWidth="75.0" text="Slet" />
-            <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="75.0" />
-            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handleSaveGuildManagerButton" prefWidth="75.0" text="Gem" />
+            <Button fx:id="btnEdit" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="140.0" />
+            <Button fx:id="btnNewGuildManager" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleNewManagerButton" prefWidth="140.0" />
+            <Button fx:id="btnDelete" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefWidth="140.0" text="Slet" />
+            <Button fx:id="btnArchiveManager" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleArchiveGM" prefWidth="140.0" text="Gør Inaktiv" />
          </buttons>
       </ButtonBar>
-      <Button layoutX="179.0" layoutY="400.0" mnemonicParsing="false" onAction="#handleArchiveGM" text="Gør Inaktiv" />
    </children>
 </AnchorPane>

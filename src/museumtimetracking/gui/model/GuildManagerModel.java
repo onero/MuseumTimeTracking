@@ -149,8 +149,8 @@ public class GuildManagerModel {
     /**
      * Assign guild to manager
      *
-     * @param id
-     * @param guildName
+     * @param gm
+     * @param guild
      * @throws DALException
      */
     public void assignGuildToManager(GuildManager gm, Guild guild) throws DALException {
