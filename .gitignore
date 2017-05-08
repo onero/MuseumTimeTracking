@@ -4,7 +4,6 @@
 ### YOUR_PROJECT ###
 !nbproject.zip
 DB.cfg
-sqljdbc4.jar
 
 ### NetBeans ###
 nbproject
@@ -2012,4 +2011,3 @@ hs_err_pid*
 
 # ImageProcessor DiskCache
 **/App_Data/cache/
-sqljdbc4.jar
