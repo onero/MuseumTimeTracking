@@ -117,11 +117,11 @@
          <children>
             <ButtonBar buttonMinWidth="100.0">
                <buttons>
-                  <Button mnemonicParsing="false" onAction="#handleDeleteVolunteer" prefWidth="75.0" text="Slet" />
-                  <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#handleEditVolunteer" prefWidth="75.0" text="Rediger" />
-                  <Button mnemonicParsing="false" onAction="#handleNewVolunteer" text="Ny Frivillig" />
-                  <Button mnemonicParsing="false" onAction="#handleInactiveVolunteer" text="Gør Inaktiv" />
-                  <Button mnemonicParsing="false" onAction="#handleDocumentHoursButton" prefHeight="19.0" prefWidth="97.0" text="Dokumentér" />
+                  <Button fx:id="btnEdit" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleEditVolunteer" prefWidth="140.0" text="Rediger" />
+                  <Button fx:id="btnAddVolunteer" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleNewVolunteer" prefWidth="140.0" text="Ny Frivillig" />
+                  <Button fx:id="btnDelete" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleDeleteVolunteer" prefWidth="140.0" text="Slet" />
+                  <Button fx:id="btnMakeInactive" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleInactiveVolunteer" prefWidth="140.0" text="Gør Inaktiv" />
+                  <Button fx:id="btnDocument" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleDocumentHoursButton" prefWidth="140.0" text="Dokumentér" />
                </buttons>
             </ButtonBar>
          </children>

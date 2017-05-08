@@ -67,6 +67,14 @@ public class VolunteerOverviewController implements Initializable {
     private TextField txtPhone;
     @FXML
     private TextArea txtVolunteerInfo;
+    @FXML
+    private Button btnAddVolunteer;
+    @FXML
+    private Button btnDelete;
+    @FXML
+    private Button btnMakeInactive;
+    @FXML
+    private Button btnDocument;
 
     public static final String NO_PHOTO = "/museumtimetracking/asset/img/no-photo.jpg";
     private static final String NO_VOLUNTEER = "Der er ikke valgt nogen frivillig.";
@@ -164,6 +172,7 @@ public class VolunteerOverviewController implements Initializable {
             if (btnEdit.getText().equalsIgnoreCase("rediger")) {
                 btnEdit.setText("Gem");
                 setTextVisibility(true);
+                hideButtons();
                 //If we are in edit mode
             } else {
                 btnEdit.setText("Rediger");
@@ -176,6 +185,7 @@ public class VolunteerOverviewController implements Initializable {
                 } catch (IOException | DALException ex) {
                     ExceptionDisplayer.display(ex);
                 }
+                showButtons();
             }
         }
     }
@@ -299,6 +309,48 @@ public class VolunteerOverviewController implements Initializable {
                 new FileChooser.ExtensionFilter("PNG", "*.png"));
         fc.setInitialDirectory(new File(System.getProperty("user.home")));
         return fc;
+    }
+
+    /**
+     * Hides the buttons for: Adding a new volunteer. Deleting a volunteer.
+     * Document hours for a volunteer. Make a volunteer inactive.
+     */
+    private void hideButtons() {
+        hideButton(btnAddVolunteer);
+        hideButton(btnDelete);
+        hideButton(btnDocument);
+        hideButton(btnMakeInactive);
+    }
+
+    /**
+     * Shows the buttons for: Adding a new volunteer. Deleting a volunteer.
+     * Document hours for a volunteer. Make a volunteer inactive.
+     */
+    private void showButtons() {
+        showButton(btnAddVolunteer);
+        showButton(btnDelete);
+        showButton(btnDocument);
+        showButton(btnMakeInactive);
+    }
+
+    /**
+     * Hides the parsed button.
+     *
+     * @param button
+     */
+    private void hideButton(Button button) {
+        button.setDisable(true);
+        button.setVisible(false);
+    }
+
+    /**
+     * Shows the parsed button.
+     *
+     * @param button
+     */
+    private void showButton(Button button) {
+        button.setDisable(false);
+        button.setVisible(true);
     }
 
 }

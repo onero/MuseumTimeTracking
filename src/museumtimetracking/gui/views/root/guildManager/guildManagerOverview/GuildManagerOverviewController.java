@@ -71,8 +71,6 @@ public class GuildManagerOverviewController implements Initializable {
     private static final String EDIT_BUTTON_TEXT = "Rediger";
     private static final String SAVE_BUTTON_TEXT = "Gem";
     private static final String NEW_GUILD_MANAGER_TEXT = "Ny Tovholder";
-    private static final String DELETE_TEXT = "Slet";
-    private static final String INACTIVE_TEXT = "Gør Inaktiv";
 
     private final ModalFactory modalFactory;
 
@@ -124,16 +122,20 @@ public class GuildManagerOverviewController implements Initializable {
             setButtonTextToEditMode();
 
         } else if (btnEdit.getText().equals(SAVE_BUTTON_TEXT)) {
-            setButtonTextToViewMode();
-            setShowEditability(false);
+            saveInformation();
+        }
+    }
 
-            manager = getNewInformation();
-            try {
-                guildManagerModel.updateGuildManager(manager, setGuildsToAdd, setGuildsToDelete);
-                setSetsToNull();
-            } catch (DALException ex) {
-                ExceptionDisplayer.display(ex);
-            }
+    private void saveInformation() {
+        GuildManager manager;
+        setButtonTextToViewMode();
+        setShowEditability(false);
+        manager = getNewInformation();
+        try {
+            guildManagerModel.updateGuildManager(manager, setGuildsToAdd, setGuildsToDelete);
+            setSetsToNull();
+        } catch (DALException ex) {
+            ExceptionDisplayer.display(ex);
         }
     }
 
