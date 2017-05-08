@@ -356,6 +356,20 @@ public class FacadeDAO {
     }
 
     /**
+     * Assign guild to manager
+     *
+     * @param it
+     * @param guildName
+     */
+    public void assignGuildToManager(int it, String guildName) throws DALException {
+        try {
+            guildManagerDAO.assignGuildToManager(it, guildName);
+        } catch (SQLException ex) {
+            throw new DALException(DB_CONNECTION_ERROR, ex);
+        }
+    }
+
+    /**
      * Deletes the manager from the database.
      *
      * @param GuildManagerID
@@ -399,4 +413,5 @@ public class FacadeDAO {
                     "Den frivillige har allerede fået dokumenteret tid får dette Laug idag.", ex);
         }
     }
+
 }

@@ -11,10 +11,10 @@ import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
@@ -39,6 +39,9 @@ import museumtimetracking.gui.views.root.activeGuilds.editGuild.EditGuildViewCon
  * @author gta1
  */
 public class GuildOverviewController implements Initializable {
+
+    @FXML
+    private Button btnAssignGM;
 
     @FXML
     private ListView<GuildManager> listPeople;
@@ -69,6 +72,8 @@ public class GuildOverviewController implements Initializable {
 
     private Guild selectedGuild;
 
+    private GuildManager selectedGuildManager;
+
     public GuildOverviewController() {
         modalFactory = ModalFactory.getInstance();
         try {
@@ -79,10 +84,6 @@ public class GuildOverviewController implements Initializable {
         }
     }
 
-    @FXML
-    private void handleAssignGM(MouseEvent event) {
-    }
-
     /**
      * Initializes the controller class.
      */
@@ -90,11 +91,58 @@ public class GuildOverviewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         setGuildOptionsVisibility(false);
 
+        initializeGuildTable();
+
+        initializeGMCandidateList();
+
+        initializeComboBox();
+
+        setAssignGMVisibility(false);
+    }
+
+    /**
+     * Set visibility of assignGM button
+     *
+     * @param value
+     */
+    private void setAssignGMVisibility(boolean value) {
+        btnAssignGM.setDisable(!value);
+        btnAssignGM.setVisible(value);
+    }
+
+    @FXML
+    private void handleAssignGM() {
+        try {
+            guildManagerModel.assignGuildToManager(selectedGuildManager.getID(), selectedGuild.getName());
+        } catch (DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
+    }
+
+    private void initializeComboBox() {
+        cmbGuildManager.setItems(guildManagerModel.getCachedGMCandidates());
+
+        cmbGuildManager.setCellFactory(gm -> new ListCell<GuildManager>() {
+            @Override
+            protected void updateItem(GuildManager guildManager, boolean empty) {
+                super.updateItem(guildManager, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(guildManager.getFullName());
+                }
+            }
+        });
+    }
+
+    private void initializeGuildTable() {
         tableGuild.setItems(guildModel.getCachedGuilds());
 
         clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
         clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
+    }
 
+    private void initializeGMCandidateList() {
         listPeople.setItems(guildManagerModel.getCachedGMCandidates());
 
         listPeople.setCellFactory(gm -> new ListCell<GuildManager>() {
@@ -132,7 +180,14 @@ public class GuildOverviewController implements Initializable {
     }
 
     @FXML
-    private void handleSelectGuildManager(ActionEvent event) {
+    private void handleSelectGuildManager() {
+        if (cmbGuildManager.getSelectionModel().getSelectedItem() != null) {
+            selectedGuildManager = cmbGuildManager.getSelectionModel().getSelectedItem();
+        }
+        if (listPeople.getSelectionModel().getSelectedItem() != null) {
+            selectedGuildManager = listPeople.getSelectionModel().getSelectedItem();
+            setAssignGMVisibility(true);
+        }
     }
 
     /**

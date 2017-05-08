@@ -136,4 +136,15 @@ public class GuildManagerModel {
         return cachedGMCandidates;
     }
 
+    /**
+     * Assign guild to manager
+     *
+     * @param id
+     * @param guildName
+     * @throws DALException
+     */
+    public void assignGuildToManager(int id, String guildName) throws DALException {
+        guildMGRManager.assignGuildToManager(id, guildName);
+    }
+
 }

@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane id="background" prefWidth="940.0" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController">
+<BorderPane id="background" prefHeight="575.0" prefWidth="1057.0" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController">
    <center>
       <AnchorPane>
          <children>
@@ -93,9 +93,14 @@
                         <VBox prefHeight="174.0" prefWidth="202.0">
                            <children>
                               <JFXTextField fx:id="txtGMCandidateSearch" promptText="Søg efter person" />
-                              <ListView fx:id="listPeople" onMouseClicked="#handleAssignGM" />
+                              <ListView fx:id="listPeople" onMouseClicked="#handleSelectGuildManager" />
                            </children>
                         </VBox>
+                        <Button fx:id="btnAssignGM" mnemonicParsing="false" onAction="#handleAssignGM" text="Tildel">
+                           <HBox.margin>
+                              <Insets left="10.0" top="60.0" />
+                           </HBox.margin>
+                        </Button>
                      </children>
                   </HBox>
                </children>

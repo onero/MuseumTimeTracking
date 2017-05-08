@@ -322,6 +322,26 @@ public class GuildManagerDAO extends APersonDAO {
     }
 
     /**
+     * Assign guild to manager
+     *
+     * @param id
+     * @param guildName
+     * @throws SQLServerException
+     * @throws SQLException
+     */
+    public void assignGuildToManager(int id, String guildName) throws SQLServerException, SQLException {
+        String sql = "INSERT INTO GuildManager ('PersonID', 'GuildName') "
+                + "VALUES (?, ?)";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.setString(2, guildName);
+
+            ps.executeUpdate();
+        }
+    }
+
+    /**
      * Return one GM Candidate
      *
      * @param rs

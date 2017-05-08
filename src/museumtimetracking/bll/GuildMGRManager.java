@@ -121,4 +121,14 @@ public class GuildMGRManager {
     public List<GuildManager> getAllGMCandidates() throws DALException {
         return facadeDAO.getAllGMCandidates();
     }
+
+    /**
+     * Assign guild to manager
+     *
+     * @param id
+     * @param guildName
+     */
+    public void assignGuildToManager(int id, String guildName) throws DALException {
+        facadeDAO.assignGuildToManager(id, guildName);
+    }
 }
