@@ -9,34 +9,33 @@ public enum EFXMLName {
 
     MAIN_FOLER("/museumtimetracking/gui/views/root/"),
     /*
+     * Statistic
+     */
+    STATISTICS_OVERVIEW(MAIN_FOLER + "statistics/StatisticsView.fxml"),
+    /*
      * Guild
      */
-    GUILD_OVERVIEW(MAIN_FOLER + "guild/GuildOverview.fxml"),
-    ARCHIVED_TABLE(MAIN_FOLER + "guild/archivedGuilds/ArchivedGuildView.fxml"),
-    ADD_NEW_GUILD(MAIN_FOLER + "guild/newGuild/NewGuildView.fxml"),
+    ACTIVE_GUILD(MAIN_FOLER + "guild/GuildOverview.fxml"),
     EDIT_GUILD(MAIN_FOLER + "guild/editGuild/EditGuildView.fxml"),
+    ARCHIVED_GUILD(MAIN_FOLER + "guild/archivedGuilds/ArchivedGuildView.fxml"),
     /*
      * Manager
      */
     MANAGER_OVERVIEW(MAIN_FOLER + "guildManager/guildManagerOverview/GuildManagerOverview.fxml"),
     NEW_MANAGER(MAIN_FOLER + "guildManager/newGuildManager/NewGuildManagerView.fxml"),
     MANAGE_MANAGER_GUILDS(MAIN_FOLER + "guildManager/guildManagerOverview/manageGuildManagerGuilds/ManageGuildManagerGuildsView.fxml"),
-    IDLE_MANAGER(MAIN_FOLER + "guildManager/idleGuildManager/IdleGuildManagerView.fxml"),
     /*
      * Volunteer
      */
     VOLUNTEER_OVERVIEW(MAIN_FOLER + "volunteer/VolunteerOverview.fxml"),
     ADD_NEW_VOLUNTEER(MAIN_FOLER + "volunteer/newVolunteer/NewVolunteerView.fxml"),
-    IDLE_VOLUNTEER(MAIN_FOLER + "volunteer/idleVolunteers/IdleVolunteerView.fxml"),
     VOLUNTEER_INFO(MAIN_FOLER + "volunteer/volunteerInfo/VolunteerInfoView.fxml"),
     LIST_CELL_VOLUNTEER(MAIN_FOLER + "volunteer/controls/VolunteerListCellView.fxml"),
     ADD_HOURS_VOLUNTEER(MAIN_FOLER + "volunteer/addHours/AddVolunteersHoursView.fxml"),
     /**
-     * SearchViews
+     * Idle
      */
-    GUILD_SEARCH(MAIN_FOLER + "guild/guildSearch/GuildSearchView.fxml"),
-    GUILD_MANAGER_SEARCH(MAIN_FOLER + "guildManager/guildManagerSearch/GuildManagerSearch.fxml"),
-    VOLUNTEER_SEARCH(MAIN_FOLER + "volunteer/volunteerSearch/VolunteerSearch.fxml");
+    IDLE_OVERVIEW(MAIN_FOLER + "idle/IdleView.fxml");
 
     private final String text;
 

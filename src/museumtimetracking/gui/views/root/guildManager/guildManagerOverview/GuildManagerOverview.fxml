@@ -7,88 +7,70 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane styleClass="borderPane" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController">
-   <center>
-      <AnchorPane id="AnchorPane" prefHeight="336.0" prefWidth="422.0">
+<AnchorPane id="background" prefHeight="431.0" prefWidth="468.0" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController">
+   <children>
+      <ListView fx:id="lstManagers" layoutX="14.0" prefHeight="350.0" prefWidth="200.0" styleClass="mylistview" stylesheets="@../../../css/Style.css" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="5.0" />
+      <VBox layoutX="231.0" layoutY="1.0" prefHeight="349.0" prefWidth="167.0" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="24.0">
          <children>
-            <ListView fx:id="lstManagers" layoutX="14.0" prefHeight="350.0" prefWidth="200.0" styleClass="mylistview" stylesheets="@../../../css/Style.css" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="0.0" />
-            <VBox layoutX="231.0" layoutY="1.0" prefHeight="349.0" prefWidth="167.0" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="24.0">
-               <children>
-                  <Label text="Fornavn:">
-                     <font>
-                        <Font name="System Italic" size="15.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtFirstName">
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <Label text="Efternavn:">
-                     <font>
-                        <Font name="System Italic" size="15.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtLastName">
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <Label text="Email:">
-                     <font>
-                        <Font name="System Italic" size="15.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtEmail">
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <Label text="Telefon nr:">
-                     <font>
-                        <Font name="System Italic" size="15.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtPhone">
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <Label text="Laug:">
-                     <font>
-                        <Font name="System Italic" size="15.0" />
-                     </font>
-                  </Label>
-                  <ListView fx:id="lstGuilds" prefHeight="117.0" prefWidth="167.0" />
-               </children>
-            </VBox>
-            <ButtonBar layoutX="5.0" layoutY="361.0">
-               <buttons>
-                  <Button fx:id="btnNewGuildManager" mnemonicParsing="false" onAction="#handleNewManagerButton" prefWidth="110.0" />
-                  <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#handleDeleteButton" prefWidth="75.0" text="Slet" />
-                  <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="75.0" />
-                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handleSaveGuildManagerButton" prefWidth="75.0" text="Gem" />
-               </buttons>
-            </ButtonBar>
-            <Button layoutX="179.0" layoutY="400.0" mnemonicParsing="false" onAction="#handleArchiveGM" text="Gør Inaktiv" />
+            <Label text="Fornavn:">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtFirstName">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label text="Efternavn:">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtLastName">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label text="Email:">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtEmail">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label text="Telefon nr:">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtPhone">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Label text="Laug:">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font>
+            </Label>
+            <ListView fx:id="lstGuilds" prefHeight="117.0" prefWidth="167.0" />
          </children>
-      </AnchorPane>
-   </center>
-   <top>
-      <Label text="Tovholder Oversigt" BorderPane.alignment="CENTER">
-         <font>
-            <Font name="System Bold Italic" size="24.0" />
-         </font>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-         <padding>
-            <Insets bottom="10.0" />
-         </padding>
-      </Label>
-   </top>
-</BorderPane>
+      </VBox>
+      <ButtonBar layoutX="5.0" layoutY="361.0">
+         <buttons>
+            <Button fx:id="btnNewGuildManager" mnemonicParsing="false" onAction="#handleNewManagerButton" prefWidth="110.0" />
+            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#handleDeleteButton" prefWidth="75.0" text="Slet" />
+            <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="75.0" />
+            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handleSaveGuildManagerButton" prefWidth="75.0" text="Gem" />
+         </buttons>
+      </ButtonBar>
+      <Button layoutX="179.0" layoutY="400.0" mnemonicParsing="false" onAction="#handleArchiveGM" text="Gør Inaktiv" />
+   </children>
+</AnchorPane>
