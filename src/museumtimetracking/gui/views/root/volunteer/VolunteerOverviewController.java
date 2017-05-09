@@ -188,6 +188,7 @@ public class VolunteerOverviewController implements Initializable {
                 showButtons();
             }
         }
+        lstVolunteer.refresh();
     }
 
     /**
