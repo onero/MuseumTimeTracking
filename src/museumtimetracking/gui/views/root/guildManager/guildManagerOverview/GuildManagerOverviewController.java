@@ -122,15 +122,17 @@ public class GuildManagerOverviewController implements Initializable {
             setButtonTextToEditMode();
 
         } else if (btnEdit.getText().equals(SAVE_BUTTON_TEXT)) {
-            saveInformation();
+            if (manager != null) {
+                saveInformation(manager);
+            }
         }
+        lstManagers.refresh();
     }
 
-    private void saveInformation() {
-        GuildManager manager;
+    private void saveInformation(GuildManager manager) {
         setButtonTextToViewMode();
         setShowEditability(false);
-        manager = getNewInformation();
+        updateInformation(manager);
         try {
             guildManagerModel.updateGuildManager(manager, setGuildsToAdd, setGuildsToDelete);
             setSetsToNull();
@@ -341,14 +343,12 @@ public class GuildManagerOverviewController implements Initializable {
      *
      * @return
      */
-    private GuildManager getNewInformation() {
-        GuildManager manager = lstManagers.getSelectionModel().getSelectedItem();
+    private void updateInformation(GuildManager manager) {
         manager.setFirstName(txtFirstName.getText());
         manager.setLastName(txtLastName.getText());
         manager.updateFullName();
         manager.setEmail(txtEmail.getText());
         manager.setPhone(Integer.parseInt(txtPhone.getText()));
-        return manager;
     }
 
     @FXML
