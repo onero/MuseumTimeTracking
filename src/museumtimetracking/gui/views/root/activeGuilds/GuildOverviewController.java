@@ -6,7 +6,6 @@
 package museumtimetracking.gui.views.root.activeGuilds;
 
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
@@ -18,10 +17,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import museumtimetracking.be.Guild;
 import museumtimetracking.be.GM;
+import museumtimetracking.be.Guild;
 import museumtimetracking.be.enums.EFXMLName;
 import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
@@ -51,7 +51,7 @@ public class GuildOverviewController implements Initializable {
     @FXML
     private JFXComboBox<GM> cmbGuildManager;
     @FXML
-    private JFXTextArea txtDescription;
+    private TextArea txtDescription;
     @FXML
     private JFXTextField txtGuildName;
 
