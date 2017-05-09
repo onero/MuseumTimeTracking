@@ -16,7 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.Guild;
-import museumtimetracking.be.GuildManager;
+import museumtimetracking.be.GM;
 import museumtimetracking.bll.APersonManager;
 import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
@@ -68,7 +68,7 @@ public class NewGuildManagerViewController implements Initializable {
     @FXML
     private void handleAddButton() {
         if (validateData()) {
-            APerson person = new GuildManager(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()));
+            APerson person = new GM(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()));
             String guildName = comboGuild.getSelectionModel().getSelectedItem();
             try {
                 GuildManagerModel.getInstance().createNewGuildManager(person, guildName);

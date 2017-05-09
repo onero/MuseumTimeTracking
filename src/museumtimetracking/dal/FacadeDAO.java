@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.Guild;
-import museumtimetracking.be.GuildManager;
+import museumtimetracking.be.GM;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.exception.DALException;
 
@@ -67,7 +67,7 @@ public class FacadeDAO {
      *
      * @return
      */
-    public Set<GuildManager> getAllGuildManagersNotIdle() throws DALException {
+    public Set<GM> getAllGuildManagersNotIdle() throws DALException {
         try {
             return guildManagerDAO.getAllGuildManagersNotIdle();
         } catch (SQLException ex) {
@@ -302,7 +302,7 @@ public class FacadeDAO {
      * @return
      * @throws museumtimetracking.exception.DALException
      */
-    public GuildManager createNewGuildManager(APerson person, String guildName) throws DALException {
+    public GM createNewGuildManager(APerson person, String guildName) throws DALException {
         try {
             return guildManagerDAO.createNewGuildManager(person, guildName);
         } catch (SQLException ex) {
@@ -316,7 +316,7 @@ public class FacadeDAO {
      * @return
      * @throws museumtimetracking.exception.DALException
      */
-    public Set<GuildManager> getAllIdleGuildManagers() throws DALException {
+    public Set<GM> getAllIdleGuildManagers() throws DALException {
         try {
             return guildManagerDAO.getAllIdleGuildManagers();
         } catch (SQLException ex) {
@@ -330,9 +330,24 @@ public class FacadeDAO {
      * @return
      * @throws DALException
      */
-    public List<GuildManager> getAllGMCandidates() throws DALException {
+    public List<GM> getAllGMCandidates() throws DALException {
         try {
             return guildManagerDAO.getGMCandidates();
+        } catch (SQLException ex) {
+            throw new DALException(DB_CONNECTION_ERROR, ex);
+        }
+    }
+
+    /**
+     * Assign new GM to parsed guild
+     *
+     * @param id
+     * @param guildName
+     * @throws DALException
+     */
+    public void updateGMForGuild(int id, String guildName) throws DALException {
+        try {
+            guildManagerDAO.updateGMForGuild(id, guildName);
         } catch (SQLException ex) {
             throw new DALException(DB_CONNECTION_ERROR, ex);
         }
@@ -346,7 +361,7 @@ public class FacadeDAO {
      * @param guildsToDelete
      * @throws museumtimetracking.exception.DALException
      */
-    public void updateGuildManager(GuildManager manager, Set<String> guildsToAdd, Set<String> guildsToDelete) throws DALException {
+    public void updateGuildManager(GM manager, Set<String> guildsToAdd, Set<String> guildsToDelete) throws DALException {
         try {
             guildManagerDAO.updateGuildManagerInDatabase(manager, guildsToAdd, guildsToDelete);
         } catch (SQLException ex) {

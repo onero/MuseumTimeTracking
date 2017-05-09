@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import museumtimetracking.be.APerson;
-import museumtimetracking.be.GuildManager;
+import museumtimetracking.be.GM;
 
 /**
  *
@@ -65,12 +65,12 @@ public class GuildManagerDAO extends APersonDAO {
      * @return
      * @throws SQLException
      */
-    public GuildManager createNewGuildManager(APerson person, String guildName) throws SQLException {
+    public GM createNewGuildManager(APerson person, String guildName) throws SQLException {
         try (Connection con = cm.getConnection()) {
             con.setAutoCommit(false);
             int personId = createNewPersonInDatabase(con, person);
             addGuildToManagerInDatabase(con, personId, guildName);
-            GuildManager manager = getOneGuildManager(person, personId);
+            GM manager = getOneGuildManager(person, personId);
             addGuildsToASingleGuildManager(con, manager);
             con.commit();
             return manager;
@@ -85,7 +85,7 @@ public class GuildManagerDAO extends APersonDAO {
      * @param guildsTodelete
      * @throws SQLException
      */
-    public void updateGuildManagerInDatabase(GuildManager manager, Set<String> guildsToAdd, Set<String> guildsTodelete) throws SQLException {
+    public void updateGuildManagerInDatabase(GM manager, Set<String> guildsToAdd, Set<String> guildsTodelete) throws SQLException {
         try (Connection con = cm.getConnection()) {
             con.setAutoCommit(false);
             updatePersonInformation(con, manager);
@@ -147,8 +147,8 @@ public class GuildManagerDAO extends APersonDAO {
      * @return
      * @throws java.sql.SQLException
      */
-    public Set<GuildManager> getAllGuildManagersNotIdle() throws SQLException {
-        Set<GuildManager> setOfGuildManagers = new HashSet<>();
+    public Set<GM> getAllGuildManagersNotIdle() throws SQLException {
+        Set<GM> setOfGuildManagers = new HashSet<>();
         String sql = "SELECT p.ID, "
                 + "p.FirstName, "
                 + "p.LastName, "
@@ -162,7 +162,7 @@ public class GuildManagerDAO extends APersonDAO {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                GuildManager newGuildManager = getOneGuildManager(rs);
+                GM newGuildManager = getOneGuildManager(rs);
                 boolean idExists = setOfGuildManagers
                         .stream()
                         .anyMatch(gm -> gm.getID() == newGuildManager.getID());
@@ -182,8 +182,8 @@ public class GuildManagerDAO extends APersonDAO {
      * @return
      * @throws SQLException
      */
-    private GuildManager getOneGuildManager(APerson person, int id) throws SQLException {
-        return new GuildManager(person.getFirstName(), person.getLastName(), person.getEmail(), person.getPhone(), id);
+    private GM getOneGuildManager(APerson person, int id) throws SQLException {
+        return new GM(person.getFirstName(), person.getLastName(), person.getEmail(), person.getPhone(), id);
     }
 
     /**
@@ -215,9 +215,9 @@ public class GuildManagerDAO extends APersonDAO {
      * @return
      * @throws SQLException
      */
-    public Set<GuildManager> addGuildsToGuildManagers(Set<GuildManager> guildManagers) throws SQLException {
+    public Set<GM> addGuildsToGuildManagers(Set<GM> guildManagers) throws SQLException {
         try (Connection con = cm.getConnection()) {
-            for (GuildManager guildManager : guildManagers) {
+            for (GM guildManager : guildManagers) {
                 guildManager.addAllGuilds(getAllGuildsForOneManager(con, guildManager.getID()));
             }
         }
@@ -231,7 +231,7 @@ public class GuildManagerDAO extends APersonDAO {
      * @param manager
      * @throws SQLException
      */
-    private void addGuildsToASingleGuildManager(Connection con, GuildManager manager) throws SQLException {
+    private void addGuildsToASingleGuildManager(Connection con, GM manager) throws SQLException {
         manager.addAllGuilds(getAllGuildsForOneManager(con, manager.getID()));
     }
 
@@ -255,8 +255,8 @@ public class GuildManagerDAO extends APersonDAO {
      *
      * @return
      */
-    public Set<GuildManager> getAllIdleGuildManagers() throws SQLServerException, SQLException {
-        Set<GuildManager> guildManagers = new HashSet<>();
+    public Set<GM> getAllIdleGuildManagers() throws SQLServerException, SQLException {
+        Set<GM> guildManagers = new HashSet<>();
         String sql = "SELECT p.ID, "
                 + "p.FirstName, "
                 + "p.LastName, "
@@ -286,7 +286,7 @@ public class GuildManagerDAO extends APersonDAO {
      * @return
      * @throws SQLException
      */
-    private GuildManager getOneGuildManager(ResultSet rs) throws SQLException {
+    private GM getOneGuildManager(ResultSet rs) throws SQLException {
         int id = rs.getInt("ID");
         String firstName = rs.getString("FirstName");
         String lastName = rs.getString("LastName");
@@ -294,7 +294,7 @@ public class GuildManagerDAO extends APersonDAO {
         int phone = rs.getInt("Phone");
         String description = rs.getString("Description");
 
-        GuildManager gm = new GuildManager(id, firstName, lastName, email, phone, email);
+        GM gm = new GM(id, firstName, lastName, email, phone, email);
         gm.setDescription(description);
         return gm;
     }
@@ -306,8 +306,8 @@ public class GuildManagerDAO extends APersonDAO {
      * @throws SQLServerException
      * @throws SQLException
      */
-    public List<GuildManager> getGMCandidates() throws SQLServerException, SQLException {
-        List<GuildManager> gmCandidates = new ArrayList<>();
+    public List<GM> getGMCandidates() throws SQLServerException, SQLException {
+        List<GM> gmCandidates = new ArrayList<>();
         String sql = "SELECT * FROM Person p "
                 + "WHERE p.ID "
                 + "NOT IN "
@@ -348,13 +348,35 @@ public class GuildManagerDAO extends APersonDAO {
      * @param rs
      * @return
      */
-    private GuildManager getOneGMCandidate(ResultSet rs) throws SQLException {
+    private GM getOneGMCandidate(ResultSet rs) throws SQLException {
         int ID = rs.getInt("ID");
         String firstName = rs.getString("FirstName");
         String lastName = rs.getString("LastName");
         String email = rs.getString("Email");
         int phone = rs.getInt("Phone");
-        GuildManager gm = new GuildManager(ID, firstName, lastName, email, phone, "");
+        GM gm = new GM(ID, firstName, lastName, email, phone, "");
         return gm;
+    }
+
+    /**
+     * Update the manager for the parsed guild
+     *
+     * @param id
+     * @param guildName
+     * @throws SQLServerException
+     * @throws SQLException
+     */
+    public void updateGMForGuild(int id, String guildName) throws SQLServerException, SQLException {
+        String sql = "UPDATE GuildManager "
+                + "SET PersonID = ? "
+                + "WHERE GuildName = ?";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.setString(2, guildName);
+
+            ps.executeUpdate();
+        }
     }
 }

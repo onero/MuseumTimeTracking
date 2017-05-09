@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import museumtimetracking.be.Guild;
-import museumtimetracking.be.GuildManager;
+import museumtimetracking.be.GM;
 
 /**
  *
@@ -121,7 +121,7 @@ public class GuildDAO {
      * @throws SQLServerException
      * @throws SQLException
      */
-    private GuildManager getMangerForGuild(Connection con, String guildName) throws SQLServerException, SQLException {
+    private GM getMangerForGuild(Connection con, String guildName) throws SQLServerException, SQLException {
         String sql = "SELECT p.ID, "
                 + "p.FirstName, "
                 + "p.LastName, "
@@ -142,7 +142,7 @@ public class GuildDAO {
             int phone = rs.getInt("Phone");
             String description = rs.getString("Description");
 
-            GuildManager gm = new GuildManager(id, firstName, lastName, email, phone, email);
+            GM gm = new GM(id, firstName, lastName, email, phone, email);
             gm.setDescription(description);
             return gm;
         }
@@ -156,7 +156,7 @@ public class GuildDAO {
         boolean isArchived = rs.getBoolean("IsArchived");
 
         Guild guild = new Guild(name, description, isArchived);
-        GuildManager gm = getMangerForGuild(con, guild.getName());
+        GM gm = getMangerForGuild(con, guild.getName());
         if (gm != null) {
             guild.setGuildManager(gm);
         }

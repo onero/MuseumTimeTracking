@@ -16,28 +16,28 @@ import javafx.collections.ObservableList;
  *
  * @author Mathias
  */
-public class GuildManager extends APerson {
+public class GM extends APerson {
 
     private final List<String> listOfGuilds;
     private final ObservableList<String> observableListOfGuilds;
 
     private StringProperty description;
 
-    public GuildManager(String firstName, String lastName, String email, int phone) {
+    public GM(String firstName, String lastName, String email, int phone) {
         super(firstName, lastName, email, phone);
         listOfGuilds = new ArrayList();
         observableListOfGuilds = FXCollections.observableArrayList();
         this.description = new SimpleStringProperty();
     }
 
-    public GuildManager(int ID, String firstName, String lastName, String email, int phone, String description) {
+    public GM(int ID, String firstName, String lastName, String email, int phone, String description) {
         super(ID, firstName, lastName, email, phone);
         listOfGuilds = new ArrayList();
         observableListOfGuilds = FXCollections.observableArrayList();
         this.description = new SimpleStringProperty(description);
     }
 
-    public GuildManager(String firstName, String lastName, String email, int phone, int ID, String... guildNames) {
+    public GM(String firstName, String lastName, String email, int phone, int ID, String... guildNames) {
         super(ID, firstName, lastName, email, phone);
         listOfGuilds = new ArrayList();
         this.description = new SimpleStringProperty();
