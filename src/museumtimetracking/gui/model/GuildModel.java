@@ -147,11 +147,28 @@ public class GuildModel {
         return guildsFromDB;
     }
 
+    /**
+     * filters the cached list with the search text via stream.
+     *
+     * @param newValue
+     */
     public void searchGuilds(String newValue) {
         cachedGuilds.clear();
         guildsFromDB.stream()
-                .filter(g -> g.getName().toLowerCase().contains(newValue.toLowerCase()))
+                .filter(g -> g.getName().toLowerCase().contains(newValue.toLowerCase()) || g.getGuildManager().getFullName().toLowerCase().contains(newValue.toLowerCase()))
                 .forEach(g -> cachedGuilds.add(g));
+    }
+
+    /**
+     * filters the cached list with the search text via stream.
+     *
+     * @param newValue
+     */
+    public void searchInactiveGuilds(String newValue) {
+        cachedArchivedGuilds.clear();
+        archivedGuildsFromDB.stream()
+                .filter(g -> g.getName().toLowerCase().contains(newValue.toLowerCase()))
+                .forEach(g -> cachedArchivedGuilds.add(g));
     }
 
     /**
@@ -160,6 +177,11 @@ public class GuildModel {
     public void resetGuilds() {
         cachedGuilds.clear();
         cachedGuilds.addAll(guildsFromDB);
+    }
+
+    public void resetArchivedGuilds() {
+        cachedArchivedGuilds.clear();
+        cachedArchivedGuilds.addAll(archivedGuildsFromDB);
     }
 
     /**

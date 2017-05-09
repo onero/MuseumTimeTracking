@@ -10,16 +10,16 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane id="background" fx:id="borderPane" minHeight="600.0" minWidth="850.0" prefHeight="600.0" prefWidth="850.0" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.MTTMainControllerView">
+<BorderPane id="background" fx:id="borderPane" minHeight="600.0" minWidth="850.0" prefHeight="600.0" prefWidth="850.0" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.MTTMainControllerView">
    <center>
-      <JFXTabPane side="BOTTOM" styleClass="borderPane" stylesheets="@../css/Style.css" BorderPane.alignment="CENTER">
+      <JFXTabPane fx:id="tabPane" side="BOTTOM" styleClass="borderPane" stylesheets="@../css/Style.css" BorderPane.alignment="CENTER">
          <tabs>
-            <Tab fx:id="tabStatistics" text="Statistik" />
-            <Tab fx:id="tabPaneActiveGuild" text="Aktive Laug" />
-            <Tab fx:id="tabPaneArchivedGuild" text="Inaktive Laug" />
-            <Tab fx:id="tabGM" text="Tovholdere" />
-            <Tab fx:id="tabVolunteer" text="Frivillige" />
-            <Tab fx:id="tabIdle" text="Passive" />
+            <Tab id="statistics" fx:id="tabStatistics" onSelectionChanged="#handleClearSearchBar" text="Statistik" />
+            <Tab id="guildOverView" fx:id="tabPaneActiveGuild" onSelectionChanged="#handleClearSearchBar" text="Aktive Laug" />
+            <Tab id="archivedGuild" fx:id="tabPaneArchivedGuild" onSelectionChanged="#handleClearSearchBar" text="Inaktive Laug" />
+            <Tab id="manager" fx:id="tabGM" onSelectionChanged="#handleClearSearchBar" text="Tovholdere" />
+            <Tab id="volunteer" fx:id="tabVolunteer" onSelectionChanged="#handleClearSearchBar" text="Frivillige" />
+            <Tab id="idle" fx:id="tabIdle" onSelectionChanged="#handleClearSearchBar" text="Passive" />
          </tabs>
       </JFXTabPane>
    </center>
@@ -39,7 +39,7 @@
             <HBox alignment="TOP_RIGHT" layoutX="620.0" layoutY="33.0" prefHeight="20.0" prefWidth="216.0" AnchorPane.rightAnchor="14.0">
                <children>
                   <TextField fx:id="txtSearchBar" />
-                  <Button mnemonicParsing="false" onAction="#handleClearSearchBar" text="X" />
+                  <Button fx:id="btnClearSearch" mnemonicParsing="false" onAction="#handleClearSearchBar" text="X" />
                </children>
             </HBox>
          </children>

@@ -5,17 +5,24 @@
  */
 package museumtimetracking.gui.views.root;
 
+import com.jfoenix.controls.JFXTabPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.gui.views.NodeFactory;
+import museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController;
+import museumtimetracking.gui.views.root.archivedGuilds.ArchivedGuildViewController;
+import museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController;
+import museumtimetracking.gui.views.root.idle.IdleViewController;
+import museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController;
 
 /**
  * FXML Controller class
@@ -39,6 +46,8 @@ public class MTTMainControllerView implements Initializable {
     @FXML
     private TextField txtSearchBar;
     @FXML
+    private JFXTabPane tabPane;
+    @FXML
     private ImageView imgHeader;
     @FXML
     private BorderPane borderPane;
@@ -47,21 +56,42 @@ public class MTTMainControllerView implements Initializable {
     private final Node guildOverView;
     private final Node archivedGuild;
     private final Node manager;
-
     private final Node volunteer;
     private final Node idle;
 
+    private final GuildOverviewController guildOverViewController;
+    private final ArchivedGuildViewController archivedGuildViewController;
+    private final GuildManagerOverviewController guildManagerOverviewController;
+    private final VolunteerOverviewController volunteerOverviewController;
+    private final IdleViewController idleViewController;
+
     private final NodeFactory nodeFactory;
+
+    private String searchID;
+    @FXML
+    private Button btnClearSearch;
 
     public MTTMainControllerView() {
         nodeFactory = NodeFactory.getInstance();
 
         statistics = nodeFactory.createNewView(STATISTICS_OVERVIEW);
+
         guildOverView = nodeFactory.createNewView(ACTIVE_GUILD);
+        guildOverViewController = nodeFactory.getLoader().getController();
+
         archivedGuild = nodeFactory.createNewView(ARCHIVED_GUILD);
+        archivedGuildViewController = nodeFactory.getLoader().getController();
+
         manager = nodeFactory.createNewView(MANAGER_OVERVIEW);
+        guildManagerOverviewController = nodeFactory.getLoader().getController();
+
         volunteer = nodeFactory.createNewView(VOLUNTEER_OVERVIEW);
+        volunteerOverviewController = nodeFactory.getLoader().getController();
+
         idle = nodeFactory.createNewView(IDLE_OVERVIEW);
+        idleViewController = nodeFactory.getLoader().getController();
+
+        searchID = "";
     }
 
     /**
@@ -70,7 +100,11 @@ public class MTTMainControllerView implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setContentOfTabs();
+
         imgHeader.fitWidthProperty().bind(borderPane.widthProperty());
+        setSearchBarVisibility(false);
+        initializeTabPane();
+        initializeTextFieldListener();
     }
 
     /**
@@ -85,9 +119,78 @@ public class MTTMainControllerView implements Initializable {
         tabIdle.setContent(idle);
     }
 
+    /**
+     * Clears the searchBar. Checks if null to avoid nullpointer exception on
+     * tab initilization.
+     */
     @FXML
     private void handleClearSearchBar() {
-        txtSearchBar.clear();
+        if (txtSearchBar != null) {
+            txtSearchBar.clear();
+        }
     }
 
+    /**
+     * Adds a listener for the tabs, so that the searchID gets updated on
+     * changed. Also makes the searchbar invisible on statistics view.
+     */
+    private void initializeTabPane() {
+        tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
+            searchID = newTab.getId();
+            if (searchID.equals("statistics")) {
+                setSearchBarVisibility(false);
+            } else {
+                setSearchBarVisibility(true);
+            }
+        });
+    }
+
+    /**
+     * Checks the searchID and calls the right controller accordingly.
+     *
+     * @param searchText
+     */
+    private void handleSearch(String searchText) {
+        switch (searchID) {
+            case "guildOverView":
+                guildOverViewController.handleSearch(searchText);
+                break;
+            case "archivedGuild":
+                archivedGuildViewController.handleSearch(searchText);
+                break;
+            case "manager":
+                guildManagerOverviewController.handleSearch(searchText);
+                break;
+            case "volunteer":
+                volunteerOverviewController.handleSearch(searchText);
+                break;
+            case "idle":
+                idleViewController.handleSearch(searchText);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Adds a listener on the textField so that it can update the lists with the
+     * text written.
+     */
+    private void initializeTextFieldListener() {
+        txtSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            handleSearch(newValue);
+        });
+    }
+
+    /**
+     * Sets visibility and disable on the seach textField and button.
+     *
+     * @param shown
+     */
+    private void setSearchBarVisibility(boolean shown) {
+        txtSearchBar.setVisible(shown);
+        txtSearchBar.setDisable(!shown);
+        btnClearSearch.setVisible(shown);
+        btnClearSearch.setDisable(!shown);
+    }
 }

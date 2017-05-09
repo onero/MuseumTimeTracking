@@ -208,6 +208,15 @@ public class GuildOverviewController implements Initializable {
         }
     }
 
+    /**
+     * Makes the model search in the cachedLists
+     *
+     * @param searchText
+     */
+    public void handleSearch(String searchText) {
+        guildModel.searchGuilds(searchText);
+    }
+
     public void refreshTable() {
         tableGuild.refresh();
     }

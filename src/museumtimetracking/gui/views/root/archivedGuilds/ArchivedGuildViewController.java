@@ -106,4 +106,13 @@ public class ArchivedGuildViewController implements Initializable {
         }
     }
 
+    /**
+     * Makes the model search in the cachedLists
+     *
+     * @param searchText
+     */
+    public void handleSearch(String searchText) {
+        guildModel.searchInactiveGuilds(searchText);
+    }
+
 }

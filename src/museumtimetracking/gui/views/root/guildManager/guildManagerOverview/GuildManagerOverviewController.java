@@ -369,4 +369,13 @@ public class GuildManagerOverviewController implements Initializable {
             }
         }
     }
+
+    /**
+     * Makes the model search in the cachedLists
+     *
+     * @param searchText
+     */
+    public void handleSearch(String searchText) {
+        guildManagerModel.searchActiveManagers(searchText);
+    }
 }

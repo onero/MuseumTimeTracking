@@ -377,4 +377,13 @@ public class VolunteerOverviewController implements Initializable {
         button.setVisible(true);
     }
 
+    /**
+     * Makes the model search in the cachedLists
+     *
+     * @param searchText
+     */
+    public void handleSearch(String searchText) {
+        volunteerModel.searchActiveVolunteers(searchText);
+    }
+
 }
