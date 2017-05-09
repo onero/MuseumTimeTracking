@@ -192,12 +192,14 @@ public class VolunteerOverviewController implements Initializable {
             if (btnEdit.getText().equalsIgnoreCase("Rediger")) {
                 btnEdit.setText("Gem");
                 setTextVisibility(true);
+                lstVolunteer.setDisable(true);
                 setColorToOrange();
                 hideButtons();
                 //If we are in edit mode
             } else {
                 btnEdit.setText("Rediger");
                 setTextVisibility(false);
+                lstVolunteer.setDisable(false);
                 setColorToBlack();
                 updateVolunteer();
                 //Update volunteer in DB
