@@ -99,7 +99,20 @@ Selected: #666666
     -fx-background-color: #fcc14e;
 }
 
+/*Textcolor*/
+.text-area {
+  -fx-highlight-fill: #d8d8d8;
+  -fx-highlight-text-fill: #c18100;
+  -fx-text-fill: #c18100;
+  -fx-background-color: #c18100;
+}
 
+/*Textcolor*/
+.text-field {
+    -fx-highlight-fill: #d8d8d8;
+  -fx-highlight-text-fill: #c18100;
+  -fx-text-fill: #c18100;
+}
 
 /*TABLEVIEW!*/
 
