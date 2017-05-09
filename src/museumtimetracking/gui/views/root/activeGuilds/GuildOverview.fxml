@@ -51,7 +51,6 @@
                      </font>
                   </JFXTextField>
                   <JFXComboBox fx:id="cmbGuildManager" onAction="#handleSelectGuildManager" prefHeight="25.0" prefWidth="156.0" promptText="Vælg Tovholder" />
-                  <Button mnemonicParsing="false" onAction="#handleAddGuild" prefHeight="9.0" prefWidth="84.0" stylesheets="@../../css/Style.css" text="Tilføj" />
 
                </children>
             </VBox>
@@ -66,10 +65,11 @@
             <Button mnemonicParsing="false" onAction="#handleDeleteGuid" prefHeight="22.0" prefWidth="89.0" text="Slet Laug" />
         </buttons>
       </ButtonBar>
-      <JFXTextArea fx:id="txtDescription" layoutX="-22.0" layoutY="304.0" maxWidth="413.0" minWidth="255.0" promptText="Beskrivelse af laug" styleClass="jfx-textarea" stylesheets="@../../css/Style.css" unFocusColor="WHITE" wrapText="true" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0">
+      <JFXTextArea fx:id="txtDescription" layoutX="-22.0" layoutY="304.0" maxWidth="413.0" minWidth="255.0" promptText="Beskrivelse af laug" styleClass="jfx-textarea" stylesheets="@../../css/Style.css" unFocusColor="WHITE" wrapText="true" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="14.0">
          <font>
             <Font size="21.0" />
          </font>
       </JFXTextArea>
+      <Button layoutX="13.0" layoutY="448.0" mnemonicParsing="false" onAction="#handleAddGuild" prefHeight="9.0" prefWidth="84.0" stylesheets="@../../css/Style.css" text="Tilføj" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
    </children>
 </AnchorPane>
