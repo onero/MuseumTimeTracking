@@ -257,16 +257,9 @@ public class GuildManagerOverviewController implements Initializable {
      * @param shown
      */
     private void setShowEditability(boolean shown) {
-        lstGuilds.setDisable(true);
+        lstGuilds.setEditable(false);
         for (TextField textField : textFields) {
             textField.setDisable(!shown);
-        }
-        if (!shown) {
-            for (TextField textField : textFields) {
-            }
-        } else {
-            for (TextField textField : textFields) {
-            }
         }
     }
 

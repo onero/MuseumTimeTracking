@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -9,12 +8,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="501.0" prefWidth="636.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController">
+<AnchorPane prefHeight="501.0" prefWidth="636.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController">
    <children>
       <TableView fx:id="tableGuild" layoutX="204.0" layoutY="14.0" onMouseClicked="#handleSelectGuild" prefHeight="428.0" prefWidth="319.0" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <columns>
@@ -32,12 +32,12 @@
                <children>
                   <Label id="h1" text="Nyt Laug:">
                      <font>
-                        <Font size="21.0" />
+                        <Font name="System Bold" size="21.0" />
                      </font>
                   </Label>
                   <Label text="Laugets Tovholder:">
                      <font>
-                        <Font size="21.0" />
+                        <Font name="System Bold" size="21.0" />
                      </font>
                   </Label>
                            
@@ -65,11 +65,12 @@
             <Button mnemonicParsing="false" onAction="#handleDeleteGuid" prefHeight="22.0" prefWidth="89.0" text="Slet Laug" />
         </buttons>
       </ButtonBar>
-      <JFXTextArea fx:id="txtDescription" layoutX="-22.0" layoutY="304.0" maxWidth="413.0" minWidth="255.0" promptText="Beskrivelse af laug" styleClass="jfx-textarea" stylesheets="@../../css/Style.css" unFocusColor="WHITE" wrapText="true" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="14.0">
-         <font>
-            <Font size="21.0" />
-         </font>
-      </JFXTextArea>
       <Button layoutX="13.0" layoutY="448.0" mnemonicParsing="false" onAction="#handleAddGuild" prefHeight="9.0" prefWidth="84.0" stylesheets="@../../css/Style.css" text="Tilføj" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+      <TextArea fx:id="txtDescription" layoutX="14.0" layoutY="119.0" prefHeight="227.0" prefWidth="425.0" promptText="Beskrivelse..." AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="14.0" />
+      <Label layoutX="14.0" layoutY="186.0" text="Laug beskrivelse:" AnchorPane.bottomAnchor="289.0" AnchorPane.leftAnchor="14.0">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
