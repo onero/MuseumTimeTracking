@@ -56,7 +56,7 @@ public class GuildManagerModel {
     public void searchForPersonWithoutGuild(String searchString) {
         cachedGMCandidates.clear();
         gmCandidatesFromDB.stream()
-                .filter(gm -> gm.getFullName().toLowerCase().contains(searchString.toLowerCase()))
+                .filter(gm -> gm.getFullName().toLowerCase().trim().contains(searchString.toLowerCase().trim()))
                 .forEach(foundGM -> {
                     cachedGMCandidates.add(foundGM);
                 });
