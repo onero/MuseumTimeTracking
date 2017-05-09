@@ -11,10 +11,10 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.gui.views.NodeFactory;
@@ -60,6 +60,8 @@ public class MTTMainControllerView implements Initializable {
     private final NodeFactory nodeFactory;
 
     private String searchID;
+    @FXML
+    private Button btnClearSearch;
 
     public MTTMainControllerView() {
         nodeFactory = NodeFactory.getInstance();
@@ -85,8 +87,10 @@ public class MTTMainControllerView implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         setContentOfTabs();
 
-        initializeTabPane();
         imgHeader.fitWidthProperty().bind(borderPane.widthProperty());
+        setSearchBarVisibility(false);
+        initializeTabPane();
+        initializeTextFieldListener();
     }
 
     /**
@@ -103,25 +107,28 @@ public class MTTMainControllerView implements Initializable {
 
     @FXML
     private void handleClearSearchBar() {
-        txtSearchBar.clear();
+        if (txtSearchBar != null) {
+            txtSearchBar.clear();
+        }
     }
 
     private void initializeTabPane() {
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             searchID = newTab.getId();
+            if (searchID.equals("statistics")) {
+                setSearchBarVisibility(false);
+            } else {
+                setSearchBarVisibility(true);
+            }
         });
     }
 
-    @FXML
-    private void handleSearch(KeyEvent event) {
+    private void handleSearch(String searchText) {
         switch (searchID) {
-            case "statistics":
-                break;
             case "guildOverView":
-                guildOverViewController.handleSearch(txtSearchBar.getText());
+                guildOverViewController.handleSearch(searchText);
                 break;
             case "archivedGuild":
-
                 break;
             case "manager":
 
@@ -135,5 +142,18 @@ public class MTTMainControllerView implements Initializable {
             default:
                 break;
         }
+    }
+
+    private void initializeTextFieldListener() {
+        txtSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            handleSearch(newValue);
+        });
+    }
+
+    private void setSearchBarVisibility(boolean shown) {
+        txtSearchBar.setVisible(shown);
+        txtSearchBar.setDisable(!shown);
+        btnClearSearch.setVisible(shown);
+        btnClearSearch.setDisable(!shown);
     }
 }
