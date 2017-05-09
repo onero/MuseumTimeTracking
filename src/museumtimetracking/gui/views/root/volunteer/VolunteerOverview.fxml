@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="background" prefHeight="447.0" prefWidth="845.0" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController">
+<AnchorPane id="background" prefHeight="447.0" prefWidth="845.0" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController">
    <children>
       <Label layoutX="25.0" layoutY="14.0" text="Frivillig Oversigt">
          <font>
@@ -30,6 +30,7 @@
                   <Insets />
                </VBox.margin>
             </ImageView>
+            <Label text="Beskrivelse:" />
             <TextArea fx:id="txtVolunteerInfo" prefHeight="135.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets top="3.0" />
