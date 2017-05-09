@@ -15,10 +15,9 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
-import museumtimetracking.be.GuildManager;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
@@ -34,13 +33,11 @@ public class EditGuildViewController implements Initializable {
     @FXML
     private Button btnSave;
     @FXML
-    private BorderPane editGuildBorderPane;
-    @FXML
     private TextArea txtGuildDescription;
     @FXML
     private TextField txtGuildName;
     @FXML
-    private ListView<GuildManager> listPeople;
+    private ListView<GM> listPeople;
     @FXML
     private Button btnAssignGM;
     @FXML
@@ -49,11 +46,14 @@ public class EditGuildViewController implements Initializable {
     private Guild currentGuild;
     private GuildManagerModel guildManagerModel;
 
-    private GuildManager selectedGuildManager;
+    private GM selectedGuildManager;
+
+    private GuildModel guildModel;
 
     public EditGuildViewController() {
         try {
             guildManagerModel = GuildManagerModel.getInstance();
+            guildModel = GuildModel.getInstance();
         } catch (IOException | DALException ex) {
             ExceptionDisplayer.display(ex);
         }
@@ -136,9 +136,9 @@ public class EditGuildViewController implements Initializable {
     private void initializeGMCandidateList() {
         listPeople.setItems(guildManagerModel.getCachedGMCandidates());
 
-        listPeople.setCellFactory(gm -> new ListCell<GuildManager>() {
+        listPeople.setCellFactory(gm -> new ListCell<GM>() {
             @Override
-            protected void updateItem(GuildManager guildManager, boolean empty) {
+            protected void updateItem(GM guildManager, boolean empty) {
                 super.updateItem(guildManager, empty);
                 if (empty) {
                     setText(null);
@@ -152,7 +152,11 @@ public class EditGuildViewController implements Initializable {
     @FXML
     private void handleAssignGM() {
         try {
-            guildManagerModel.assignGuildToManager(selectedGuildManager, currentGuild);
+            if (currentGuild.getGuildManager() == null) {
+                guildManagerModel.assignGuildToManager(selectedGuildManager, currentGuild);
+            } else {
+                guildModel.updateGMForGuild(selectedGuildManager, currentGuild);
+            }
         } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }

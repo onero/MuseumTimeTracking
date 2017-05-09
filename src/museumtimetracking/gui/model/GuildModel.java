@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
 import museumtimetracking.bll.GuildManager;
 import museumtimetracking.exception.DALException;
@@ -118,14 +119,14 @@ public class GuildModel {
      * @param updatedGuild
      */
     public void updateGuild(String guildToUpdate, Guild updatedGuild) throws DALException {
-        guildManager.updateGuild(guildToUpdate, updatedGuild);
         // Made a stream with lamda which updates the list from the database.
         cachedGuilds.stream()
-                .filter(g -> g.getName().equalsIgnoreCase(updatedGuild.getName()))
+                .filter(g -> g.getName().equalsIgnoreCase(guildToUpdate))
                 .forEach(g -> {
                     g.setName(updatedGuild.getName());
                     g.setDescription(updatedGuild.getDescription());
                 });
+        guildManager.updateGuild(guildToUpdate, updatedGuild);
     }
 
     /**
@@ -177,5 +178,16 @@ public class GuildModel {
      */
     public ObservableList<Guild> getCachedAvailableGuilds() {
         return cachedAvailableGuilds;
+    }
+
+    /**
+     * Assign new GM to parsed guild
+     *
+     * @param gm
+     * @param guild
+     */
+    public void updateGMForGuild(GM gm, Guild guild) throws DALException {
+        guildManager.updateGMForGuild(gm.getID(), guild.getName());
+        guild.setGuildManager(gm);
     }
 }

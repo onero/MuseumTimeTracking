@@ -68,10 +68,10 @@ Selected: #666666
 
 .jfx-tab-pane .tab-header-background {
     /*-fx-background-color: #ed9e00;*/
-    
+
     -fx-background-color:  linear-gradient(to right, rgba(237,158,0,0.54) 0%, rgba(237,158,0,0.54) 0%, rgba(237,158,0,0.54) 36%, rgba(237,158,0,1) 57%, rgba(237,158,0,1) 82%);
 
-    
+
 }
 .jfx-tab-pane .tab-selected-line {
     -fx-background-color: black;
@@ -99,7 +99,22 @@ Selected: #666666
     -fx-background-color: #fcc14e;
 }
 
+/*Textcolor*/
+.text-area {
+    -fx-highlight-fill: #d8d8d8;
+    -fx-highlight-text-fill: #c18100;
+    -fx-text-fill: #c18100;
+    /*-fx-background-color: #c18100;*/
+    -fx-font-weight: bold;
+}
 
+/*Textcolor*/
+.text-field {
+    -fx-highlight-fill: #d8d8d8;
+    -fx-highlight-text-fill: #c18100;
+    -fx-text-fill: #c18100;
+    -fx-font-weight: bold;
+}
 
 /*TABLEVIEW!*/
 

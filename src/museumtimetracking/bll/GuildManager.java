@@ -121,4 +121,15 @@ public class GuildManager {
         return facadeDAO.getGuildsWithoutManagers();
     }
 
+    /**
+     * Assign new GM to parsed guild
+     *
+     * @param id
+     * @param guildName
+     * @throws DALException
+     */
+    public void updateGMForGuild(int id, String guildName) throws DALException {
+        facadeDAO.updateGMForGuild(id, guildName);
+    }
+
 }

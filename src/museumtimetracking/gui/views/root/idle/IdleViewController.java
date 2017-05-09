@@ -13,7 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
-import museumtimetracking.be.GuildManager;
+import museumtimetracking.be.GM;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
@@ -28,15 +28,15 @@ import museumtimetracking.gui.model.VolunteerModel;
 public class IdleViewController implements Initializable {
 
     @FXML
-    private TableColumn<GuildManager, String> clmGMDescription;
+    private TableColumn<GM, String> clmGMDescription;
     @FXML
-    private TableColumn<GuildManager, String> clmGMName;
+    private TableColumn<GM, String> clmGMName;
     @FXML
     private TableColumn<Volunteer, String> clmVolunteerDescription;
     @FXML
     private TableColumn<Volunteer, String> clmVolunteerName;
     @FXML
-    private TableView<GuildManager> tableIdleGM;
+    private TableView<GM> tableIdleGM;
     @FXML
     private TableView<Volunteer> tableIdleVolunteer;
     @FXML
@@ -48,7 +48,7 @@ public class IdleViewController implements Initializable {
 
     private VolunteerModel volunteerModel;
 
-    private GuildManager selectedManager;
+    private GM selectedManager;
     private Volunteer selectedVolunteer;
 
     public IdleViewController() {

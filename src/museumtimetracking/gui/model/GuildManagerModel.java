@@ -13,7 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.Guild;
-import museumtimetracking.be.GuildManager;
+import museumtimetracking.be.GM;
 import museumtimetracking.bll.GuildMGRManager;
 import museumtimetracking.exception.DALException;
 
@@ -27,14 +27,14 @@ public class GuildManagerModel {
 
     private final GuildMGRManager guildMGRManager;
 
-    private final Set<GuildManager> managersFromDB;
-    private final ObservableList<GuildManager> cachedManagers;
+    private final Set<GM> managersFromDB;
+    private final ObservableList<GM> cachedManagers;
 
-    private final Set<GuildManager> idleGuildManagersFromDB;
-    private final ObservableList<GuildManager> cachedIdleGuildManagers;
+    private final Set<GM> idleGuildManagersFromDB;
+    private final ObservableList<GM> cachedIdleGuildManagers;
 
-    private final List<GuildManager> gmCandidatesFromDB;
-    private final ObservableList<GuildManager> cachedGMCandidates;
+    private final List<GM> gmCandidatesFromDB;
+    private final ObservableList<GM> cachedGMCandidates;
 
     public static GuildManagerModel getInstance() throws IOException, DALException {
         if (instance == null) {
@@ -56,7 +56,7 @@ public class GuildManagerModel {
     public void searchForPersonWithoutGuild(String searchString) {
         cachedGMCandidates.clear();
         gmCandidatesFromDB.stream()
-                .filter(gm -> gm.getFullName().toLowerCase().contains(searchString.toLowerCase()))
+                .filter(gm -> gm.getFullName().toLowerCase().trim().contains(searchString.toLowerCase().trim()))
                 .forEach(foundGM -> {
                     cachedGMCandidates.add(foundGM);
                 });
@@ -67,7 +67,7 @@ public class GuildManagerModel {
      *
      * @param selectedManager
      */
-    public void updateIdleManager(GuildManager selectedManager, boolean value) throws DALException {
+    public void updateIdleManager(GM selectedManager, boolean value) throws DALException {
         if (value) {
             cachedManagers.remove(selectedManager);
             cachedIdleGuildManagers.add(selectedManager);
@@ -87,7 +87,7 @@ public class GuildManagerModel {
      * @throws museumtimetracking.exception.DALException
      */
     public void createNewGuildManager(APerson person, String guildName) throws DALException {
-        GuildManager manager = guildMGRManager.createNewGuildManager(person, guildName);
+        GM manager = guildMGRManager.createNewGuildManager(person, guildName);
         cachedManagers.add(manager);
     }
 
@@ -96,7 +96,7 @@ public class GuildManagerModel {
      *
      * @return
      */
-    public ObservableList<GuildManager> getCachedManagers() {
+    public ObservableList<GM> getCachedManagers() {
         return cachedManagers;
     }
 
@@ -107,7 +107,7 @@ public class GuildManagerModel {
      * @param guildsToAdd
      * @param guildsToDelete
      */
-    public void updateGuildManager(GuildManager manager, Set<String> guildsToAdd, Set<String> guildsToDelete) throws DALException {
+    public void updateGuildManager(GM manager, Set<String> guildsToAdd, Set<String> guildsToDelete) throws DALException {
         guildMGRManager.updateGuildManager(manager, guildsToAdd, guildsToDelete);
     }
 
@@ -117,7 +117,7 @@ public class GuildManagerModel {
      *
      * @param guildManager
      */
-    public void deleteGuildManager(GuildManager guildManager) throws DALException {
+    public void deleteGuildManager(GM guildManager) throws DALException {
         cachedManagers.remove(guildManager);
         guildMGRManager.deleteGuildManager(guildManager.getID());
     }
@@ -126,7 +126,7 @@ public class GuildManagerModel {
      *
      * @return
      */
-    public ObservableList<GuildManager> getCachedIdleGuildManagers() {
+    public ObservableList<GM> getCachedIdleGuildManagers() {
         return cachedIdleGuildManagers;
     }
 
@@ -142,7 +142,7 @@ public class GuildManagerModel {
         cachedManagers.addAll(managersFromDB);
     }
 
-    public ObservableList<GuildManager> getCachedGMCandidates() {
+    public ObservableList<GM> getCachedGMCandidates() {
         return cachedGMCandidates;
     }
 
@@ -153,7 +153,7 @@ public class GuildManagerModel {
      * @param guild
      * @throws DALException
      */
-    public void assignGuildToManager(GuildManager gm, Guild guild) throws DALException {
+    public void assignGuildToManager(GM gm, Guild guild) throws DALException {
         guildMGRManager.assignGuildToManager(gm.getID(), guild.getName());
         guild.setGuildManager(gm);
     }

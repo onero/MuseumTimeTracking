@@ -13,7 +13,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.gui.views.NodeFactory;
 import museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController;
@@ -41,6 +43,10 @@ public class MTTMainControllerView implements Initializable {
     private TextField txtSearchBar;
     @FXML
     private JFXTabPane tabPane;
+    @FXML
+    private ImageView imgHeader;
+    @FXML
+    private BorderPane borderPane;
 
     private final Node statistics;
     private final Node guildOverView;
@@ -78,7 +84,9 @@ public class MTTMainControllerView implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setContentOfTabs();
+
         initializeTabPane();
+        imgHeader.fitWidthProperty().bind(borderPane.widthProperty());
     }
 
     /**

@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -21,8 +20,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
-import museumtimetracking.be.GuildManager;
 import museumtimetracking.be.enums.EFXMLName;
 import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
@@ -50,11 +49,13 @@ public class GuildOverviewController implements Initializable {
     @FXML
     private TableColumn<Guild, String> clmGuildDescription;
     @FXML
-    private JFXComboBox<GuildManager> cmbGuildManager;
+    private JFXComboBox<GM> cmbGuildManager;
     @FXML
     private JFXTextArea txtDescription;
     @FXML
     private JFXTextField txtGuildName;
+
+    private static GuildOverviewController instance;
 
     private GuildModel guildModel;
 
@@ -64,7 +65,12 @@ public class GuildOverviewController implements Initializable {
 
     private Guild selectedGuild;
 
-    private GuildManager selectedGuildManager;
+    public static final String GUILD_NAME_ERROR = "Indtast venligst et navn på lauget";
+    private GM selectedGuildManager;
+
+    public static GuildOverviewController getInstance() {
+        return instance;
+    }
 
     public GuildOverviewController() {
         modalFactory = ModalFactory.getInstance();
@@ -81,7 +87,7 @@ public class GuildOverviewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        instance = this;
         initializeGuildTable();
         initializeComboBox();
 
@@ -99,9 +105,9 @@ public class GuildOverviewController implements Initializable {
     private void initializeComboBox() {
         cmbGuildManager.setItems(guildManagerModel.getCachedGMCandidates());
 
-        cmbGuildManager.setCellFactory(gm -> new ListCell<GuildManager>() {
+        cmbGuildManager.setCellFactory(gm -> new ListCell<GM>() {
             @Override
-            protected void updateItem(GuildManager guildManager, boolean empty) {
+            protected void updateItem(GM guildManager, boolean empty) {
                 super.updateItem(guildManager, empty);
                 if (empty) {
                     setText(null);
@@ -150,7 +156,7 @@ public class GuildOverviewController implements Initializable {
     private void handleAddGuild() {
         String name = txtGuildName.getText();
         String description = txtDescription.getText();
-        if (name != null && description != null) {
+        if (name != null && !name.isEmpty() && description != null && !name.isEmpty()) {
             Guild newGuild = new Guild(name, description, false);
             try {
                 guildModel.addGuild(newGuild);
@@ -162,6 +168,9 @@ public class GuildOverviewController implements Initializable {
             } catch (DALException ex) {
                 ExceptionDisplayer.display(ex);
             }
+        } else {
+            Alert validationAlert = AlertFactory.createAlertWithoutCancel(Alert.AlertType.WARNING, GUILD_NAME_ERROR);
+            validationAlert.show();
         }
         txtGuildName.setText("");
         txtDescription.setText("");
@@ -193,7 +202,7 @@ public class GuildOverviewController implements Initializable {
     }
 
     @FXML
-    private void handleSelectGuildManager(ActionEvent event) {
+    private void handleSelectGuildManager() {
         if (cmbGuildManager.getSelectionModel().getSelectedItem() != null) {
             selectedGuildManager = cmbGuildManager.getSelectionModel().getSelectedItem();
         }
@@ -202,4 +211,9 @@ public class GuildOverviewController implements Initializable {
     public void handleSearch(String searchText) {
         guildModel.searchGuilds(searchText);
     }
+
+    public void refreshTable() {
+        tableGuild.refresh();
+    }
+
 }

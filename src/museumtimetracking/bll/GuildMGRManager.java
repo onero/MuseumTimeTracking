@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 import javafx.collections.ObservableList;
 import museumtimetracking.be.APerson;
-import museumtimetracking.be.GuildManager;
+import museumtimetracking.be.GM;
 import museumtimetracking.dal.FacadeDAO;
 import museumtimetracking.exception.DALException;
 
@@ -44,7 +44,7 @@ public class GuildMGRManager {
      * @return
      * @throws museumtimetracking.exception.DALException
      */
-    public GuildManager createNewGuildManager(APerson person, String guildName) throws DALException {
+    public GM createNewGuildManager(APerson person, String guildName) throws DALException {
         return facadeDAO.createNewGuildManager(person, guildName);
     }
 
@@ -53,7 +53,7 @@ public class GuildMGRManager {
      *
      * @return
      */
-    public Set<GuildManager> getAllGuildManagersNotIdle() throws DALException {
+    public Set<GM> getAllGuildManagersNotIdle() throws DALException {
         return facadeDAO.getAllGuildManagersNotIdle();
     }
 
@@ -64,7 +64,7 @@ public class GuildMGRManager {
      * @return
      * @throws museumtimetracking.exception.DALException
      */
-    public Set<GuildManager> getAllIdleGuildManagers() throws DALException {
+    public Set<GM> getAllIdleGuildManagers() throws DALException {
         return facadeDAO.getAllIdleGuildManagers();
     }
 
@@ -75,7 +75,7 @@ public class GuildMGRManager {
      * @param guildsToAdd
      * @param guildsToDele
      */
-    public void updateGuildManager(GuildManager manager, Set<String> guildsToAdd, Set<String> guildsToDele) throws DALException {
+    public void updateGuildManager(GM manager, Set<String> guildsToAdd, Set<String> guildsToDele) throws DALException {
         facadeDAO.updateGuildManager(manager, guildsToAdd, guildsToDele);
         updateGuildsOnManager(manager.getObservableListOfGuilds(), guildsToAdd, guildsToDele);
     }
@@ -118,7 +118,7 @@ public class GuildMGRManager {
      * @return
      * @throws DALException
      */
-    public List<GuildManager> getAllGMCandidates() throws DALException {
+    public List<GM> getAllGMCandidates() throws DALException {
         return facadeDAO.getAllGMCandidates();
     }
 

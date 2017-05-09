@@ -6,11 +6,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 
-<BorderPane id="background" minHeight="600.0" minWidth="850.0" prefHeight="600.0" prefWidth="850.0" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.MTTMainControllerView">
+<BorderPane id="background" fx:id="borderPane" minHeight="600.0" minWidth="850.0" prefHeight="600.0" prefWidth="850.0" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.MTTMainControllerView">
    <center>
       <JFXTabPane fx:id="tabPane" side="BOTTOM" styleClass="borderPane" stylesheets="@../css/Style.css" BorderPane.alignment="CENTER">
          <tabs>
@@ -24,9 +24,9 @@
       </JFXTabPane>
    </center>
    <top>
-      <Pane prefWidth="850.0" BorderPane.alignment="CENTER">
+      <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="89.0" fitWidth="850.0" layoutX="8.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgHeader" fitHeight="89.0" fitWidth="850.0" layoutX="8.0" pickOnBounds="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <image>
                   <Image url="@../../../asset/img/bg_header.jpg" />
                </image>
@@ -36,13 +36,13 @@
                   <Image url="@../../../asset/img/logo.png" />
                </image>
             </ImageView>
-            <HBox alignment="TOP_RIGHT" layoutX="620.0" layoutY="33.0" prefHeight="20.0" prefWidth="216.0">
+            <HBox alignment="TOP_RIGHT" layoutX="620.0" layoutY="33.0" prefHeight="20.0" prefWidth="216.0" AnchorPane.rightAnchor="14.0">
                <children>
                   <TextField fx:id="txtSearchBar" onKeyTyped="#handleSearch" />
                   <Button mnemonicParsing="false" onAction="#handleClearSearchBar" text="X" />
                </children>
             </HBox>
          </children>
-      </Pane>
+      </AnchorPane>
    </top>
 </BorderPane>
