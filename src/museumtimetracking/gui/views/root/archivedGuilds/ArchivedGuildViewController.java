@@ -5,7 +5,6 @@
  */
 package museumtimetracking.gui.views.root.archivedGuilds;
 
-import com.jfoenix.controls.JFXTextArea;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -13,11 +12,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import museumtimetracking.be.Guild;
 import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
@@ -36,15 +34,11 @@ public class ArchivedGuildViewController implements Initializable {
     @FXML
     private TableColumn<Guild, String> clmGuildName;
     @FXML
-    private GridPane gridPane;
-    @FXML
     private TableView<Guild> tableGuild;
+    @FXML
+    private ButtonBar btnbButtons;
 
     private GuildModel guildModel;
-    @FXML
-    private JFXTextArea txtDescription;
-    @FXML
-    private VBox vBoxGuildOptions;
 
     private Guild selectedGuild;
 
@@ -74,8 +68,8 @@ public class ArchivedGuildViewController implements Initializable {
      * @param shown
      */
     public void setGuildOptionsVisibility(boolean shown) {
-        vBoxGuildOptions.setDisable(!shown);
-        vBoxGuildOptions.setVisible(shown);
+        btnbButtons.setDisable(!shown);
+        btnbButtons.setVisible(shown);
     }
 
     @FXML
@@ -99,7 +93,6 @@ public class ArchivedGuildViewController implements Initializable {
     private void handleSelectGuild(MouseEvent event) {
         setGuildOptionsVisibility(true);
         selectedGuild = tableGuild.getSelectionModel().getSelectedItem();
-        txtDescription.setText(selectedGuild.getDescription());
     }
 
     @FXML
