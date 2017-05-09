@@ -12,8 +12,8 @@ import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import museumtimetracking.be.APerson;
-import museumtimetracking.be.Guild;
 import museumtimetracking.be.GM;
+import museumtimetracking.be.Guild;
 import museumtimetracking.bll.GuildMGRManager;
 import museumtimetracking.exception.DALException;
 
@@ -130,13 +130,6 @@ public class GuildManagerModel {
         return cachedIdleGuildManagers;
     }
 
-    public void searchGuildManagers(String newValue) {
-        cachedManagers.clear();
-        managersFromDB.stream()
-                .filter(g -> g.getFullName().toLowerCase().contains(newValue.toLowerCase()))
-                .forEach(g -> cachedManagers.add(g));
-    }
-
     public void resetGuildManagers() {
         cachedManagers.clear();
         cachedManagers.addAll(managersFromDB);
@@ -156,6 +149,20 @@ public class GuildManagerModel {
     public void assignGuildToManager(GM gm, Guild guild) throws DALException {
         guildMGRManager.assignGuildToManager(gm.getID(), guild.getName());
         guild.setGuildManager(gm);
+    }
+
+    public void searchActiveManagers(String searchText) {
+        cachedManagers.clear();
+        managersFromDB.stream()
+                .filter(g -> g.getFullName().toLowerCase().contains(searchText.toLowerCase()))
+                .forEach(g -> cachedManagers.add(g));
+    }
+
+    public void searchIdleManagers(String searchText) {
+        cachedIdleGuildManagers.clear();
+        idleGuildManagersFromDB.stream()
+                .filter(g -> g.getFullName().toLowerCase().contains(searchText.toLowerCase()))
+                .forEach(g -> cachedIdleGuildManagers.add(g));
     }
 
 }

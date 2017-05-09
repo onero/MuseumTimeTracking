@@ -156,6 +156,9 @@ public class GuildModel {
 
     public void searchInactiveGuilds(String newValue) {
         cachedArchivedGuilds.clear();
+        archivedGuildsFromDB.stream()
+                .filter(g -> g.getName().toLowerCase().contains(newValue.toLowerCase()))
+                .forEach(g -> cachedArchivedGuilds.add(g));
     }
 
     /**

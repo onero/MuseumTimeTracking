@@ -19,6 +19,10 @@ import javafx.scene.layout.BorderPane;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.gui.views.NodeFactory;
 import museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController;
+import museumtimetracking.gui.views.root.archivedGuilds.ArchivedGuildViewController;
+import museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController;
+import museumtimetracking.gui.views.root.idle.IdleViewController;
+import museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController;
 
 /**
  * FXML Controller class
@@ -56,6 +60,10 @@ public class MTTMainControllerView implements Initializable {
     private final Node idle;
 
     private GuildOverviewController guildOverViewController;
+    private ArchivedGuildViewController archivedGuildViewController;
+    private GuildManagerOverviewController guildManagerOverviewController;
+    private VolunteerOverviewController volunteerOverviewController;
+    private IdleViewController idleViewController;
 
     private final NodeFactory nodeFactory;
 
@@ -67,15 +75,21 @@ public class MTTMainControllerView implements Initializable {
         nodeFactory = NodeFactory.getInstance();
 
         statistics = nodeFactory.createNewView(STATISTICS_OVERVIEW);
+
         guildOverView = nodeFactory.createNewView(ACTIVE_GUILD);
         guildOverViewController = nodeFactory.getLoader().getController();
+
         archivedGuild = nodeFactory.createNewView(ARCHIVED_GUILD);
+        archivedGuildViewController = nodeFactory.getLoader().getController();
 
         manager = nodeFactory.createNewView(MANAGER_OVERVIEW);
+        guildManagerOverviewController = nodeFactory.getLoader().getController();
 
         volunteer = nodeFactory.createNewView(VOLUNTEER_OVERVIEW);
+        volunteerOverviewController = nodeFactory.getLoader().getController();
 
         idle = nodeFactory.createNewView(IDLE_OVERVIEW);
+        idleViewController = nodeFactory.getLoader().getController();
 
         searchID = "";
     }
@@ -129,15 +143,16 @@ public class MTTMainControllerView implements Initializable {
                 guildOverViewController.handleSearch(searchText);
                 break;
             case "archivedGuild":
+                archivedGuildViewController.handleSearch(searchText);
                 break;
             case "manager":
-
+                guildManagerOverviewController.handleSearch(searchText);
                 break;
             case "volunteer":
-
+                volunteerOverviewController.handleSearch(searchText);
                 break;
             case "idle":
-
+                idleViewController.handleSearch(searchText);
                 break;
             default:
                 break;

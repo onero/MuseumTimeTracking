@@ -153,4 +153,9 @@ public class IdleViewController implements Initializable {
         clmGMDescription.setCellValueFactory(v -> v.getValue().getDescription());
     }
 
+    public void handleSearch(String searchText) {
+        guildManagerModel.searchIdleManagers(searchText);
+        volunteerModel.searchIdleVolunteers(searchText);
+    }
+
 }

@@ -362,4 +362,8 @@ public class GuildManagerOverviewController implements Initializable {
             }
         }
     }
+
+    public void handleSearch(String searchText) {
+        guildManagerModel.searchActiveManagers(searchText);
+    }
 }

@@ -107,7 +107,7 @@ public class ArchivedGuildViewController implements Initializable {
     }
 
     public void handleSearch(String searchText) {
-        guildModel.searchGuilds(searchText);
+        guildModel.searchInactiveGuilds(searchText);
     }
 
 }

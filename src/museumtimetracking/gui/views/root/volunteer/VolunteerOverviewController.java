@@ -354,4 +354,8 @@ public class VolunteerOverviewController implements Initializable {
         button.setVisible(true);
     }
 
+    public void handleSearch(String searchText) {
+        volunteerModel.searchActiveVolunteers(searchText);
+    }
+
 }

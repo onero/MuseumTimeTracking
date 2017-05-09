@@ -135,15 +135,17 @@ public class VolunteerModel {
         volunteerMgr.addHoursToVolunteer(volunteerID, guildName, hours);
     }
 
-    public void searchVolunteers(String newValue) {
+    public void searchActiveVolunteers(String newValue) {
         cachedVolunteers.clear();
         volunteerFromDB.stream()
                 .filter(g -> g.getFullName().toLowerCase().contains(newValue.toLowerCase()))
                 .forEach(g -> cachedVolunteers.add(g));
     }
 
-    public void resetGuilds() {
-        cachedVolunteers.clear();
-        cachedVolunteers.addAll(volunteerFromDB);
+    public void searchIdleVolunteers(String searchText) {
+        cachedIdleVolunteers.clear();
+        idleVolunteersFromDB.stream()
+                .filter(g -> g.getFullName().toLowerCase().contains(searchText.toLowerCase()))
+                .forEach(g -> cachedIdleVolunteers.add(g));
     }
 }
