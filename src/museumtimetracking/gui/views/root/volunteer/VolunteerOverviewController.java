@@ -344,6 +344,9 @@ public class VolunteerOverviewController implements Initializable {
         hideButton(btnDelete);
         hideButton(btnDocument);
         hideButton(btnMakeInactive);
+        radioDA.setDisable(false);
+        radioDE.setDisable(false);
+        radioENG.setDisable(false);
     }
 
     /**
@@ -355,6 +358,9 @@ public class VolunteerOverviewController implements Initializable {
         showButton(btnDelete);
         showButton(btnDocument);
         showButton(btnMakeInactive);
+        radioDA.setDisable(true);
+        radioDE.setDisable(true);
+        radioENG.setDisable(true);
     }
 
     /**
