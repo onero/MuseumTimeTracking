@@ -104,16 +104,36 @@ public class VolunteerOverviewController implements Initializable {
 
         lstVolunteer.setItems(volunteerModel.getCachedVolunteers());
         setVolunteerCellFactory();
-
+        setColorToBlack();
         setTextVisibility(false);
     }
 
     private void setTextVisibility(boolean value) {
-        txtFirstName.setDisable(!value);
-        txtLastName.setDisable(!value);
-        txtEmail.setDisable(!value);
-        txtPhone.setDisable(!value);
-        txtVolunteerInfo.setDisable(!value);
+            txtFirstName.setDisable(!value);
+            txtLastName.setDisable(!value);
+            txtEmail.setDisable(!value);
+            txtPhone.setDisable(!value);
+            txtVolunteerInfo.setDisable(!value);
+    }
+
+    /**
+     * sets the color of the textFields.
+     * @param color 
+     */
+    private void setColor(String color){
+        txtFirstName.setStyle("-fx-text-fill: " + color + ";");
+        txtLastName.setStyle("-fx-text-fill: " + color + ";");
+        txtEmail.setStyle("-fx-text-fill: " + color + ";");
+        txtPhone.setStyle("-fx-text-fill: " + color + ";");
+        txtVolunteerInfo.setStyle("-fx-text-fill: " + color + ";");
+    }
+    
+    private void setColorToBlack() {
+        setColor("black");
+    }
+
+    private void setColorToOrange() {
+        setColor("#c18100");
     }
 
     private void handleVolunteerInfo() throws IOException {
@@ -169,15 +189,16 @@ public class VolunteerOverviewController implements Initializable {
         //Validate that a volunteer is selected
         if (selectedVolunteer != null) {
             //If we're not in edit mode
-            if (btnEdit.getText().equalsIgnoreCase("rediger")) {
+            if (btnEdit.getText().equalsIgnoreCase("Rediger")) {
                 btnEdit.setText("Gem");
                 setTextVisibility(true);
+                setColorToOrange();
                 hideButtons();
                 //If we are in edit mode
             } else {
                 btnEdit.setText("Rediger");
                 setTextVisibility(false);
-
+                setColorToBlack();
                 updateVolunteer();
                 //Update volunteer in DB
                 try {

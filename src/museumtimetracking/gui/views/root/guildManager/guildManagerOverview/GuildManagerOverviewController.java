@@ -263,9 +263,11 @@ public class GuildManagerOverviewController implements Initializable {
         }
         if (!shown) {
             for (TextField textField : textFields) {
+                textField.setStyle("-fx-text-fill: black;");
             }
         } else {
             for (TextField textField : textFields) {
+                textField.setStyle("-fx-text-fill: #c18100;");
             }
         }
     }
