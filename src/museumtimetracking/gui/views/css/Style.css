@@ -138,7 +138,10 @@ Selected: #666666
 
 
 /*The header over the tableView*/ 
-.table-view .column-header-background{
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(#f7d48f 0%, #fcc14e 100%);
+}
+.filler{
     -fx-background-color: linear-gradient(#f7d48f 0%, #fcc14e 100%);
 }
 
