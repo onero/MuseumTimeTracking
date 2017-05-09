@@ -13,9 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-
-<AnchorPane prefHeight="477.0" prefWidth="467.0" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.activeGuilds.editGuild.EditGuildViewController">
+<AnchorPane prefHeight="477.0" prefWidth="467.0" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.activeGuilds.editGuild.EditGuildViewController">
    <children>
       <ButtonBar layoutX="14.0" layoutY="432.0" nodeOrientation="RIGHT_TO_LEFT" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0">
 
@@ -54,8 +52,8 @@
       <Pane layoutY="283.0" prefHeight="138.0" prefWidth="468.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
          <children>
             <ListView fx:id="listPeople" onMouseClicked="#handleSelectGuildManager" prefHeight="144.0" prefWidth="200.0" />
-            <Button fx:id="btnAssignGM" layoutX="284.0" layoutY="113.0" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleAssignGM" prefWidth="140.0" text="Tildel" />
-            <TextField fx:id="txtGMCandidateSearch" layoutX="224.0" layoutY="14.0" onKeyTyped="#handleSearchForGM" prefHeight="31.0" prefWidth="200.0" />
+            <Button fx:id="btnAssignGM" layoutX="237.0" layoutY="107.0" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleAssignGM" prefWidth="140.0" text="Tildel" />
+            <JFXTextField fx:id="txtGMCandidateSearch" layoutX="220.0" layoutY="25.0" onKeyTyped="#handleSearchForGM" />
          </children>
       </Pane>
    </children>

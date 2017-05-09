@@ -18,7 +18,7 @@ public class Guild {
 
     private final BooleanProperty isArchived;
 
-    private GuildManager guildManager;
+    private GM guildManager;
 
     public Guild(String name, String description, boolean archived) {
         this.name = new SimpleStringProperty(name);
@@ -26,7 +26,6 @@ public class Guild {
         isArchived = new SimpleBooleanProperty(archived);
     }
 
-    // TODO Skovgaard: Make a new constructor which take a new name and description.
     /**
      *
      * @return name property
@@ -86,11 +85,11 @@ public class Guild {
         this.isArchived.set(value);
     }
 
-    public GuildManager getGuildManager() {
+    public GM getGuildManager() {
         return guildManager;
     }
 
-    public void setGuildManager(GuildManager guildManager) {
+    public void setGuildManager(GM guildManager) {
         this.guildManager = guildManager;
     }
 

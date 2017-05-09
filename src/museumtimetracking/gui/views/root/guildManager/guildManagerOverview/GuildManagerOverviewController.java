@@ -23,7 +23,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import museumtimetracking.be.GuildManager;
+import museumtimetracking.be.GM;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
@@ -41,7 +41,7 @@ import museumtimetracking.gui.views.root.guildManager.guildManagerOverview.manag
 public class GuildManagerOverviewController implements Initializable {
 
     @FXML
-    private ListView<GuildManager> lstManagers;
+    private ListView<GM> lstManagers;
     @FXML
     private TextField txtFirstName;
     @FXML
@@ -116,7 +116,7 @@ public class GuildManagerOverviewController implements Initializable {
      */
     @FXML
     private void handleEditButton() {
-        GuildManager manager = lstManagers.getSelectionModel().getSelectedItem();
+        GM manager = lstManagers.getSelectionModel().getSelectedItem();
         if (btnEdit.getText().equals(EDIT_BUTTON_TEXT) && manager != null) {
             setShowEditability(true);
             setButtonTextToEditMode();
@@ -129,7 +129,7 @@ public class GuildManagerOverviewController implements Initializable {
         lstManagers.refresh();
     }
 
-    private void saveInformation(GuildManager manager) {
+    private void saveInformation(GM manager) {
         setButtonTextToViewMode();
         setShowEditability(false);
         updateInformation(manager);
@@ -147,7 +147,7 @@ public class GuildManagerOverviewController implements Initializable {
      */
     @FXML
     private void handleDeleteButton() {
-        GuildManager managerToDelete = lstManagers.getSelectionModel().getSelectedItem();
+        GM managerToDelete = lstManagers.getSelectionModel().getSelectedItem();
         if (managerToDelete != null) {
             Alert deleteAlert = AlertFactory.createDeleteAlert();
             deleteAlert.showAndWait().ifPresent(type -> {
@@ -195,9 +195,9 @@ public class GuildManagerOverviewController implements Initializable {
      * Managers.
      */
     private void setListOfManagersCellFactory() {
-        lstManagers.setCellFactory(m -> new ListCell<GuildManager>() {
+        lstManagers.setCellFactory(m -> new ListCell<GM>() {
             @Override
-            protected void updateItem(GuildManager guildManager, boolean empty) {
+            protected void updateItem(GM guildManager, boolean empty) {
                 super.updateItem(guildManager, empty);
                 if (empty) {
                     setText(null);
@@ -229,7 +229,7 @@ public class GuildManagerOverviewController implements Initializable {
      * Adds a listener to lstManagers.
      */
     private void addListeners() {
-        lstManagers.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends GuildManager> observable, GuildManager oldValue, GuildManager newValue) -> {
+        lstManagers.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends GM> observable, GM oldValue, GM newValue) -> {
             if (newValue != oldValue && newValue != null) {
                 displayInformation(newValue);
             }
@@ -241,7 +241,7 @@ public class GuildManagerOverviewController implements Initializable {
      *
      * @param manager
      */
-    private void displayInformation(GuildManager manager) {
+    private void displayInformation(GM manager) {
         txtFirstName.setText(manager.getFirstName());
         txtLastName.setText(manager.getLastName());
         txtEmail.setText(manager.getEmail());
@@ -319,7 +319,7 @@ public class GuildManagerOverviewController implements Initializable {
         Stage stage = modalFactory.createNewModal(primStage, MANAGE_MANAGER_GUILDS);
         ManageGuildManagerGuildsViewController controller = modalFactory.getLoader().getController();
 
-        GuildManager manager = lstManagers.getSelectionModel().getSelectedItem();
+        GM manager = lstManagers.getSelectionModel().getSelectedItem();
         controller.addGuilds(manager.getListOfGuilds());
 
         stage.showAndWait();
@@ -343,7 +343,7 @@ public class GuildManagerOverviewController implements Initializable {
      *
      * @return
      */
-    private void updateInformation(GuildManager manager) {
+    private void updateInformation(GM manager) {
         manager.setFirstName(txtFirstName.getText());
         manager.setLastName(txtLastName.getText());
         manager.updateFullName();
@@ -353,7 +353,7 @@ public class GuildManagerOverviewController implements Initializable {
 
     @FXML
     private void handleArchiveGM() {
-        GuildManager selectedManager = lstManagers.getSelectionModel().getSelectedItem();
+        GM selectedManager = lstManagers.getSelectionModel().getSelectedItem();
         if (selectedManager != null) {
             try {
                 guildManagerModel.updateIdleManager(selectedManager, true);
