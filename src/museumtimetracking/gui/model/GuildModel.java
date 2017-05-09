@@ -147,6 +147,11 @@ public class GuildModel {
         return guildsFromDB;
     }
 
+    /**
+     * filters the cached list with the search text via stream.
+     *
+     * @param newValue
+     */
     public void searchGuilds(String newValue) {
         cachedGuilds.clear();
         guildsFromDB.stream()
@@ -154,6 +159,11 @@ public class GuildModel {
                 .forEach(g -> cachedGuilds.add(g));
     }
 
+    /**
+     * filters the cached list with the search text via stream.
+     *
+     * @param newValue
+     */
     public void searchInactiveGuilds(String newValue) {
         cachedArchivedGuilds.clear();
         archivedGuildsFromDB.stream()

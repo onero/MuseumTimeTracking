@@ -151,6 +151,11 @@ public class GuildManagerModel {
         guild.setGuildManager(gm);
     }
 
+    /**
+     * filters the cached list with the search text via stream.
+     *
+     * @param searchText
+     */
     public void searchActiveManagers(String searchText) {
         cachedManagers.clear();
         managersFromDB.stream()
@@ -158,6 +163,11 @@ public class GuildManagerModel {
                 .forEach(g -> cachedManagers.add(g));
     }
 
+    /**
+     * filters the cached list with the search text via stream.
+     *
+     * @param searchText
+     */
     public void searchIdleManagers(String searchText) {
         cachedIdleGuildManagers.clear();
         idleGuildManagersFromDB.stream()

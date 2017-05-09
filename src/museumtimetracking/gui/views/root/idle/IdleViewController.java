@@ -153,6 +153,11 @@ public class IdleViewController implements Initializable {
         clmGMDescription.setCellValueFactory(v -> v.getValue().getDescription());
     }
 
+    /**
+     * Makes the model search in the cachedLists
+     *
+     * @param searchText
+     */
     public void handleSearch(String searchText) {
         guildManagerModel.searchIdleManagers(searchText);
         volunteerModel.searchIdleVolunteers(searchText);

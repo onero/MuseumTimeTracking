@@ -59,11 +59,11 @@ public class MTTMainControllerView implements Initializable {
     private final Node volunteer;
     private final Node idle;
 
-    private GuildOverviewController guildOverViewController;
-    private ArchivedGuildViewController archivedGuildViewController;
-    private GuildManagerOverviewController guildManagerOverviewController;
-    private VolunteerOverviewController volunteerOverviewController;
-    private IdleViewController idleViewController;
+    private final GuildOverviewController guildOverViewController;
+    private final ArchivedGuildViewController archivedGuildViewController;
+    private final GuildManagerOverviewController guildManagerOverviewController;
+    private final VolunteerOverviewController volunteerOverviewController;
+    private final IdleViewController idleViewController;
 
     private final NodeFactory nodeFactory;
 
@@ -119,6 +119,10 @@ public class MTTMainControllerView implements Initializable {
         tabIdle.setContent(idle);
     }
 
+    /**
+     * Clears the searchBar. Checks if null to avoid nullpointer exception on
+     * tab initilization.
+     */
     @FXML
     private void handleClearSearchBar() {
         if (txtSearchBar != null) {
@@ -126,6 +130,10 @@ public class MTTMainControllerView implements Initializable {
         }
     }
 
+    /**
+     * Adds a listener for the tabs, so that the searchID gets updated on
+     * changed. Also makes the searchbar invisible on statistics view.
+     */
     private void initializeTabPane() {
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             searchID = newTab.getId();
@@ -137,6 +145,11 @@ public class MTTMainControllerView implements Initializable {
         });
     }
 
+    /**
+     * Checks the searchID and calls the right controller accordingly.
+     *
+     * @param searchText
+     */
     private void handleSearch(String searchText) {
         switch (searchID) {
             case "guildOverView":
@@ -159,12 +172,21 @@ public class MTTMainControllerView implements Initializable {
         }
     }
 
+    /**
+     * Adds a listener on the textField so that it can update the lists with the
+     * text written.
+     */
     private void initializeTextFieldListener() {
         txtSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
             handleSearch(newValue);
         });
     }
 
+    /**
+     * Sets visibility and disable on the seach textField and button.
+     *
+     * @param shown
+     */
     private void setSearchBarVisibility(boolean shown) {
         txtSearchBar.setVisible(shown);
         txtSearchBar.setDisable(!shown);

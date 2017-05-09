@@ -135,6 +135,11 @@ public class VolunteerModel {
         volunteerMgr.addHoursToVolunteer(volunteerID, guildName, hours);
     }
 
+    /**
+     * filters the cached list with the search text via stream.
+     *
+     * @param newValue
+     */
     public void searchActiveVolunteers(String newValue) {
         cachedVolunteers.clear();
         volunteerFromDB.stream()
@@ -142,6 +147,11 @@ public class VolunteerModel {
                 .forEach(g -> cachedVolunteers.add(g));
     }
 
+    /**
+     * filters the cached list with the search text via stream.
+     *
+     * @param searchText
+     */
     public void searchIdleVolunteers(String searchText) {
         cachedIdleVolunteers.clear();
         idleVolunteersFromDB.stream()
