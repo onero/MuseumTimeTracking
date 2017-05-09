@@ -155,7 +155,7 @@ public class GuildModel {
     public void searchGuilds(String newValue) {
         cachedGuilds.clear();
         guildsFromDB.stream()
-                .filter(g -> g.getName().toLowerCase().contains(newValue.toLowerCase()))
+                .filter(g -> g.getName().toLowerCase().contains(newValue.toLowerCase()) || g.getGuildManager().getFullName().toLowerCase().contains(newValue.toLowerCase()))
                 .forEach(g -> cachedGuilds.add(g));
     }
 
