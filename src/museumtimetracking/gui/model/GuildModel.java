@@ -118,14 +118,14 @@ public class GuildModel {
      * @param updatedGuild
      */
     public void updateGuild(String guildToUpdate, Guild updatedGuild) throws DALException {
-        guildManager.updateGuild(guildToUpdate, updatedGuild);
         // Made a stream with lamda which updates the list from the database.
         cachedGuilds.stream()
-                .filter(g -> g.getName().equalsIgnoreCase(updatedGuild.getName()))
+                .filter(g -> g.getName().equalsIgnoreCase(guildToUpdate))
                 .forEach(g -> {
                     g.setName(updatedGuild.getName());
                     g.setDescription(updatedGuild.getDescription());
                 });
+        guildManager.updateGuild(guildToUpdate, updatedGuild);
     }
 
     /**

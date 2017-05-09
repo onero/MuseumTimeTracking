@@ -56,6 +56,8 @@ public class GuildOverviewController implements Initializable {
     @FXML
     private JFXTextField txtGuildName;
 
+    private static GuildOverviewController instance;
+
     private GuildModel guildModel;
 
     private GuildManagerModel guildManagerModel;
@@ -65,6 +67,10 @@ public class GuildOverviewController implements Initializable {
     private Guild selectedGuild;
 
     private GuildManager selectedGuildManager;
+
+    public static GuildOverviewController getInstance() {
+        return instance;
+    }
 
     public GuildOverviewController() {
         modalFactory = ModalFactory.getInstance();
@@ -81,7 +87,7 @@ public class GuildOverviewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        instance = this;
         initializeGuildTable();
         initializeComboBox();
 
@@ -197,6 +203,10 @@ public class GuildOverviewController implements Initializable {
         if (cmbGuildManager.getSelectionModel().getSelectedItem() != null) {
             selectedGuildManager = cmbGuildManager.getSelectionModel().getSelectedItem();
         }
+    }
+
+    public void refreshTable() {
+        tableGuild.refresh();
     }
 
 }
