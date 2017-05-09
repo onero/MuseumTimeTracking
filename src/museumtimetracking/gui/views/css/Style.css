@@ -105,6 +105,7 @@ Selected: #666666
     -fx-highlight-text-fill: #c18100;
     -fx-text-fill: #c18100;
     -fx-font-weight: bold;
+    -fx-background-color: transparent;
 }
 
 /*Textcolor*/
