@@ -153,12 +153,21 @@ public class GuildModel {
                 .forEach(g -> cachedGuilds.add(g));
     }
 
+    public void searchInactiveGuilds(String newValue) {
+        cachedArchivedGuilds.clear();
+    }
+
     /**
      * Clears the cached list and adds them anew.
      */
     public void resetGuilds() {
         cachedGuilds.clear();
         cachedGuilds.addAll(guildsFromDB);
+    }
+
+    public void resetArchivedGuilds() {
+        cachedArchivedGuilds.clear();
+        cachedArchivedGuilds.addAll(archivedGuildsFromDB);
     }
 
     /**
