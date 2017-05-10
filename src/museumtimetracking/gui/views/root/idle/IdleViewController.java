@@ -53,6 +53,7 @@ public class IdleViewController implements Initializable {
 
     private GM selectedManager;
     private Volunteer selectedVolunteer;
+    public static final String TABLEVIEW_PLACEHOLDER = "Oversigten er tom";
 
     public IdleViewController() {
         try {
@@ -159,7 +160,7 @@ public class IdleViewController implements Initializable {
     private void initializeTables() {
         tableIdleGM.setItems(guildManagerModel.getCachedIdleGuildManagers());
 
-        tableIdleGM.setPlaceholder(new Label("Oversigten er tom"));
+        tableIdleGM.setPlaceholder(new Label(TABLEVIEW_PLACEHOLDER));
 
         clmGMName.setCellValueFactory(gm -> gm.getValue().getFullNameProperty());
         clmGMDescription.setCellValueFactory(gm -> gm.getValue().getDescription());
