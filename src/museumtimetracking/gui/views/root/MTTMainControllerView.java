@@ -5,6 +5,7 @@
  */
 package museumtimetracking.gui.views.root;
 
+import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTabPane;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,6 +17,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.gui.views.NodeFactory;
 import museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController;
@@ -30,6 +32,12 @@ import museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController;
  * @author gta1
  */
 public class MTTMainControllerView implements Initializable {
+
+    @FXML
+    private Pane snackPane;
+
+    @FXML
+    private JFXSnackbar snackWarning;
 
     @FXML
     private Tab tabGM;
@@ -51,6 +59,10 @@ public class MTTMainControllerView implements Initializable {
     private ImageView imgHeader;
     @FXML
     private BorderPane borderPane;
+    @FXML
+    private Button btnClearSearch;
+
+    private static MTTMainControllerView instance;
 
     private final Node statistics;
     private final Node guildOverView;
@@ -68,8 +80,10 @@ public class MTTMainControllerView implements Initializable {
     private final NodeFactory nodeFactory;
 
     private String searchID;
-    @FXML
-    private Button btnClearSearch;
+
+    public static MTTMainControllerView getInstance() {
+        return instance;
+    }
 
     public MTTMainControllerView() {
         nodeFactory = NodeFactory.getInstance();
@@ -99,6 +113,10 @@ public class MTTMainControllerView implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        instance = this;
+
+        snackWarning = new JFXSnackbar(snackPane);
+
         setContentOfTabs();
 
         imgHeader.fitWidthProperty().bind(borderPane.widthProperty());
@@ -193,4 +211,14 @@ public class MTTMainControllerView implements Initializable {
         btnClearSearch.setVisible(shown);
         btnClearSearch.setDisable(!shown);
     }
+
+    /**
+     * Display warning in snackbar
+     *
+     * @param text
+     */
+    public void displaySnackWarning(String text) {
+        snackWarning.show(text, 3000);
+    }
+
 }

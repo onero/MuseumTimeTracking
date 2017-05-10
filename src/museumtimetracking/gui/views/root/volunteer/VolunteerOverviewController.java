@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
@@ -86,6 +87,8 @@ public class VolunteerOverviewController implements Initializable {
     private Stage primStage;
 
     private Volunteer selectedVolunteer;
+    @FXML
+    private ButtonBar volunteerOptions;
 
     public VolunteerOverviewController() {
         modalFactory = ModalFactory.getInstance();
@@ -106,28 +109,41 @@ public class VolunteerOverviewController implements Initializable {
         setVolunteerCellFactory();
         setColorToBlack();
         setTextVisibility(false);
+
+        setVolunteerOptionsVisibility(false);
+    }
+
+    /**
+     * Set visibility of the volunteer options bar
+     *
+     * @param shown
+     */
+    private void setVolunteerOptionsVisibility(boolean shown) {
+        volunteerOptions.setDisable(!shown);
+        volunteerOptions.setVisible(shown);
     }
 
     private void setTextVisibility(boolean value) {
-            txtFirstName.setDisable(!value);
-            txtLastName.setDisable(!value);
-            txtEmail.setDisable(!value);
-            txtPhone.setDisable(!value);
-            txtVolunteerInfo.setDisable(!value);
+        txtFirstName.setDisable(!value);
+        txtLastName.setDisable(!value);
+        txtEmail.setDisable(!value);
+        txtPhone.setDisable(!value);
+        txtVolunteerInfo.setDisable(!value);
     }
 
     /**
      * sets the color of the textFields.
-     * @param color 
+     *
+     * @param color
      */
-    private void setColor(String color){
+    private void setColor(String color) {
         txtFirstName.setStyle("-fx-text-fill: " + color + ";");
         txtLastName.setStyle("-fx-text-fill: " + color + ";");
         txtEmail.setStyle("-fx-text-fill: " + color + ";");
         txtPhone.setStyle("-fx-text-fill: " + color + ";");
         txtVolunteerInfo.setStyle("-fx-text-fill: " + color + ";");
     }
-    
+
     private void setColorToBlack() {
         setColor("black");
     }
@@ -239,20 +255,20 @@ public class VolunteerOverviewController implements Initializable {
     @FXML
     private void handleSelectVolunteer() {
         selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
-        if (selectedVolunteer != null) {
-            txtFirstName.setText(selectedVolunteer.getFirstName());
-            txtLastName.setText(selectedVolunteer.getLastName());
-            txtEmail.setText(selectedVolunteer.getEmail());
-            txtPhone.setText("" + selectedVolunteer.getPhone());
-            txtVolunteerInfo.setText(selectedVolunteer.getDescription());
-            selectVolunteerLanguage(selectedVolunteer);
+        setVolunteerOptionsVisibility(true);
 
-            if (selectedVolunteer.getImage() != null) {
-                imgProfile.setImage(selectedVolunteer.getImage());
-            } else {
-                Image img = new Image(this.getClass().getResourceAsStream(NO_PHOTO));
-                imgProfile.setImage(img);
-            }
+        txtFirstName.setText(selectedVolunteer.getFirstName());
+        txtLastName.setText(selectedVolunteer.getLastName());
+        txtEmail.setText(selectedVolunteer.getEmail());
+        txtPhone.setText("" + selectedVolunteer.getPhone());
+        txtVolunteerInfo.setText(selectedVolunteer.getDescription());
+        selectVolunteerLanguage(selectedVolunteer);
+
+        if (selectedVolunteer.getImage() != null) {
+            imgProfile.setImage(selectedVolunteer.getImage());
+        } else {
+            Image img = new Image(this.getClass().getResourceAsStream(NO_PHOTO));
+            imgProfile.setImage(img);
         }
     }
 

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="501.0" prefWidth="636.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController">
+<AnchorPane fx:id="anchorPane" prefHeight="501.0" prefWidth="636.0" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController">
    <children>
       <TableView fx:id="tableGuild" layoutX="204.0" layoutY="14.0" onMouseClicked="#handleSelectGuild" prefHeight="428.0" prefWidth="319.0" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <columns>
@@ -26,7 +26,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Pane AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+      <Pane fx:id="newGuildPane" prefHeight="176.0" prefWidth="425.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
             <VBox layoutY="14.0" spacing="15.0">
                <children>
@@ -59,7 +59,7 @@
             <Insets bottom="10.0" />
          </padding>
       </Pane>
-      <ButtonBar layoutX="207.0" layoutY="447.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="450.0">
+      <ButtonBar fx:id="guildOptions" layoutX="207.0" layoutY="447.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="450.0">
         <buttons>
             <Button mnemonicParsing="false" onAction="#handleArchiveGuid" prefHeight="22.0" prefWidth="120.0" text="Arkiver Laug" />
             <Button mnemonicParsing="false" onAction="#handleDeleteGuid" prefHeight="22.0" prefWidth="89.0" text="Slet Laug" />
