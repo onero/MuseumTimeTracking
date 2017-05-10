@@ -140,6 +140,11 @@ Background:
     -fx-background-color: #fcc14e;
 }
 
+/*Table cell size*/
+.table-row-cell {
+    -fx-cell-size: 40px;
+}
+
 /*Makes the header transparent.*/
 .table-view .column-header {
     -fx-background-color: transparent;
