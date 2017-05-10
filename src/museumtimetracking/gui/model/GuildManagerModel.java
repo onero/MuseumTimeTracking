@@ -94,11 +94,12 @@ public class GuildManagerModel {
      * DB. Then gets the new guildMananger and adds it to the cachedMemory.
      *
      * @param person
-     * @param guildName
+     * @param guild
      * @throws museumtimetracking.exception.DALException
      */
-    public void createNewGuildManager(APerson person, String guildName) throws DALException {
-        GM manager = guildMGRManager.createNewGuildManager(person, guildName);
+    public void createNewGuildManager(APerson person, Guild guild) throws DALException {
+        GM manager = guildMGRManager.createNewGuildManager(person, guild.getName());
+        guild.setGuildManager(manager);
         cachedManagers.add(manager);
         sortLists();
     }
@@ -186,6 +187,17 @@ public class GuildManagerModel {
         idleGuildManagersFromDB.stream()
                 .filter(g -> g.getFullName().toLowerCase().contains(searchText.toLowerCase()))
                 .forEach(g -> cachedIdleGuildManagers.add(g));
+    }
+
+    /**
+     * Removes a guild from the manager
+     *
+     * @param guildToRemove
+     */
+    public void removeGuildFromManager(String guildToRemove) {
+        cachedManagers.stream()
+                .filter(gm -> gm.getObservableListOfGuilds().contains(guildToRemove))
+                .forEach(gm -> gm.removeGuild(guildToRemove));
     }
 
 }

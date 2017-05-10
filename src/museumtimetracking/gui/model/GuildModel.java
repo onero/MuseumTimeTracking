@@ -99,10 +99,11 @@ public class GuildModel {
      * @param deleteGuild
      */
     public void deleteGuild(Guild deleteGuild) throws DALException {
-        guildManager.deleteGuild(deleteGuild);
         // Removes the guild from the list.
         cachedGuilds.remove(deleteGuild);
         cachedAvailableGuilds.remove(deleteGuild);
+        cachedArchivedGuilds.remove(deleteGuild);
+        guildManager.deleteGuild(deleteGuild);
     }
 
     /**

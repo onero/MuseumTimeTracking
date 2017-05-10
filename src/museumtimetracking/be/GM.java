@@ -41,9 +41,9 @@ public class GM extends APerson {
         super(ID, firstName, lastName, email, phone);
         listOfGuilds = new ArrayList();
         this.description = new SimpleStringProperty();
-        for (String guildName : guildNames) {
-            listOfGuilds.add(guildName);
-        }
+//        for (String guildName : guildNames) {
+//            listOfGuilds.add(guildName);
+//        }
         observableListOfGuilds = FXCollections.observableArrayList();
         for (String guildName : guildNames) {
             observableListOfGuilds.add(guildName);
@@ -95,6 +95,10 @@ public class GM extends APerson {
 
     public StringProperty getDescription() {
         return description;
+    }
+
+    public void removeGuild(String guildToRemove) {
+        observableListOfGuilds.remove(guildToRemove);
     }
 
 }
