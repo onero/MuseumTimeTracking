@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXSnackbar?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane id="background" fx:id="borderPane" minHeight="600.0" minWidth="850.0" prefHeight="600.0" prefWidth="850.0" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.MTTMainControllerView">
+   <center>
+      <JFXTabPane fx:id="tabPane" side="BOTTOM" styleClass="borderPane" stylesheets="@../css/Style.css" BorderPane.alignment="CENTER">
+         <tabs>
+            <Tab id="statistics" fx:id="tabStatistics" onSelectionChanged="#handleClearSearchBar" text="Statistik" />
+            <Tab id="guildOverView" fx:id="tabPaneActiveGuild" onSelectionChanged="#handleClearSearchBar" text="Aktive Laug" />
+            <Tab id="archivedGuild" fx:id="tabPaneArchivedGuild" onSelectionChanged="#handleClearSearchBar" text="Inaktive Laug" />
+            <Tab id="manager" fx:id="tabGM" onSelectionChanged="#handleClearSearchBar" text="Tovholdere" />
+            <Tab id="volunteer" fx:id="tabVolunteer" onSelectionChanged="#handleClearSearchBar" text="Frivillige" />
+            <Tab id="idle" fx:id="tabIdle" onSelectionChanged="#handleClearSearchBar" text="Passive" />
+         </tabs>
+      </JFXTabPane>
+   </center>
+   <top>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="imgHeader" fitHeight="89.0" fitWidth="850.0" layoutX="8.0" pickOnBounds="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <image>
+                  <Image url="@../../../asset/img/bg_header.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="87.0" fitWidth="200.0" layoutX="14.0" layoutY="19.0" onMouseClicked="#handleGotoWebsite" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../asset/img/logo.png" />
+               </image>
+            </ImageView>
+            <HBox alignment="TOP_RIGHT" layoutX="620.0" layoutY="25.0" prefHeight="20.0" prefWidth="216.0" AnchorPane.rightAnchor="14.0">
+               <children>
+                  <TextField fx:id="txtSearchBar" />
+                  <Button fx:id="btnClearSearch" mnemonicParsing="false" onAction="#handleClearSearchBar" text="X" />
+               </children>
+            </HBox>
+            <Pane fx:id="snackPane" layoutX="317.0" layoutY="26.0" prefHeight="43.0" prefWidth="209.0">
+               <children>
+                  <JFXSnackbar fx:id="snackWarning" />
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+   </top>
+</BorderPane>

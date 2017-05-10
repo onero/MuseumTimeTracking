@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="background" prefHeight="294.0" prefWidth="545.0" stylesheets="@../../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.guildManagerOverview.manageGuildManagerGuilds.ManageGuildManagerGuildsViewController">
+   <children>
+      <ListView fx:id="lstAvialableGuilds" layoutX="14.0" layoutY="41.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="41.0" />
+      <ListView fx:id="lstManagerGuilds" layoutX="318.0" layoutY="41.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="41.0" />
+      <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="200.0" text="Tilgængelige Laug" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="318.0" layoutY="17.0" prefHeight="21.0" prefWidth="200.0" text="Tovholderens Laug" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <Button layoutX="243.0" layoutY="126.0" mnemonicParsing="false" onAction="#handleMoveGuildButton" text="&lt;---&gt;">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+      <Button layoutX="466.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Annuller" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </Button>
+      <Button layoutX="362.0" layoutY="249.0" mnemonicParsing="false" onAction="#handleOkButton" prefWidth="76.0" text="Ok" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="107.0">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
