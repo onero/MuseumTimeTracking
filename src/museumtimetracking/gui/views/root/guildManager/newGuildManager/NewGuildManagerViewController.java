@@ -5,6 +5,7 @@
  */
 package museumtimetracking.gui.views.root.guildManager.newGuildManager;
 
+import com.jfoenix.controls.JFXSnackbar;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -13,12 +14,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import museumtimetracking.be.APerson;
-import museumtimetracking.be.Guild;
 import museumtimetracking.be.GM;
+import museumtimetracking.be.Guild;
 import museumtimetracking.bll.APersonManager;
-import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
@@ -32,6 +33,9 @@ import museumtimetracking.gui.model.GuildModel;
 public class NewGuildManagerViewController implements Initializable {
 
     @FXML
+    private VBox newGMBox;
+
+    @FXML
     private TextField txtFirstName;
     @FXML
     private TextField txtLastName;
@@ -41,6 +45,8 @@ public class NewGuildManagerViewController implements Initializable {
     private TextField txtPhone;
     @FXML
     private ComboBox<String> comboGuild;
+
+    private JFXSnackbar snackBar;
 
     private GuildModel guildModel;
 
@@ -58,6 +64,7 @@ public class NewGuildManagerViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         addInfoToComboBox();
+        snackBar = new JFXSnackbar(newGMBox);
     }
 
     /**
@@ -77,7 +84,8 @@ public class NewGuildManagerViewController implements Initializable {
             }
             closeWindow();
         } else {
-            AlertFactory.createValidationAlert().show();
+            snackBar.show("Indtast venligst alle oplysninger", 2000);
+//            AlertFactory.createValidationAlert().show();
         }
     }
 
