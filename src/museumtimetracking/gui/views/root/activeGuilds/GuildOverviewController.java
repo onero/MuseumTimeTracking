@@ -14,11 +14,14 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
@@ -29,6 +32,7 @@ import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.model.GuildModel;
 import museumtimetracking.gui.views.ModalFactory;
+import museumtimetracking.gui.views.root.MTTMainControllerView;
 import museumtimetracking.gui.views.root.activeGuilds.editGuild.EditGuildViewController;
 
 /**
@@ -39,7 +43,14 @@ import museumtimetracking.gui.views.root.activeGuilds.editGuild.EditGuildViewCon
 public class GuildOverviewController implements Initializable {
 
     @FXML
+    private AnchorPane anchorPane;
+
+    @FXML
     private TableColumn<Guild, String> clmGM;
+    @FXML
+    private ButtonBar guildOptions;
+    @FXML
+    private Pane newGuildPane;
 
     @FXML
     private TableView<Guild> tableGuild;
@@ -66,6 +77,7 @@ public class GuildOverviewController implements Initializable {
     private Guild selectedGuild;
 
     public static final String GUILD_NAME_ERROR = "Indtast venligst et navn på lauget";
+
     private GM selectedGuildManager;
 
     public static GuildOverviewController getInstance() {
@@ -91,6 +103,18 @@ public class GuildOverviewController implements Initializable {
         initializeGuildTable();
         initializeComboBox();
 
+        setGuildOptionsVisilibity(false);
+
+    }
+
+    /**
+     * Set visibility of guild option buttonbar
+     *
+     * @param shown
+     */
+    private void setGuildOptionsVisilibity(boolean shown) {
+        guildOptions.setDisable(!shown);
+        guildOptions.setVisible(shown);
     }
 
     private void handleAssignGM() {
@@ -102,6 +126,9 @@ public class GuildOverviewController implements Initializable {
         }
     }
 
+    /**
+     * Set Guild Mangers in COmboBox
+     */
     private void initializeComboBox() {
         cmbGuildManager.setItems(guildManagerModel.getCachedGMCandidates());
 
@@ -118,6 +145,9 @@ public class GuildOverviewController implements Initializable {
         });
     }
 
+    /**
+     * Fill the Guild TableView
+     */
     private void initializeGuildTable() {
         tableGuild.setItems(guildModel.getCachedGuilds());
 
@@ -135,6 +165,7 @@ public class GuildOverviewController implements Initializable {
     private void handleSelectGuild(MouseEvent event) {
 
         selectedGuild = tableGuild.getSelectionModel().getSelectedItem();
+        setGuildOptionsVisilibity(true);
 
         //Enter edit mode
         if (event.getClickCount() == 2) {
@@ -169,8 +200,10 @@ public class GuildOverviewController implements Initializable {
                 ExceptionDisplayer.display(ex);
             }
         } else {
-            Alert validationAlert = AlertFactory.createAlertWithoutCancel(Alert.AlertType.WARNING, GUILD_NAME_ERROR);
-            validationAlert.show();
+            MTTMainControllerView.getInstance().displaySnackWarning("Skriv venligst et navn på lauget!");
+//            Alert validationAlert = AlertFactory.createAlertWithoutCancel(Alert.AlertType.WARNING, GUILD_NAME_ERROR);
+//            validationAlert.show();
+
         }
         txtGuildName.setText("");
         txtDescription.setText("");

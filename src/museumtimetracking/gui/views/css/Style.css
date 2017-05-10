@@ -3,63 +3,31 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
-/* 
-    Created on : 03-05-2017, 12:14:15
-    Author     : Skovgaard
-*/
 
-/* COLORS
 
-Buttons:
-White: #fff
-Dark Grey: #333333
-Grey: #585859
-Black: #000000
-Light Grey: #616161
-Mid Grey: #424242
-Light Black: #1f2429
-Grey/blue: #38424b
-All buttons has the same color codes and effects.
+/************************************LEGEND************************************
+
+Main color orange: #ed9e00
+Second (light) orange: #fcc14e
+
 
 Background:
-Small pictures of "CoarseGrid.png". (dots)
-Dark Grey: #333333
-Light Grey: #666666
+"pattern-dust.png" from website
 
-TableView: 
-
-Cornor: #333333
-ScrollBar: #333333
-ScrollBarBtn: #333333
-ScroolBarTrack: #333333
-ScrollBarMainThumb: #666666
-ColorCodes for the rows: #333333 & #424242
-Hover: #666666
-Selected: #666666
-
-ListView:
-
-Cornor: #333333
-ScrollBar: #333333
-ScrollBarBtn: #333333
-ScroolBarTrack: #333333
-ScrollBarMainThumb: #666666
-ColorCodes for the rows: #333333 & #424242
-Hover: #666666
-Selected: #666666
+************************************LEGEND************************************/
 
 
 
 
 
-
-/*The background of all the views.*/
+/************************************BACKGROUND************************************/
 #background{
     -fx-background-image: url("pattern-dust.png"); /* <===  puts in small pictures in the background */
     -fx-background-repeat: repeat; /* <===  Repeats till the background is filled. */
-    /*    -fx-background-color:
-            linear-gradient(#666666, #333333);*/
+
 }
+
+/************************************NAVIGATION TABS************************************/
 
 .jfx-tab-pane .tab-label {
     -fx-text-fill: black;
@@ -84,9 +52,13 @@ Selected: #666666
     -fx-font-size: 16;
 }
 
+/************************************BARCHART************************************/
+
 .default-color0.chart-bar { 
     -fx-bar-fill: #ed9e00; 
 }
+
+/************************************BUTTONS************************************/
 
 .button {
     -fx-background-color: #ed9e00;
@@ -99,7 +71,7 @@ Selected: #666666
     -fx-background-color: #fcc14e;
 }
 
-/*Textcolor*/
+/************************************TEXT************************************/
 .text-area {
     -fx-highlight-fill: #d8d8d8;
     -fx-highlight-text-fill: #c18100;
@@ -108,7 +80,6 @@ Selected: #666666
     -fx-background-color: transparent;
 }
 
-/*Textcolor*/
 .text-field {
     -fx-highlight-fill: #d8d8d8;
     -fx-highlight-text-fill: #c18100;
@@ -116,7 +87,7 @@ Selected: #666666
     -fx-font-weight: bold;
 }
 
-/*TABLEVIEW!*/
+/************************************TABLEVIEW & LISTVIEW************************************/
 
 
 /*The frames of the tableView (Around)*/
@@ -246,216 +217,17 @@ Selected: #666666
     -fx-background-color: #f7d48f;
 }
 
+/************************************SNACKBAR************************************/
 
+.jfx-snackbar-content {
+    -fx-background-color: #ed9e00;
+    -fx-background-radius: 25px;
+    /*-fx-background-position: 5%;*/
 
-
-
-
-
-
-
-
-/* Makes all buttons the same. */
-/*.button{ 
-    -fx-background-color:
-        rgba(255, 255, 255, 0.08),
-        rgba(0, 0, 0, 0.8),
-        black,
-        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
-        linear-gradient(#242a2e, #23282e),
-        radial-gradient(center 50% 0%, radius 100%, rgba(135,142,148,0.9),
-        rgba(255,255,255,0));
-    -fx-font-family: "Arial";
-    -fx-text-fill: white;
-    -fx-text-fill: linear-gradient(white, #d0d0d0);
-    -fx-padding: 5 10 5 10;
 }
-
-  When you have your mouse over the button. 
-    When button is pressed. 
-.button:hover,
-.button:pressed { 
-    -fx-background-color:   
-        black, 
-        #666666, 
-        black,
-        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
-        linear-gradient(#242a2e, #23282e),
-        radial-gradient(center 50% 0%, radius 80%, rgba(135,142,148,0.9),
-        rgba(255,255,255,0));
-    -fx-padding: 5 10 5 10;
-}*/
-
-/*.text-input {
-    -fx-text-fill: #0000ff;
-}
-
-.text-input:focused {
-    
-    -fx-text-fill: #0000ff;
-}*/
-
-/* All labels */
-/*.label{ 
-    -fx-font-family: "Arial";
-    -fx-text-fill: #fff;
-    -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 1), 0, 0.0 , 0 , 1 );
-}*/
-
-/* Labels to be black. */
-/*.labelsBlack{ 
-    -fx-font-family: "Arial";
-    -fx-text-fill: #000000;
-    -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 0.2), 0, 0.0 , 0 , 1 );
-}
-
-The frames of the tableView (Around)
-.table-view{
-    -fx-background-color: transparent;
-} 
-
-The frames of the tableView (Inside)
-.table-view:focused{
-    -fx-background-color: transparent;
-}
-
- The header over the tableView 
-.table-view .column-header-background{
-    -fx-background-color: linear-gradient(#000000 0%, #424141 100%);
-}
-
-Makes the text in the header white.
-.table-view .column-header-background .label{
-    -fx-text-fill: white;
-}
-
- Row hovered to a diff color.
-.table-view:row-selection .table-row-cell:filled:hover {
-    -fx-background-color: #666666;
-}
-
-Makes the header transparent.
-.table-view .column-header {
-    -fx-background-color: transparent;
-}
-
-Sets the color of the text in the cells
-.table-view .table-cell{
-    -fx-text-fill: white;
-}
-
-Makes the first row in the tableView (color)
-.table-row-cell:even{
-    -fx-background-color: -fx-table-cell-border-color, #424242;
-}
-
-Makes the second row in the tableView (color)
-.table-row-cell:odd{
-    -fx-background-color: -fx-table-cell-border-color, #333333;
-}
-
-When the row is selected (color)
-.table-row-cell:selected {
-    -fx-background-color: #666666;
-}
-
-Color of scrollbar. 
-.table-view > .virtual-flow > .scroll-bar:vertical,  
-.table-view > .virtual-flow > .scroll-bar:vertical > .track,
-.table-view > .virtual-flow > .scroll-bar:vertical > .track-background, 
-.table-view > .virtual-flow > .scroll-bar:horizontal, 
-.table-view > .virtual-flow > .scroll-bar:horizontal > .track,
-.table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
-    -fx-background-color: #333333;
-}
-
-color on scroll bar.
-.scroll-bar:horizontal .thumb,
-.scroll-bar:vertical .thumb {
-    -fx-background-color: #666666;
-}
-
-When pressed and selecting a cell.
-.list-cell:filled:selected {
-    -fx-background-color: #666666;
+.jfx-snackbar-toast {
     -fx-text-fill: white; 
+    -fx-font-size: 15px;
+
+
 }
-Where the mouse is over a row.
-.list-cell:filled:hover {
-    -fx-background-color:#666666;
-    -fx-text-fill: white;
-}
-
-One of the colorcodes for the row
-.list-cell:even {
-    -fx-background-color:#333333;
-    -fx-text-fill: #ffffff;
-}
-
-One of the colorcodes for the row
-.list-cell:odd{
-    -fx-background-color:#424242;
-    -fx-text-fill: #ffffff;
-}
-
- The main scrollbar **thumb** CSS class which we drag every time (movable) 
-.mylistview .scroll-bar:horizontal .thumb,
-.mylistview .scroll-bar:vertical .thumb {
-    -fx-background-color: #666666;
-}
-
- The main scrollbar **track** CSS class  
-.mylistview .scroll-bar:horizontal .track ,
-.mylistview .scroll-bar:vertical .track{
-    -fx-background-color: #333333;
-}
-
- The increment and decrement button CSS class of scrollbar 
-.mylistview .increment-button ,
-.mylistview .decrement-button {
-    -fx-background-color: #333333;
-    -fx-border-color: #333333;
-}
-
- The main scrollbar CSS class of ListView 
-.mylistview .scroll-bar:horizontal ,
-.mylistview  .scroll-bar:vertical{
-    -fx-background-color: #333333;
-}
-
-The cornor of the two scrollbars.
-.corner {
-    -fx-background-color: #333333;
-}
-
-
-
-
-
-Accordion background.  
-.accordion .titled-pane > *.content{
-    -fx-background-color: transparent;
-}
-The view of the accordion.
-.accordion .titled-pane .title {
-    -fx-background-color:
-        rgba(255, 255, 255, 0.1),
-        rgba(0, 0, 0, 0.8),
-        #090a0c,
-        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
-        linear-gradient(#242a2e, #23282e),
-        rgba(255,255,255,0.2);
-}
-.accordion .titled-pane .title:hover {
-    -fx-background-color:
-        rgba(255, 255, 255, 0.3),
-        rgba(0, 0, 0, 0.8),
-        #090a0c,
-        linear-gradient(#4a5661 0%, #1f2429 20%, #1f242a 100%),
-        rgba(255,255,255,0.3);
-}
-
-The text in the accordion.
-.titled-pane {
-    -fx-text-fill: white;
-}*/
