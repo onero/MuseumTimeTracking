@@ -53,15 +53,22 @@ public class StatisticsViewController implements Initializable {
      *
      * @param title
      */
-    private void updateDataForChart() {
+    public void updateDataForChart() {
         chartHoursOverview.getData().clear();
         List<Guild> guilds = guildModel.getGuildsFromDB();
-        Map<String, Integer> guildHours = guildModel.getMapOfHoursPerGuild();
+        Map<String, Integer> guildHours = null;
+        try {
+            guildHours = guildModel.getMapOfHoursPerGuild();
+        } catch (DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
         XYChart.Series hoursSeries = new XYChart.Series<>();
 
         for (Guild guild : guilds) {
-            XYChart.Data data = new XYChart.Data<>(guild.getName(), guildHours.get(guild.getName()));
-            hoursSeries.getData().add(data);
+            if (guildHours != null) {
+                XYChart.Data data = new XYChart.Data<>(guild.getName(), guildHours.get(guild.getName()));
+                hoursSeries.getData().add(data);
+            }
         }
 
         chartHoursOverview.getData().add(hoursSeries);

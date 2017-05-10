@@ -24,6 +24,7 @@ import museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController;
 import museumtimetracking.gui.views.root.archivedGuilds.ArchivedGuildViewController;
 import museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController;
 import museumtimetracking.gui.views.root.idle.IdleViewController;
+import museumtimetracking.gui.views.root.statistics.StatisticsViewController;
 import museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController;
 
 /**
@@ -71,6 +72,7 @@ public class MTTMainControllerView implements Initializable {
     private final Node volunteer;
     private final Node idle;
 
+    private final StatisticsViewController statisticsViewController;
     private final GuildOverviewController guildOverViewController;
     private final ArchivedGuildViewController archivedGuildViewController;
     private final GuildManagerOverviewController guildManagerOverviewController;
@@ -89,6 +91,7 @@ public class MTTMainControllerView implements Initializable {
         nodeFactory = NodeFactory.getInstance();
 
         statistics = nodeFactory.createNewView(STATISTICS_OVERVIEW);
+        statisticsViewController = nodeFactory.getLoader().getController();
 
         guildOverView = nodeFactory.createNewView(ACTIVE_GUILD);
         guildOverViewController = nodeFactory.getLoader().getController();
@@ -157,6 +160,7 @@ public class MTTMainControllerView implements Initializable {
             searchID = newTab.getId();
             if (searchID.equals("statistics")) {
                 setSearchBarVisibility(false);
+                statisticsViewController.updateDataForChart();
             } else {
                 setSearchBarVisibility(true);
             }

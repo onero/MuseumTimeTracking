@@ -133,8 +133,10 @@ public class GuildModel {
      * Returns the Map containg the hours worked for each Guild.
      *
      * @return
+     * @throws museumtimetracking.exception.DALException
      */
-    public Map<String, Integer> getMapOfHoursPerGuild() {
+    public Map<String, Integer> getMapOfHoursPerGuild() throws DALException {
+        guildHours = guildManager.getAllHoursWorked(guildsFromDB);
         return guildHours;
     }
 
