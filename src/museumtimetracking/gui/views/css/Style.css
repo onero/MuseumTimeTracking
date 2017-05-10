@@ -86,6 +86,15 @@ Background:
     -fx-text-fill: #c18100;
     -fx-font-weight: bold;
 }
+/************************************ ImageView ************************************/
+
+.my-button:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-scale-z: 1.05;
+
+}
+
 
 /************************************TABLEVIEW & LISTVIEW************************************/
 

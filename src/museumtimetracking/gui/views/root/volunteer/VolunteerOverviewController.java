@@ -306,7 +306,7 @@ public class VolunteerOverviewController implements Initializable {
     @FXML
     private void handleSelectVolunteerImage(MouseEvent event) throws IOException {
         primStage = (Stage) btnEdit.getScene().getWindow();
-        if (event.getClickCount() == 2) {
+        if (event.getClickCount() == 1) {
             FileChooser fc = createFileChooser();
             File file = fc.showOpenDialog(primStage.getScene().getWindow());
             if (file != null) {
