@@ -44,23 +44,24 @@ public class StatisticsViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        chartHoursOverview.setLegendVisible(false);
         updateDataForChart();
     }
 
     /**
+     * Clears the data in the chart and fills it with freshly fetched data.
      *
      * @param title
      */
     private void updateDataForChart() {
-        chartHoursOverview.setLegendVisible(false);
         chartHoursOverview.getData().clear();
         List<Guild> guilds = guildModel.getGuildsFromDB();
         Map<String, Integer> guildHours = guildModel.getMapOfHoursPerGuild();
-
         XYChart.Series hoursSeries = new XYChart.Series<>();
 
         for (Guild guild : guilds) {
-            hoursSeries.getData().add(new XYChart.Data<>(guild.getName(), guildHours.get(guild.getName())));
+            XYChart.Data data = new XYChart.Data<>(guild.getName(), guildHours.get(guild.getName()));
+            hoursSeries.getData().add(data);
         }
 
         chartHoursOverview.getData().add(hoursSeries);

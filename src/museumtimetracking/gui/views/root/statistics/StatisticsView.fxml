@@ -3,19 +3,12 @@
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<GridPane id="background" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.statistics.StatisticsViewController">
-   <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="441.0" minWidth="10.0" prefWidth="439.0" />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-   </rowConstraints>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.statistics.StatisticsViewController">
    <children>
-      <BarChart fx:id="chartHoursOverview" title="Doklumenterede Timer">
+      <BarChart fx:id="chartHoursOverview" title="Dokumenterede Timer" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <xAxis>
             <CategoryAxis side="BOTTOM" />
          </xAxis>
@@ -24,4 +17,4 @@
          </yAxis>
       </BarChart>
    </children>
-</GridPane>
+</AnchorPane>
