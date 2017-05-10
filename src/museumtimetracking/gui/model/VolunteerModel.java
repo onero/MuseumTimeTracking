@@ -8,6 +8,7 @@ package museumtimetracking.gui.model;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -45,6 +46,17 @@ public class VolunteerModel {
         idleVolunteersFromDB = volunteerMgr.getAllIdleVolunteers();
         cachedVolunteers = FXCollections.observableArrayList(volunteerFromDB);
         cachedIdleVolunteers = FXCollections.observableArrayList(idleVolunteersFromDB);
+
+        Collections.sort(volunteerFromDB);
+        Collections.sort(idleVolunteersFromDB);
+    }
+
+    /**
+     * Sort the lists in natural order
+     */
+    public void sortCachedLists() {
+        Collections.sort(cachedVolunteers);
+        Collections.sort(cachedIdleVolunteers);
     }
 
     public ObservableList<Volunteer> getCachedVolunteers() {

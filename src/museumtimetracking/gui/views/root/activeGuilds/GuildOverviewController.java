@@ -117,15 +117,6 @@ public class GuildOverviewController implements Initializable {
         guildOptions.setVisible(shown);
     }
 
-    private void handleAssignGM() {
-        try {
-            guildManagerModel.assignGuildToManager(selectedGuildManager, selectedGuild);
-            tableGuild.refresh();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
-    }
-
     /**
      * Set Guild Mangers in COmboBox
      */
@@ -138,6 +129,19 @@ public class GuildOverviewController implements Initializable {
                 super.updateItem(guildManager, empty);
                 if (empty) {
                     setText(null);
+                } else {
+                    setText(guildManager.getFullName());
+                }
+            }
+        });
+
+        cmbGuildManager.setButtonCell(
+                new ListCell<GM>() {
+            @Override
+            protected void updateItem(GM guildManager, boolean bln) {
+                super.updateItem(guildManager, bln);
+                if (bln) {
+                    setText("");
                 } else {
                     setText(guildManager.getFullName());
                 }
@@ -191,6 +195,7 @@ public class GuildOverviewController implements Initializable {
             Guild newGuild = new Guild(name, description, false);
             try {
                 guildModel.addGuild(newGuild);
+                guildModel.addCachedAvailableGuild(newGuild);
                 //TODO RKL: Make sure "selectedGuildManager" is sat to null where needed.
                 if (selectedGuildManager != null) {
                     guildManagerModel.assignGuildToManager(selectedGuildManager, newGuild);
@@ -201,8 +206,6 @@ public class GuildOverviewController implements Initializable {
             }
         } else {
             MTTMainControllerView.getInstance().displaySnackWarning("Skriv venligst et navn på lauget!");
-//            Alert validationAlert = AlertFactory.createAlertWithoutCancel(Alert.AlertType.WARNING, GUILD_NAME_ERROR);
-//            validationAlert.show();
 
         }
         txtGuildName.setText("");

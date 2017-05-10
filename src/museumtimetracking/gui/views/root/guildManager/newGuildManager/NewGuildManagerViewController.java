@@ -9,10 +9,10 @@ import com.jfoenix.controls.JFXSnackbar;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -44,7 +44,7 @@ public class NewGuildManagerViewController implements Initializable {
     @FXML
     private TextField txtPhone;
     @FXML
-    private ComboBox<String> comboGuild;
+    private ComboBox<Guild> comboGuild;
 
     private JFXSnackbar snackBar;
 
@@ -63,8 +63,37 @@ public class NewGuildManagerViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        addInfoToComboBox();
+        initializeBomboBox();
         snackBar = new JFXSnackbar(newGMBox);
+    }
+
+    public void initializeBomboBox() {
+        comboGuild.setItems(guildModel.getCachedAvailableGuilds());
+
+        comboGuild.setCellFactory(guild -> new ListCell<Guild>() {
+            @Override
+            protected void updateItem(Guild guild, boolean empty) {
+                super.updateItem(guild, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(guild.getName());
+                }
+            }
+
+        });
+
+        comboGuild.setButtonCell(new ListCell<Guild>() {
+            @Override
+            protected void updateItem(Guild guild, boolean bln) {
+                super.updateItem(guild, bln);
+                if (bln) {
+                    setText("");
+                } else {
+                    setText(guild.getName());
+                }
+            }
+        });
     }
 
     /**
@@ -76,9 +105,9 @@ public class NewGuildManagerViewController implements Initializable {
     private void handleAddButton() {
         if (validateData()) {
             APerson person = new GM(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()));
-            String guildName = comboGuild.getSelectionModel().getSelectedItem();
+            Guild selectedGuild = comboGuild.getSelectionModel().getSelectedItem();
             try {
-                GuildManagerModel.getInstance().createNewGuildManager(person, guildName);
+                GuildManagerModel.getInstance().createNewGuildManager(person, selectedGuild.getName());
             } catch (IOException | DALException ex) {
                 ExceptionDisplayer.display(ex);
             }
@@ -112,22 +141,12 @@ public class NewGuildManagerViewController implements Initializable {
         boolean isFirstNameThere = !txtFirstName.getText().isEmpty();
         boolean isLastNameThere = !txtLastName.getText().isEmpty();
         String phone = txtPhone.getText();
-        String selectedGuild = comboGuild.getSelectionModel().getSelectedItem();
+        Guild selectedGuild = comboGuild.getSelectionModel().getSelectedItem();
         boolean isPhoneValid = APersonManager.validatePhone(phone);
         boolean isGuildSelected = (selectedGuild != null);
         if (isGuildSelected) {
             return APersonManager.checkAllValidation(isFirstNameThere, isLastNameThere, isPhoneValid);
         }
         return false;
-    }
-
-    /**
-     * Adds all the guildNames to the comboBox.
-     */
-    private void addInfoToComboBox() {
-        ObservableList<Guild> listOfGuilds = guildModel.getCachedAvailableGuilds();
-        for (Guild listOfGuild : listOfGuilds) {
-            comboGuild.getItems().add(listOfGuild.getName());
-        }
     }
 }

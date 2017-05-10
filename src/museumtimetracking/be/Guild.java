@@ -10,7 +10,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Guild {
+public class Guild implements Comparable<Guild> {
 
     private final StringProperty name;
 
@@ -24,6 +24,11 @@ public class Guild {
         this.name = new SimpleStringProperty(name);
         this.description = new SimpleStringProperty(description);
         isArchived = new SimpleBooleanProperty(archived);
+    }
+
+    @Override
+    public int compareTo(Guild guild) {
+        return name.get().compareToIgnoreCase(guild.getName());
     }
 
     /**

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.GM;
 
@@ -148,7 +149,7 @@ public class GuildManagerDAO extends APersonDAO {
      * @throws java.sql.SQLException
      */
     public Set<GM> getAllGuildManagersNotIdle() throws SQLException {
-        Set<GM> setOfGuildManagers = new HashSet<>();
+        Set<GM> setOfGuildManagers = new TreeSet<>();
         String sql = "SELECT p.ID, "
                 + "p.FirstName, "
                 + "p.LastName, "
@@ -306,8 +307,8 @@ public class GuildManagerDAO extends APersonDAO {
      * @throws SQLServerException
      * @throws SQLException
      */
-    public List<GM> getGMCandidates() throws SQLServerException, SQLException {
-        List<GM> gmCandidates = new ArrayList<>();
+    public Set<GM> getGMCandidates() throws SQLServerException, SQLException {
+        Set<GM> gmCandidates = new TreeSet<>();
         String sql = "SELECT * FROM Person p "
                 + "WHERE p.ID "
                 + "NOT IN "

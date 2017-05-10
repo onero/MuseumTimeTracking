@@ -6,7 +6,6 @@
 package museumtimetracking.bll;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 import javafx.collections.ObservableList;
 import museumtimetracking.be.APerson;
@@ -118,7 +117,7 @@ public class GuildMGRManager {
      * @return
      * @throws DALException
      */
-    public List<GM> getAllGMCandidates() throws DALException {
+    public Set<GM> getAllGMCandidates() throws DALException {
         return facadeDAO.getAllGMCandidates();
     }
 

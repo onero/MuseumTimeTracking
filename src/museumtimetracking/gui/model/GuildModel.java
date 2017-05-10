@@ -6,6 +6,7 @@
 package museumtimetracking.gui.model;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import javafx.collections.FXCollections;
@@ -52,6 +53,17 @@ public class GuildModel {
         cachedArchivedGuilds = FXCollections.observableArrayList(archivedGuildsFromDB);
         guildHours = guildManager.getAllHoursWorked(guildsFromDB);
 
+        Collections.sort(guildsFromDB);
+
+    }
+
+    /**
+     * Sort lists in natural order
+     */
+    public void sortLists() {
+        Collections.sort(cachedGuilds);
+        Collections.sort(cachedAvailableGuilds);
+        Collections.sort(cachedArchivedGuilds);
     }
 
     /**
@@ -64,6 +76,7 @@ public class GuildModel {
         cachedArchivedGuilds.add(guildToArchive);
         guildManager.archiveGuild(guildToArchive);
         cachedGuilds.remove(guildToArchive);
+        sortLists();
     }
 
     // Made a getter to call in GuildOverviewController to update the tableview.
@@ -89,6 +102,7 @@ public class GuildModel {
         guildManager.deleteGuild(deleteGuild);
         // Removes the guild from the list.
         cachedGuilds.remove(deleteGuild);
+        cachedAvailableGuilds.remove(deleteGuild);
     }
 
     /**
@@ -99,6 +113,8 @@ public class GuildModel {
     public void addGuild(Guild guild) throws DALException {
         guildManager.addGuild(guild);
         cachedGuilds.add(guild);
+        sortLists();
+
     }
 
     /**
@@ -110,6 +126,7 @@ public class GuildModel {
         guildManager.restoreGuild(guildToRestore);
         cachedArchivedGuilds.remove(guildToRestore);
         cachedGuilds.add(guildToRestore);
+        sortLists();
     }
 
     /**
@@ -127,6 +144,7 @@ public class GuildModel {
                     g.setDescription(updatedGuild.getDescription());
                 });
         guildManager.updateGuild(guildToUpdate, updatedGuild);
+        sortLists();
     }
 
     /**
@@ -204,5 +222,24 @@ public class GuildModel {
     public void updateGMForGuild(GM gm, Guild guild) throws DALException {
         guildManager.updateGMForGuild(gm.getID(), guild.getName());
         guild.setGuildManager(gm);
+    }
+
+    /**
+     * Add new available guild
+     *
+     * @param guildToAdd
+     */
+    public void addCachedAvailableGuild(Guild guildToAdd) {
+        cachedAvailableGuilds.add(guildToAdd);
+        sortLists();
+    }
+
+    /**
+     * Remove guild from available
+     *
+     * @param guildToRemove
+     */
+    public void removeCachedAvailableGuild(Guild guildToRemove) {
+        cachedAvailableGuilds.remove(guildToRemove);
     }
 }

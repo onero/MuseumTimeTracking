@@ -11,7 +11,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 
-public abstract class APerson {
+public abstract class APerson implements Comparable<APerson> {
 
     private int ID;
     private final StringProperty firstName;
@@ -36,6 +36,11 @@ public abstract class APerson {
         this.fullName = new SimpleStringProperty(firstName + " " + lastName);
         this.email = new SimpleStringProperty(email);
         this.phone = new SimpleIntegerProperty(phone);
+    }
+
+    @Override
+    public int compareTo(APerson p) {
+        return fullName.get().compareToIgnoreCase(p.getFullName());
     }
 
     public int getID() {

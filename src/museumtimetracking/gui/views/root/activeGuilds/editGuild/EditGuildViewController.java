@@ -154,6 +154,7 @@ public class EditGuildViewController implements Initializable {
         try {
             if (currentGuild.getGuildManager() == null) {
                 guildManagerModel.assignGuildToManager(selectedGuildManager, currentGuild);
+                guildModel.removeCachedAvailableGuild(currentGuild);
             } else {
                 guildModel.updateGMForGuild(selectedGuildManager, currentGuild);
             }

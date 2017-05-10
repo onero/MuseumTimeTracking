@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import museumtimetracking.be.APerson;
-import museumtimetracking.be.Guild;
 import museumtimetracking.be.GM;
+import museumtimetracking.be.Guild;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.exception.DALException;
 
@@ -330,7 +330,7 @@ public class FacadeDAO {
      * @return
      * @throws DALException
      */
-    public List<GM> getAllGMCandidates() throws DALException {
+    public Set<GM> getAllGMCandidates() throws DALException {
         try {
             return guildManagerDAO.getGMCandidates();
         } catch (SQLException ex) {
