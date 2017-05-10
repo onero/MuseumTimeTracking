@@ -166,7 +166,7 @@ public class IdleViewController implements Initializable {
         clmGMDescription.setCellValueFactory(gm -> gm.getValue().getDescription());
 
         tableIdleVolunteer.setItems(volunteerModel.getCachedIdleVolunteers());
-        tableIdleVolunteer.setPlaceholder(new Label("Oversigten er tom"));
+        tableIdleVolunteer.setPlaceholder(new Label(TABLEVIEW_PLACEHOLDER));
 
         clmVolunteerName.setCellValueFactory(v -> v.getValue().getFullNameProperty());
         clmVolunteerDescription.setCellValueFactory(v -> v.getValue().getDescriptionProperty());
