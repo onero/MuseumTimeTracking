@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
@@ -158,10 +159,13 @@ public class IdleViewController implements Initializable {
     private void initializeTables() {
         tableIdleGM.setItems(guildManagerModel.getCachedIdleGuildManagers());
 
+        tableIdleGM.setPlaceholder(new Label("Oversigten er tom"));
+
         clmGMName.setCellValueFactory(gm -> gm.getValue().getFullNameProperty());
         clmGMDescription.setCellValueFactory(gm -> gm.getValue().getDescription());
 
         tableIdleVolunteer.setItems(volunteerModel.getCachedIdleVolunteers());
+        tableIdleVolunteer.setPlaceholder(new Label("Oversigten er tom"));
 
         clmVolunteerName.setCellValueFactory(v -> v.getValue().getFullNameProperty());
         clmVolunteerDescription.setCellValueFactory(v -> v.getValue().getDescriptionProperty());
