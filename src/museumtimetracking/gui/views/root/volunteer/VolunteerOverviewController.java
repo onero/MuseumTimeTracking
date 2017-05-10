@@ -363,6 +363,7 @@ public class VolunteerOverviewController implements Initializable {
         radioDA.setDisable(false);
         radioDE.setDisable(false);
         radioENG.setDisable(false);
+        imgProfile.setDisable(false);
     }
 
     /**
@@ -377,6 +378,7 @@ public class VolunteerOverviewController implements Initializable {
         radioDA.setDisable(true);
         radioDE.setDisable(true);
         radioENG.setDisable(true);
+        imgProfile.setDisable(true);
     }
 
     /**

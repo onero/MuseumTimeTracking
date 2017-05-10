@@ -98,6 +98,16 @@ Background:
 
 /************************************TABLEVIEW & LISTVIEW************************************/
 
+/*.div {
+    display: table;
+    width: 250px;
+    table-layout: fixed;
+}
+
+.div > div {
+    display: table-cell;
+    width: 2%;  or 100% according to OP comment. See edit about Safari 6 below 
+}*/
 
 /*The frames of the tableView (Around)*/
 .table-view{
