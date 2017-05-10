@@ -132,6 +132,8 @@ public class GuildManagerModel {
      */
     public void deleteGuildManager(GM guildManager) throws DALException {
         cachedManagers.remove(guildManager);
+        cachedGMCandidates.remove(guildManager);
+        cachedIdleGuildManagers.remove(guildManager);
         guildMGRManager.deleteGuildManager(guildManager.getID());
         sortLists();
     }

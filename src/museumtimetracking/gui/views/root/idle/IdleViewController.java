@@ -10,11 +10,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Volunteer;
+import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
@@ -72,20 +74,32 @@ public class IdleViewController implements Initializable {
 
     @FXML
     private void handleDeleteGM() {
-        try {
-            guildManagerModel.deleteGuildManager(selectedManager);
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        Alert alert = AlertFactory.createDeleteAlert();
+        alert.showAndWait().ifPresent(type -> {
+            //If the first button ("YES") is clicked
+            if (type == alert.getButtonTypes().get(0)) {
+                try {
+                    guildManagerModel.deleteGuildManager(selectedManager);
+                } catch (DALException ex) {
+                    ExceptionDisplayer.display(ex);
+                }
+            }
+        });
     }
 
     @FXML
     private void handleDeleteVolunteer() {
-        try {
-            volunteerModel.deleteVolunteer(selectedVolunteer);
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        Alert alert = AlertFactory.createDeleteAlert();
+        alert.showAndWait().ifPresent(type -> {
+            //If the first button ("YES") is clicked
+            if (type == alert.getButtonTypes().get(0)) {
+                try {
+                    volunteerModel.deleteVolunteer(selectedVolunteer);
+                } catch (DALException ex) {
+                    ExceptionDisplayer.display(ex);
+                }
+            }
+        });
     }
 
     @FXML
@@ -150,7 +164,7 @@ public class IdleViewController implements Initializable {
         tableIdleVolunteer.setItems(volunteerModel.getCachedIdleVolunteers());
 
         clmVolunteerName.setCellValueFactory(v -> v.getValue().getFullNameProperty());
-        clmGMDescription.setCellValueFactory(v -> v.getValue().getDescription());
+        clmVolunteerDescription.setCellValueFactory(v -> v.getValue().getDescriptionProperty());
     }
 
     /**
