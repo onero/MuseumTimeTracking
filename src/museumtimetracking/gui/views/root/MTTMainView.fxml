@@ -33,7 +33,7 @@
                   <Image url="@../../../asset/img/bg_header.jpg" />
                </image>
             </ImageView>
-            <ImageView fitHeight="87.0" fitWidth="200.0" layoutX="14.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="87.0" fitWidth="200.0" layoutX="14.0" layoutY="19.0" onMouseClicked="#handleGotoWebsite" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../asset/img/logo.png" />
                </image>

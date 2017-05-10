@@ -7,6 +7,9 @@ package museumtimetracking.gui.views.root;
 
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTabPane;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -109,6 +112,12 @@ public class MTTMainControllerView implements Initializable {
         idleViewController = nodeFactory.getLoader().getController();
 
         searchID = "";
+    }
+
+    @FXML
+    private void handleGotoWebsite() throws MalformedURLException, URISyntaxException, IOException {
+        URL website = new URL("http://www.levendehistorie.dk/");
+        java.awt.Desktop.getDesktop().browse(website.toURI());
     }
 
     /**
