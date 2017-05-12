@@ -132,7 +132,7 @@ public class MTTMainControllerView implements Initializable {
         setContentOfTabs();
 
         imgHeader.fitWidthProperty().bind(borderPane.widthProperty());
-        setSearchBarVisibility(false);
+//        setSearchBarVisible(false);
         initializeTabPane();
         initializeTextFieldListener();
     }
@@ -165,13 +165,14 @@ public class MTTMainControllerView implements Initializable {
      * changed. Also makes the searchbar invisible on statistics view.
      */
     private void initializeTabPane() {
+        setSearchBarVisible(false);
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             searchID = newTab.getId();
             if (searchID.equals("statistics")) {
-                setSearchBarVisibility(false);
+                setSearchBarVisible(false);
                 statisticsViewController.updateDataForChart();
             } else {
-                setSearchBarVisibility(true);
+                setSearchBarVisible(true);
             }
         });
     }
@@ -209,6 +210,7 @@ public class MTTMainControllerView implements Initializable {
      */
     private void initializeTextFieldListener() {
         txtSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            //TODO GRØN: Make an abstract controller and an interface for the models.
             handleSearch(newValue);
         });
     }
@@ -218,7 +220,7 @@ public class MTTMainControllerView implements Initializable {
      *
      * @param shown
      */
-    private void setSearchBarVisibility(boolean shown) {
+    private void setSearchBarVisible(boolean shown) {
         txtSearchBar.setVisible(shown);
         txtSearchBar.setDisable(!shown);
         btnClearSearch.setVisible(shown);
