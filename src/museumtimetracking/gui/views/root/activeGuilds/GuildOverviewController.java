@@ -229,6 +229,7 @@ public class GuildOverviewController implements Initializable {
             if (type == alert.getButtonTypes().get(0)) {
                 try {
                     guildModel.deleteGuild(selectedGuild);
+                    guildManagerModel.removeGuildFromManager(selectedGuild.getName());
                 } catch (DALException ex) {
                     ExceptionDisplayer.display(ex);
                 }

@@ -107,7 +107,7 @@ public class NewGuildManagerViewController implements Initializable {
             APerson person = new GM(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()));
             Guild selectedGuild = comboGuild.getSelectionModel().getSelectedItem();
             try {
-                GuildManagerModel.getInstance().createNewGuildManager(person, selectedGuild.getName());
+                GuildManagerModel.getInstance().createNewGuildManager(person, selectedGuild);
             } catch (IOException | DALException ex) {
                 ExceptionDisplayer.display(ex);
             }

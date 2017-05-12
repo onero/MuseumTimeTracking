@@ -19,6 +19,8 @@ import javafx.util.Duration;
 
 public class MuseumTimeTracking extends Application {
 
+    public static final String ICON = "museumtimetracking/asset/img/icon.png";
+
     @Override
     public void start(Stage stage) throws Exception {
         Parent startRoot = createLoadingView(stage);
@@ -35,7 +37,7 @@ public class MuseumTimeTracking extends Application {
         //Start out loading start view
         Parent startRoot = FXMLLoader.load(getClass().getResource("gui/views/startScreen/StartView.fxml"));
         Scene startScene = new Scene(startRoot);
-        stage.getIcons().add(new Image("museumtimetracking/asset/img/icon.png"));
+        stage.getIcons().add(new Image(ICON));
         stage.setScene(startScene);
         stage.initStyle(StageStyle.UNDECORATED);
         return startRoot;
@@ -47,7 +49,7 @@ public class MuseumTimeTracking extends Application {
         URL location = getClass().getResource("/museumtimetracking/gui/views/root/MTTMainView.fxml");
         FXMLLoader loader = new FXMLLoader(location);
         Parent root = loader.load();
-        mainStage.getIcons().add(new Image("museumtimetracking/asset/img/icon.png"));
+        mainStage.getIcons().add(new Image(ICON));
         Scene scene = new Scene(root);
         mainStage.setScene(scene);
         return mainStage;
