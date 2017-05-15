@@ -180,21 +180,30 @@ public class VolunteerOverviewController implements Initializable {
         });
     }
 
+    /**
+     * Sends the selected Volunteer through the layers to delete it and returns
+     * the buttons to view mode.
+     */
     @FXML
     private void handleDeleteVolunteer() {
         Volunteer volunteerToDelete = lstVolunteer.getSelectionModel().getSelectedItem();
         if (volunteerToDelete != null) {
-            Alert deleteAlert = AlertFactory.createDeleteAlert();
-            deleteAlert.showAndWait().ifPresent(type -> {
-                //If user clicks first button
-                if (type == deleteAlert.getButtonTypes().get(0)) {
-                    try {
-                        volunteerModel.deleteVolunteer(volunteerToDelete);
-                    } catch (DALException ex) {
-                        ExceptionDisplayer.display(ex);
+            if (btnDelete.getText().equals("Slet")) {
+                Alert deleteAlert = AlertFactory.createDeleteAlert();
+                deleteAlert.showAndWait().ifPresent(type -> {
+                    //If user clicks first button
+                    if (type == deleteAlert.getButtonTypes().get(0)) {
+                        try {
+                            volunteerModel.deleteVolunteer(volunteerToDelete);
+                        } catch (DALException ex) {
+                            ExceptionDisplayer.display(ex);
+                        }
                     }
-                }
-            });
+                });
+            } else if (btnDelete.getText().equals("Annuller")) {
+                pressingSave();
+                showButtons();
+            }
         }
         lstVolunteer.refresh();
     }
@@ -206,17 +215,10 @@ public class VolunteerOverviewController implements Initializable {
         if (selectedVolunteer != null) {
             //If we're not in edit mode
             if (btnEdit.getText().equalsIgnoreCase("Rediger")) {
-                btnEdit.setText("Gem");
-                setTextVisibility(true);
-                lstVolunteer.setDisable(true);
-                setColorToOrange();
-                hideButtons();
+                pressingCancel();
                 //If we are in edit mode
             } else {
-                btnEdit.setText("Rediger");
-                setTextVisibility(false);
-                lstVolunteer.setDisable(false);
-                setColorToBlack();
+                pressingSave();
                 updateVolunteer();
                 //Update volunteer in DB
                 try {
@@ -228,6 +230,23 @@ public class VolunteerOverviewController implements Initializable {
             }
         }
         lstVolunteer.refresh();
+    }
+
+    private void pressingCancel() {
+        btnEdit.setText("Gem");
+        btnDelete.setText("Annuller");
+        setTextVisibility(true);
+        lstVolunteer.setDisable(true);
+        setColorToOrange();
+        hideButtons();
+    }
+
+    private void pressingSave() {
+        btnEdit.setText("Rediger");
+        btnDelete.setText("Slet");
+        setTextVisibility(false);
+        lstVolunteer.setDisable(false);
+        setColorToBlack();
     }
 
     /**
@@ -259,7 +278,7 @@ public class VolunteerOverviewController implements Initializable {
         if (event.getClickCount() == 2) {
             handleEditVolunteer();
         }
-        
+
         setVolunteerOptionsVisibility(true);
 
         txtFirstName.setText(selectedVolunteer.getFirstName());
@@ -362,7 +381,6 @@ public class VolunteerOverviewController implements Initializable {
      */
     private void hideButtons() {
         hideButton(btnAddVolunteer);
-        hideButton(btnDelete);
         hideButton(btnDocument);
         hideButton(btnMakeInactive);
         radioDA.setDisable(false);
@@ -377,7 +395,6 @@ public class VolunteerOverviewController implements Initializable {
      */
     private void showButtons() {
         showButton(btnAddVolunteer);
-        showButton(btnDelete);
         showButton(btnDocument);
         showButton(btnMakeInactive);
         radioDA.setDisable(true);

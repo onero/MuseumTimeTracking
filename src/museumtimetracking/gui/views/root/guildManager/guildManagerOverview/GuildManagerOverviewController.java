@@ -44,7 +44,6 @@ public class GuildManagerOverviewController implements Initializable {
 
     @FXML
     private ButtonBar GMOptions;
-
     @FXML
     private ListView<GM> lstManagers;
     @FXML
@@ -97,6 +96,9 @@ public class GuildManagerOverviewController implements Initializable {
 
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -183,7 +185,6 @@ public class GuildManagerOverviewController implements Initializable {
         setButtonTextToViewMode();
         setSetsToNull();
         lstManagers.refresh();
-        
     }
 
     /**
