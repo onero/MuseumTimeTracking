@@ -13,7 +13,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.layout.BorderPane;
+import museumtimetracking.be.Guild;
 import museumtimetracking.be.enums.EFXMLName;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
@@ -31,7 +33,7 @@ public class StatisticsViewController implements Initializable {
     @FXML
     private BorderPane borderpane;
     @FXML
-    private ComboBox<?> cmbGuilds;
+    private ComboBox<Guild> cmbGuilds;
     @FXML
     private ButtonBar txtSearchBar;
 
@@ -53,18 +55,48 @@ public class StatisticsViewController implements Initializable {
 
     }
 
-    public void createStatisticsView() {
-        guildHoursOverview = nodeFactory.createNewView(EFXMLName.CHART_GUILD_HOURS_OVERVIEW);
-        chartGuildHoursOverviewController = nodeFactory.getLoader().getController();
-        borderpane.setCenter(guildHoursOverview);
-        updateDataForGuildHoursOverview();
-    }
-
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        initializeComboBox();
+    }
+
+    public void initializeComboBox() {
+        cmbGuilds.setItems(guildModel.getCachedGuilds());
+
+        cmbGuilds.setCellFactory(gm -> new ListCell<Guild>() {
+            @Override
+            protected void updateItem(Guild guild, boolean empty) {
+                super.updateItem(guild, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(guild.getName());
+                }
+            }
+        });
+
+        cmbGuilds.setButtonCell(
+                new ListCell<Guild>() {
+            @Override
+            protected void updateItem(Guild guild, boolean bln) {
+                super.updateItem(guild, bln);
+                if (bln) {
+                    setText("");
+                } else {
+                    setText(guild.getName());
+                }
+            }
+        });
+    }
+
+    public void createStatisticsView() {
+        guildHoursOverview = nodeFactory.createNewView(EFXMLName.CHART_GUILD_HOURS_OVERVIEW);
+        chartGuildHoursOverviewController = nodeFactory.getLoader().getController();
+        borderpane.setCenter(guildHoursOverview);
+        updateDataForGuildHoursOverview();
     }
 
     /**
