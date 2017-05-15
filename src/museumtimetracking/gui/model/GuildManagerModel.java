@@ -14,7 +14,7 @@ import javafx.collections.ObservableList;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
-import museumtimetracking.bll.GuildMGRManager;
+import museumtimetracking.bll.GMManager;
 import museumtimetracking.exception.DALException;
 
 /**
@@ -25,7 +25,7 @@ public class GuildManagerModel {
 
     private static GuildManagerModel instance;
 
-    private final GuildMGRManager guildMGRManager;
+    private final GMManager gmManager;
 
     private final Set<GM> managersFromDB;
     private final ObservableList<GM> cachedManagers;
@@ -44,11 +44,11 @@ public class GuildManagerModel {
     }
 
     private GuildManagerModel() throws IOException, DALException {
-        guildMGRManager = new GuildMGRManager();
-        gmCandidatesFromDB = new TreeSet<>(guildMGRManager.getAllGMCandidates());
+        gmManager = new GMManager();
+        gmCandidatesFromDB = new TreeSet<>(gmManager.getAllGMCandidates());
         cachedGMCandidates = FXCollections.observableArrayList(gmCandidatesFromDB);
-        managersFromDB = guildMGRManager.getAllGuildManagersNotIdle();
-        idleGuildManagersFromDB = guildMGRManager.getAllIdleGuildManagers();
+        managersFromDB = gmManager.getAllGuildManagersNotIdle();
+        idleGuildManagersFromDB = gmManager.getAllIdleGuildManagers();
         cachedManagers = FXCollections.observableArrayList(managersFromDB);
         cachedIdleGuildManagers = FXCollections.observableArrayList(idleGuildManagersFromDB);
 
@@ -86,7 +86,7 @@ public class GuildManagerModel {
             cachedIdleGuildManagers.remove(selectedManager);
             sortLists();
         }
-        guildMGRManager.archiveManager(selectedManager.getID(), value);
+        gmManager.archiveManager(selectedManager.getID(), value);
     }
 
     /**
@@ -98,7 +98,7 @@ public class GuildManagerModel {
      * @throws museumtimetracking.exception.DALException
      */
     public void createNewGuildManager(APerson person, Guild guild) throws DALException {
-        GM manager = guildMGRManager.createNewGuildManager(person, guild.getName());
+        GM manager = gmManager.createNewGuildManager(person, guild.getName());
         guild.setGuildManager(manager);
         cachedManagers.add(manager);
         sortLists();
@@ -121,7 +121,7 @@ public class GuildManagerModel {
      * @param guildsToDelete
      */
     public void updateGuildManager(GM manager, Set<String> guildsToAdd, Set<String> guildsToDelete) throws DALException {
-        guildMGRManager.updateGuildManager(manager, guildsToAdd, guildsToDelete);
+        gmManager.updateGuildManager(manager, guildsToAdd, guildsToDelete);
     }
 
     /**
@@ -134,7 +134,7 @@ public class GuildManagerModel {
         cachedManagers.remove(guildManager);
         cachedGMCandidates.remove(guildManager);
         cachedIdleGuildManagers.remove(guildManager);
-        guildMGRManager.deleteGuildManager(guildManager.getID());
+        gmManager.deleteGuildManager(guildManager.getID());
         sortLists();
     }
 
@@ -163,7 +163,7 @@ public class GuildManagerModel {
      * @throws DALException
      */
     public void assignGuildToManager(GM gm, Guild guild) throws DALException {
-        guildMGRManager.assignGuildToManager(gm.getID(), guild.getName());
+        gmManager.assignGuildToManager(gm.getID(), guild.getName());
         guild.setGuildManager(gm);
     }
 

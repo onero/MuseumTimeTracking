@@ -83,6 +83,8 @@ public class MTTMainControllerView implements Initializable {
     private final Node volunteer;
     private final Node idle;
 
+    public static final String WEBSITE = "http://www.levendehistorie.dk/";
+
     private final StatisticsViewController statisticsViewController;
     private final GuildOverviewController guildOverViewController;
     private final ArchivedGuildViewController archivedGuildViewController;
@@ -103,6 +105,8 @@ public class MTTMainControllerView implements Initializable {
 
         statistics = nodeFactory.createNewView(STATISTICS_OVERVIEW);
         statisticsViewController = nodeFactory.getLoader().getController();
+
+        statisticsViewController.createStatisticsViews();
 
         guildOverView = nodeFactory.createNewView(ACTIVE_GUILD);
         guildOverViewController = nodeFactory.getLoader().getController();
@@ -150,7 +154,7 @@ public class MTTMainControllerView implements Initializable {
 
     @FXML
     private void handleGotoWebsite() throws MalformedURLException, URISyntaxException, IOException {
-        URL website = new URL("http://www.levendehistorie.dk/");
+        URL website = new URL(WEBSITE);
         java.awt.Desktop.getDesktop().browse(website.toURI());
     }
 
@@ -187,7 +191,7 @@ public class MTTMainControllerView implements Initializable {
             searchID = newTab.getId();
             if (searchID.equals("statistics")) {
                 setSearchBarVisible(false);
-                statisticsViewController.updateDataForChart();
+                statisticsViewController.updateDataForGuildHoursOverview();
             } else {
                 setSearchBarVisible(true);
             }

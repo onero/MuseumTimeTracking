@@ -257,4 +257,17 @@ public class GuildModel {
     public void exportGuildHoursToExcel() throws IOException, WriteException, WriteException, DALException {
         guildManager.exportGuildHoursToExcel();
     }
+
+    /*
+     * Calculate the total return on investment a guild managers spends on
+     * volunteers for a single guild in a month, for all guilds parsed.
+     *
+     * @param selectedGuilds
+     * @param GMWorkHours
+     * @return
+     * @throws museumtimetracking.exception.DALException
+     */
+    public Map<String, Integer> getGMROIOnVolunteerForAMonth(List<Guild> selectedGuilds, int GMWorkHours) throws DALException {
+        return guildManager.getGMROIOnVolunteerForAMonth(selectedGuilds, GMWorkHours);
+    }
 }
