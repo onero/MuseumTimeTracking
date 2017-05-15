@@ -132,7 +132,6 @@ public class MTTMainControllerView implements Initializable {
         setContentOfTabs();
 
         imgHeader.fitWidthProperty().bind(borderPane.widthProperty());
-//        setSearchBarVisible(false);
         initializeTabPane();
         initializeTextFieldListener();
     }

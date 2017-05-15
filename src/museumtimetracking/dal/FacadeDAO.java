@@ -8,8 +8,8 @@ package museumtimetracking.dal;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -424,8 +424,7 @@ public class FacadeDAO {
         try {
             volunteerDAO.addHoursToVolunteer(volunteerID, guildName, date, hours);
         } catch (SQLException ex) {
-            throw new DALException(
-                    "Den frivillige har allerede fået dokumenteret tid får dette Laug idag.", ex);
+            throw new DALException("Tidregistreringen for den frivillige kunne ikke dokumenteres.", ex);
         }
     }
 
