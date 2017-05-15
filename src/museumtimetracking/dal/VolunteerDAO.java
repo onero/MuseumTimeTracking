@@ -112,13 +112,16 @@ public class VolunteerDAO extends APersonDAO {
      * Create a Volunteer in the Person table.
      *
      * @param newVolunteer
+     * @return
      * @throws com.microsoft.sqlserver.jdbc.SQLServerException
      */
-    public void createVolunteer(Volunteer newVolunteer) throws SQLServerException, SQLException {
+    public Volunteer createVolunteer(Volunteer newVolunteer) throws SQLServerException, SQLException {
         try (Connection con = cm.getConnection()) {
             int id = createNewPersonInDatabase(con, newVolunteer);
             addVolunteer(con, id);
             updateVolunteerInfo(con, newVolunteer.getDescription(), id);
+            newVolunteer.setID(id);
+            return newVolunteer;
         }
     }
 

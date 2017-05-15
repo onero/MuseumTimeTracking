@@ -179,11 +179,12 @@ public class FacadeDAO {
     /**
      *
      * @param volunteer
+     * @return
      * @throws museumtimetracking.exception.DALException
      */
-    public void addVolunteer(Volunteer volunteer) throws DALException {
+    public Volunteer addVolunteer(Volunteer volunteer) throws DALException {
         try {
-            volunteerDAO.createVolunteer(volunteer);
+            return volunteerDAO.createVolunteer(volunteer);
         } catch (SQLException ex) {
             throw new DALException(DB_CONNECTION_ERROR, ex);
         }

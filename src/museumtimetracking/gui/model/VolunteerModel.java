@@ -106,11 +106,11 @@ public class VolunteerModel {
     /**
      * Adds the volunteer to DB.
      *
-     * @param volunteer
+     * @param newVolunteer
      * @throws museumtimetracking.exception.DALException
      */
-    public void addVolunteer(Volunteer volunteer) throws DALException {
-        volunteerMgr.addVolunteer(volunteer);
+    public void addVolunteer(Volunteer newVolunteer) throws DALException {
+        Volunteer volunteer = volunteerMgr.addVolunteer(newVolunteer);
         cachedVolunteers.add(volunteer);
     }
 
