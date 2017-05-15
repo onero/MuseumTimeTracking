@@ -22,6 +22,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import museumtimetracking.be.GM;
@@ -393,5 +394,13 @@ public class GuildManagerOverviewController implements Initializable {
      */
     public void handleSearch(String searchText) {
         guildManagerModel.searchActiveManagers(searchText);
+    }
+
+    @FXML
+    private void handleSelectGM(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            setShowEditability(true);
+            setButtonTextToEditMode();
+        }
     }
 }
