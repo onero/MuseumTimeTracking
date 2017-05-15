@@ -5,11 +5,15 @@
  */
 package museumtimetracking.gui.views.root.statistics.ROIOverview;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.LineChart;
+import javafx.scene.chart.PieChart;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.model.GuildModel;
 
 /**
  * FXML Controller class
@@ -19,14 +23,28 @@ import javafx.scene.chart.LineChart;
 public class ROIGmHoursViewController implements Initializable {
 
     @FXML
-    private LineChart<?, ?> lineChart;
+    private PieChart chartPie;
+
+    private GuildModel guildModel;
+
+    public ROIGmHoursViewController() {
+        try {
+            guildModel = GuildModel.getInstance();
+        } catch (IOException | DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        chartPie.setLegendVisible(false);
+    }
+
+    public void updateDataForChart() {
+
     }
 
 }

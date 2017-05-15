@@ -177,7 +177,7 @@ public class GuildModel {
         cachedGuilds.clear();
         guildsFromDB.stream()
                 .filter(g -> g.getName().toLowerCase().contains(newValue.toLowerCase())
-                || g.getGuildManager() != null && g.getGuildManager().getFullName().toLowerCase().contains(newValue.toLowerCase()))
+                        || g.getGuildManager() != null && g.getGuildManager().getFullName().toLowerCase().contains(newValue.toLowerCase()))
                 .forEach(g -> cachedGuilds.add(g));
     }
 
@@ -246,14 +246,15 @@ public class GuildModel {
     }
 
     /**
-     * Calculate the total return on investment a
-     * guild managers spends on volunteers for a single guild in a month
+     * Calculate the total return on investment a guild managers spends on
+     * volunteers for a single guild in a month, for all guilds parsed.
      *
-     * @param selectedGuild
+     * @param selectedGuilds
      * @param GMWorkHours
      * @return
+     * @throws museumtimetracking.exception.DALException
      */
-    public int getGMROIOnVolunteerForAMonth(Guild selectedGuild, int GMWorkHours) throws DALException {
-        return guildManager.getGMROIOnVolunteerForAMonth(selectedGuild, GMWorkHours);
+    public Map<String, Integer> getGMROIOnVolunteerForAMonth(List<Guild> selectedGuilds, int GMWorkHours) throws DALException {
+        return guildManager.getGMROIOnVolunteerForAMonth(selectedGuilds, GMWorkHours);
     }
 }

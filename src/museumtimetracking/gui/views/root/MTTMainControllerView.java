@@ -98,7 +98,7 @@ public class MTTMainControllerView implements Initializable {
         statistics = nodeFactory.createNewView(STATISTICS_OVERVIEW);
         statisticsViewController = nodeFactory.getLoader().getController();
 
-        statisticsViewController.createStatisticsView();
+        statisticsViewController.createStatisticsViews();
 
         guildOverView = nodeFactory.createNewView(ACTIVE_GUILD);
         guildOverViewController = nodeFactory.getLoader().getController();

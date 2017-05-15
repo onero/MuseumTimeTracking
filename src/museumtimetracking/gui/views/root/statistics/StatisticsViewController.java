@@ -103,14 +103,10 @@ public class StatisticsViewController implements Initializable {
         });
     }
 
-    public void createStatisticsView() {
-        guildHoursOverview = nodeFactory.createNewView(EFXMLName.CHART_GUILD_HOURS_OVERVIEW);
-        chartGuildHoursOverviewController = nodeFactory.getLoader().getController();
-        borderpane.setCenter(guildHoursOverview);
-        updateDataForGuildHoursOverview();
-    }
-
-    public void createStatisticsView() {
+    /**
+     * Creates the nodes and controllers for the different statisticsViews.
+     */
+    public void createStatisticsViews() {
         guildHoursOverview = nodeFactory.createNewView(EFXMLName.CHART_GUILD_HOURS_OVERVIEW);
         chartGuildHoursOverviewController = nodeFactory.getLoader().getController();
 
@@ -120,6 +116,9 @@ public class StatisticsViewController implements Initializable {
         initialSetup();
     }
 
+    /**
+     * Sets the initial setup.
+     */
     private void initialSetup() {
         borderpane.setCenter(guildHoursOverview);
         updateDataForGuildHoursOverview();
