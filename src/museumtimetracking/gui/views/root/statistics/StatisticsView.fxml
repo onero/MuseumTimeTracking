@@ -17,7 +17,7 @@
                   <HBox AnchorPane.leftAnchor="14.0">
                      <children>
                         <TextField fx:id="txtSearchBar" />
-                        <ComboBox fx:id="cmbGuilds" prefWidth="150.0" />
+                        <ComboBox fx:id="cmbGuilds" onAction="#selectGuild" prefWidth="150.0" />
                      </children>
                   </HBox>
                   <ButtonBar prefHeight="40.0" prefWidth="200.0" AnchorPane.rightAnchor="14.0">
