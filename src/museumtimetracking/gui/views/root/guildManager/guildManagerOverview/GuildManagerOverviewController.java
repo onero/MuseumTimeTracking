@@ -183,7 +183,7 @@ public class GuildManagerOverviewController implements Initializable {
         setButtonTextToViewMode();
         setSetsToNull();
         lstManagers.refresh();
-        updateInformation(managerToDelete);
+        
     }
 
     /**
@@ -317,8 +317,6 @@ public class GuildManagerOverviewController implements Initializable {
     private void setButtonTextToEditMode() {
         btnNewGuildManager.setText(ADD_GUILD_BUTTON_TEXT);
         btnDelete.setText(CANCEL_BUTTON_TEXT);
-//        btnDelete.setDisable(true);
-//        btnDelete.setVisible(false);
         btnEdit.setText(SAVE_BUTTON_TEXT);
         lstManagers.setDisable(true);
         btnArchiveManager.setDisable(true);
@@ -333,8 +331,6 @@ public class GuildManagerOverviewController implements Initializable {
     private void setButtonTextToViewMode() {
         btnNewGuildManager.setText(NEW_GUILD_MANAGER_TEXT);
         btnDelete.setText(DELETE_BUTTON_TEXT);
-//        btnDelete.setDisable(false);
-//        btnDelete.setVisible(true);
         btnEdit.setText(EDIT_BUTTON_TEXT);
         lstManagers.setDisable(false);
         btnArchiveManager.setDisable(false);
