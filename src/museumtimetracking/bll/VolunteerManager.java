@@ -122,7 +122,6 @@ public class VolunteerManager {
      */
     public void addHoursToVolunteer(int volunteerID, String guildName, int hours) throws DALException {
         Date date = new Date();
-        System.out.println(date);
         facadeDAO.addHoursToVolunteer(volunteerID, guildName, date, hours);
     }
 }
