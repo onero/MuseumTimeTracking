@@ -7,6 +7,9 @@ package museumtimetracking.gui.views.root.statistics;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -65,9 +68,6 @@ public class StatisticsViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         initializeComboBox();
 
-        txtSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
-            guildModel.searchGuilds(newValue);
-        });
     }
 
     public void initializeComboBox() {
@@ -77,6 +77,7 @@ public class StatisticsViewController implements Initializable {
             cmbGuilds.getSelectionModel().selectFirst();
         }
 
+        //Fill combobox with guilds
         cmbGuilds.setCellFactory(gm -> new ListCell<Guild>() {
             @Override
             protected void updateItem(Guild guild, boolean empty) {
@@ -89,6 +90,7 @@ public class StatisticsViewController implements Initializable {
             }
         });
 
+        //Make sure that the guilds name is shown
         cmbGuilds.setButtonCell(
                 new ListCell<Guild>() {
             @Override
@@ -100,6 +102,10 @@ public class StatisticsViewController implements Initializable {
                     setText(guild.getName());
                 }
             }
+        });
+        //Set a search listener on serach textfield
+        txtSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            guildModel.searchGuilds(newValue);
         });
     }
 
@@ -122,6 +128,21 @@ public class StatisticsViewController implements Initializable {
     private void initialSetup() {
         borderpane.setCenter(guildHoursOverview);
         updateDataForGuildHoursOverview();
+    }
+
+    @FXML
+    private void selectGuild() {
+        List<Guild> selected = new ArrayList<>();
+        selected.add(cmbGuilds.getSelectionModel().getSelectedItem());
+
+        try {
+
+            Map<String, Integer> total = guildModel.getGMROIOnVolunteerForAMonth(selected, 10);
+
+            //TODO ALH&RKL: Connect with chart
+        } catch (DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
     }
 
     /**
