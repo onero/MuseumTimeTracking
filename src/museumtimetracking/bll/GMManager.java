@@ -17,11 +17,11 @@ import museumtimetracking.exception.DALException;
  *
  * @author Mathias
  */
-public class GuildMGRManager {
+public class GMManager {
 
     private final FacadeDAO facadeDAO;
 
-    public GuildMGRManager() throws IOException {
+    public GMManager() throws IOException {
         facadeDAO = FacadeDAO.getInstance();
     }
 
@@ -130,4 +130,5 @@ public class GuildMGRManager {
     public void assignGuildToManager(int id, String guildName) throws DALException {
         facadeDAO.assignGuildToManager(id, guildName);
     }
+
 }
