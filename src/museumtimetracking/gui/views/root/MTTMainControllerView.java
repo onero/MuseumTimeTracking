@@ -75,6 +75,8 @@ public class MTTMainControllerView implements Initializable {
     private final Node volunteer;
     private final Node idle;
 
+    public static final String WEBSITE = "http://www.levendehistorie.dk/";
+
     private final StatisticsViewController statisticsViewController;
     private final GuildOverviewController guildOverViewController;
     private final ArchivedGuildViewController archivedGuildViewController;
@@ -118,7 +120,7 @@ public class MTTMainControllerView implements Initializable {
 
     @FXML
     private void handleGotoWebsite() throws MalformedURLException, URISyntaxException, IOException {
-        URL website = new URL("http://www.levendehistorie.dk/");
+        URL website = new URL(WEBSITE);
         java.awt.Desktop.getDesktop().browse(website.toURI());
     }
 

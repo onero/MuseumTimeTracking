@@ -11,9 +11,9 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import museumtimetracking.be.Guild;
 import museumtimetracking.be.enums.EFXMLName;
@@ -35,7 +35,7 @@ public class StatisticsViewController implements Initializable {
     @FXML
     private ComboBox<Guild> cmbGuilds;
     @FXML
-    private ButtonBar txtSearchBar;
+    private TextField txtSearchBar;
 
     private GuildModel guildModel;
 
@@ -61,10 +61,18 @@ public class StatisticsViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initializeComboBox();
+
+        txtSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            guildModel.searchGuilds(newValue);
+        });
     }
 
     public void initializeComboBox() {
         cmbGuilds.setItems(guildModel.getCachedGuilds());
+
+        if (!cmbGuilds.getItems().isEmpty()) {
+            cmbGuilds.getSelectionModel().selectFirst();
+        }
 
         cmbGuilds.setCellFactory(gm -> new ListCell<Guild>() {
             @Override

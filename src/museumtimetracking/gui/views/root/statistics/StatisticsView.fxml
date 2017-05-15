@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.statistics.StatisticsViewController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.statistics.StatisticsViewController">
    <children>
       <BorderPane fx:id="borderpane" layoutX="14.0" layoutY="14.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <bottom>
@@ -16,11 +16,11 @@
                <children>
                   <HBox AnchorPane.leftAnchor="14.0">
                      <children>
-                        <TextField />
+                        <TextField fx:id="txtSearchBar" />
                         <ComboBox fx:id="cmbGuilds" prefWidth="150.0" />
                      </children>
                   </HBox>
-                  <ButtonBar fx:id="txtSearchBar" prefHeight="40.0" prefWidth="200.0" AnchorPane.rightAnchor="14.0">
+                  <ButtonBar prefHeight="40.0" prefWidth="200.0" AnchorPane.rightAnchor="14.0">
                     <buttons>
                       <Button maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleChangeStatisticsButton" prefWidth="140.0" text="&lt;==&gt;" />
                     </buttons>
