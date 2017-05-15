@@ -70,7 +70,7 @@ public class StatisticsViewController implements Initializable {
                 hoursSeries.getData().add(data);
             }
         }
-
+        //Adds the serie to the barChart.
         chartHoursOverview.getData().add(hoursSeries);
     }
 
