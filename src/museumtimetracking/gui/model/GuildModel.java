@@ -244,4 +244,16 @@ public class GuildModel {
     public void removeCachedAvailableGuild(Guild guildToRemove) {
         cachedAvailableGuilds.remove(guildToRemove);
     }
+
+    /**
+     * Calculate the total return on investment a
+     * guild managers spends on volunteers for a single guild in a month
+     *
+     * @param selectedGuild
+     * @param GMWorkHours
+     * @return
+     */
+    public int getGMROIOnVolunteerForAMonth(Guild selectedGuild, int GMWorkHours) throws DALException {
+        return guildManager.getGMROIOnVolunteerForAMonth(selectedGuild, GMWorkHours);
+    }
 }

@@ -6,6 +6,7 @@
 package museumtimetracking.bll;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -132,4 +133,26 @@ public class GuildManager {
         facadeDAO.updateGMForGuild(id, guildName);
     }
 
+    /**
+     * Calculate the total return on investment a
+     * guild managers spends on volunteers for a single guild in a month
+     *
+     * @param GMGoursInAMonth
+     * @return Guildmanager return on investment as an int
+     */
+    public int getGMROIOnVolunteerForAMonth(Guild selectedGuild, int GMGoursInAMonth) throws DALException {
+        int total = 0;
+
+        List<Guild> guild = new ArrayList<>();
+        guild.add(selectedGuild);
+        Map<String, Integer> hoursWorked = getAllHoursWorked(guild);
+
+        int totalGuildHoursForAMonth = hoursWorked.get(selectedGuild.getName());
+
+        if (totalGuildHoursForAMonth != 0) {
+            total = totalGuildHoursForAMonth / GMGoursInAMonth;
+        }
+
+        return total;
+    }
 }
