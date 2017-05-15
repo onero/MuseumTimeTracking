@@ -23,7 +23,6 @@
             <TableColumn fx:id="clmGM" prefWidth="75.0" text="Tovholder" />
          </columns>
          <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
       <Pane fx:id="newGuildPane" prefHeight="176.0" prefWidth="350.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
