@@ -6,6 +6,8 @@
 package museumtimetracking.bll;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -132,4 +134,41 @@ public class GuildManager {
         facadeDAO.updateGMForGuild(id, guildName);
     }
 
+    /**
+     * Calculate the total return on investment a guild managers spends on
+     * volunteers for a single guild in a month
+     *
+     * @param selectedGuilds
+     * @param GMHoursInAMonth
+     * @return a Map containing the names of the guilds and their ROI.
+     * @throws museumtimetracking.exception.DALException
+     */
+    public Map<String, Integer> getGMROIOnVolunteerForAMonth(List<Guild> selectedGuilds, int GMHoursInAMonth) throws DALException {
+        int total = 0;
+
+        List<Guild> guild = new ArrayList<>();
+        guild.addAll(selectedGuilds);
+        Map<String, Integer> hoursWorked = getAllHoursWorked(selectedGuilds);
+        Map<String, Integer> ROIs = new HashMap<>();
+
+        for (Guild selectedGuild : selectedGuilds) {
+            ROIs.put(selectedGuild.getName(), getROI(hoursWorked.get(selectedGuild.getName()), GMHoursInAMonth));
+        }
+
+        return ROIs;
+    }
+
+    /**
+     * Divides the two parameters so long hoursWorked is not 0.
+     *
+     * @param hoursWorked
+     * @param GMHoursInAMonth
+     * @return
+     */
+    private int getROI(int hoursWorked, int GMHoursInAMonth) {
+        if (hoursWorked != 0) {
+            return hoursWorked / GMHoursInAMonth;
+        }
+        return 0;
+    }
 }

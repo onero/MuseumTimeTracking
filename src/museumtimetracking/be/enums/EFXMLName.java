@@ -12,6 +12,8 @@ public enum EFXMLName {
      * Statistic
      */
     STATISTICS_OVERVIEW(MAIN_FOLER + "statistics/StatisticsView.fxml"),
+    CHART_GUILD_HOURS_OVERVIEW(MAIN_FOLER + "statistics/guildHoursOverview/ChartGuildHoursOverview.fxml"),
+    ROI_GM_HOURS(MAIN_FOLER + "statistics/ROIOverview/ROIGmHoursView.fxml"),
     /*
      * Guild
      */
