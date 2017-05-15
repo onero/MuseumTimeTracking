@@ -110,13 +110,6 @@ public class StatisticsViewController implements Initializable {
     public void createStatisticsView() {
         guildHoursOverview = nodeFactory.createNewView(EFXMLName.CHART_GUILD_HOURS_OVERVIEW);
         chartGuildHoursOverviewController = nodeFactory.getLoader().getController();
-        borderpane.setCenter(guildHoursOverview);
-        updateDataForGuildHoursOverview();
-    }
-
-    public void createStatisticsView() {
-        guildHoursOverview = nodeFactory.createNewView(EFXMLName.CHART_GUILD_HOURS_OVERVIEW);
-        chartGuildHoursOverviewController = nodeFactory.getLoader().getController();
 
         ROIGmHours = nodeFactory.createNewView(EFXMLName.ROI_GM_HOURS);
         ROIGmHoursController = nodeFactory.getLoader().getController();
