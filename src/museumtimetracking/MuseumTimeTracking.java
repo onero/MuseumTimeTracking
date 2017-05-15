@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import museumtimetracking.exception.DALException;
 
 public class MuseumTimeTracking extends Application {
 
@@ -55,7 +56,7 @@ public class MuseumTimeTracking extends Application {
         return mainStage;
     }
 
-    private FadeTransition createFadeIn(Parent startRoot, Stage stage) {
+    private FadeTransition createFadeIn(Parent startRoot, Stage stage) throws IOException, DALException {
         //Start fade in of start view
         FadeTransition fadeIn = new FadeTransition(Duration.seconds(3), startRoot);
         fadeIn.setFromValue(0);
@@ -63,6 +64,7 @@ public class MuseumTimeTracking extends Application {
         fadeIn.setCycleCount(1);
         fadeIn.play();
         stage.show();
+
         return fadeIn;
     }
 
