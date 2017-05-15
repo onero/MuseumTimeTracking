@@ -47,6 +47,10 @@ public abstract class APerson implements Comparable<APerson> {
         return ID;
     }
 
+    public void setID(int id) {
+        this.ID = id;
+    }
+
     public Image getImage() {
         return image;
     }

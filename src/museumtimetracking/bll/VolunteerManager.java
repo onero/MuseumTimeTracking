@@ -30,10 +30,11 @@ public class VolunteerManager {
      * Adds a new volunteer to DB.
      *
      * @param volunteerToAdd
+     * @return
      * @throws museumtimetracking.exception.DALException
      */
-    public void addVolunteer(Volunteer volunteerToAdd) throws DALException {
-        facadeDAO.addVolunteer(volunteerToAdd);
+    public Volunteer addVolunteer(Volunteer volunteerToAdd) throws DALException {
+        return facadeDAO.addVolunteer(volunteerToAdd);
     }
 
     /**
