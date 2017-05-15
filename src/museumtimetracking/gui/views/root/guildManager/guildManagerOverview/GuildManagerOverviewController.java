@@ -22,6 +22,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import museumtimetracking.be.GM;
@@ -43,7 +44,6 @@ public class GuildManagerOverviewController implements Initializable {
 
     @FXML
     private ButtonBar GMOptions;
-
     @FXML
     private ListView<GM> lstManagers;
     @FXML
@@ -75,6 +75,8 @@ public class GuildManagerOverviewController implements Initializable {
     private static final String EDIT_BUTTON_TEXT = "Rediger";
     private static final String SAVE_BUTTON_TEXT = "Gem";
     private static final String NEW_GUILD_MANAGER_TEXT = "Ny Tovholder";
+    private static final String CANCEL_BUTTON_TEXT = "Annuller";
+    private static final String DELETE_BUTTON_TEXT = "Slet";
 
     private final ModalFactory modalFactory;
 
@@ -94,6 +96,9 @@ public class GuildManagerOverviewController implements Initializable {
 
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -162,18 +167,21 @@ public class GuildManagerOverviewController implements Initializable {
     @FXML
     private void handleDeleteButton() {
         GM managerToDelete = lstManagers.getSelectionModel().getSelectedItem();
-        Alert deleteAlert = AlertFactory.createDeleteAlert();
-        deleteAlert.showAndWait().ifPresent(type -> {
-            //If user clicks first button
-            if (type == deleteAlert.getButtonTypes().get(0)) {
-                try {
-                    guildManagerModel.deleteGuildManager(managerToDelete);
-                } catch (DALException ex) {
-                    ExceptionDisplayer.display(ex);
+        if (btnDelete.getText().equals(DELETE_BUTTON_TEXT)) {
+            Alert deleteAlert = AlertFactory.createDeleteAlert();
+            deleteAlert.showAndWait().ifPresent(type -> {
+                //If user clicks first button
+                if (type == deleteAlert.getButtonTypes().get(0)) {
+                    try {
+                        guildManagerModel.deleteGuildManager(managerToDelete);
+                    } catch (DALException ex) {
+                        ExceptionDisplayer.display(ex);
+                    }
                 }
-            }
-        });
-
+            });
+        } else if (btnDelete.getText().equals(CANCEL_BUTTON_TEXT)) {
+            setShowEditability(false);
+        }
         setButtonTextToViewMode();
         setSetsToNull();
         lstManagers.refresh();
@@ -309,8 +317,7 @@ public class GuildManagerOverviewController implements Initializable {
      */
     private void setButtonTextToEditMode() {
         btnNewGuildManager.setText(ADD_GUILD_BUTTON_TEXT);
-        btnDelete.setDisable(true);
-        btnDelete.setVisible(false);
+        btnDelete.setText(CANCEL_BUTTON_TEXT);
         btnEdit.setText(SAVE_BUTTON_TEXT);
         lstManagers.setDisable(true);
         btnArchiveManager.setDisable(true);
@@ -324,8 +331,7 @@ public class GuildManagerOverviewController implements Initializable {
      */
     private void setButtonTextToViewMode() {
         btnNewGuildManager.setText(NEW_GUILD_MANAGER_TEXT);
-        btnDelete.setDisable(false);
-        btnDelete.setVisible(true);
+        btnDelete.setText(DELETE_BUTTON_TEXT);
         btnEdit.setText(EDIT_BUTTON_TEXT);
         lstManagers.setDisable(false);
         btnArchiveManager.setDisable(false);
@@ -393,5 +399,13 @@ public class GuildManagerOverviewController implements Initializable {
      */
     public void handleSearch(String searchText) {
         guildManagerModel.searchActiveManagers(searchText);
+    }
+
+    @FXML
+    private void handleSelectGM(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            setShowEditability(true);
+            setButtonTextToEditMode();
+        }
     }
 }
