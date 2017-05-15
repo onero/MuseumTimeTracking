@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import jxl.write.WriteException;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
 import museumtimetracking.bll.GuildManager;
@@ -243,5 +244,17 @@ public class GuildModel {
      */
     public void removeCachedAvailableGuild(Guild guildToRemove) {
         cachedAvailableGuilds.remove(guildToRemove);
+    }
+
+    /**
+     * Export all guild hours to excel sheet
+     *
+     * @throws IOException
+     * @throws WriteException
+     * @throws WriteException
+     * @throws DALException
+     */
+    public void exportGuildHoursToExcel() throws IOException, WriteException, WriteException, DALException {
+        guildManager.exportGuildHoursToExcel();
     }
 }

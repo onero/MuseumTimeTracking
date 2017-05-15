@@ -20,8 +20,13 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import jxl.write.WriteException;
 import static museumtimetracking.be.enums.EFXMLName.*;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.model.GuildModel;
 import museumtimetracking.gui.views.NodeFactory;
 import museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController;
 import museumtimetracking.gui.views.root.archivedGuilds.ArchivedGuildViewController;
@@ -36,6 +41,9 @@ import museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController;
  * @author gta1
  */
 public class MTTMainControllerView implements Initializable {
+
+    @FXML
+    private HBox iconBox;
 
     @FXML
     private Pane snackPane;
@@ -114,12 +122,6 @@ public class MTTMainControllerView implements Initializable {
         searchID = "";
     }
 
-    @FXML
-    private void handleGotoWebsite() throws MalformedURLException, URISyntaxException, IOException {
-        URL website = new URL("http://www.levendehistorie.dk/");
-        java.awt.Desktop.getDesktop().browse(website.toURI());
-    }
-
     /**
      * Initializes the controller class.
      */
@@ -134,6 +136,22 @@ public class MTTMainControllerView implements Initializable {
         imgHeader.fitWidthProperty().bind(borderPane.widthProperty());
         initializeTabPane();
         initializeTextFieldListener();
+    }
+
+    @FXML
+    private void handleExportExcel() {
+        try {
+            GuildModel.getInstance().exportGuildHoursToExcel();
+            displaySnackWarning("Excel eksporteret!");
+        } catch (IOException | DALException | WriteException ex) {
+            ExceptionDisplayer.display(ex);
+        }
+    }
+
+    @FXML
+    private void handleGotoWebsite() throws MalformedURLException, URISyntaxException, IOException {
+        URL website = new URL("http://www.levendehistorie.dk/");
+        java.awt.Desktop.getDesktop().browse(website.toURI());
     }
 
     /**

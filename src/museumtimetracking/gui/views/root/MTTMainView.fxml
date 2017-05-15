@@ -44,11 +44,20 @@
                   <Button fx:id="btnClearSearch" mnemonicParsing="false" onAction="#handleClearSearchBar" text="X" />
                </children>
             </HBox>
-            <Pane fx:id="snackPane" layoutX="317.0" layoutY="26.0" prefHeight="43.0" prefWidth="209.0">
+            <Pane fx:id="snackPane" layoutX="228.0" layoutY="23.0" prefHeight="43.0" prefWidth="209.0">
                <children>
                   <JFXSnackbar fx:id="snackWarning" />
                </children>
             </Pane>
+            <HBox fx:id="iconBox" layoutX="444.0" layoutY="14.0" prefHeight="32.0" prefWidth="153.0">
+               <children>
+                  <ImageView fitHeight="39.0" fitWidth="61.0" onMouseClicked="#handleExportExcel" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../asset/img/functions/export-excel.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
          </children>
       </AnchorPane>
    </top>
