@@ -21,6 +21,7 @@ import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
 import museumtimetracking.gui.views.NodeFactory;
+import museumtimetracking.gui.views.root.statistics.ROIOverview.ROIGmHoursViewController;
 import museumtimetracking.gui.views.root.statistics.guildHoursOverview.ChartGuildHoursOverviewController;
 
 /**
@@ -42,8 +43,10 @@ public class StatisticsViewController implements Initializable {
     private final NodeFactory nodeFactory;
 
     private Node guildHoursOverview;
+    private Node ROIGmHours;
 
     private ChartGuildHoursOverviewController chartGuildHoursOverviewController;
+    private ROIGmHoursViewController ROIGmHoursController;
 
     public StatisticsViewController() {
         try {
@@ -107,6 +110,21 @@ public class StatisticsViewController implements Initializable {
         updateDataForGuildHoursOverview();
     }
 
+    public void createStatisticsView() {
+        guildHoursOverview = nodeFactory.createNewView(EFXMLName.CHART_GUILD_HOURS_OVERVIEW);
+        chartGuildHoursOverviewController = nodeFactory.getLoader().getController();
+
+        ROIGmHours = nodeFactory.createNewView(EFXMLName.ROI_GM_HOURS);
+        ROIGmHoursController = nodeFactory.getLoader().getController();
+
+        initialSetup();
+    }
+
+    private void initialSetup() {
+        borderpane.setCenter(guildHoursOverview);
+        updateDataForGuildHoursOverview();
+    }
+
     /**
      * Clears the data in the chart and fills it with freshly fetched data.
      *
@@ -117,6 +135,11 @@ public class StatisticsViewController implements Initializable {
 
     @FXML
     private void handleChangeStatisticsButton() {
+        if (borderpane.getCenter() == guildHoursOverview) {
+            borderpane.setCenter(ROIGmHours);
+        } else {
+            borderpane.setCenter(guildHoursOverview);
+        }
     }
 
 }
