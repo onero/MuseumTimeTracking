@@ -8,7 +8,7 @@ package museumtimetracking.bll;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.dal.FacadeDAO;
@@ -30,10 +30,11 @@ public class VolunteerManager {
      * Adds a new volunteer to DB.
      *
      * @param volunteerToAdd
+     * @return
      * @throws museumtimetracking.exception.DALException
      */
-    public void addVolunteer(Volunteer volunteerToAdd) throws DALException {
-        facadeDAO.addVolunteer(volunteerToAdd);
+    public Volunteer addVolunteer(Volunteer volunteerToAdd) throws DALException {
+        return facadeDAO.addVolunteer(volunteerToAdd);
     }
 
     /**
@@ -120,7 +121,7 @@ public class VolunteerManager {
      * @throws museumtimetracking.exception.DALException
      */
     public void addHoursToVolunteer(int volunteerID, String guildName, int hours) throws DALException {
-        Date date = new Date(System.currentTimeMillis());
+        Date date = new Date();
         facadeDAO.addHoursToVolunteer(volunteerID, guildName, date, hours);
     }
 }

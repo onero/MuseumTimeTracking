@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -173,8 +174,17 @@ public class GuildOverviewController implements Initializable {
 
         //Enter edit mode
         if (event.getClickCount() == 2) {
-
-            Stage primStage = (Stage) txtDescription.getScene().getWindow();
+            getEditGuildView();
+        }
+    }
+    
+            @FXML
+    private void handleEditGuild() {
+        getEditGuildView();
+    }
+    
+    private void getEditGuildView(){
+        Stage primStage = (Stage) txtDescription.getScene().getWindow();
 
             Stage editGuildModal = modalFactory.createNewModal(primStage, EFXMLName.EDIT_GUILD);
 
@@ -184,7 +194,6 @@ public class GuildOverviewController implements Initializable {
 
             editGuildModal.showAndWait();
             tableGuild.refresh();
-        }
     }
 
     @FXML
@@ -257,5 +266,6 @@ public class GuildOverviewController implements Initializable {
     public void refreshTable() {
         tableGuild.refresh();
     }
+
 
 }
