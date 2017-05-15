@@ -71,7 +71,7 @@ public class GuildManagerOverviewController implements Initializable {
 
     private List<TextField> textFields;
 
-    private static final String ADD_GUILD_BUTTON_TEXT = "Tilføj Laug";
+    private static final String ADD_GUILD_BUTTON_TEXT = "Tilføj/fjern Laug";
     private static final String EDIT_BUTTON_TEXT = "Rediger";
     private static final String SAVE_BUTTON_TEXT = "Gem";
     private static final String NEW_GUILD_MANAGER_TEXT = "Ny Tovholder";
