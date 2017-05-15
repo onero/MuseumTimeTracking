@@ -96,6 +96,8 @@ public class MTTMainControllerView implements Initializable {
         statistics = nodeFactory.createNewView(STATISTICS_OVERVIEW);
         statisticsViewController = nodeFactory.getLoader().getController();
 
+        statisticsViewController.createStatisticsView();
+
         guildOverView = nodeFactory.createNewView(ACTIVE_GUILD);
         guildOverViewController = nodeFactory.getLoader().getController();
 
@@ -170,7 +172,7 @@ public class MTTMainControllerView implements Initializable {
             searchID = newTab.getId();
             if (searchID.equals("statistics")) {
                 setSearchBarVisible(false);
-                statisticsViewController.updateDataForChart();
+                statisticsViewController.updateDataForGuildHoursOverview();
             } else {
                 setSearchBarVisible(true);
             }

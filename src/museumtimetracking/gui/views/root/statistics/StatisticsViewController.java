@@ -7,17 +7,19 @@ package museumtimetracking.gui.views.root.statistics;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.XYChart;
-import museumtimetracking.be.Guild;
+import javafx.scene.Node;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ComboBox;
+import javafx.scene.layout.BorderPane;
+import museumtimetracking.be.enums.EFXMLName;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.views.NodeFactory;
+import museumtimetracking.gui.views.root.statistics.guildHoursOverview.ChartGuildHoursOverviewController;
 
 /**
  * FXML Controller class
@@ -27,9 +29,19 @@ import museumtimetracking.gui.model.GuildModel;
 public class StatisticsViewController implements Initializable {
 
     @FXML
-    private BarChart<String, Integer> chartHoursOverview;
+    private BorderPane borderpane;
+    @FXML
+    private ComboBox<?> cmbGuilds;
+    @FXML
+    private ButtonBar txtSearchBar;
 
     private GuildModel guildModel;
+
+    private final NodeFactory nodeFactory;
+
+    private Node guildHoursOverview;
+
+    private ChartGuildHoursOverviewController chartGuildHoursOverviewController;
 
     public StatisticsViewController() {
         try {
@@ -37,6 +49,15 @@ public class StatisticsViewController implements Initializable {
         } catch (IOException | DALException ex) {
             ExceptionDisplayer.display(ex);
         }
+        nodeFactory = NodeFactory.getInstance();
+
+    }
+
+    public void createStatisticsView() {
+        guildHoursOverview = nodeFactory.createNewView(EFXMLName.CHART_GUILD_HOURS_OVERVIEW);
+        chartGuildHoursOverviewController = nodeFactory.getLoader().getController();
+        borderpane.setCenter(guildHoursOverview);
+        updateDataForGuildHoursOverview();
     }
 
     /**
@@ -44,34 +65,18 @@ public class StatisticsViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        chartHoursOverview.setLegendVisible(false);
-        updateDataForChart();
     }
 
     /**
      * Clears the data in the chart and fills it with freshly fetched data.
      *
-     * @param title
      */
-    public void updateDataForChart() {
-        chartHoursOverview.getData().clear();
-        List<Guild> guilds = guildModel.getGuildsFromDB();
-        Map<String, Integer> guildHours = null;
-        try {
-            guildHours = guildModel.getMapOfHoursPerGuild();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
-        XYChart.Series hoursSeries = new XYChart.Series<>();
+    public void updateDataForGuildHoursOverview() {
+        chartGuildHoursOverviewController.updateDataForChart();
+    }
 
-        for (Guild guild : guilds) {
-            if (guildHours != null) {
-                XYChart.Data data = new XYChart.Data<>(guild.getName(), guildHours.get(guild.getName()));
-                hoursSeries.getData().add(data);
-            }
-        }
-        //Adds the serie to the barChart.
-        chartHoursOverview.getData().add(hoursSeries);
+    @FXML
+    private void handleChangeStatisticsButton() {
     }
 
 }
