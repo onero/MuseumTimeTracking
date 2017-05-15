@@ -183,10 +183,6 @@ public class GuildManager {
      *
      */
     public Map<String, Integer> getGMROIOnVolunteerForAMonth(List<Guild> selectedGuilds, int GMHoursInAMonth) throws DALException {
-        int total = 0;
-
-        List<Guild> guild = new ArrayList<>();
-        guild.addAll(selectedGuilds);
         Map<String, Integer> hoursWorked = getAllHoursWorked(selectedGuilds);
         Map<String, Integer> ROIs = new HashMap<>();
 
