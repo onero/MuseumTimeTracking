@@ -253,8 +253,13 @@ public class VolunteerOverviewController implements Initializable {
     }
 
     @FXML
-    private void handleSelectVolunteer() {
+    private void handleSelectVolunteer(MouseEvent event) {
         selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
+        // Doubleclick to edit the volunteer.
+        if (event.getClickCount() == 2) {
+            handleEditVolunteer();
+        }
+        
         setVolunteerOptionsVisibility(true);
 
         txtFirstName.setText(selectedVolunteer.getFirstName());
