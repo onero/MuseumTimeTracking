@@ -11,11 +11,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javafx.scene.image.Image;
 import museumtimetracking.be.Volunteer;
@@ -266,7 +266,7 @@ public class VolunteerDAO extends APersonDAO {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, volunteerID);
             ps.setString(2, guildName);
-            ps.setDate(3, date);
+            ps.setTimestamp(3, new java.sql.Timestamp(date.getTime()));
             ps.setInt(4, hours);
 
             ps.executeUpdate();
