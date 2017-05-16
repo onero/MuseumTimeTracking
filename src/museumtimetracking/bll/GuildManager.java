@@ -142,20 +142,12 @@ public class GuildManager {
      * @throws WriteException
      * @throws DALException
      */
-    public void exportToExcel(String location, Map<String, Integer> guildHours) throws IOException, WriteException, DALException {
+    public void exportToExcel(String location, List<String> keys, List<Integer> values) throws IOException, WriteException, DALException {
         ExcelWriter newFile = new ExcelWriter();
         newFile.setOutputFile(location);
         newFile.createNewExcel("Rapport over laug");
 
         newFile.createCaptions("Laug", "Timer");
-
-        List<String> keys = new ArrayList<>();
-        List<Integer> values = new ArrayList<>();
-
-        for (Map.Entry<String, Integer> entry : guildHours.entrySet()) {
-            keys.add(entry.getKey());
-            values.add(entry.getValue());
-        }
 
         newFile.createLabelNumberContent(keys, values);
 

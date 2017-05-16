@@ -25,6 +25,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import jxl.write.WriteException;
 import static museumtimetracking.be.enums.EFXMLName.*;
+import museumtimetracking.be.enums.ETabPaneID;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
@@ -151,11 +152,12 @@ public class MTTMainControllerView implements Initializable {
             fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel", "*.xls"));
             String location = fc.showSaveDialog(snackPane.getScene().getWindow()).getAbsolutePath();
             if (location != null) {
-                switch (paneTabID) {
-                    case "statistics":
+                ETabPaneID paneID = ETabPaneID.getLanguageByString(paneTabID);
+                switch (paneID) {
+                    case STATISTICS:
                         GuildModel.getInstance().exportGuildHoursToExcel(location);
                         break;
-                    case "volunteer":
+                    case VOLUNTEER:
                         VolunteerModel.getInstance().exportVolunteerInfoToExcel(location);
                         break;
                     default:

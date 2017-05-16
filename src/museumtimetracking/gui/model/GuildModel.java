@@ -6,6 +6,7 @@
 package museumtimetracking.gui.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -257,7 +258,13 @@ public class GuildModel {
      * @throws DALException
      */
     public void exportGuildHoursToExcel(String location) throws IOException, WriteException, WriteException, DALException {
-        guildManager.exportToExcel(location, getMapOfHoursPerGuild());
+        getMapOfHoursPerGuild();
+
+        List<String> keys = new ArrayList<>(guildHours.keySet());
+
+        List<Integer> values = new ArrayList<>(guildHours.values());
+
+        guildManager.exportToExcel(location, keys, values);
     }
 
     /*

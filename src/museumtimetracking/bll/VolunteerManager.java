@@ -135,7 +135,7 @@ public class VolunteerManager {
      * @throws WriteException
      * @throws DALException
      */
-    public void exportToExcel(String location, List<Volunteer> volunteers) throws IOException, WriteException, DALException {
+    public void exportToExcel(String location, List<Volunteer>... volunteers) throws IOException, WriteException, DALException {
         ExcelWriter newFile = new ExcelWriter();
         newFile.setOutputFile(location);
         newFile.createNewExcel("Rapport over frivillige");
@@ -145,10 +145,10 @@ public class VolunteerManager {
         List<String> keys = new ArrayList<>();
         List<String> values = new ArrayList<>();
 
-        volunteers.stream()
+        volunteers[0].stream()
                 .forEachOrdered(v -> keys.add(v.getFullName()));
 
-        volunteers.stream()
+        volunteers[0].stream()
                 .forEachOrdered(v -> values.add(v.getEmail()));
 
         newFile.createLabelContent(keys, values);
