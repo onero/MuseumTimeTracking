@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -93,6 +92,11 @@ public class GuildOverviewController implements Initializable {
         } catch (IOException | DALException ex) {
             ExceptionDisplayer.display(ex);
         }
+    }
+
+    @FXML
+    private void handleComboClear() {
+        cmbGuildManager.getSelectionModel().clearSelection();
     }
 
     /**
