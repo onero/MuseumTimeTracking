@@ -22,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import jxl.write.WriteException;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.exception.DALException;
@@ -145,8 +146,15 @@ public class MTTMainControllerView implements Initializable {
     @FXML
     private void handleExportExcel() {
         try {
-            GuildModel.getInstance().exportGuildHoursToExcel();
-            displaySnackWarning("Excel eksporteret!");
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel", "*.xls"));
+            String location = fc.showSaveDialog(snackPane.getScene().getWindow()).getAbsolutePath();
+            if (!location.isEmpty()) {
+                GuildModel.getInstance().exportGuildHoursToExcel(location);
+                displaySnackWarning("Excel eksporteret!");
+            } else {
+                displaySnackWarning("Excel blev ikke eskporteret");
+            }
         } catch (IOException | DALException | WriteException ex) {
             ExceptionDisplayer.display(ex);
         }

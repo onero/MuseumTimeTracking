@@ -254,8 +254,8 @@ public class GuildModel {
      * @throws WriteException
      * @throws DALException
      */
-    public void exportGuildHoursToExcel() throws IOException, WriteException, WriteException, DALException {
-        guildManager.exportGuildHoursToExcel();
+    public void exportGuildHoursToExcel(String location) throws IOException, WriteException, WriteException, DALException {
+        guildManager.exportGuildHoursToExcel(location);
     }
 
     /*

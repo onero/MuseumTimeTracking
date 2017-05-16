@@ -27,7 +27,7 @@ public class ExcelWriter {
 
     private WritableCellFormat timesBoldUnderline;
     private WritableCellFormat times;
-    private String nameOfFile;
+    private String fileLocation;
 
     private WritableWorkbook workbook;
     private WritableSheet excelSheet;
@@ -38,7 +38,7 @@ public class ExcelWriter {
      * @param inputFile
      */
     public void setOutputFile(String inputFile) {
-        this.nameOfFile = inputFile;
+        this.fileLocation = inputFile;
     }
 
     /**
@@ -50,7 +50,7 @@ public class ExcelWriter {
      * @throws DALException
      */
     public void createNewExcel(String nameOfSheet) throws IOException {
-        File file = new File(nameOfFile);
+        File file = new File(fileLocation);
         WorkbookSettings wbSettings = new WorkbookSettings();
         wbSettings.setLocale(new Locale("en", "EN"));
         workbook = Workbook.createWorkbook(file, wbSettings);

@@ -138,17 +138,15 @@ public class GuildManager {
     }
 
     /**
-     * <<<<<<< HEAD
      * Export all guild hours to excel sheet
      *
      * @throws IOException
      * @throws WriteException
      * @throws DALException
      */
-    public void exportGuildHoursToExcel() throws IOException, WriteException, DALException {
+    public void exportGuildHoursToExcel(String location) throws IOException, WriteException, DALException {
         ExcelWriter newFile = new ExcelWriter();
-        //TODO ALH: Add FileOutput
-        newFile.setOutputFile("D:\\Download\\adamino.xls");
+        newFile.setOutputFile(location);
         newFile.createNewExcel("Raport over laug");
 
         newFile.createCaptions("Laug", "Timer");
