@@ -14,8 +14,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Side;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.TextField;
 import museumtimetracking.be.Guild;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
@@ -30,6 +35,18 @@ public class ROIGmHoursViewController implements Initializable {
 
     @FXML
     private PieChart chartPie;
+    @FXML
+    private TextField txtSearchBar;
+    @FXML
+    private ComboBox<Guild> cmbGuilds;
+    @FXML
+    private Label lblWeek;
+    @FXML
+    private Label lblMonth;
+    @FXML
+    private Label lblYear;
+    @FXML
+    private Label lblAll;
 
     private GuildModel guildModel;
 
@@ -46,8 +63,10 @@ public class ROIGmHoursViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        chartPie.setLegendVisible(false);
+        chartPie.setLabelsVisible(false);
+        chartPie.setLegendSide(Side.LEFT);
         updateDataForChart();
+        initializeComboBox();
     }
 
     /**
@@ -71,4 +90,53 @@ public class ROIGmHoursViewController implements Initializable {
         }
     }
 
+    private void initializeComboBox() {
+        cmbGuilds.setItems(guildModel.getCachedGuilds());
+
+        if (!cmbGuilds.getItems().isEmpty()) {
+            cmbGuilds.getSelectionModel().selectFirst();
+            selectGuild();
+        }
+
+        //Fill combobox with guilds
+        cmbGuilds.setCellFactory(gm -> new ListCell<Guild>() {
+            @Override
+            protected void updateItem(Guild guild, boolean empty) {
+                super.updateItem(guild, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(guild.getName());
+                }
+            }
+        });
+
+        //Make sure that the guilds name is shown
+        cmbGuilds.setButtonCell(
+                new ListCell<Guild>() {
+            @Override
+            protected void updateItem(Guild guild, boolean bln) {
+                super.updateItem(guild, bln);
+                if (bln) {
+                    setText("");
+                } else {
+                    setText(guild.getName());
+                }
+            }
+        });
+        //Set a search listener on serach textfield
+        txtSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            guildModel.searchGuilds(newValue);
+        });
+    }
+
+    @FXML
+    private void selectGuild() {
+        //TODO RKL: Update all labels when @Grøn has implemented timeStamps.
+        Guild guild = cmbGuilds.getSelectionModel().getSelectedItem();
+        if (guild != null) {
+            int guildROI = guildModel.getROIForAGuild(guild.getName());
+            lblAll.setText(guildROI + "");
+        }
+    }
 }

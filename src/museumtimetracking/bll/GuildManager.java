@@ -6,7 +6,6 @@
 package museumtimetracking.bll;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -182,7 +181,10 @@ public class GuildManager {
         Map<String, Integer> ROIs = new HashMap<>();
 
         for (Guild selectedGuild : selectedGuilds) {
-            ROIs.put(selectedGuild.getName(), getROI(hoursWorked.get(selectedGuild.getName()), GMHoursInAMonth));
+            if (hoursWorked.get(selectedGuild.getName()) > 0) {
+                ROIs.put(selectedGuild.getName(), getROI(hoursWorked
+                        .get(selectedGuild.getName()), GMHoursInAMonth));
+            }
         }
 
         return ROIs;
