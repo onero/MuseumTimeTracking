@@ -44,13 +44,29 @@ public class GuildModelTest {
         assertNotEquals(isGuildInArchivedListBeforeAction, isGuildInArchivedListAfterAction);
     }
 
+    /**
+     * Test if a guild is removed from cachedGuilds when added to archived.
+     *
+     * @throws IOException
+     * @throws DALException
+     */
     @Test
-    public void testGuildRemovedFromAvailableListWhenAddedToArchived() {
-        fail("Hey");
-    }
+    public void testGuildRemovedFromCachedGuildsWhenAddedToArchived() throws IOException, DALException {
+        Guild guildToArchive = new Guild("TestRemovedFromCachedWhenArchivedGuild", "This guild is for unitTesting", false);
+        GuildModel instance = GuildModel.getInstance();
+        List<Guild> listOfCachedGuilds = instance.getCachedGuilds();
+        //Adds the guild to chachedGuilds, so we can archive it.
+        instance.addGuild(guildToArchive);
 
-    public void testGuildRemovedFromCachedGuildsWhenAddedToArchived() {
-        fail("Hey");
+        //Checks if the guild is in the list before the action.
+        boolean isGuildInListBeforeAction = listOfCachedGuilds.contains(guildToArchive);
+        instance.archiveGuild(guildToArchive);
+        //Checks if the guild is no longer in the list.
+        boolean isGuildInListAfterAction = listOfCachedGuilds.contains(guildToArchive);
+        //Deletes the guild for good measure.
+        instance.deleteGuild(guildToArchive);
+
+        assertNotEquals(isGuildInListBeforeAction, isGuildInListAfterAction);
     }
 
     /**
@@ -140,41 +156,91 @@ public class GuildModelTest {
     }
 
     /**
-     * Test of restoreGuild method, of class GuildModel.
+     * Test if a guild is removed from the archivedList when restoreGuild() is
+     * called.
      */
     @Test
-    public void testRestoreGuild() throws Exception {
-        System.out.println("restoreGuild");
-        Guild guildToRestore = null;
-        GuildModel instance = null;
+    public void testGuildRemovedFromArchivedWhenRestoreGuild() throws Exception {
+        Guild guildToRestore = new Guild("TestRestoreFromArchived", "This guild is for unitTesting", false);
+        GuildModel instance = GuildModel.getInstance();
+        List<Guild> listOfArchivedGuilds = instance.getCachedArchivedGuilds();
+        //Adds the guild to archived, to see if it gets removed.
+        instance.archiveGuild(guildToRestore);
+
+        //Checks if the guild is in the list before the action.
+        boolean isGuildInListBeforeAction = listOfArchivedGuilds.contains(guildToRestore);
         instance.restoreGuild(guildToRestore);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //Checks if the guild is in the list after the action.
+        boolean isGuildInListAfterAction = listOfArchivedGuilds.contains(guildToRestore);
+        //Deletes the guild for good measure.
+        instance.deleteGuild(guildToRestore);
+
+        assertNotEquals(isGuildInListBeforeAction, isGuildInListAfterAction);
+    }
+
+    /**
+     * Test if a guild is added to cahcedGuild when restoreGuild() is called.
+     *
+     * @throws IOException
+     * @throws DALException
+     */
+    @Test
+    public void testGuildIsAddedToCachedWhenRestoreGuild() throws IOException, DALException {
+        Guild guildToRestore = new Guild("TestRestoreToCached", "This guild is for unitTesting", false);
+        GuildModel instance = GuildModel.getInstance();
+        List<Guild> listOfCachedGuilds = instance.getCachedGuilds();
+        //Adds the guild to archived, so we can restore it.
+        instance.archiveGuild(guildToRestore);
+
+        //Checks if the guild is in the list before the action.
+        boolean isGuildInListBeforeAction = listOfCachedGuilds.contains(guildToRestore);
+        instance.restoreGuild(guildToRestore);
+        //Checks if the guild is in the list after the action.
+        boolean isGuildInListAfterAction = listOfCachedGuilds.contains(guildToRestore);
+        //Deletes the guild for good measure.
+        instance.deleteGuild(guildToRestore);
+
+        assertNotEquals(isGuildInListBeforeAction, isGuildInListAfterAction);
     }
 
     /**
      * Test of addCachedAvailableGuild method, of class GuildModel.
      */
     @Test
-    public void testAddCachedAvailableGuild() {
-        System.out.println("addCachedAvailableGuild");
-        Guild guildToAdd = null;
-        GuildModel instance = null;
+    public void testAddCachedAvailableGuild() throws IOException, DALException {
+        Guild guildToAdd = new Guild("TestGuildAddedToCachedAvailableGuilds", "This guild is for unitTesting", false);
+        GuildModel instance = GuildModel.getInstance();
+        List<Guild> listOfAvailableGuilds = instance.getCachedAvailableGuilds();
+
+        //Checks if the guild is not in the list before.
+        boolean isGuildInListBeforeAction = listOfAvailableGuilds.contains(guildToAdd);
         instance.addCachedAvailableGuild(guildToAdd);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //Checks if the guild is in the list after.
+        boolean isGuildInListAfterACtion = listOfAvailableGuilds.contains(guildToAdd);
+        //Deletes the guild for good measure.
+        instance.deleteGuild(guildToAdd);
+
+        assertNotEquals(isGuildInListBeforeAction, isGuildInListAfterACtion);
+
     }
 
     /**
      * Test of removeCachedAvailableGuild method, of class GuildModel.
      */
     @Test
-    public void testRemoveCachedAvailableGuild() {
-        System.out.println("removeCachedAvailableGuild");
-        Guild guildToRemove = null;
-        GuildModel instance = null;
+    public void testRemoveCachedAvailableGuild() throws IOException, DALException {
+        Guild guildToRemove = new Guild("GuildToRemoveFromAvailable", "This guild is for unitTesting", false);
+        GuildModel instance = GuildModel.getInstance();
+        List<Guild> listOfAvailableGuilds = instance.getCachedAvailableGuilds();
+        //Adds the guild to the list, so we can remove it.
+        instance.addCachedAvailableGuild(guildToRemove);
+
+        //Checks if the guild is in the list before the action.
+        boolean isGuildInListBefore = listOfAvailableGuilds.contains(guildToRemove);
         instance.removeCachedAvailableGuild(guildToRemove);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //Checks if the guild is not in the list after the action.
+        boolean isGuildInListAfter = listOfAvailableGuilds.contains(guildToRemove);
+
+        assertNotEquals(isGuildInListBefore, isGuildInListAfter);
     }
 }
