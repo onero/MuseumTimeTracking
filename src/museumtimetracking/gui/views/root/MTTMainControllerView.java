@@ -171,12 +171,8 @@ public class MTTMainControllerView implements Initializable {
         Stage primStage = (Stage) imgHeader.getScene().getWindow();
         
         Stage loginModal = modalFactory.createNewModal(primStage, EFXMLName.LOGIN_VIEW);
-        
-        
-        
+
         loginModal.showAndWait();
-        
-        
     }
 
     /**
