@@ -13,10 +13,11 @@
       <Label layoutX="63.0" layoutY="63.0" text="Frivillig:" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="63.0" />
       <Label layoutX="60.0" layoutY="137.0" text="Laug:" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="137.0" />
       <Label layoutX="87.0" layoutY="250.0" text="Antal timer brugt:" AnchorPane.bottomAnchor="133.0" />
-      <Label fx:id="labelHours" layoutX="85.0" layoutY="274.0" text="ingen frivillig valgt" AnchorPane.bottomAnchor="109.0">
+      <Label fx:id="labelHours" layoutX="99.0" layoutY="274.0" prefHeight="17.0" prefWidth="71.0" AnchorPane.bottomAnchor="109.0">
          <font>
             <Font name="System Bold Italic" size="12.0" />
          </font></Label>
-      <JFXButton layoutX="208.0" layoutY="154.0" onAction="#handleClear" text="X" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="154.0" />
+      <JFXButton layoutX="208.0" layoutY="154.0" onAction="#handleClearGuildCombo" text="X" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="154.0" />
+      <JFXButton layoutX="208.0" layoutY="80.0" onAction="#handleClearVolunteerCombo" text="X" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="80.0" />
    </children>
 </AnchorPane>

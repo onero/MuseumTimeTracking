@@ -202,4 +202,22 @@ public class GuildManager implements IExcel {
     public List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws DALException {
         return facadeDAO.getGuildsAVolunteerHasWorkedOn(volunteer);
     }
+
+    /**
+     * Gets all hours that has been added to a guild.
+     *
+     * @param guildName
+     * @return
+     */
+    public Integer getWorkHoursInGuild(String guildName) throws DALException {
+        int hours = 0;
+
+        List<Integer> hoursList = facadeDAO.getWorkHoursInGuild(guildName);
+
+        for (Integer workHours : hoursList) {
+            hours += workHours;
+        }
+
+        return hours;
+    }
 }

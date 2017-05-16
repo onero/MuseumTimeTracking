@@ -445,4 +445,66 @@ public class FacadeDAO {
                     "Laugene den frivillige har arbejdet på kunne ikke hentet.", ex);
         }
     }
+
+    /**
+     * Gets the total hours for a volunteer in i guild.
+     *
+     * @param guildName
+     * @param volunteer
+     * @return
+     * @throws DALException
+     */
+    public List<Integer> getWorkHoursForAVolunteerInAGuild(String guildName, Volunteer volunteer) throws DALException {
+        try {
+            return volunteerDAO.getWorkHoursForAVolunteerInAGuild(guildName, volunteer);
+        } catch (SQLException ex) {
+            throw new DALException(
+                    "Timerne den frivillige har arbejdet i lauget kunne ikke hentes.", ex);
+        }
+    }
+
+    /**
+     * Gets the total workhours for a volunteer in all guilds.
+     *
+     * @param volunteer
+     * @return
+     */
+    public List<Integer> getWorkHoursForAVolunteerInAllGuilds(Volunteer volunteer) throws DALException {
+        try {
+            return volunteerDAO.getWorkHoursForAVolunteerInAllGuilds(volunteer);
+        } catch (SQLException ex) {
+            throw new DALException(
+                    "Timerne den frivillige har arbejdet kunne ikke hentes.", ex);
+        }
+    }
+
+    /**
+     * Gets all volunteers that have worked on specified guild.
+     *
+     * @param guildName
+     * @return
+     */
+    public Set<Volunteer> getVolunteersThatHasWorkedOnGuild(String guildName) throws DALException {
+        try {
+            return volunteerDAO.getVolunteersThatHasWorkedOnGuild(guildName);
+        } catch (SQLException ex) {
+            throw new DALException(
+                    "De frivillige der har arbejdet i lauget kunne ikke hentes.", ex);
+        }
+    }
+
+    /**
+     * Gets all hours that has been added to a guild.
+     *
+     * @param guildName
+     * @return
+     */
+    public List<Integer> getWorkHoursInGuild(String guildName) throws DALException {
+        try {
+            return guildDAO.getWorkHoursInGuild(guildName);
+        } catch (SQLException ex) {
+            throw new DALException(
+                    "Timerne fra lauget kunne ikke hentes", ex);
+        }
+    }
 }

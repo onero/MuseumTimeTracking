@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import jxl.write.WriteException;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.fileWriters.ExcelWriter;
@@ -155,6 +156,52 @@ public class VolunteerManager implements IExcel {
         newFile.createLabelContent(names, emails);
 
         newFile.writeExcelToFile();
+    }
+
+    /**
+     * Gets the total hours for a volunteer in i guild from DB and adds them.
+     *
+     * @param guildName
+     * @param volunteer
+     * @return
+     */
+    public int getWorkHoursForAVolunteerInAGuild(String guildName, Volunteer volunteer) throws DALException {
+        int hours = 0;
+
+        List<Integer> hoursList = facadeDAO.getWorkHoursForAVolunteerInAGuild(guildName, volunteer);
+
+        for (Integer workHours : hoursList) {
+            hours += workHours;
+        }
+
+        return hours;
+    }
+
+    /**
+     * Gets the total workhours for a volunteer in all guilds and adds them.
+     *
+     * @param volunteer
+     */
+    public Integer getWorkHoursForAVolunteerInAllGuilds(Volunteer volunteer) throws DALException {
+        int hours = 0;
+
+        List<Integer> hoursList = facadeDAO.getWorkHoursForAVolunteerInAllGuilds(volunteer);
+
+        for (Integer workHours : hoursList) {
+            hours += workHours;
+        }
+
+        return hours;
+    }
+
+    /**
+     * Gets all volunteers that have worked on specified guild.
+     *
+     * @param guildName
+     * @return
+     */
+    public Set<Volunteer> getVolunteersThatHasWorkedOnGuild(String guildName) throws DALException {
+        return facadeDAO.getVolunteersThatHasWorkedOnGuild(guildName);
     }
 
 }
