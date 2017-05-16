@@ -163,6 +163,23 @@ public class FacadeDAO {
     }
 
     /**
+     * Returns a Map of hours work for each guild for at specific period.
+     *
+     * @param guildNames
+     * @param startDate
+     * @param endDate
+     * @return
+     * @throws DALException
+     */
+    public Map<String, Integer> getAllHoursWorkedForSpecificPeriod(List<String> guildNames, String startDate, String endDate) throws DALException {
+        try {
+            return guildDAO.getVolunteerWorkHoursForSpecificPeriod(guildNames, startDate, endDate);
+        } catch (SQLException ex) {
+            throw new DALException("Det var ikke muligt at hente de dokumenterede timer.", ex);
+        }
+    }
+
+    /**
      * Restore guild from archive in DB
      *
      * @param guildToRestore

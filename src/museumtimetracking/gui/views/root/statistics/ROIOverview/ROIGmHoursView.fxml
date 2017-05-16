@@ -73,19 +73,6 @@
                            </font></Label>
                      </children>
                   </HBox>
-                  <HBox>
-                     <children>
-                        <Label prefWidth="90.0" text="Alt data:">
-                           <font>
-                              <Font name="System Bold Italic" size="15.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lblAll" text="&lt;&lt;Ingen Data&gt;&gt;">
-                           <font>
-                              <Font name="System Italic" size="15.0" />
-                           </font></Label>
-                     </children>
-                  </HBox>
                </children>
             </VBox>
          </children>
