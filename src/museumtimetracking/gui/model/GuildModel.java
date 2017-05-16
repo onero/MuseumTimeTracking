@@ -260,9 +260,11 @@ public class GuildModel {
     public void exportGuildHoursToExcel(String location) throws IOException, WriteException, WriteException, DALException {
         getMapOfHoursPerGuild();
 
-        List<String> keys = new ArrayList<>(guildHours.keySet());
+        //Create Guild name keys (Will be strings)
+        List keys = new ArrayList<>(guildHours.keySet());
 
-        List<Integer> values = new ArrayList<>(guildHours.values());
+        //Create hour values (will be integers)
+        List values = new ArrayList<>(guildHours.values());
 
         guildManager.exportToExcel(location, keys, values);
     }

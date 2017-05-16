@@ -8,6 +8,7 @@ package museumtimetracking.bll;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import jxl.write.WriteException;
@@ -143,7 +144,15 @@ public class VolunteerManager implements IExcel {
 
         newFile.createCaptions("Frivillig", "Email");
 
-        newFile.createLabelContent((List<String>) values[0], (List<String>) values[1]);
+        List<String> names = new ArrayList<>();
+        List<String> emails = new ArrayList<>();
+        List<Volunteer> volunteers = (List<Volunteer>) values[0];
+        volunteers.stream()
+                .forEachOrdered(v -> names.add(v.getFullName()));
+        volunteers.stream()
+                .forEachOrdered(v -> emails.add(v.getEmail()));
+
+        newFile.createLabelContent(names, emails);
 
         newFile.writeExcelToFile();
     }
