@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import museumtimetracking.be.Guild;
 
 /**
  * FXML Controller class
@@ -22,13 +23,13 @@ import javafx.scene.control.TextField;
 public class LoginViewController implements Initializable {
 
     @FXML
-    private TextField txtFieldPassword;
-    @FXML
-    private PasswordField txtFieldUsername;
-    @FXML
     private ProgressIndicator spinner;
     @FXML
     private Button btnLogin;
+    @FXML
+    private TextField txtUsername;
+    @FXML
+    private PasswordField txtPassword;
 
     /**
      * Initializes the controller class.
@@ -37,5 +38,7 @@ public class LoginViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+    
+    
     
 }

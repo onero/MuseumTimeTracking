@@ -50,7 +50,7 @@
                   <JFXSnackbar fx:id="snackWarning" />
                </children>
             </Pane>
-            <Label fx:id="btnLogin" accessibleRole="BUTTON" layoutX="771.0" layoutY="50.0" text="Admin login" underline="true" visible="false" />
+            <Label fx:id="btnLogin" accessibleRole="BUTTON" layoutX="771.0" layoutY="50.0" onMouseClicked="#handleLogin" text="Admin login" underline="true" visible="false" />
             <HBox fx:id="iconBox" layoutX="396.0" layoutY="20.0" prefHeight="32.0" prefWidth="153.0" AnchorPane.leftAnchor="396.0" AnchorPane.rightAnchor="301.0">
                <children>
                   <ImageView fitHeight="49.0" fitWidth="80.0" onMouseClicked="#handleExportExcel" pickOnBounds="true" preserveRatio="true">

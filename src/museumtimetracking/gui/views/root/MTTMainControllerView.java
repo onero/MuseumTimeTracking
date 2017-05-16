@@ -7,6 +7,7 @@ package museumtimetracking.gui.views.root;
 
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTabPane;
+import static java.awt.SystemColor.text;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -15,6 +16,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
@@ -24,23 +26,28 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 import jxl.write.WriteException;
+import museumtimetracking.be.enums.EFXMLName;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.be.enums.ETabPaneID;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
 import museumtimetracking.gui.model.VolunteerModel;
+import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.NodeFactory;
 import museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController;
 import museumtimetracking.gui.views.root.archivedGuilds.ArchivedGuildViewController;
 import museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController;
 import museumtimetracking.gui.views.root.idle.IdleViewController;
+import museumtimetracking.gui.views.root.login.LoginViewController;
 import museumtimetracking.gui.views.root.statistics.StatisticsViewController;
 import museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController;
 
@@ -86,6 +93,8 @@ public class MTTMainControllerView implements Initializable {
     private Button btnClearSearch;
     @FXML
     private Label btnLogin;
+    
+    private ModalFactory modalFactory;
 
     private static MTTMainControllerView instance;
 
@@ -114,6 +123,8 @@ public class MTTMainControllerView implements Initializable {
     }
 
     public MTTMainControllerView() {
+        modalFactory = ModalFactory.getInstance();                    
+                
         nodeFactory = NodeFactory.getInstance();
 
         statistics = nodeFactory.createNewView(STATISTICS_OVERVIEW);
@@ -155,6 +166,21 @@ public class MTTMainControllerView implements Initializable {
 
         }
     }
+    
+    private void getLoginView(){
+        Stage primStage = (Stage) imgHeader.getScene().getWindow();
+        
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("museumtimetracking/gui/views/login/LoginView.fxml"));
+        
+        Stage loginModal = modalFactory.createNewModal(primStage, EFXMLName.LOGIN_VIEW);
+        
+//        LoginViewController controller = modalFactory.getLoader().getController();
+        
+        
+        loginModal.showAndWait();
+        
+        
+    }
 
     /**
      * Initializes the controller class.
@@ -170,7 +196,7 @@ public class MTTMainControllerView implements Initializable {
         imgHeader.fitWidthProperty().bind(borderPane.widthProperty());
         initializeTabPane();
         initializeTextFieldListener();
-        hideTabButtons();
+//        hideTabButtons();
     }
 
     /**
@@ -317,6 +343,11 @@ public class MTTMainControllerView implements Initializable {
      */
     public void displaySnackWarning(String text) {
         snackWarning.show(text, 3000);
+     }
+
+    @FXML
+    private void handleLogin(MouseEvent event) {
+       getLoginView();
     }
 
 }
