@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -65,6 +66,8 @@ public class MTTMainControllerView implements Initializable {
     private BorderPane borderPane;
     @FXML
     private Button btnClearSearch;
+    @FXML
+    private Label btnLogin;
 
     private static MTTMainControllerView instance;
 
@@ -234,6 +237,7 @@ public class MTTMainControllerView implements Initializable {
      * @param shown
      */
     private void setSearchBarVisible(boolean shown) {
+        btnLogin.setVisible(!shown);
         txtSearchBar.setVisible(shown);
         txtSearchBar.setDisable(!shown);
         btnClearSearch.setVisible(shown);
