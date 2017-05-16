@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -11,10 +11,12 @@
          <bottom>
             <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <ButtonBar prefHeight="40.0" prefWidth="200.0" AnchorPane.rightAnchor="14.0">
-                    <buttons>
-                      <Button maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleChangeStatisticsButton" prefWidth="140.0" text="&lt;==&gt;" />
-                    </buttons>
+                  <ButtonBar AnchorPane.rightAnchor="14.0">
+                     <buttons>
+                        <JFXButton maxWidth="140.0" minWidth="140.0" onAction="#handleGuild" prefWidth="140.0" text="Laug" />
+                        <JFXButton maxWidth="140.0" minWidth="140.0" onAction="#handleGM" prefWidth="140.0" text="Tovholder" />
+                        <JFXButton maxWidth="140.0" minWidth="140.0" onAction="#handleVolunteer" prefWidth="140.0" text="Frivillig" />
+                     </buttons>
                   </ButtonBar>
                </children>
             </AnchorPane>
