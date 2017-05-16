@@ -55,48 +55,8 @@ public class StatisticsViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        initializeComboBox();
-
     }
 
-//    private void initializeComboBox() {
-//        cmbGuilds.setItems(guildModel.getCachedGuilds());
-//
-//        if (!cmbGuilds.getItems().isEmpty()) {
-//            cmbGuilds.getSelectionModel().selectFirst();
-//        }
-//
-//        //Fill combobox with guilds
-//        cmbGuilds.setCellFactory(gm -> new ListCell<Guild>() {
-//            @Override
-//            protected void updateItem(Guild guild, boolean empty) {
-//                super.updateItem(guild, empty);
-//                if (empty) {
-//                    setText(null);
-//                } else {
-//                    setText(guild.getName());
-//                }
-//            }
-//        });
-//
-//        //Make sure that the guilds name is shown
-//        cmbGuilds.setButtonCell(
-//                new ListCell<Guild>() {
-//            @Override
-//            protected void updateItem(Guild guild, boolean bln) {
-//                super.updateItem(guild, bln);
-//                if (bln) {
-//                    setText("");
-//                } else {
-//                    setText(guild.getName());
-//                }
-//            }
-//        });
-//        //Set a search listener on serach textfield
-//        txtSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
-//            guildModel.searchGuilds(newValue);
-//        });
-//    }
     /**
      * Creates the nodes and controllers for the different statisticsViews.
      */

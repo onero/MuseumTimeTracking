@@ -2,11 +2,13 @@
 
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.statistics.ROIOverview.ROIGmHoursViewController">
    <center>
@@ -19,13 +21,81 @@
    <right>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <HBox layoutX="-14.0" layoutY="28.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+            <HBox layoutX="-14.0" layoutY="28.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
                <children>
                   <TextField fx:id="txtSearchBar" />
                   <ComboBox fx:id="cmbGuilds" onAction="#selectGuild" prefWidth="150.0" />
                </children>
             </HBox>
+            <VBox layoutX="133.0" layoutY="79.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+               <children>
+                  <Label text="Oversigt for enkelt laug:" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold Italic" size="28.0" />
+                     </font>
+                  </Label>
+                  <HBox>
+                     <children>
+                        <Label prefWidth="90.0" text="Uge: ">
+                           <font>
+                              <Font name="System Bold Italic" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblWeek" text="&lt;&lt;Ingen Data&gt;&gt;">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font></Label>
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label prefWidth="90.0" text="Måned: ">
+                           <font>
+                              <Font name="System Bold Italic" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblMonth" text="&lt;&lt;Ingen Data&gt;&gt;">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font></Label>
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label prefWidth="90.0" text="År: ">
+                           <font>
+                              <Font name="System Bold Italic" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblYear" text="&lt;&lt;Ingen Data&gt;&gt;">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font></Label>
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label prefWidth="90.0" text="Alt data:">
+                           <font>
+                              <Font name="System Bold Italic" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblAll" text="&lt;&lt;Ingen Data&gt;&gt;">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font></Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
    </right>
+   <top>
+      <Label text="Torvholder ROI for frivillige" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold Italic" size="34.0" />
+         </font>
+      </Label>
+   </top>
 </BorderPane>

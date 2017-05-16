@@ -41,6 +41,8 @@ public class GuildModel {
 
     private Map<String, Integer> guildHours;
 
+    private Map<String, Integer> guildROI;
+
     private GuildModel() throws IOException, DALException {
         // Instantiate guildManager
         guildManager = new GuildManager();
@@ -255,6 +257,21 @@ public class GuildModel {
      * @throws museumtimetracking.exception.DALException
      */
     public Map<String, Integer> getGMROIOnVolunteerForAMonth(List<Guild> selectedGuilds, int GMWorkHours) throws DALException {
-        return guildManager.getGMROIOnVolunteerForAMonth(selectedGuilds, GMWorkHours);
+        guildROI = guildManager.getGMROIOnVolunteerForAMonth(selectedGuilds, GMWorkHours);
+        return guildROI;
+    }
+
+    /**
+     * Gets the value from guildROI.
+     *
+     * @param guildName the key for the map.
+     * @return ROI for the guild as int. Or zero if there is no ROI.
+     */
+    public int getROIForAGuild(String guildName) {
+        try {
+            return guildROI.get(guildName);
+        } catch (NullPointerException nex) {
+            return 0;
+        }
     }
 }

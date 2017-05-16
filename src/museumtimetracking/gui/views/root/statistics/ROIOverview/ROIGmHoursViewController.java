@@ -7,18 +7,18 @@ package museumtimetracking.gui.views.root.statistics.ROIOverview;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Side;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import museumtimetracking.be.Guild;
@@ -39,6 +39,14 @@ public class ROIGmHoursViewController implements Initializable {
     private TextField txtSearchBar;
     @FXML
     private ComboBox<Guild> cmbGuilds;
+    @FXML
+    private Label lblWeek;
+    @FXML
+    private Label lblMonth;
+    @FXML
+    private Label lblYear;
+    @FXML
+    private Label lblAll;
 
     private GuildModel guildModel;
 
@@ -55,8 +63,8 @@ public class ROIGmHoursViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        chartPie.setLegendVisible(false);
         chartPie.setLabelsVisible(false);
+        chartPie.setLegendSide(Side.LEFT);
         updateDataForChart();
         initializeComboBox();
     }
@@ -87,6 +95,7 @@ public class ROIGmHoursViewController implements Initializable {
 
         if (!cmbGuilds.getItems().isEmpty()) {
             cmbGuilds.getSelectionModel().selectFirst();
+            selectGuild();
         }
 
         //Fill combobox with guilds
@@ -122,18 +131,12 @@ public class ROIGmHoursViewController implements Initializable {
     }
 
     @FXML
-    private void selectGuild(ActionEvent event) {
-        List<Guild> selected = new ArrayList<>();
-        selected.add(cmbGuilds.getSelectionModel().getSelectedItem());
-
-        try {
-
-            Map<String, Integer> total = guildModel.getGMROIOnVolunteerForAMonth(selected, 10);
-
-            //TODO ALH&RKL: Connect with chart
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
+    private void selectGuild() {
+        //TODO RKL: Update all labels when @Grøn has implemented timeStamps.
+        Guild guild = cmbGuilds.getSelectionModel().getSelectedItem();
+        if (guild != null) {
+            int guildROI = guildModel.getROIForAGuild(guild.getName());
+            lblAll.setText(guildROI + "");
         }
     }
-
 }
