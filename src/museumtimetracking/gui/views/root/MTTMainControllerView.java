@@ -7,22 +7,27 @@ package museumtimetracking.gui.views.root;
 
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTabPane;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import javax.imageio.ImageIO;
 import jxl.write.WriteException;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.be.enums.ETabPaneID;
@@ -47,6 +52,8 @@ public class MTTMainControllerView implements Initializable {
 
     @FXML
     private HBox iconBox;
+    @FXML
+    private ImageView imgScreenshot;
 
     @FXML
     private Pane snackPane;
@@ -129,6 +136,23 @@ public class MTTMainControllerView implements Initializable {
         paneTabID = "statistics";
     }
 
+    @FXML
+    private void handleScreenshot() {
+        WritableImage image = statistics.snapshot(new SnapshotParameters(), null);
+
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
+
+        File img = fc.showSaveDialog(snackPane.getScene().getWindow());
+
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", img);
+        } catch (IOException e) {
+            System.out.println("Error: " + e);
+
+        }
+    }
+
     /**
      * Initializes the controller class.
      */
@@ -152,7 +176,7 @@ public class MTTMainControllerView implements Initializable {
             fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel", "*.xls"));
             String location = fc.showSaveDialog(snackPane.getScene().getWindow()).getAbsolutePath();
             if (location != null) {
-                ETabPaneID paneID = ETabPaneID.getLanguageByString(paneTabID);
+                ETabPaneID paneID = ETabPaneID.getTabByString(paneTabID);
                 switch (paneID) {
                     case STATISTICS:
                         GuildModel.getInstance().exportGuildHoursToExcel(location);
@@ -211,7 +235,11 @@ public class MTTMainControllerView implements Initializable {
             if (paneTabID.equals("statistics")) {
                 setSearchBarVisible(false);
                 statisticsViewController.updateDataForGuildHoursOverview();
+                imgScreenshot.setVisible(true);
+                imgScreenshot.setDisable(false);
             } else {
+                imgScreenshot.setVisible(false);
+                imgScreenshot.setDisable(true);
                 setSearchBarVisible(true);
             }
         });
@@ -223,7 +251,7 @@ public class MTTMainControllerView implements Initializable {
      * @param searchText
      */
     private void handleSearch(String searchText) {
-        ETabPaneID paneID = ETabPaneID.getLanguageByString(paneTabID);
+        ETabPaneID paneID = ETabPaneID.getTabByString(paneTabID);
         switch (paneID) {
             case GUILD_OVERVIEW:
                 guildOverViewController.handleSearch(searchText);

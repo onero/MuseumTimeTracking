@@ -14,7 +14,7 @@ public enum ETabPaneID {
     VOLUNTEER,
     IDLE;
 
-    public static ETabPaneID getLanguageByString(String tabPaneID) {
+    public static ETabPaneID getTabByString(String tabPaneID) {
         switch (tabPaneID) {
             case "statistics":
                 return STATISTICS;
