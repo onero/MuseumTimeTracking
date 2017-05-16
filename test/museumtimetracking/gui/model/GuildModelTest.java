@@ -37,12 +37,16 @@ public class GuildModelTest {
      */
     @Test
     public void testDeleteGuild() throws Exception {
-        System.out.println("deleteGuild");
-        Guild deleteGuild = null;
-        GuildModel instance = null;
+        Guild deleteGuild = new Guild("TestDeleteGuild", "This guild is for unitTesting", false);
+        GuildModel instance = GuildModel.getInstance();
+        List<Guild> listOfGuilds = instance.getCachedGuilds();
+        instance.addGuild(deleteGuild);
+
+        boolean guildIsInListBefore = listOfGuilds.contains(deleteGuild);
         instance.deleteGuild(deleteGuild);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        boolean guildsIsInListAfter = listOfGuilds.contains(deleteGuild);
+
+        assertNotEquals(guildIsInListBefore, guildsIsInListAfter);
     }
 
     /**
@@ -50,15 +54,16 @@ public class GuildModelTest {
      */
     @Test
     public void testAddGuild() throws Exception {
-        Guild guild = new Guild("TestGuild", "This guild is for unitTesting", false);
+        Guild guild = new Guild("TestAddGuild", "This guild is for unitTesting", false);
         GuildModel instance = GuildModel.getInstance();
         List<Guild> listOfGuilds = instance.getCachedGuilds();
 
-        boolean guildIsNotAdded = listOfGuilds.contains(guild);
+        boolean guildIsInListBefore = listOfGuilds.contains(guild);
         instance.addGuild(guild);
-        boolean guildIsAdded = listOfGuilds.contains(guild);
+        boolean guildIsInListAfter = listOfGuilds.contains(guild);
+        instance.deleteGuild(guild);
 
-        assertEquals(!guildIsNotAdded, guildIsAdded);
+        assertNotEquals(guildIsInListBefore, guildIsInListAfter);
     }
 
     /**
