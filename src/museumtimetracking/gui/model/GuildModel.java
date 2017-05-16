@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import jxl.write.WriteException;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
+import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.GuildManager;
 import museumtimetracking.exception.DALException;
 
@@ -295,5 +296,9 @@ public class GuildModel {
         } catch (NullPointerException nex) {
             return 0;
         }
+    }
+
+    public List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws DALException {
+        return guildManager.getGuildsAVolunteerHasWorkedOn(volunteer);
     }
 }

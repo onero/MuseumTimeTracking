@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import jxl.write.WriteException;
 import museumtimetracking.be.Guild;
+import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.fileWriters.ExcelWriter;
 import museumtimetracking.bll.fileWriters.IExcel;
 import museumtimetracking.dal.FacadeDAO;
@@ -196,5 +197,9 @@ public class GuildManager implements IExcel {
             return hoursWorked / GMHoursInAMonth;
         }
         return 0;
+    }
+
+    public List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws DALException {
+        return facadeDAO.getGuildsAVolunteerHasWorkedOn(volunteer);
     }
 }
