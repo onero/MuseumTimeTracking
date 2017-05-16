@@ -16,7 +16,6 @@ import museumtimetracking.be.Guild;
 import museumtimetracking.bll.fileWriters.ExcelWriter;
 import museumtimetracking.dal.FacadeDAO;
 import museumtimetracking.exception.DALException;
-import museumtimetracking.gui.model.GuildModel;
 
 /**
  *
@@ -144,14 +143,12 @@ public class GuildManager {
      * @throws WriteException
      * @throws DALException
      */
-    public void exportGuildHoursToExcel(String location) throws IOException, WriteException, DALException {
+    public void exportToExcel(String location, Map<String, Integer> guildHours) throws IOException, WriteException, DALException {
         ExcelWriter newFile = new ExcelWriter();
         newFile.setOutputFile(location);
-        newFile.createNewExcel("Raport over laug");
+        newFile.createNewExcel("Rapport over laug");
 
         newFile.createCaptions("Laug", "Timer");
-
-        Map<String, Integer> guildHours = GuildModel.getInstance().getMapOfHoursPerGuild();
 
         List<String> keys = new ArrayList<>();
         List<Integer> values = new ArrayList<>();
@@ -161,7 +158,7 @@ public class GuildManager {
             values.add(entry.getValue());
         }
 
-        newFile.createContent(keys, values);
+        newFile.createLabelNumberContent(keys, values);
 
         newFile.writeExcelToFile();
     }

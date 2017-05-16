@@ -28,6 +28,7 @@ import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.model.VolunteerModel;
 import museumtimetracking.gui.views.NodeFactory;
 import museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController;
 import museumtimetracking.gui.views.root.archivedGuilds.ArchivedGuildViewController;
@@ -95,7 +96,7 @@ public class MTTMainControllerView implements Initializable {
 
     private final NodeFactory nodeFactory;
 
-    private String searchID;
+    private String paneTabID;
 
     public static MTTMainControllerView getInstance() {
         return instance;
@@ -124,7 +125,7 @@ public class MTTMainControllerView implements Initializable {
         idle = nodeFactory.createNewView(IDLE_OVERVIEW);
         idleViewController = nodeFactory.getLoader().getController();
 
-        searchID = "";
+        paneTabID = "statistics";
     }
 
     /**
@@ -149,8 +150,16 @@ public class MTTMainControllerView implements Initializable {
             FileChooser fc = new FileChooser();
             fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel", "*.xls"));
             String location = fc.showSaveDialog(snackPane.getScene().getWindow()).getAbsolutePath();
-            if (!location.isEmpty()) {
-                GuildModel.getInstance().exportGuildHoursToExcel(location);
+            if (location != null) {
+                switch (paneTabID) {
+                    case "statistics":
+                        GuildModel.getInstance().exportGuildHoursToExcel(location);
+                        break;
+                    case "volunteer":
+                        VolunteerModel.getInstance().exportVolunteerInfoToExcel(location);
+                        break;
+                    default:
+                }
                 displaySnackWarning("Excel eksporteret!");
             } else {
                 displaySnackWarning("Excel blev ikke eskporteret");
@@ -196,8 +205,8 @@ public class MTTMainControllerView implements Initializable {
     private void initializeTabPane() {
         setSearchBarVisible(false);
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
-            searchID = newTab.getId();
-            if (searchID.equals("statistics")) {
+            paneTabID = newTab.getId();
+            if (paneTabID.equals("statistics")) {
                 setSearchBarVisible(false);
                 statisticsViewController.updateDataForGuildHoursOverview();
             } else {
@@ -212,7 +221,7 @@ public class MTTMainControllerView implements Initializable {
      * @param searchText
      */
     private void handleSearch(String searchText) {
-        switch (searchID) {
+        switch (paneTabID) {
             case "guildOverView":
                 guildOverViewController.handleSearch(searchText);
                 break;

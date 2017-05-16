@@ -121,7 +121,7 @@ public class ExcelWriter {
      * @throws IOException
      * @throws DALException
      */
-    public void createContent(List<String> keys, List<Integer> values) throws WriteException, RowsExceededException, IOException, DALException {
+    public void createLabelNumberContent(List<String> keys, List<Integer> values) throws WriteException, RowsExceededException, IOException, DALException {
 
         //Insert all the keys entries
         for (int i = 0; i < keys.size(); i++) {
@@ -141,6 +141,28 @@ public class ExcelWriter {
 //        buf.append("SUM(B2:B10)");
 //        f = new Formula(1, 10, buf.toString());
 //        sheet.addCell(f);
+    }
+
+    /**
+     * Write content to sheet
+     *
+     * @param sheet
+     * @throws WriteException
+     * @throws RowsExceededException
+     * @throws IOException
+     * @throws DALException
+     */
+    public void createLabelContent(List<String> keys, List<String> values) throws WriteException, RowsExceededException, IOException, DALException {
+
+        //Insert all the keys entries
+        for (int i = 0; i < keys.size(); i++) {
+            addLabel(excelSheet, 0, i + 1, keys.get(i));
+        }
+
+        //Insert all the values for the keys
+        for (int i = 0; i < values.size(); i++) {
+            addLabel(excelSheet, 1, i + 1, values.get(i));
+        }
     }
 
     /**
