@@ -10,7 +10,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import jxl.write.WriteException;
 import museumtimetracking.be.Guild;
+import museumtimetracking.bll.fileWriters.ExcelWriter;
+import museumtimetracking.bll.fileWriters.IExcel;
 import museumtimetracking.dal.FacadeDAO;
 import museumtimetracking.exception.DALException;
 
@@ -18,7 +21,7 @@ import museumtimetracking.exception.DALException;
  *
  * @author Skovgaard
  */
-public class GuildManager {
+public class GuildManager implements IExcel {
 
     private final FacadeDAO facadeDAO;
 
@@ -134,13 +137,38 @@ public class GuildManager {
     }
 
     /**
+     * Export all guild hours to excel sheet
+     *
+     * @throws IOException
+     * @throws WriteException
+     * @throws DALException
+     */
+    @Override
+    public <T> void exportToExcel(String location, List<T>... values) throws IOException, WriteException, DALException {
+        ExcelWriter newFile = new ExcelWriter();
+        newFile.setOutputFile(location);
+        newFile.createNewExcel("Rapport over laug");
+
+        newFile.createCaptions("Laug", "Timer");
+
+        newFile.createLabelNumberContent((List<String>) values[0], (List<Integer>) values[1]);
+
+        newFile.writeExcelToFile();
+    }
+
+    /*
      * Calculate the total return on investment a guild managers spends on
      * volunteers for a single guild in a month
      *
-     * @param selectedGuilds
-     * @param GMHoursInAMonth
-     * @return a Map containing the names of the guilds and their ROI.
-     * @throws museumtimetracking.exception.DALException
+     * @param
+     * selectedGuilds
+     * @param
+     * GMHoursInAMonth
+     * @
+     * return a Map containing the names of the guilds and their ROI.
+     * @
+     * throws museumtimetracking.exception.DALException
+     *
      */
     public Map<String, Integer> getGMROIOnVolunteerForAMonth(List<Guild> selectedGuilds, int GMHoursInAMonth) throws DALException {
         Map<String, Integer> hoursWorked = getAllHoursWorked(selectedGuilds);

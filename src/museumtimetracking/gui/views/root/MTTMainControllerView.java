@@ -20,8 +20,16 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
+import jxl.write.WriteException;
 import static museumtimetracking.be.enums.EFXMLName.*;
+import museumtimetracking.be.enums.ETabPaneID;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.model.VolunteerModel;
 import museumtimetracking.gui.views.NodeFactory;
 import museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController;
 import museumtimetracking.gui.views.root.archivedGuilds.ArchivedGuildViewController;
@@ -36,6 +44,9 @@ import museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController;
  * @author gta1
  */
 public class MTTMainControllerView implements Initializable {
+
+    @FXML
+    private HBox iconBox;
 
     @FXML
     private Pane snackPane;
@@ -86,7 +97,7 @@ public class MTTMainControllerView implements Initializable {
 
     private final NodeFactory nodeFactory;
 
-    private String searchID;
+    private String paneTabID;
 
     public static MTTMainControllerView getInstance() {
         return instance;
@@ -115,13 +126,7 @@ public class MTTMainControllerView implements Initializable {
         idle = nodeFactory.createNewView(IDLE_OVERVIEW);
         idleViewController = nodeFactory.getLoader().getController();
 
-        searchID = "";
-    }
-
-    @FXML
-    private void handleGotoWebsite() throws MalformedURLException, URISyntaxException, IOException {
-        URL website = new URL(WEBSITE);
-        java.awt.Desktop.getDesktop().browse(website.toURI());
+        paneTabID = "statistics";
     }
 
     /**
@@ -138,6 +143,38 @@ public class MTTMainControllerView implements Initializable {
         imgHeader.fitWidthProperty().bind(borderPane.widthProperty());
         initializeTabPane();
         initializeTextFieldListener();
+    }
+
+    @FXML
+    private void handleExportExcel() {
+        try {
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel", "*.xls"));
+            String location = fc.showSaveDialog(snackPane.getScene().getWindow()).getAbsolutePath();
+            if (location != null) {
+                ETabPaneID paneID = ETabPaneID.getLanguageByString(paneTabID);
+                switch (paneID) {
+                    case STATISTICS:
+                        GuildModel.getInstance().exportGuildHoursToExcel(location);
+                        break;
+                    case VOLUNTEER:
+                        VolunteerModel.getInstance().exportVolunteerInfoToExcel(location);
+                        break;
+                    default:
+                }
+                displaySnackWarning("Excel eksporteret!");
+            } else {
+                displaySnackWarning("Excel blev ikke eskporteret");
+            }
+        } catch (IOException | DALException | WriteException ex) {
+            ExceptionDisplayer.display(ex);
+        }
+    }
+
+    @FXML
+    private void handleGotoWebsite() throws MalformedURLException, URISyntaxException, IOException {
+        URL website = new URL(WEBSITE);
+        java.awt.Desktop.getDesktop().browse(website.toURI());
     }
 
     /**
@@ -170,8 +207,8 @@ public class MTTMainControllerView implements Initializable {
     private void initializeTabPane() {
         setSearchBarVisible(false);
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
-            searchID = newTab.getId();
-            if (searchID.equals("statistics")) {
+            paneTabID = newTab.getId();
+            if (paneTabID.equals("statistics")) {
                 setSearchBarVisible(false);
                 statisticsViewController.updateDataForGuildHoursOverview();
             } else {
@@ -186,20 +223,21 @@ public class MTTMainControllerView implements Initializable {
      * @param searchText
      */
     private void handleSearch(String searchText) {
-        switch (searchID) {
-            case "guildOverView":
+        ETabPaneID paneID = ETabPaneID.getLanguageByString(paneTabID);
+        switch (paneID) {
+            case GUILD_OVERVIEW:
                 guildOverViewController.handleSearch(searchText);
                 break;
-            case "archivedGuild":
+            case ARCHIVED_GUILD:
                 archivedGuildViewController.handleSearch(searchText);
                 break;
-            case "manager":
+            case GM:
                 guildManagerOverviewController.handleSearch(searchText);
                 break;
-            case "volunteer":
+            case VOLUNTEER:
                 volunteerOverviewController.handleSearch(searchText);
                 break;
-            case "idle":
+            case IDLE:
                 idleViewController.handleSearch(searchText);
                 break;
             default:
