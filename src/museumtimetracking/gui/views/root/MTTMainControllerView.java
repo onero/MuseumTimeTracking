@@ -170,11 +170,8 @@ public class MTTMainControllerView implements Initializable {
     private void getLoginView(){
         Stage primStage = (Stage) imgHeader.getScene().getWindow();
         
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("museumtimetracking/gui/views/login/LoginView.fxml"));
-        
         Stage loginModal = modalFactory.createNewModal(primStage, EFXMLName.LOGIN_VIEW);
         
-//        LoginViewController controller = modalFactory.getLoader().getController();
         
         
         loginModal.showAndWait();
