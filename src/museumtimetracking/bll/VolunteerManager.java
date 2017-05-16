@@ -8,12 +8,12 @@ package museumtimetracking.bll;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import jxl.write.WriteException;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.fileWriters.ExcelWriter;
+import museumtimetracking.bll.fileWriters.IExcel;
 import museumtimetracking.dal.FacadeDAO;
 import museumtimetracking.exception.DALException;
 
@@ -21,7 +21,7 @@ import museumtimetracking.exception.DALException;
  *
  * @author Skovgaard
  */
-public class VolunteerManager {
+public class VolunteerManager implements IExcel {
 
     private final FacadeDAO facadeDAO;
 
@@ -135,24 +135,17 @@ public class VolunteerManager {
      * @throws WriteException
      * @throws DALException
      */
-    public void exportToExcel(String location, List<Volunteer>... volunteers) throws IOException, WriteException, DALException {
+    @Override
+    public <T> void exportToExcel(String location, List<T>... values) throws IOException, WriteException, DALException {
         ExcelWriter newFile = new ExcelWriter();
         newFile.setOutputFile(location);
         newFile.createNewExcel("Rapport over frivillige");
 
         newFile.createCaptions("Frivillig", "Email");
 
-        List<String> keys = new ArrayList<>();
-        List<String> values = new ArrayList<>();
-
-        volunteers[0].stream()
-                .forEachOrdered(v -> keys.add(v.getFullName()));
-
-        volunteers[0].stream()
-                .forEachOrdered(v -> values.add(v.getEmail()));
-
-        newFile.createLabelContent(keys, values);
+        newFile.createLabelContent((List<String>) values[0], (List<String>) values[1]);
 
         newFile.writeExcelToFile();
     }
+
 }

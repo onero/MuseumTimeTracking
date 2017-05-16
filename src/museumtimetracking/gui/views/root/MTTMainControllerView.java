@@ -223,20 +223,21 @@ public class MTTMainControllerView implements Initializable {
      * @param searchText
      */
     private void handleSearch(String searchText) {
-        switch (paneTabID) {
-            case "guildOverView":
+        ETabPaneID paneID = ETabPaneID.getLanguageByString(paneTabID);
+        switch (paneID) {
+            case GUILD_OVERVIEW:
                 guildOverViewController.handleSearch(searchText);
                 break;
-            case "archivedGuild":
+            case ARCHIVED_GUILD:
                 archivedGuildViewController.handleSearch(searchText);
                 break;
-            case "manager":
+            case GM:
                 guildManagerOverviewController.handleSearch(searchText);
                 break;
-            case "volunteer":
+            case VOLUNTEER:
                 volunteerOverviewController.handleSearch(searchText);
                 break;
-            case "idle":
+            case IDLE:
                 idleViewController.handleSearch(searchText);
                 break;
             default:

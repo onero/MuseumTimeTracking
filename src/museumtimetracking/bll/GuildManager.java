@@ -13,6 +13,7 @@ import java.util.Map;
 import jxl.write.WriteException;
 import museumtimetracking.be.Guild;
 import museumtimetracking.bll.fileWriters.ExcelWriter;
+import museumtimetracking.bll.fileWriters.IExcel;
 import museumtimetracking.dal.FacadeDAO;
 import museumtimetracking.exception.DALException;
 
@@ -20,7 +21,7 @@ import museumtimetracking.exception.DALException;
  *
  * @author Skovgaard
  */
-public class GuildManager {
+public class GuildManager implements IExcel {
 
     private final FacadeDAO facadeDAO;
 
@@ -142,14 +143,15 @@ public class GuildManager {
      * @throws WriteException
      * @throws DALException
      */
-    public void exportToExcel(String location, List<String> keys, List<Integer> values) throws IOException, WriteException, DALException {
+    @Override
+    public <T> void exportToExcel(String location, List<T>... values) throws IOException, WriteException, DALException {
         ExcelWriter newFile = new ExcelWriter();
         newFile.setOutputFile(location);
         newFile.createNewExcel("Rapport over laug");
 
         newFile.createCaptions("Laug", "Timer");
 
-        newFile.createLabelNumberContent(keys, values);
+        newFile.createLabelNumberContent((List<String>) values[0], (List<Integer>) values[1]);
 
         newFile.writeExcelToFile();
     }
