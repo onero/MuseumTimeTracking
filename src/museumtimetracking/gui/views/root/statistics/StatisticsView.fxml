@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
@@ -21,9 +21,11 @@
                      </children>
                   </HBox>
                   <ButtonBar prefHeight="40.0" prefWidth="200.0" AnchorPane.rightAnchor="14.0">
-                    <buttons>
-                      <Button maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleChangeStatisticsButton" prefWidth="140.0" text="&lt;==&gt;" />
-                    </buttons>
+                     <buttons>
+                        <JFXButton onAction="#handleGuild" text="Laug" />
+                        <JFXButton onAction="#handleGM" text="Tovholder" />
+                        <JFXButton onAction="#handleVolunteer" text="Frivillig" />
+                     </buttons>
                   </ButtonBar>
                </children>
             </AnchorPane>

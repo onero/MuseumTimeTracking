@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -47,6 +48,7 @@ public class StatisticsViewController implements Initializable {
 
     private Node guildHoursOverview;
     private Node ROIGmHours;
+    private Node volunteerStatistics;
 
     private ChartGuildHoursOverviewController chartGuildHoursOverviewController;
     private ROIGmHoursViewController ROIGmHoursController;
@@ -119,6 +121,7 @@ public class StatisticsViewController implements Initializable {
         ROIGmHours = nodeFactory.createNewView(EFXMLName.ROI_GM_HOURS);
         ROIGmHoursController = nodeFactory.getLoader().getController();
 
+        volunteerStatistics = nodeFactory.createNewView(EFXMLName.VOLUNTEER_STATISTICS);
         initialSetup();
     }
 
@@ -153,13 +156,27 @@ public class StatisticsViewController implements Initializable {
         chartGuildHoursOverviewController.updateDataForChart();
     }
 
-    @FXML
     private void handleChangeStatisticsButton() {
         if (borderpane.getCenter() == guildHoursOverview) {
             borderpane.setCenter(ROIGmHours);
         } else {
             borderpane.setCenter(guildHoursOverview);
         }
+    }
+
+    @FXML
+    private void handleGM(ActionEvent event) {
+        borderpane.setCenter(ROIGmHours);
+    }
+
+    @FXML
+    private void handleGuild(ActionEvent event) {
+        borderpane.setCenter(guildHoursOverview);
+    }
+
+    @FXML
+    private void handleVolunteer(ActionEvent event) {
+        borderpane.setCenter(volunteerStatistics);
     }
 
 }

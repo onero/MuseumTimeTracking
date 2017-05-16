@@ -15,8 +15,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import museumtimetracking.be.Guild;
 import museumtimetracking.be.GM;
+import museumtimetracking.be.Guild;
+import museumtimetracking.be.Volunteer;
 
 /**
  *
@@ -286,6 +287,28 @@ public class GuildDAO {
 
             while (rs.next()) {
                 guilds.add(getOneGuild(rs, con));
+            }
+        }
+        return guilds;
+    }
+
+    List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws SQLException {
+        List<String> guilds = new ArrayList<>();
+
+        String sql = "SELECT g.Name "
+                + "FROM Guild g "
+                + "JOIN VolunteerWork vw ON vw.GuildName = g.Name "
+                + "WHERE vw.VolunteerID = ?";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setInt(1, volunteer.getID());
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                guilds.add(rs.getString("Name"));
             }
         }
         return guilds;

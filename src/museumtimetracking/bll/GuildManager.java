@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import museumtimetracking.be.Guild;
+import museumtimetracking.be.Volunteer;
 import museumtimetracking.dal.FacadeDAO;
 import museumtimetracking.exception.DALException;
 
@@ -170,5 +171,9 @@ public class GuildManager {
             return hoursWorked / GMHoursInAMonth;
         }
         return 0;
+    }
+
+    public List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws DALException {
+        return facadeDAO.getGuildsAVolunteerHasWorkedOn(volunteer);
     }
 }
