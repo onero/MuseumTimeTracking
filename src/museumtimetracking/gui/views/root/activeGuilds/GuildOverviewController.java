@@ -177,23 +177,23 @@ public class GuildOverviewController implements Initializable {
             getEditGuildView();
         }
     }
-    
-            @FXML
+
+    @FXML
     private void handleEditGuild() {
         getEditGuildView();
     }
-    
-    private void getEditGuildView(){
+
+    private void getEditGuildView() {
         Stage primStage = (Stage) txtDescription.getScene().getWindow();
 
-            Stage editGuildModal = modalFactory.createNewModal(primStage, EFXMLName.EDIT_GUILD);
+        Stage editGuildModal = modalFactory.createNewModal(primStage, EFXMLName.EDIT_GUILD);
 
-            EditGuildViewController controller = modalFactory.getLoader().getController();
+        EditGuildViewController controller = modalFactory.getLoader().getController();
 
-            controller.setCurrentGuild(selectedGuild);
+        controller.setCurrentGuild(selectedGuild);
 
-            editGuildModal.showAndWait();
-            tableGuild.refresh();
+        editGuildModal.showAndWait();
+        tableGuild.refresh();
     }
 
     @FXML
@@ -266,6 +266,5 @@ public class GuildOverviewController implements Initializable {
     public void refreshTable() {
         tableGuild.refresh();
     }
-
 
 }
