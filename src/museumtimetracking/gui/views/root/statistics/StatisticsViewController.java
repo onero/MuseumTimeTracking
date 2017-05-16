@@ -7,19 +7,12 @@ package museumtimetracking.gui.views.root.statistics;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import museumtimetracking.be.Guild;
 import museumtimetracking.be.enums.EFXMLName;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
@@ -37,10 +30,6 @@ public class StatisticsViewController implements Initializable {
 
     @FXML
     private BorderPane borderpane;
-    @FXML
-    private ComboBox<Guild> cmbGuilds;
-    @FXML
-    private TextField txtSearchBar;
 
     private GuildModel guildModel;
 
@@ -68,47 +57,6 @@ public class StatisticsViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        initializeComboBox();
-
-    }
-
-    public void initializeComboBox() {
-        cmbGuilds.setItems(guildModel.getCachedGuilds());
-
-        if (!cmbGuilds.getItems().isEmpty()) {
-            cmbGuilds.getSelectionModel().selectFirst();
-        }
-
-        //Fill combobox with guilds
-        cmbGuilds.setCellFactory(gm -> new ListCell<Guild>() {
-            @Override
-            protected void updateItem(Guild guild, boolean empty) {
-                super.updateItem(guild, empty);
-                if (empty) {
-                    setText(null);
-                } else {
-                    setText(guild.getName());
-                }
-            }
-        });
-
-        //Make sure that the guilds name is shown
-        cmbGuilds.setButtonCell(
-                new ListCell<Guild>() {
-            @Override
-            protected void updateItem(Guild guild, boolean bln) {
-                super.updateItem(guild, bln);
-                if (bln) {
-                    setText("");
-                } else {
-                    setText(guild.getName());
-                }
-            }
-        });
-        //Set a search listener on serach textfield
-        txtSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
-            guildModel.searchGuilds(newValue);
-        });
     }
 
     /**
@@ -133,27 +81,13 @@ public class StatisticsViewController implements Initializable {
         updateDataForGuildHoursOverview();
     }
 
-    @FXML
-    private void selectGuild() {
-        List<Guild> selected = new ArrayList<>();
-        selected.add(cmbGuilds.getSelectionModel().getSelectedItem());
-
-        try {
-
-            Map<String, Integer> total = guildModel.getGMROIOnVolunteerForAMonth(selected, 10);
-
-            //TODO ALH&RKL: Connect with chart
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
-    }
-
     /**
      * Clears the data in the chart and fills it with freshly fetched data.
      *
      */
     public void updateDataForGuildHoursOverview() {
         chartGuildHoursOverviewController.updateDataForChart();
+        ROIGmHoursController.updateDataForChart();
     }
 
     private void handleChangeStatisticsButton() {
