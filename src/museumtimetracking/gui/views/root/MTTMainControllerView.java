@@ -138,6 +138,16 @@ public class MTTMainControllerView implements Initializable {
         imgHeader.fitWidthProperty().bind(borderPane.widthProperty());
         initializeTabPane();
         initializeTextFieldListener();
+        hideTabButtons();
+    }
+
+    /**
+     * Hides the buttons in the TapPanel.
+     */
+    private void hideTabButtons() {
+        tabPane.getTabs().remove(tabGM);
+        tabPane.getTabs().remove(tabPaneActiveGuild);
+        tabPane.getTabs().remove(tabPaneArchivedGuild);
     }
 
     /**
