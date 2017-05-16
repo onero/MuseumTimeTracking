@@ -6,6 +6,9 @@
 package museumtimetracking.bll;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -117,6 +120,81 @@ public class GuildManager implements IExcel {
     }
 
     /**
+     * Returns a Map containing all hours workd for each guild for between today
+     * and a month back.
+     *
+     * @param guilds
+     * @return
+     * @throws DALException
+     */
+    public Map<String, Integer> getAllHoursWorkedAMonthBack(List<Guild> guilds) throws DALException {
+        List<String> guildNames = new LinkedList<>();
+        for (Guild guild : guilds) {
+            guildNames.add(guild.getName());
+        }
+
+        DateFormat yearFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat timeFormatter = new SimpleDateFormat("HH:mm");
+        String date = yearFormatter.format(new Date());
+        String time = timeFormatter.format(new Date());
+        String startDate = getDateAMonthBack(date) + " " + time;
+        String endDate = date + " " + time;
+
+        return facadeDAO.getAllHoursWorkedForSpecificPeriod(guildNames, startDate, endDate);
+    }
+
+    /**
+     * Takes the parsed string and finds the day one month from that date.
+     *
+     * @param date a String that must represent a date with the format
+     * yyyy-MM-dd
+     * @return a String representing the date one month from that date.
+     */
+    private String getDateAMonthBack(String date) {
+
+        String[] yearArray = date.split("-");
+        int year, month, day;
+        year = Integer.parseInt(yearArray[0]);
+        month = Integer.parseInt(yearArray[1]);
+        day = Integer.parseInt(yearArray[2]);
+
+        return formatTime(year, month, day);
+    }
+
+    /**
+     * Takes the parameters and calculates the date one month from that day.
+     *
+     * @param year as int, ex 2017
+     * @param month as int, ex 1
+     * @param day as int, ex 22
+     * @return
+     */
+    private String formatTime(int year, int month, int day) {
+        String date;
+        day -= 30;
+        if (day < 0) {
+            day *= -1;
+            day = 30 - day;
+            month--;
+            if (month <= 0) {
+                month = 12;
+                year--;
+            }
+        }
+
+        date = year + "-";
+        if (month < 10) {
+            date += "0";
+        }
+        date += month + "-";
+        if (day < 10) {
+            date += "0";
+        }
+        date += day;
+        return date;
+    }
+
+    /**
      * Gets all guilds with no manager from DAO
      *
      * @return
@@ -172,7 +250,7 @@ public class GuildManager implements IExcel {
      *
      */
     public Map<String, Integer> getGMROIOnVolunteerForAMonth(List<Guild> selectedGuilds, int GMHoursInAMonth) throws DALException {
-        Map<String, Integer> hoursWorked = getAllHoursWorked(selectedGuilds);
+        Map<String, Integer> hoursWorked = getAllHoursWorkedAMonthBack(selectedGuilds);
         Map<String, Integer> ROIs = new HashMap<>();
 
         for (Guild selectedGuild : selectedGuilds) {

@@ -45,8 +45,6 @@ public class ROIGmHoursViewController implements Initializable {
     private Label lblMonth;
     @FXML
     private Label lblYear;
-    @FXML
-    private Label lblAll;
 
     private GuildModel guildModel;
 
@@ -132,11 +130,12 @@ public class ROIGmHoursViewController implements Initializable {
 
     @FXML
     private void selectGuild() {
-        //TODO RKL: Update all labels when @Grøn has implemented timeStamps.
         Guild guild = cmbGuilds.getSelectionModel().getSelectedItem();
         if (guild != null) {
             int guildROI = guildModel.getROIForAGuild(guild.getName());
-            lblAll.setText(guildROI + "");
+            lblWeek.setText(guildROI / 4 + "");
+            lblMonth.setText(guildROI + "");
+            lblYear.setText(guildROI * 12 + "");
         }
     }
 }

@@ -244,6 +244,27 @@ public class GuildDAO {
     }
 
     /**
+     * Returns a Map containing all the hours for each guild for the parsed
+     * period.
+     *
+     * @param guildNames
+     * @param startDate
+     * @param endDate
+     * @return
+     * @throws SQLException
+     */
+    public Map<String, Integer> getVolunteerWorkHoursForSpecificPeriod(List<String> guildNames, String startDate, String endDate) throws SQLException {
+        Map<String, Integer> workHours = new HashMap<>();
+        try (Connection con = cm.getConnection()) {
+            for (String guildName : guildNames) {
+                int hours = getVolunteerHoursForOneGuildForSpecificPeriod(con, guildName, startDate, endDate);
+                workHours.put(guildName, hours);
+            }
+        }
+        return workHours;
+    }
+
+    /**
      * Returns all the volunteer hours for at single guild.
      *
      * @param con
@@ -257,6 +278,35 @@ public class GuildDAO {
                 + "WHERE guildName = ?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setString(1, guildName);
+
+        ResultSet rs = ps.executeQuery();
+        int hours = 0;
+        while (rs.next()) {
+            hours += rs.getInt("Hours");
+        }
+        return hours;
+    }
+
+    /**
+     * Returns all the volunteer hours for a single guild in the specified
+     * datarange.
+     *
+     * @param con
+     * @param guildName
+     * @param startDate
+     * @param endDate
+     * @return
+     * @throws SQLException
+     */
+    private int getVolunteerHoursForOneGuildForSpecificPeriod(Connection con, String guildName, String startDate, String endDate) throws SQLException {
+        String sql = "SELECT * "
+                + "FROM VolunteerWork "
+                + "WHERE GuildName = ? "
+                + "AND Date BETWEEN ? AND ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, guildName);
+        ps.setString(2, startDate);
+        ps.setString(3, endDate);
 
         ResultSet rs = ps.executeQuery();
         int hours = 0;
