@@ -44,16 +44,21 @@
                   <Button fx:id="btnClearSearch" mnemonicParsing="false" onAction="#handleClearSearchBar" text="X" />
                </children>
             </HBox>
-            <Pane fx:id="snackPane" layoutX="228.0" layoutY="23.0" prefHeight="43.0" prefWidth="209.0">
+            <Pane fx:id="snackPane" layoutX="228.0" layoutY="23.0" prefHeight="43.0" prefWidth="188.0">
                <children>
                   <JFXSnackbar fx:id="snackWarning" />
                </children>
             </Pane>
-            <HBox fx:id="iconBox" layoutX="444.0" layoutY="14.0" prefHeight="32.0" prefWidth="153.0">
+            <HBox fx:id="iconBox" layoutX="396.0" layoutY="20.0" prefHeight="32.0" prefWidth="153.0" AnchorPane.leftAnchor="396.0" AnchorPane.rightAnchor="301.0">
                <children>
-                  <ImageView fitHeight="39.0" fitWidth="61.0" onMouseClicked="#handleExportExcel" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="49.0" fitWidth="80.0" onMouseClicked="#handleExportExcel" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../asset/img/functions/export-excel.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="imgScreenshot" fitHeight="34.0" fitWidth="33.0" onMouseClicked="#handleScreenshot" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../asset/img/functions/screenshot.png" />
                      </image>
                   </ImageView>
                </children>
