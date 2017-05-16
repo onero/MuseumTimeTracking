@@ -345,7 +345,7 @@ public class GuildDAO {
     List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws SQLException {
         List<String> guilds = new ArrayList<>();
 
-        String sql = "SELECT g.Name "
+        String sql = "SELECT DISTINCT g.Name "
                 + "FROM Guild g "
                 + "JOIN VolunteerWork vw ON vw.GuildName = g.Name "
                 + "WHERE vw.VolunteerID = ?";
@@ -362,5 +362,23 @@ public class GuildDAO {
             }
         }
         return guilds;
+    }
+
+    List<Integer> getWorkHoursInGuild(String guildName) throws SQLException {
+        List<Integer> hours = new ArrayList<>();
+
+        String sql = "SELECT vw.Hours "
+                + "FROM VolunteerWork vw "
+                + "Where vw.GuildName = ?";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, guildName);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                hours.add(rs.getInt("Hours"));
+            }
+        }
+        return hours;
     }
 }

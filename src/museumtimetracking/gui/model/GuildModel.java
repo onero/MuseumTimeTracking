@@ -302,4 +302,15 @@ public class GuildModel {
     public List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws DALException {
         return guildManager.getGuildsAVolunteerHasWorkedOn(volunteer);
     }
+
+    /**
+     * Gets all hours that has been added to a guild.
+     *
+     * @param guildName
+     * @return
+     */
+    public Integer getWorkHoursInGuild(String guildName) throws DALException {
+        return guildManager.getWorkHoursInGuild(guildName);
+
+    }
 }

@@ -8,7 +8,10 @@ package museumtimetracking.gui.views.root.statistics.VolunteerStatistics;
 import com.jfoenix.controls.JFXComboBox;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -40,6 +43,7 @@ public class VolunteerStatisticsViewController implements Initializable {
 
     private static final String stringComboVolunteerPrompt = "Vælg en frivillig";
     private static final String stringComboGuildPrompt = "Alle laug";
+    private static final String labelPrompt = "Intet Valgt";
 
     public VolunteerStatisticsViewController() {
         try {
@@ -55,6 +59,9 @@ public class VolunteerStatisticsViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        comboVolunteer.setPromptText(stringComboVolunteerPrompt);
+        comboGuild.setPromptText(stringComboGuildPrompt);
+        labelHours.setText(labelPrompt);
         initializeComboBoxes();
     }
 
@@ -62,11 +69,9 @@ public class VolunteerStatisticsViewController implements Initializable {
      *
      */
     private void initializeComboBoxes() {
-        comboVolunteer.setPromptText(stringComboVolunteerPrompt);
-        comboGuild.setPromptText(stringComboGuildPrompt);
 
-        comboVolunteer.setItems(volunteerModel.getCachedVolunteers());
-
+        resetGuildCombo();
+        resetVolunteerCombo();
         //Sets the list of volunteers to be their names.
         comboVolunteer.setCellFactory(new Callback<ListView<Volunteer>, ListCell<Volunteer>>() {
 
@@ -106,13 +111,20 @@ public class VolunteerStatisticsViewController implements Initializable {
 
         //adds listener to the volunteer combobox.
         comboVolunteer.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateComboGuild(newValue);
             updateHours(comboGuild.getSelectionModel().getSelectedItem(), newValue);
+
+            if (comboGuild.getSelectionModel().getSelectedItem() == null) {
+                updateComboGuild(newValue);
+            }
         });
 
         //adds listener to the guild combobox
         comboGuild.valueProperty().addListener((observable, oldValue, newValue) -> {
             updateHours(newValue, comboVolunteer.getSelectionModel().getSelectedItem());
+
+            if (comboVolunteer.getSelectionModel().getSelectedItem() == null) {
+                updateComboVolunteer(newValue);
+            }
         });
     }
 
@@ -126,8 +138,26 @@ public class VolunteerStatisticsViewController implements Initializable {
 
         if (volunteer != null) {
             try {
-                //TODO GREEN: Update the guild combobox with guilds the volunteer has worked on
+                //Updates the guild combobox with guilds the volunteer has worked on
                 comboGuild.getItems().addAll(guildModel.getGuildsAVolunteerHasWorkedOn(volunteer));
+            } catch (DALException ex) {
+                ExceptionDisplayer.display(ex);
+            }
+        }
+    }
+
+    /**
+     * Adds the Volunteers that have worked in a specific guild to the combobox.
+     *
+     * @param guildName
+     */
+    private void updateComboVolunteer(String guildName) {
+        comboVolunteer.getItems().clear();
+
+        if (guildName != null) {
+            try {
+                //Updates the guild combobox with guilds the volunteer has worked on
+                comboVolunteer.getItems().addAll(volunteerModel.getVolunteersThatHasWorkedOnGuild(guildName));
             } catch (DALException ex) {
                 ExceptionDisplayer.display(ex);
             }
@@ -138,15 +168,31 @@ public class VolunteerStatisticsViewController implements Initializable {
      * updates the hours label to the hours from the specific volunteer and
      * guild.
      *
-     * @param guild
+     * @param guildName
      */
-    private void updateHours(String guild, Volunteer volunteer) {
-        if (volunteer != null && guild != null) {
-            //TODO GREEN: show the hours the volunteer has put in the guild
-            labelHours.setText(guild + " 30");
-        } else if (volunteer != null && guild == null) {
-            //TODO GREEN: show the overall hours the volunteer has put in all guilds.
-            labelHours.setText("intet laug 300");
+    private void updateHours(String guildName, Volunteer volunteer) {
+        if (volunteer != null && guildName != null) {
+            try {
+                //Shows the hours the volunteer has put in the guild.
+                labelHours.setText("" + volunteerModel.getWorkHoursForAVolunteerInAGuild(guildName, volunteer));
+            } catch (DALException ex) {
+                ExceptionDisplayer.display(ex);
+            }
+        } else if (volunteer != null && guildName == null) {
+            try {
+                //Shows the overall hours the volunteer has put in all guilds.
+                labelHours.setText("" + volunteerModel.getWorkHoursForAVolunteerInAllGuilds(volunteer));
+            } catch (DALException ex) {
+                ExceptionDisplayer.display(ex);
+            }
+        } else if (volunteer == null && guildName != null) {
+            try {
+                labelHours.setText("" + guildModel.getWorkHoursInGuild(guildName));
+            } catch (DALException ex) {
+                ExceptionDisplayer.display(ex);
+            }
+        } else if (volunteer == null && guildName == null) {
+            labelHours.setText(labelPrompt);
         }
     }
 
@@ -155,7 +201,36 @@ public class VolunteerStatisticsViewController implements Initializable {
      * guilds.
      */
     @FXML
-    private void handleClear() {
+    private void handleClearGuildCombo(ActionEvent event) {
         comboGuild.getSelectionModel().clearSelection();
+//        if (comboVolunteer.getSelectionModel().getSelectedItem() == null) {
+//            resetGuildCombo();
+//        }
     }
+
+    /**
+     * Clears the selection of a Volunteer.
+     *
+     * @param event
+     */
+    @FXML
+    private void handleClearVolunteerCombo(ActionEvent event) {
+        comboVolunteer.getSelectionModel().clearSelection();
+//        if (comboGuild.getSelectionModel().getSelectedItem() == null) {
+//            resetVolunteerCombo();
+//        }
+    }
+
+    private void resetGuildCombo() {
+        comboGuild.getItems().clear();
+        List<String> guilds = new ArrayList<>();
+        guildModel.getCachedGuilds().stream().forEach(g -> guilds.add(g.getName()));
+        comboGuild.getItems().addAll(guilds);
+    }
+
+    private void resetVolunteerCombo() {
+        comboVolunteer.getItems().clear();
+        comboVolunteer.setItems(volunteerModel.getCachedVolunteers());
+    }
+
 }
