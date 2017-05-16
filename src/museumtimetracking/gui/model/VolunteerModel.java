@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import jxl.write.WriteException;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.VolunteerManager;
 import museumtimetracking.exception.DALException;
@@ -170,5 +171,12 @@ public class VolunteerModel {
         idleVolunteersFromDB.stream()
                 .filter(g -> g.getFullName().toLowerCase().contains(searchText.toLowerCase()))
                 .forEach(g -> cachedIdleVolunteers.add(g));
+    }
+
+    /**
+     * Export volunteer info to excel sheet
+     */
+    public void exportVolunteerInfoToExcel(String location) throws IOException, WriteException, DALException {
+        volunteerMgr.exportToExcel(location, cachedVolunteers);
     }
 }

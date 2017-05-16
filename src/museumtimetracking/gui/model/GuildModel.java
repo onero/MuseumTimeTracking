@@ -6,11 +6,13 @@
 package museumtimetracking.gui.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import jxl.write.WriteException;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
 import museumtimetracking.bll.GuildManager;
@@ -179,7 +181,7 @@ public class GuildModel {
         cachedGuilds.clear();
         guildsFromDB.stream()
                 .filter(g -> g.getName().toLowerCase().contains(newValue.toLowerCase())
-                        || g.getGuildManager() != null && g.getGuildManager().getFullName().toLowerCase().contains(newValue.toLowerCase()))
+                || g.getGuildManager() != null && g.getGuildManager().getFullName().toLowerCase().contains(newValue.toLowerCase()))
                 .forEach(g -> cachedGuilds.add(g));
     }
 
@@ -248,6 +250,26 @@ public class GuildModel {
     }
 
     /**
+     * Export all guild hours to excel sheet
+     *
+     * @throws IOException
+     * @throws WriteException
+     * @throws WriteException
+     * @throws DALException
+     */
+    public void exportGuildHoursToExcel(String location) throws IOException, WriteException, WriteException, DALException {
+        getMapOfHoursPerGuild();
+
+        //Create Guild name keys (Will be strings)
+        List keys = new ArrayList<>(guildHours.keySet());
+
+        //Create hour values (will be integers)
+        List values = new ArrayList<>(guildHours.values());
+
+        guildManager.exportToExcel(location, keys, values);
+    }
+
+    /*
      * Calculate the total return on investment a guild managers spends on
      * volunteers for a single guild in a month, for all guilds parsed.
      *
