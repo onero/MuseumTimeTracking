@@ -436,4 +436,13 @@ public class FacadeDAO {
                     "De ledige laug uden tovholdere kunne ikke hentes fra databasen.", ex);
         }
     }
+
+    public List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws DALException {
+        try {
+            return guildDAO.getGuildsAVolunteerHasWorkedOn(volunteer);
+        } catch (SQLException ex) {
+            throw new DALException(
+                    "Laugene den frivillige har arbejdet på kunne ikke hentet.", ex);
+        }
+    }
 }
