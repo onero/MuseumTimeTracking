@@ -11,11 +11,11 @@
          <bottom>
             <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <ButtonBar prefHeight="40.0" prefWidth="200.0" AnchorPane.rightAnchor="14.0">
+                  <ButtonBar AnchorPane.rightAnchor="14.0">
                      <buttons>
-                        <JFXButton onAction="#handleGuild" text="Laug" />
-                        <JFXButton onAction="#handleGM" text="Tovholder" />
-                        <JFXButton onAction="#handleVolunteer" text="Frivillig" />
+                        <JFXButton maxWidth="140.0" minWidth="140.0" onAction="#handleGuild" prefWidth="140.0" text="Laug" />
+                        <JFXButton maxWidth="140.0" minWidth="140.0" onAction="#handleGM" prefWidth="140.0" text="Tovholder" />
+                        <JFXButton maxWidth="140.0" minWidth="140.0" onAction="#handleVolunteer" prefWidth="140.0" text="Frivillig" />
                      </buttons>
                   </ButtonBar>
                </children>

@@ -42,11 +42,11 @@ public class GuildManagerModel implements Externalizable {
 
     public static GuildManagerModel getInstance() throws DALException {
         if (instance == null) {
-//            try {
-//                instance = new GuildManagerModel();
-//            } catch (DALException ex) {
-            instance = new GMFileDAO().loadModel();
-//            }
+            try {
+                instance = new GuildManagerModel();
+            } catch (DALException ex) {
+                instance = new GMFileDAO().loadModel();
+            }
         }
         return instance;
     }

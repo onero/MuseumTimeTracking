@@ -47,11 +47,11 @@ public class GuildModel implements Externalizable {
 
     public static GuildModel getInstance() throws DALException {
         if (instance == null) {
-//            try {
-//                instance = new GuildModel();
-//            } catch (DALException ex) {
-            instance = new GuildFileDAO().loadModel();
-//            }
+            try {
+                instance = new GuildModel();
+            } catch (DALException ex) {
+                instance = new GuildFileDAO().loadModel();
+            }
         }
         return instance;
     }
@@ -271,12 +271,12 @@ public class GuildModel implements Externalizable {
     /**
      * Export all guild hours to excel sheet
      *
+     * @param location
      * @throws IOException
-     * @throws WriteException
      * @throws WriteException
      * @throws DALException
      */
-    public void exportGuildHoursToExcel(String location) throws IOException, WriteException, WriteException, DALException {
+    public void exportGuildHoursToExcel(String location) throws IOException, WriteException, DALException {
         getMapOfHoursPerGuild();
 
         //Create Guild name keys (Will be strings)
@@ -299,6 +299,7 @@ public class GuildModel implements Externalizable {
      */
     public Map<String, Integer> getGMROIOnVolunteerForAMonth(List<Guild> selectedGuilds, int GMWorkHours) throws DALException {
         guildROI = guildManager.getGMROIOnVolunteerForAMonth(selectedGuilds, GMWorkHours);
+
         return guildROI;
     }
 
@@ -346,5 +347,16 @@ public class GuildModel implements Externalizable {
         guildHours = (Map<String, Integer>) in.readObject();
 
         Collections.sort(guildsFromDB);
+    }
+
+    /**
+     * Gets all hours that has been added to a guild.
+     *
+     * @param guildName
+     * @return
+     */
+    public Integer getWorkHoursInGuild(String guildName) throws DALException {
+        return guildManager.getWorkHoursInGuild(guildName);
+
     }
 }

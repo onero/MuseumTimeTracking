@@ -13,6 +13,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import jxl.write.WriteException;
@@ -39,11 +40,11 @@ public class VolunteerModel implements Externalizable {
 
     public static VolunteerModel getInstance() throws DALException {
         if (instance == null) {
-//            try {
-//                instance = new VolunteerModel();
-//            } catch (DALException ex) {
-            instance = new VolunteerFileDAO().loadModel();
-//            }
+            try {
+                instance = new VolunteerModel();
+            } catch (DALException ex) {
+                instance = new VolunteerFileDAO().loadModel();
+            }
         }
         return instance;
     }
@@ -207,5 +208,36 @@ public class VolunteerModel implements Externalizable {
 
         Collections.sort(volunteerFromDB);
         Collections.sort(idleVolunteersFromDB);
+    }
+
+    /**
+     * Gets the total hours for a volunteer in i guild.
+     *
+     * @param guildName
+     * @param volunteer
+     * @return
+     */
+    public int getWorkHoursForAVolunteerInAGuild(String guildName, Volunteer volunteer) throws DALException {
+        return volunteerMgr.getWorkHoursForAVolunteerInAGuild(guildName, volunteer);
+    }
+
+    /**
+     * Gets the total workhours for a volunteer in all guilds.
+     *
+     * @param volunteer
+     * @return
+     */
+    public Integer getWorkHoursForAVolunteerInAllGuilds(Volunteer volunteer) throws DALException {
+        return volunteerMgr.getWorkHoursForAVolunteerInAllGuilds(volunteer);
+    }
+
+    /**
+     * Gets all volunteers that have worked on specified guild.
+     *
+     * @param guildName
+     * @return
+     */
+    public Set<Volunteer> getVolunteersThatHasWorkedOnGuild(String guildName) throws DALException {
+        return volunteerMgr.getVolunteersThatHasWorkedOnGuild(guildName);
     }
 }
