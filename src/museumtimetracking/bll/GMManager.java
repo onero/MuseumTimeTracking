@@ -12,10 +12,9 @@ import javafx.collections.ObservableList;
 import jxl.write.WriteException;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.GM;
-import museumtimetracking.dal.DALFacade;
 import museumtimetracking.bll.fileWriters.ExcelWriter;
 import museumtimetracking.bll.fileWriters.IExcel;
-import museumtimetracking.dal.FacadeDAO;
+import museumtimetracking.dal.DALFacade;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.gui.model.GuildManagerModel;
 
@@ -155,8 +154,9 @@ public class GMManager implements IExcel {
     public GuildManagerModel loadGuildModelFromFile() {
         return facadeDAO.loadGuildManagerModelFromFile();
     }
-  
-     /* Writes the ROI to a excel sheet and saves it.
+
+    /*
+     * Writes the ROI to a excel sheet and saves it.
      *
      * @param <T>
      * @param location
