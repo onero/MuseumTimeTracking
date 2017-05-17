@@ -6,10 +6,14 @@
 package museumtimetracking.bll;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 import javafx.collections.ObservableList;
+import jxl.write.WriteException;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.GM;
+import museumtimetracking.bll.fileWriters.ExcelWriter;
+import museumtimetracking.bll.fileWriters.IExcel;
 import museumtimetracking.dal.FacadeDAO;
 import museumtimetracking.exception.DALException;
 
@@ -17,7 +21,7 @@ import museumtimetracking.exception.DALException;
  *
  * @author Mathias
  */
-public class GMManager {
+public class GMManager implements IExcel {
 
     private final FacadeDAO facadeDAO;
 
@@ -57,8 +61,7 @@ public class GMManager {
     }
 
     /**
-     * Gets a list of idle Guild Managers
-     * GuildManagers and it's Guilds.
+     * Gets a list of idle Guild Managers GuildManagers and it's Guilds.
      *
      * @return
      * @throws museumtimetracking.exception.DALException
@@ -129,6 +132,21 @@ public class GMManager {
      */
     public void assignGuildToManager(int id, String guildName) throws DALException {
         facadeDAO.assignGuildToManager(id, guildName);
+    }
+
+    @Override
+    public <T> void exportToExcel(String location, List<T>... values) throws IOException, WriteException, DALException {
+        ExcelWriter newFile = new ExcelWriter();
+        newFile.setOutputFile(location);
+        newFile.createNewExcel("ROI for Laug");
+
+        newFile.createCaptions("Laug", "Uge", "Måned", "År");
+
+        newFile.createLabelNumberContent((List<String>) values[0], (List<Integer>) values[1]);
+        newFile.createRowNumberContent(2, (List<Integer>) values[2]);
+        newFile.createRowNumberContent(3, (List<Integer>) values[3]);
+
+        newFile.writeExcelToFile();
     }
 
 }

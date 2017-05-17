@@ -202,4 +202,9 @@ public class GuildManagerModel {
                 .forEach(gm -> gm.removeGuild(guildToRemove));
     }
 
+    public void exportROIToExcel(String location) {
+
+//        gmManager.exportToExcel(location, values);
+    }
+
 }
