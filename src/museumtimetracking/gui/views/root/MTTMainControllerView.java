@@ -34,6 +34,7 @@ import museumtimetracking.be.enums.ETabPaneID;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
+import museumtimetracking.gui.model.GuildModel;
 import museumtimetracking.gui.model.VolunteerModel;
 import museumtimetracking.gui.views.NodeFactory;
 import museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController;
@@ -179,8 +180,9 @@ public class MTTMainControllerView implements Initializable {
                 ETabPaneID paneID = ETabPaneID.getTabByString(paneTabID);
                 switch (paneID) {
                     case STATISTICS:
-//                        GuildModel.getInstance().exportGuildHoursToExcel(location);
-                        GuildManagerModel.getInstance().exportROIToExcel(location);
+                        GuildModel.getInstance().exportGuildHoursToExcel(location);
+                        String[] locationArray = location.split("\\.");
+                        GuildManagerModel.getInstance().exportROIToExcel(locationArray[0] + "ROI." + locationArray[1]);
                         break;
                     case VOLUNTEER:
                         VolunteerModel.getInstance().exportVolunteerInfoToExcel(location);

@@ -134,6 +134,16 @@ public class GMManager implements IExcel {
         facadeDAO.assignGuildToManager(id, guildName);
     }
 
+    /**
+     * Writes the ROI to a excel sheet and saves it.
+     *
+     * @param <T>
+     * @param location
+     * @param values
+     * @throws IOException
+     * @throws WriteException
+     * @throws DALException
+     */
     @Override
     public <T> void exportToExcel(String location, List<T>... values) throws IOException, WriteException, DALException {
         ExcelWriter newFile = new ExcelWriter();
