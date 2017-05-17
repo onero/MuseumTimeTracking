@@ -8,6 +8,8 @@ package museumtimetracking.gui.views.root.login;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,6 +56,101 @@ public class LoginViewController implements Initializable {
         spinner.setVisible(false);
     }
 
-    
+    /**
+     * Sends a request to the LoginManager for a verification of the user and
+     * logs it in, which will send it to the AllstudentsView or displays an
+     * error message.
+     *
+     * @param event
+     */
+    @FXML
+    private void handleLoginBtn(ActionEvent event) {
+        String username = txtUsername.getText();
+        String password = txtPassword.getText();
+        if (!username.isEmpty() && !password.isEmpty()) {
+            startLoginProcess(username, password);
+        } else if (username.isEmpty()) {
+            setErrorMessage("Indtast et brugernavn.");
+        } else if (password.isEmpty()) {
+            setErrorMessage("Indtast et kodeord.");
+        }
+    }
+
+    private void startLoginProcess(String username, String password) {
+        setLoginMode(true);
+        Runnable task = () -> {
+            try {
+                if (checkUserExists(username, password)) {
+
+                }
+            } catch (SQLException ex) {
+                LoginViewController.getInstance().setErrorMessage(ex.getMessage());
+            }
+        };
+        new Thread(task).start();
+    }
+
+    /**
+     * Sets the error text.
+     *
+     * @param errorMessage
+     */
+    public void setErrorMessage(String errorMessage) {
+        Platform.runLater(() -> {
+            setLoginMode(false);
+            this.errorMessage.setVisible(true);
+            this.errorMessage.setWrapText(true);
+            this.errorMessage.setText(errorMessage);
+        });
+    }
+
+    /**
+     * When pressing the loginBtn we get a loading spinner and the loginBtn is
+     * being set as disable so the user wont be able to click more than once.
+     *
+     * @param visible
+     */
+    private void setLoginMode(boolean visible) {
+        spinner.setVisible(visible);
+        btnLogin.setDisable(visible);
+        errorMessage.setVisible(false);
+    }
+
+    /**
+     * Check if user exists
+     *
+     * @param username
+     * @param password
+     */
+    private boolean checkUserExists(String username, String password) throws SQLException {
+        MTTMainControllerView.getInstance().addTabButtons();
+        return true;
+    }
+
+    private void denyAcccess(int error) {
+        Platform.runLater(() -> {
+            setLoginMode(false);
+            this.errorMessage.setVisible(true);
+            //Clears the PasswordField for better usability
+            txtPassword.clear();
+            switch (error) {
+                case 0:
+                    errorMessage.setText(txtUsername.getText() + " findes ikke.");
+                    break;
+                default:
+                    errorMessage.setText("Hej " + txtUsername.getText() + " kodeordet er forkert. \nPrøv igen.");
+            }
+        });
+    }
+
+    /**
+     * Resets the login.
+     */
+    public void resetLogin() {
+        txtPassword.setText("");
+        spinner.setVisible(false);
+        btnLogin.setDisable(false);
+        errorMessage.setVisible(false);
+    }
 
 }

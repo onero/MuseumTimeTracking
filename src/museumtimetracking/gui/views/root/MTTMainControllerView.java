@@ -7,16 +7,16 @@ package museumtimetracking.gui.views.root;
 
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTabPane;
-import static java.awt.SystemColor.text;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
@@ -47,7 +47,6 @@ import museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController;
 import museumtimetracking.gui.views.root.archivedGuilds.ArchivedGuildViewController;
 import museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController;
 import museumtimetracking.gui.views.root.idle.IdleViewController;
-import museumtimetracking.gui.views.root.login.LoginViewController;
 import museumtimetracking.gui.views.root.statistics.StatisticsViewController;
 import museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController;
 
@@ -93,7 +92,7 @@ public class MTTMainControllerView implements Initializable {
     private Button btnClearSearch;
     @FXML
     private Label btnLogin;
-    
+
     private ModalFactory modalFactory;
 
     private static MTTMainControllerView instance;
@@ -116,6 +115,8 @@ public class MTTMainControllerView implements Initializable {
 
     private final NodeFactory nodeFactory;
 
+    private List<Tab> adminTabList;
+
     private String paneTabID;
 
     public static MTTMainControllerView getInstance() {
@@ -123,8 +124,8 @@ public class MTTMainControllerView implements Initializable {
     }
 
     public MTTMainControllerView() {
-        modalFactory = ModalFactory.getInstance();                    
-                
+        modalFactory = ModalFactory.getInstance();
+
         nodeFactory = NodeFactory.getInstance();
 
         statistics = nodeFactory.createNewView(STATISTICS_OVERVIEW);
@@ -148,6 +149,8 @@ public class MTTMainControllerView implements Initializable {
         idleViewController = nodeFactory.getLoader().getController();
 
         paneTabID = "statistics";
+
+        adminTabList = new ArrayList<>();
     }
 
     @FXML
@@ -166,10 +169,10 @@ public class MTTMainControllerView implements Initializable {
 
         }
     }
-    
-    private void getLoginView(){
+
+    private void getLoginView() {
         Stage primStage = (Stage) imgHeader.getScene().getWindow();
-        
+
         Stage loginModal = modalFactory.createNewModal(primStage, EFXMLName.LOGIN_VIEW);
 
         loginModal.showAndWait();
@@ -189,17 +192,34 @@ public class MTTMainControllerView implements Initializable {
         imgHeader.fitWidthProperty().bind(borderPane.widthProperty());
         initializeTabPane();
         initializeTextFieldListener();
-        hideTabButtons(true);
+        removeTabButtons(true);
     }
 
     /**
      * Hides the buttons in the TapPanel.
-     * @param hide     
+     *
+     * @param hide
      */
-    public void hideTabButtons(boolean hide) {
-        tabPane.getTabs().remove(tabGM);
-        tabPane.getTabs().remove(tabPaneActiveGuild);
-        tabPane.getTabs().remove(tabPaneArchivedGuild);
+    public void removeTabButtons(boolean hide) {
+        if (true) {
+            //Adds the tabs to a list.
+            adminTabList.add(tabPaneActiveGuild);
+            adminTabList.add(tabPaneArchivedGuild);
+            adminTabList.add(tabGM);
+            //Removes the tabs.
+            tabPane.getTabs().remove(tabPaneActiveGuild);
+            tabPane.getTabs().remove(tabPaneArchivedGuild);
+            tabPane.getTabs().remove(tabGM);
+        }
+    }
+
+    /**
+     * Adds the tabs from the list.
+     */
+    public void addTabButtons() {
+        tabPane.getTabs().add(1, adminTabList.get(0));
+        tabPane.getTabs().add(2, adminTabList.get(1));
+        tabPane.getTabs().add(3, adminTabList.get(2));
     }
 
     @FXML
@@ -337,7 +357,7 @@ public class MTTMainControllerView implements Initializable {
      */
     public void displaySnackWarning(String text) {
         snackWarning.show(text, 3000);
-     }
+    }
 
     @FXML
     private void handleLogin(MouseEvent event) {
