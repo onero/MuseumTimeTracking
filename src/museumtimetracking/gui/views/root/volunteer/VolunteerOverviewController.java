@@ -94,7 +94,7 @@ public class VolunteerOverviewController implements Initializable {
         modalFactory = ModalFactory.getInstance();
         try {
             volunteerModel = VolunteerModel.getInstance();
-        } catch (IOException | DALException ex) {
+        } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
     }
@@ -223,7 +223,7 @@ public class VolunteerOverviewController implements Initializable {
                 //Update volunteer in DB
                 try {
                     VolunteerModel.getInstance().updateVolunteer(selectedVolunteer);
-                } catch (IOException | DALException ex) {
+                } catch (DALException ex) {
                     ExceptionDisplayer.display(ex);
                 }
                 showButtons();

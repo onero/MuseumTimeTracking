@@ -5,7 +5,10 @@
  */
 package museumtimetracking.gui.model;
 
+import java.io.Externalizable;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,35 +21,40 @@ import museumtimetracking.be.APerson;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
 import museumtimetracking.bll.GMManager;
+import museumtimetracking.dal.fileWriting.GMFileDAO;
 import museumtimetracking.exception.DALException;
 
 /**
  *
  * @author Mathias
  */
-public class GuildManagerModel {
+public class GuildManagerModel implements Externalizable {
 
     private static GuildManagerModel instance;
 
-    private final GMManager gmManager;
+    private transient final GMManager gmManager;
 
-    private final Set<GM> managersFromDB;
-    private final ObservableList<GM> cachedManagers;
+    private Set<GM> managersFromDB;
+    private ObservableList<GM> cachedManagers;
 
-    private final Set<GM> idleGuildManagersFromDB;
-    private final ObservableList<GM> cachedIdleGuildManagers;
+    private Set<GM> idleGuildManagersFromDB;
+    private ObservableList<GM> cachedIdleGuildManagers;
 
-    private final Set<GM> gmCandidatesFromDB;
-    private final ObservableList<GM> cachedGMCandidates;
+    private Set<GM> gmCandidatesFromDB;
+    private ObservableList<GM> cachedGMCandidates;
 
-    public static GuildManagerModel getInstance() throws IOException, DALException {
+    public static GuildManagerModel getInstance() throws DALException {
         if (instance == null) {
-            instance = new GuildManagerModel();
+            try {
+                instance = new GuildManagerModel();
+            } catch (DALException ex) {
+                instance = new GMFileDAO().loadModel();
+            }
         }
         return instance;
     }
 
-    private GuildManagerModel() throws IOException, DALException {
+    public GuildManagerModel() throws DALException {
         gmManager = new GMManager();
         gmCandidatesFromDB = new TreeSet<>(gmManager.getAllGMCandidates());
         cachedGMCandidates = FXCollections.observableArrayList(gmCandidatesFromDB);
@@ -54,6 +62,8 @@ public class GuildManagerModel {
         idleGuildManagersFromDB = gmManager.getAllIdleGuildManagers();
         cachedManagers = FXCollections.observableArrayList(managersFromDB);
         cachedIdleGuildManagers = FXCollections.observableArrayList(idleGuildManagersFromDB);
+
+        gmManager.saveGuildModel(this);
 
     }
 
@@ -205,6 +215,23 @@ public class GuildManagerModel {
                 .forEach(gm -> gm.removeGuild(guildToRemove));
     }
 
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeObject(managersFromDB);
+        out.writeObject(idleGuildManagersFromDB);
+        out.writeObject(gmCandidatesFromDB);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        gmCandidatesFromDB = (Set<GM>) in.readObject();
+        cachedGMCandidates = FXCollections.observableArrayList(gmCandidatesFromDB);
+        managersFromDB = (Set<GM>) in.readObject();
+        cachedManagers = FXCollections.observableArrayList(managersFromDB);
+        idleGuildManagersFromDB = (Set<GM>) in.readObject();
+        cachedIdleGuildManagers = FXCollections.observableArrayList(idleGuildManagersFromDB);
+    }
+  
     public void exportROIToExcel(String location) throws IOException, DALException, WriteException {
         GuildModel guildModel = GuildModel.getInstance();
         List<Guild> guilds = guildModel.getGuildsFromDB();

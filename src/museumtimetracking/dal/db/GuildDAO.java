@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package museumtimetracking.dal;
+package museumtimetracking.dal.db;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,7 +26,7 @@ public class GuildDAO {
 
     private final DBConnectionManager cm;
 
-    public GuildDAO() throws IOException {
+    public GuildDAO() {
         this.cm = DBConnectionManager.getInstance();
     }
 
@@ -342,7 +341,7 @@ public class GuildDAO {
         return guilds;
     }
 
-    List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws SQLException {
+    public List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws SQLException {
         List<String> guilds = new ArrayList<>();
 
         String sql = "SELECT DISTINCT g.Name "
@@ -364,7 +363,7 @@ public class GuildDAO {
         return guilds;
     }
 
-    List<Integer> getWorkHoursInGuild(String guildName) throws SQLException {
+    public List<Integer> getWorkHoursInGuild(String guildName) throws SQLException {
         List<Integer> hours = new ArrayList<>();
 
         String sql = "SELECT vw.Hours "

@@ -89,7 +89,7 @@ public class GuildManagerOverviewController implements Initializable {
         guildManagerModel = null;
         try {
             guildManagerModel = GuildManagerModel.getInstance();
-        } catch (IOException | DALException ex) {
+        } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
     }

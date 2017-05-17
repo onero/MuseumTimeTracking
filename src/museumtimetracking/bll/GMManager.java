@@ -14,8 +14,9 @@ import museumtimetracking.be.APerson;
 import museumtimetracking.be.GM;
 import museumtimetracking.bll.fileWriters.ExcelWriter;
 import museumtimetracking.bll.fileWriters.IExcel;
-import museumtimetracking.dal.FacadeDAO;
+import museumtimetracking.dal.DALFacade;
 import museumtimetracking.exception.DALException;
+import museumtimetracking.gui.model.GuildManagerModel;
 
 /**
  *
@@ -23,10 +24,10 @@ import museumtimetracking.exception.DALException;
  */
 public class GMManager implements IExcel {
 
-    private final FacadeDAO facadeDAO;
+    private final DALFacade facadeDAO;
 
-    public GMManager() throws IOException {
-        facadeDAO = FacadeDAO.getInstance();
+    public GMManager() {
+        facadeDAO = DALFacade.getInstance();
     }
 
     /**
@@ -135,6 +136,26 @@ public class GMManager implements IExcel {
     }
 
     /**
+     * Save the entire GuildManager model
+     *
+     * @param model
+     * @throws IOException
+     */
+    public void saveGuildModel(GuildManagerModel model) {
+        facadeDAO.saveGuildManagerModelToFile(model);
+    }
+
+    /**
+     * Load entire GuildManager model
+     *
+     * @return
+     * @throws IOException
+     */
+    public GuildManagerModel loadGuildModelFromFile() {
+        return facadeDAO.loadGuildManagerModelFromFile();
+    }
+
+    /*
      * Writes the ROI to a excel sheet and saves it.
      *
      * @param <T>

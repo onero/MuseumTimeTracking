@@ -5,7 +5,6 @@
  */
 package museumtimetracking.gui.views.root.idle;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -59,7 +58,7 @@ public class IdleViewController implements Initializable {
         try {
             guildManagerModel = GuildManagerModel.getInstance();
             volunteerModel = VolunteerModel.getInstance();
-        } catch (IOException | DALException ex) {
+        } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
     }
