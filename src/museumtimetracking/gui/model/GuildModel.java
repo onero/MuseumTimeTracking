@@ -309,11 +309,16 @@ public class GuildModel implements Externalizable {
      * @param guildName the key for the map.
      * @return ROI for the guild as int. Or zero if there is no ROI.
      */
-    public int getROIForAGuild(String guildName) {
+    public int[] getROIForAGuild(String guildName) {
         try {
-            return guildROI.get(guildName);
+            int[] roi = new int[3];
+            int roiForGuild = guildROI.get(guildName);
+            roi[0] = roiForGuild / 4;
+            roi[1] = roiForGuild;
+            roi[2] = roiForGuild * 12;
+            return roi;
         } catch (NullPointerException nex) {
-            return 0;
+            return null;
         }
     }
 

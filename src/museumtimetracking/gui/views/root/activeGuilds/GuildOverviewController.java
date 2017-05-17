@@ -157,6 +157,7 @@ public class GuildOverviewController implements Initializable {
      * Fill the Guild TableView
      */
     private void initializeGuildTable() {
+        tableGuild.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableGuild.setItems(guildModel.getCachedGuilds());
 
         clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());

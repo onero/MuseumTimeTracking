@@ -131,10 +131,10 @@ public class ROIGmHoursViewController implements Initializable {
     private void selectGuild() {
         Guild guild = cmbGuilds.getSelectionModel().getSelectedItem();
         if (guild != null) {
-            int guildROI = guildModel.getROIForAGuild(guild.getName());
-            lblWeek.setText(guildROI / 4 + "");
-            lblMonth.setText(guildROI + "");
-            lblYear.setText(guildROI * 12 + "");
+            int[] guildROI = guildModel.getROIForAGuild(guild.getName());
+            lblWeek.setText(guildROI[0] + "");
+            lblMonth.setText(guildROI[1] + "");
+            lblYear.setText(guildROI[2] + "");
         }
     }
 }
