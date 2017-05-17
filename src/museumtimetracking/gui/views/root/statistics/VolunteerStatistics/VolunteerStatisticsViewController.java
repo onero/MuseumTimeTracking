@@ -242,4 +242,10 @@ public class VolunteerStatisticsViewController implements Initializable {
         }
     }
 
+    public void clearAll() {
+        updateComboGuild(null);
+        updateComboVolunteer(null);
+        updateHours();
+    }
+
 }
