@@ -11,4 +11,14 @@ package museumtimetracking.dal;
  */
 public class LoginDAO {
     
+    private static LoginDAO instance;
+
+    private DBConnectionManager cm;
+
+    public static LoginDAO getInstance() {
+        if (instance == null) {
+            instance = new LoginDAO();
+        }
+        return instance;
+    }
 }

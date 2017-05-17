@@ -5,10 +5,27 @@
  */
 package museumtimetracking.gui.model;
 
+import museumtimetracking.bll.LoginManager;
+
 /**
  *
  * @author Skovgaard
  */
 public class LoginModel {
-    
+
+    private static LoginModel instance;
+
+    private final LoginManager loginManager;
+
+    public static LoginModel getInstance() {
+        if (instance == null) {
+            instance = new LoginModel();
+        }
+        return instance;
+    }
+
+    private LoginModel() {
+        loginManager = LoginManager.getInstance();
+    }
+
 }
