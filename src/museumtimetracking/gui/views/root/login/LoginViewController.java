@@ -6,14 +6,19 @@
 package museumtimetracking.gui.views.root.login;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import museumtimetracking.be.Guild;
+import museumtimetracking.gui.views.root.MTTMainControllerView;
 
 /**
  * FXML Controller class
@@ -30,15 +35,25 @@ public class LoginViewController implements Initializable {
     private TextField txtUsername;
     @FXML
     private PasswordField txtPassword;
+    @FXML
+    private Label errorMessage;
+
+//    private final LoginModel loginModel;
+    private static LoginViewController instance;
+
+    public static LoginViewController getInstance() {
+        return instance;
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        errorMessage.setText("");
+        spinner.setVisible(false);
+    }
+
     
-    
-    
+
 }
