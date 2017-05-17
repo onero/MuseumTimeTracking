@@ -19,6 +19,7 @@ import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
 import museumtimetracking.gui.views.NodeFactory;
 import museumtimetracking.gui.views.root.statistics.ROIOverview.ROIGmHoursViewController;
+import museumtimetracking.gui.views.root.statistics.VolunteerStatistics.VolunteerStatisticsViewController;
 import museumtimetracking.gui.views.root.statistics.guildHoursOverview.ChartGuildHoursOverviewController;
 
 /**
@@ -41,6 +42,7 @@ public class StatisticsViewController implements Initializable {
 
     private ChartGuildHoursOverviewController chartGuildHoursOverviewController;
     private ROIGmHoursViewController ROIGmHoursController;
+    private VolunteerStatisticsViewController volunteerStatisticsViewController;
 
     public StatisticsViewController() {
         try {
@@ -70,6 +72,7 @@ public class StatisticsViewController implements Initializable {
         ROIGmHoursController = nodeFactory.getLoader().getController();
 
         volunteerStatistics = nodeFactory.createNewView(EFXMLName.VOLUNTEER_STATISTICS);
+        volunteerStatisticsViewController = nodeFactory.getLoader().getController();
         initialSetup();
     }
 
@@ -111,6 +114,7 @@ public class StatisticsViewController implements Initializable {
     @FXML
     private void handleVolunteer(ActionEvent event) {
         borderpane.setCenter(volunteerStatistics);
+        volunteerStatisticsViewController.clearAll();
     }
 
 }

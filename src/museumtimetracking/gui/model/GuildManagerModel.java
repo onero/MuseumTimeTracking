@@ -6,11 +6,14 @@
 package museumtimetracking.gui.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import jxl.write.WriteException;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
@@ -200,6 +203,28 @@ public class GuildManagerModel {
         cachedManagers.stream()
                 .filter(gm -> gm.getObservableListOfGuilds().contains(guildToRemove))
                 .forEach(gm -> gm.removeGuild(guildToRemove));
+    }
+
+    public void exportROIToExcel(String location) throws IOException, DALException, WriteException {
+        GuildModel guildModel = GuildModel.getInstance();
+        List<Guild> guilds = guildModel.getGuildsFromDB();
+        List<String> guildNames = new ArrayList<>();
+        List<Integer> weekROI = new ArrayList<>();
+        List<Integer> monthROI = new ArrayList<>();
+        List<Integer> yearROI = new ArrayList<>();
+
+        for (Guild guild : guilds) {
+            int[] roi = guildModel.getROIForAGuild(guild.getName());
+            if (roi != null) {
+                guildNames.add(guild.getName());
+                weekROI.add(roi[0]);
+                monthROI.add(roi[1]);
+                yearROI.add(roi[2]);
+            }
+        }
+
+        gmManager.exportToExcel(location, new ArrayList<>(guildNames),
+                new ArrayList<>(weekROI), new ArrayList<>(monthROI), new ArrayList<>(yearROI));
     }
 
 }

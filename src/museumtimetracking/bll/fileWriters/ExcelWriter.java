@@ -44,10 +44,8 @@ public class ExcelWriter {
     /**
      * Write sheet as file
      *
+     * @param nameOfSheet
      * @throws IOException
-     * @throws WriteException
-     * @throws RowsExceededException
-     * @throws DALException
      */
     public void createNewExcel(String nameOfSheet) throws IOException {
         File file = new File(fileLocation);
@@ -162,6 +160,20 @@ public class ExcelWriter {
         //Insert all the values for the keys
         for (int i = 0; i < values.size(); i++) {
             addLabel(excelSheet, 1, i + 1, values.get(i));
+        }
+    }
+
+    /**
+     * Writes the parsed list of Integers in the specified row.
+     *
+     * @param row
+     * @param values
+     * @throws WriteException
+     */
+    public void createRowNumberContent(int row, List<Integer> values) throws WriteException {
+        //Insert all the values in the row.
+        for (int i = 0; i < values.size(); i++) {
+            addNumber(excelSheet, row, i + 1, values.get(i));
         }
     }
 
