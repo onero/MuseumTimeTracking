@@ -6,7 +6,6 @@
 package museumtimetracking.gui.views.root.guildManager.newGuildManager;
 
 import com.jfoenix.controls.JFXSnackbar;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -53,7 +52,7 @@ public class NewGuildManagerViewController implements Initializable {
     public NewGuildManagerViewController() {
         try {
             guildModel = GuildModel.getInstance();
-        } catch (IOException | DALException ex) {
+        } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
     }
@@ -108,7 +107,7 @@ public class NewGuildManagerViewController implements Initializable {
             Guild selectedGuild = comboGuild.getSelectionModel().getSelectedItem();
             try {
                 GuildManagerModel.getInstance().createNewGuildManager(person, selectedGuild);
-            } catch (IOException | DALException ex) {
+            } catch (DALException ex) {
                 ExceptionDisplayer.display(ex);
             }
             closeWindow();

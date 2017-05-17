@@ -5,7 +5,10 @@
  */
 package museumtimetracking.gui.model;
 
+import java.io.Externalizable;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,48 +20,60 @@ import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.GuildManager;
+import museumtimetracking.dal.fileWriting.GuildFileDAO;
 import museumtimetracking.exception.DALException;
 
-public class GuildModel {
+public class GuildModel implements Externalizable {
 
     private static GuildModel instance;
 
-    public static GuildModel getInstance() throws IOException, DALException {
+    private List<Guild> guildsFromDB;
+
+    private ObservableList<Guild> cachedGuilds;
+
+    private List<Guild> availableGuildsFromDB;
+
+    private ObservableList<Guild> cachedAvailableGuilds;
+
+    private List<Guild> archivedGuildsFromDB;
+
+    private ObservableList<Guild> cachedArchivedGuilds;
+
+    private transient GuildManager guildManager;
+
+    private Map<String, Integer> guildHours;
+
+    private transient Map<String, Integer> guildROI;
+
+    public static GuildModel getInstance() throws DALException {
         if (instance == null) {
-            instance = new GuildModel();
+//            try {
+//                instance = new GuildModel();
+//            } catch (DALException ex) {
+            instance = new GuildFileDAO().loadModel();
+//            }
         }
         return instance;
     }
 
-    private final List<Guild> guildsFromDB;
-
-    private final ObservableList<Guild> cachedGuilds;
-
-    private final ObservableList<Guild> cachedAvailableGuilds;
-
-    private final List<Guild> archivedGuildsFromDB;
-
-    private final ObservableList<Guild> cachedArchivedGuilds;
-
-    private final GuildManager guildManager;
-
-    private Map<String, Integer> guildHours;
-
-    private Map<String, Integer> guildROI;
-
-    private GuildModel() throws IOException, DALException {
-        // Instantiate guildManager
+    public GuildModel() throws DALException {
         guildManager = new GuildManager();
-        // Puts in all the guilds from DB to Manager and after Model.
+        // Instantiate guildManager
+        // Puts in all the guilds from DB/Local file to Manager and after Model.
         guildsFromDB = guildManager.getAllGuildsNotArchived();
-        archivedGuildsFromDB = guildManager.getAllGuildsArchived();
-        // Puts the guilds from the DB inside a ObservableList.
         cachedGuilds = FXCollections.observableArrayList(guildsFromDB);
-        cachedAvailableGuilds = FXCollections.observableArrayList(guildManager.getGuildsWithoutManagers());
+
+        archivedGuildsFromDB = guildManager.getAllGuildsArchived();
         cachedArchivedGuilds = FXCollections.observableArrayList(archivedGuildsFromDB);
+
+        availableGuildsFromDB = guildManager.getGuildsWithoutManagers();
+        cachedAvailableGuilds = FXCollections.observableArrayList(availableGuildsFromDB);
+
         guildHours = guildManager.getAllHoursWorked(guildsFromDB);
 
         Collections.sort(guildsFromDB);
+
+        guildManager.saveGuildModel(this);
 
     }
 
@@ -160,7 +175,10 @@ public class GuildModel {
      * @throws museumtimetracking.exception.DALException
      */
     public Map<String, Integer> getMapOfHoursPerGuild() throws DALException {
-        guildHours = guildManager.getAllHoursWorked(guildsFromDB);
+        Map<String, Integer> hours = guildManager.getAllHoursWorked(guildsFromDB);
+        if (hours != null) {
+            guildHours = hours;
+        }
         return guildHours;
     }
 
@@ -300,5 +318,33 @@ public class GuildModel {
 
     public List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws DALException {
         return guildManager.getGuildsAVolunteerHasWorkedOn(volunteer);
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeObject(guildsFromDB);
+
+        out.writeObject(availableGuildsFromDB);
+
+        out.writeObject(archivedGuildsFromDB);
+
+        out.writeObject(guildHours);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        guildManager = new GuildManager();
+        guildsFromDB = (List<Guild>) in.readObject();
+        cachedGuilds = FXCollections.observableArrayList(guildsFromDB);
+
+        availableGuildsFromDB = (List<Guild>) in.readObject();
+        cachedAvailableGuilds = FXCollections.observableArrayList(availableGuildsFromDB);
+
+        archivedGuildsFromDB = (List<Guild>) in.readObject();
+        cachedArchivedGuilds = FXCollections.observableArrayList(archivedGuildsFromDB);
+
+        guildHours = (Map<String, Integer>) in.readObject();
+
+        Collections.sort(guildsFromDB);
     }
 }

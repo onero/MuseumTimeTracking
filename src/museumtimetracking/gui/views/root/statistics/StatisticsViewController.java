@@ -5,7 +5,6 @@
  */
 package museumtimetracking.gui.views.root.statistics;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -45,7 +44,7 @@ public class StatisticsViewController implements Initializable {
     public StatisticsViewController() {
         try {
             guildModel = GuildModel.getInstance();
-        } catch (IOException | DALException ex) {
+        } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
         nodeFactory = NodeFactory.getInstance();

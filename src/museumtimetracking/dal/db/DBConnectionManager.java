@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package museumtimetracking.dal;
+package museumtimetracking.dal.db;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
@@ -19,9 +19,13 @@ public class DBConnectionManager {
     private static final String CONFIG_FILE_NAME = "DB.cfg";
     private final SQLServerDataSource ds;
 
-    public static DBConnectionManager getInstance() throws IOException {
+    public static DBConnectionManager getInstance() {
         if (instance == null) {
-            instance = new DBConnectionManager();
+            try {
+                instance = new DBConnectionManager();
+            } catch (IOException ex) {
+                System.out.println("Couldn't find DB.cfg");
+            }
         }
         return instance;
     }

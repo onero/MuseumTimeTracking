@@ -17,15 +17,24 @@ import museumtimetracking.be.APerson;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
 import museumtimetracking.be.Volunteer;
+import museumtimetracking.dal.db.GuildDAO;
+import museumtimetracking.dal.db.GuildManagerDAO;
+import museumtimetracking.dal.db.VolunteerDAO;
+import museumtimetracking.dal.fileWriting.GMFileDAO;
+import museumtimetracking.dal.fileWriting.GuildFileDAO;
+import museumtimetracking.dal.fileWriting.VolunteerFileDAO;
 import museumtimetracking.exception.DALException;
+import museumtimetracking.gui.model.GuildManagerModel;
+import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.model.VolunteerModel;
 
 /**
  *
  * @author Mathias
  */
-public class FacadeDAO {
+public class DALFacade {
 
-    private static FacadeDAO instance;
+    private static DALFacade instance;
 
     public static final String DB_CONNECTION_ERROR = "Kunne ikke forbinde til DB";
 
@@ -35,17 +44,26 @@ public class FacadeDAO {
 
     private final GuildManagerDAO guildManagerDAO;
 
-    public static FacadeDAO getInstance() throws IOException {
+    private final GuildFileDAO guildFileDAO;
+
+    private final GMFileDAO GMFileDAO;
+
+    private final VolunteerFileDAO volunteerFileDAO;
+
+    public static DALFacade getInstance() {
         if (instance == null) {
-            instance = new FacadeDAO();
+            instance = new DALFacade();
         }
         return instance;
     }
 
-    private FacadeDAO() throws IOException {
+    private DALFacade() {
         guildDAO = new GuildDAO();
         volunteerDAO = new VolunteerDAO();
         guildManagerDAO = new GuildManagerDAO();
+        guildFileDAO = new GuildFileDAO();
+        GMFileDAO = new GMFileDAO();
+        volunteerFileDAO = new VolunteerFileDAO();
     }
 
     /**
@@ -139,7 +157,7 @@ public class FacadeDAO {
      * @return
      * @throws museumtimetracking.exception.DALException
      */
-    public List<Guild> getAllGuildsNotArchived() throws DALException {
+    public List<Guild> getAllGuildsNotArchivedFromDB() throws DALException {
         try {
             return guildDAO.getAllGuildsNotArchived();
         } catch (SQLException ex) {
@@ -428,6 +446,12 @@ public class FacadeDAO {
         }
     }
 
+    /**
+     * Get all guilds that do not have a manager
+     *
+     * @return guilds as List<Guild>
+     * @throws DALException
+     */
     public List<Guild> getGuildsWithoutManagers() throws DALException {
         try {
             return guildDAO.getGuildsWithoutManagers();
@@ -437,6 +461,13 @@ public class FacadeDAO {
         }
     }
 
+    /**
+     * Get all guilds a volunteer has worked on
+     *
+     * @param volunteer
+     * @return guilds as List<String>
+     * @throws DALException
+     */
     public List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws DALException {
         try {
             return guildDAO.getGuildsAVolunteerHasWorkedOn(volunteer);
@@ -444,5 +475,65 @@ public class FacadeDAO {
             throw new DALException(
                     "Laugene den frivillige har arbejdet på kunne ikke hentet.", ex);
         }
+    }
+
+    /**
+     * Save the entire guild model
+     *
+     * @param model
+     * @throws IOException
+     */
+    public void saveGuildModelToFile(GuildModel model) {
+        guildFileDAO.saveModelToFile(model);
+    }
+
+    /**
+     * Load the guildmodel
+     *
+     * @return GuildModel
+     * @throws IOException
+     */
+    public GuildModel loadGuildModelFromFile() throws IOException {
+        return guildFileDAO.loadModel();
+    }
+
+    /**
+     * Save the entire GuildManager model
+     *
+     * @param model
+     * @throws IOException
+     */
+    public void saveGuildManagerModelToFile(GuildManagerModel model) {
+        GMFileDAO.saveModelToFile(model);
+    }
+
+    /**
+     * Load the GuildManager model
+     *
+     * @return GuildModel
+     * @throws IOException
+     */
+    public GuildManagerModel loadGuildManagerModelFromFile() {
+        return GMFileDAO.loadModel();
+    }
+
+    /**
+     * Save the entire Volunteer model
+     *
+     * @param model
+     * @throws IOException
+     */
+    public void saveVolunteerModelToFile(VolunteerModel model) {
+        volunteerFileDAO.saveModelToFile(model);
+    }
+
+    /**
+     * Load the Volunteer model
+     *
+     * @return GuildModel
+     * @throws IOException
+     */
+    public VolunteerModel loadVolunteerModelFromFile() throws IOException {
+        return volunteerFileDAO.loadModel();
     }
 }

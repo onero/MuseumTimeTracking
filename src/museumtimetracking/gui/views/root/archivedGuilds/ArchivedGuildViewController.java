@@ -5,7 +5,6 @@
  */
 package museumtimetracking.gui.views.root.archivedGuilds;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -45,7 +44,7 @@ public class ArchivedGuildViewController implements Initializable {
     public ArchivedGuildViewController() {
         try {
             guildModel = GuildModel.getInstance();
-        } catch (IOException | DALException ex) {
+        } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
     }

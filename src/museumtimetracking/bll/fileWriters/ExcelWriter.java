@@ -106,6 +106,7 @@ public class ExcelWriter {
         // Lets automatically wrap the cells
         timesBoldUnderline.setWrap(true);
 
+        //TODO ALH: Why?
         CellView cv = new CellView();
         cv.setFormat(times);
         cv.setFormat(timesBoldUnderline);

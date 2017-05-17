@@ -7,7 +7,6 @@ package museumtimetracking.gui.views.root.activeGuilds;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
@@ -89,7 +88,7 @@ public class GuildOverviewController implements Initializable {
         try {
             this.guildModel = GuildModel.getInstance();
             guildManagerModel = GuildManagerModel.getInstance();
-        } catch (IOException | DALException ex) {
+        } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
     }
