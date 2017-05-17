@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import jxl.write.WriteException;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
+import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.GuildManager;
 import museumtimetracking.exception.DALException;
 
@@ -181,7 +182,7 @@ public class GuildModel {
         cachedGuilds.clear();
         guildsFromDB.stream()
                 .filter(g -> g.getName().toLowerCase().contains(newValue.toLowerCase())
-                || g.getGuildManager() != null && g.getGuildManager().getFullName().toLowerCase().contains(newValue.toLowerCase()))
+                        || g.getGuildManager() != null && g.getGuildManager().getFullName().toLowerCase().contains(newValue.toLowerCase()))
                 .forEach(g -> cachedGuilds.add(g));
     }
 
@@ -252,12 +253,12 @@ public class GuildModel {
     /**
      * Export all guild hours to excel sheet
      *
+     * @param location
      * @throws IOException
-     * @throws WriteException
      * @throws WriteException
      * @throws DALException
      */
-    public void exportGuildHoursToExcel(String location) throws IOException, WriteException, WriteException, DALException {
+    public void exportGuildHoursToExcel(String location) throws IOException, WriteException, DALException {
         getMapOfHoursPerGuild();
 
         //Create Guild name keys (Will be strings)
@@ -280,6 +281,7 @@ public class GuildModel {
      */
     public Map<String, Integer> getGMROIOnVolunteerForAMonth(List<Guild> selectedGuilds, int GMWorkHours) throws DALException {
         guildROI = guildManager.getGMROIOnVolunteerForAMonth(selectedGuilds, GMWorkHours);
+
         return guildROI;
     }
 
@@ -295,5 +297,20 @@ public class GuildModel {
         } catch (NullPointerException nex) {
             return 0;
         }
+    }
+
+    public List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws DALException {
+        return guildManager.getGuildsAVolunteerHasWorkedOn(volunteer);
+    }
+
+    /**
+     * Gets all hours that has been added to a guild.
+     *
+     * @param guildName
+     * @return
+     */
+    public Integer getWorkHoursInGuild(String guildName) throws DALException {
+        return guildManager.getWorkHoursInGuild(guildName);
+
     }
 }
