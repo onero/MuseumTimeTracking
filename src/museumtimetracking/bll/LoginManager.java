@@ -5,7 +5,7 @@
  */
 package museumtimetracking.bll;
 
-import museumtimetracking.dal.LoginDAO;
+import museumtimetracking.dal.db.LoginDAO;
 
 /**
  *
