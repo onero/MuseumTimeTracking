@@ -6,7 +6,6 @@
 package museumtimetracking.gui.views.root.statistics.VolunteerStatistics;
 
 import com.jfoenix.controls.JFXComboBox;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +51,7 @@ public class VolunteerStatisticsViewController implements Initializable {
         try {
             volunteerModel = VolunteerModel.getInstance();
             guildModel = GuildModel.getInstance();
-        } catch (IOException | DALException ex) {
+        } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
     }

@@ -5,7 +5,6 @@
  */
 package museumtimetracking.gui.views.root.activeGuilds.editGuild;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -54,7 +53,7 @@ public class EditGuildViewController implements Initializable {
         try {
             guildManagerModel = GuildManagerModel.getInstance();
             guildModel = GuildModel.getInstance();
-        } catch (IOException | DALException ex) {
+        } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
     }
@@ -99,7 +98,7 @@ public class EditGuildViewController implements Initializable {
             Guild updatedGuild = new Guild(txtGuildName.getText(), txtGuildDescription.getText(), false);
             try {
                 GuildModel.getInstance().updateGuild(currentGuild.getName(), updatedGuild);
-            } catch (IOException | DALException ex) {
+            } catch (DALException ex) {
                 ExceptionDisplayer.display(ex);
             }
             handleBack();

@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package museumtimetracking.dal;
+package museumtimetracking.dal.db;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,7 +26,7 @@ public class GuildManagerDAO extends APersonDAO {
 
     private final DBConnectionManager cm;
 
-    public GuildManagerDAO() throws IOException {
+    public GuildManagerDAO() {
         cm = DBConnectionManager.getInstance();
     }
 

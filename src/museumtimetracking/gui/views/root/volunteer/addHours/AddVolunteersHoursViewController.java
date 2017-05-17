@@ -5,7 +5,6 @@
  */
 package museumtimetracking.gui.views.root.volunteer.addHours;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -53,7 +52,7 @@ public class AddVolunteersHoursViewController implements Initializable {
         try {
             guildModel = GuildModel.getInstance();
             volunteerModel = VolunteerModel.getInstance();
-        } catch (IOException | DALException ex) {
+        } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
     }

@@ -5,7 +5,6 @@
  */
 package museumtimetracking.gui.views.root.guildManager.guildManagerOverview.manageGuildManagerGuilds;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -52,7 +51,7 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
 
         try {
             guildModel = GuildModel.getInstance();
-        } catch (IOException | DALException ex) {
+        } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
 

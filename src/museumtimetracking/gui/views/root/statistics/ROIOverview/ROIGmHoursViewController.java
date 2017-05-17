@@ -5,7 +5,6 @@
  */
 package museumtimetracking.gui.views.root.statistics.ROIOverview;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +50,7 @@ public class ROIGmHoursViewController implements Initializable {
     public ROIGmHoursViewController() {
         try {
             guildModel = GuildModel.getInstance();
-        } catch (IOException | DALException ex) {
+        } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
     }

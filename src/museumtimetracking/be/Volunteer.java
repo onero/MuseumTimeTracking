@@ -5,19 +5,27 @@
  */
 package museumtimetracking.be;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import museumtimetracking.be.enums.ELanguage;
 
-public class Volunteer extends APerson {
+public class Volunteer extends APerson implements Externalizable {
 
     private BooleanProperty isIdle;
 
-    private final ELanguage language;
+    private ELanguage language;
 
-    private final StringProperty description;
+    private StringProperty description;
+
+    public Volunteer() {
+    }
 
     public Volunteer(int ID, String firstName, String lastName, String email, int phone, boolean isIdle, ELanguage language) {
         super(ID, firstName, lastName, email, phone);
@@ -63,6 +71,32 @@ public class Volunteer extends APerson {
 
     public void setDescription(String description) {
         this.description.set(description);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        ID = in.readInt();
+        firstName = new SimpleStringProperty((String) in.readObject());
+        lastName = new SimpleStringProperty((String) in.readObject());
+        fullName = new SimpleStringProperty((String) in.readObject());
+        email = new SimpleStringProperty((String) in.readObject());
+        phone = new SimpleIntegerProperty(in.readInt());
+        isIdle = new SimpleBooleanProperty(in.readBoolean());
+        language = (ELanguage) in.readObject();
+        description = new SimpleStringProperty((String) in.readObject());
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeInt(getID());
+        out.writeObject(getFirstName());
+        out.writeObject(getLastName());
+        out.writeObject(getFullName());
+        out.writeObject(getEmail());
+        out.writeInt(getPhone());
+        out.writeBoolean(getIsIdle());
+        out.writeObject(getLanguage());
+        out.writeObject(getDescription());
     }
 
 }

@@ -18,8 +18,9 @@ import museumtimetracking.be.Guild;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.fileWriters.ExcelWriter;
 import museumtimetracking.bll.fileWriters.IExcel;
-import museumtimetracking.dal.FacadeDAO;
+import museumtimetracking.dal.DALFacade;
 import museumtimetracking.exception.DALException;
+import museumtimetracking.gui.model.GuildModel;
 
 /**
  *
@@ -27,10 +28,10 @@ import museumtimetracking.exception.DALException;
  */
 public class GuildManager implements IExcel {
 
-    private final FacadeDAO facadeDAO;
+    private final DALFacade facadeDAO;
 
-    public GuildManager() throws IOException {
-        facadeDAO = FacadeDAO.getInstance();
+    public GuildManager() {
+        facadeDAO = DALFacade.getInstance();
     }
 
     /**
@@ -71,17 +72,22 @@ public class GuildManager implements IExcel {
      * @throws museumtimetracking.exception.DALException
      */
     public List<Guild> getAllGuildsNotArchived() throws DALException {
-        return facadeDAO.getAllGuildsNotArchived();
+        List<Guild> guilds = facadeDAO.getAllGuildsNotArchivedFromDB();
+
+        return guilds;
     }
 
     /**
-     * Gets all the guilds from the DB.
+     * Gets all the guilds from the DB if connection is available.
+     * Else get all guilds from file, if available
      *
-     * @return
+     * @return guilds as List<Guild>
      * @throws museumtimetracking.exception.DALException
      */
     public List<Guild> getAllGuildsArchived() throws DALException {
-        return facadeDAO.getAllGuildsArchived();
+        List<Guild> guilds = facadeDAO.getAllGuildsArchived();
+
+        return guilds;
     }
 
     /**
@@ -282,6 +288,27 @@ public class GuildManager implements IExcel {
     }
 
     /**
+     * <<<<<<< HEAD
+     * Save the entire guild model
+     *
+     * @param model
+     * @throws IOException
+     */
+    public void saveGuildModel(GuildModel model) {
+        facadeDAO.saveGuildModelToFile(model);
+    }
+
+    /**
+     * Load entire guid model
+     *
+     * @return
+     * @throws IOException
+     */
+    public GuildModel loadGuildModelFromFile() throws IOException {
+        return facadeDAO.loadGuildModelFromFile();
+    }
+
+    /*
      * Gets all hours that has been added to a guild.
      *
      * @param guildName

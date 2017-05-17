@@ -16,8 +16,9 @@ import jxl.write.WriteException;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.fileWriters.ExcelWriter;
 import museumtimetracking.bll.fileWriters.IExcel;
-import museumtimetracking.dal.FacadeDAO;
+import museumtimetracking.dal.DALFacade;
 import museumtimetracking.exception.DALException;
+import museumtimetracking.gui.model.VolunteerModel;
 
 /**
  *
@@ -25,10 +26,10 @@ import museumtimetracking.exception.DALException;
  */
 public class VolunteerManager implements IExcel {
 
-    private final FacadeDAO facadeDAO;
+    private final DALFacade facadeDAO;
 
-    public VolunteerManager() throws IOException {
-        facadeDAO = FacadeDAO.getInstance();
+    public VolunteerManager() {
+        facadeDAO = DALFacade.getInstance();
     }
 
     /**
@@ -159,6 +160,27 @@ public class VolunteerManager implements IExcel {
     }
 
     /**
+     * <<<<<<< HEAD
+     * Save the entire VolunteerModel
+     *
+     * @param model
+     * @throws IOException
+     */
+    public void saveVolunteerModel(VolunteerModel model) {
+        facadeDAO.saveVolunteerModelToFile(model);
+    }
+
+    /**
+     * Load entire VolunteerModel
+     *
+     * @return
+     * @throws IOException
+     */
+    public VolunteerModel loadVolunteerModelFromFile() throws IOException {
+        return facadeDAO.loadVolunteerModelFromFile();
+    }
+
+    /*
      * Gets the total hours for a volunteer in i guild from DB and adds them.
      *
      * @param guildName

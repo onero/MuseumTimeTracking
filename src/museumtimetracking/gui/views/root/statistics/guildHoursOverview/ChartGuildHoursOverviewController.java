@@ -5,7 +5,6 @@
  */
 package museumtimetracking.gui.views.root.statistics.guildHoursOverview;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +33,7 @@ public class ChartGuildHoursOverviewController implements Initializable {
     public ChartGuildHoursOverviewController() {
         try {
             guildModel = GuildModel.getInstance();
-        } catch (IOException | DALException ex) {
+        } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
     }
@@ -48,6 +47,7 @@ public class ChartGuildHoursOverviewController implements Initializable {
         updateDataForChart();
     }
 
+    //TODO RKL: JAVADOC!
     public void updateDataForChart() {
         chartHoursOverview.getData().clear();
         List<Guild> guilds = guildModel.getGuildsFromDB();

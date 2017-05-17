@@ -5,9 +5,12 @@
  */
 package museumtimetracking.gui.model;
 
+import java.io.Externalizable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -16,34 +19,39 @@ import javafx.collections.ObservableList;
 import jxl.write.WriteException;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.VolunteerManager;
+import museumtimetracking.dal.fileWriting.VolunteerFileDAO;
 import museumtimetracking.exception.DALException;
 
 /**
  *
  * @author Skovgaard
  */
-public class VolunteerModel {
+public class VolunteerModel implements Externalizable {
 
-    private final VolunteerManager volunteerMgr;
+    private transient final VolunteerManager volunteerMgr;
 
-    private static VolunteerModel instance;
+    private transient static VolunteerModel instance;
 
-    private final ObservableList<Volunteer> cachedVolunteers;
-    private final ObservableList<Volunteer> cachedIdleVolunteers;
+    private List<Volunteer> volunteerFromDB;
+    private ObservableList<Volunteer> cachedVolunteers;
 
-    private final List<Volunteer> volunteerFromDB;
-    private final List<Volunteer> idleVolunteersFromDB;
+    private List<Volunteer> idleVolunteersFromDB;
+    private ObservableList<Volunteer> cachedIdleVolunteers;
 
-    public static VolunteerModel getInstance() throws IOException, DALException {
+    public static VolunteerModel getInstance() throws DALException {
         if (instance == null) {
-            instance = new VolunteerModel();
+            try {
+                instance = new VolunteerModel();
+            } catch (DALException ex) {
+                instance = new VolunteerFileDAO().loadModel();
+            }
         }
         return instance;
     }
 
-    public VolunteerModel() throws IOException, DALException {
-        // Instantiate volunteerMgr
+    public VolunteerModel() throws DALException {
         volunteerMgr = new VolunteerManager();
+        // Instantiate volunteerMgr
         volunteerFromDB = volunteerMgr.getAllVolunteersNotIdle();
         idleVolunteersFromDB = volunteerMgr.getAllIdleVolunteers();
         cachedVolunteers = FXCollections.observableArrayList(volunteerFromDB);
@@ -51,6 +59,9 @@ public class VolunteerModel {
 
         Collections.sort(volunteerFromDB);
         Collections.sort(idleVolunteersFromDB);
+
+        volunteerMgr.saveVolunteerModel(this);
+
     }
 
     /**
@@ -179,6 +190,24 @@ public class VolunteerModel {
      */
     public void exportVolunteerInfoToExcel(String location) throws IOException, WriteException, DALException {
         volunteerMgr.exportToExcel(location, cachedVolunteers);
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeObject(volunteerFromDB);
+        out.writeObject(idleVolunteersFromDB);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        volunteerFromDB = (List<Volunteer>) in.readObject();
+        cachedVolunteers = FXCollections.observableArrayList(volunteerFromDB);
+
+        idleVolunteersFromDB = (List<Volunteer>) in.readObject();
+        cachedIdleVolunteers = FXCollections.observableArrayList(idleVolunteersFromDB);
+
+        Collections.sort(volunteerFromDB);
+        Collections.sort(idleVolunteersFromDB);
     }
 
     /**

@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package museumtimetracking.dal;
+package museumtimetracking.dal.db;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,7 +30,7 @@ public class VolunteerDAO extends APersonDAO {
 
     private final DBConnectionManager cm;
 
-    public VolunteerDAO() throws IOException {
+    public VolunteerDAO() {
         this.cm = DBConnectionManager.getInstance();
     }
 
@@ -283,7 +282,7 @@ public class VolunteerDAO extends APersonDAO {
      * @return
      * @throws SQLException
      */
-    List<Integer> getWorkHoursForAVolunteerInAGuild(String guildName, Volunteer volunteer) throws SQLException {
+    public List<Integer> getWorkHoursForAVolunteerInAGuild(String guildName, Volunteer volunteer) throws SQLException {
         List<Integer> hours = new ArrayList<>();
 
         String sql = "SELECT vw.Hours "
@@ -312,7 +311,7 @@ public class VolunteerDAO extends APersonDAO {
      * @return
      * @throws SQLException
      */
-    List<Integer> getWorkHoursForAVolunteerInAllGuilds(Volunteer volunteer) throws SQLException {
+    public List<Integer> getWorkHoursForAVolunteerInAllGuilds(Volunteer volunteer) throws SQLException {
         List<Integer> hours = new ArrayList<>();
 
         String sql = "SELECT vw.Hours "
