@@ -14,11 +14,14 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
 import museumtimetracking.be.Volunteer;
+import museumtimetracking.be.enums.EVolunteerStatisticsState;
+import static museumtimetracking.be.enums.EVolunteerStatisticsState.*;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
@@ -66,12 +69,12 @@ public class VolunteerStatisticsViewController implements Initializable {
     }
 
     /**
-     *
+     * Fills the comboboxes and sets cellfactory on the volunteer combobox
      */
     private void initializeComboBoxes() {
 
-        resetGuildCombo();
-        resetVolunteerCombo();
+        updateComboVolunteer(null);
+        updateComboGuild(null);
         //Sets the list of volunteers to be their names.
         comboVolunteer.setCellFactory(new Callback<ListView<Volunteer>, ListCell<Volunteer>>() {
 
@@ -90,7 +93,6 @@ public class VolunteerStatisticsViewController implements Initializable {
                             setText(null);
                         }
                     }
-
                 };
                 return cell;
             }
@@ -108,24 +110,6 @@ public class VolunteerStatisticsViewController implements Initializable {
                 }
             }
         });
-
-        //adds listener to the volunteer combobox.
-        comboVolunteer.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateHours(comboGuild.getSelectionModel().getSelectedItem(), newValue);
-
-            if (comboGuild.getSelectionModel().getSelectedItem() == null) {
-                updateComboGuild(newValue);
-            }
-        });
-
-        //adds listener to the guild combobox
-        comboGuild.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateHours(newValue, comboVolunteer.getSelectionModel().getSelectedItem());
-
-            if (comboVolunteer.getSelectionModel().getSelectedItem() == null) {
-                updateComboVolunteer(newValue);
-            }
-        });
     }
 
     /**
@@ -135,7 +119,6 @@ public class VolunteerStatisticsViewController implements Initializable {
      */
     private void updateComboGuild(Volunteer volunteer) {
         comboGuild.getItems().clear();
-
         if (volunteer != null) {
             try {
                 //Updates the guild combobox with guilds the volunteer has worked on
@@ -143,6 +126,10 @@ public class VolunteerStatisticsViewController implements Initializable {
             } catch (DALException ex) {
                 ExceptionDisplayer.display(ex);
             }
+        } else {
+            List<String> guilds = new ArrayList<>();
+            guildModel.getCachedGuilds().stream().forEach(g -> guilds.add(g.getName()));
+            comboGuild.getItems().addAll(guilds);
         }
     }
 
@@ -161,76 +148,98 @@ public class VolunteerStatisticsViewController implements Initializable {
             } catch (DALException ex) {
                 ExceptionDisplayer.display(ex);
             }
+        } else {
+            comboVolunteer.getItems().addAll(volunteerModel.getCachedVolunteers());
         }
+
     }
 
     /**
      * updates the hours label to the hours from the specific volunteer and
-     * guild.
+     * guild and updates comboboxes with the right guilds and volunteers.
      *
      * @param guildName
      */
-    private void updateHours(String guildName, Volunteer volunteer) {
-        if (volunteer != null && guildName != null) {
-            try {
-                //Shows the hours the volunteer has put in the guild.
-                labelHours.setText("" + volunteerModel.getWorkHoursForAVolunteerInAGuild(guildName, volunteer));
-            } catch (DALException ex) {
-                ExceptionDisplayer.display(ex);
+    private void updateHours() {
+        String guildName = comboGuild.getSelectionModel().getSelectedItem();
+        Volunteer volunteer = comboVolunteer.getSelectionModel().getSelectedItem();
+        EVolunteerStatisticsState state = EVolunteerStatisticsState.getState(volunteer, guildName);
+        String workHours;
+
+        switch (state) {
+            case BOTH_VOLUNTEER_AND_GUILD_CHOSEN: {
+                try {
+                    workHours = "" + volunteerModel.getWorkHoursForAVolunteerInAGuild(guildName, volunteer);
+                    labelHours.setText(workHours);
+                } catch (DALException ex) {
+                    ExceptionDisplayer.display(ex);
+                }
             }
-        } else if (volunteer != null && guildName == null) {
-            try {
-                //Shows the overall hours the volunteer has put in all guilds.
-                labelHours.setText("" + volunteerModel.getWorkHoursForAVolunteerInAllGuilds(volunteer));
-            } catch (DALException ex) {
-                ExceptionDisplayer.display(ex);
+            break;
+            case ONLY_VOLUNTEER_CHOSEN: {
+                try {
+                    workHours = "" + volunteerModel.getWorkHoursForAVolunteerInAllGuilds(volunteer);
+                    labelHours.setText(workHours);
+                    updateComboGuild(volunteer);
+                } catch (DALException ex) {
+                    ExceptionDisplayer.display(ex);
+                }
             }
-        } else if (volunteer == null && guildName != null) {
-            try {
-                labelHours.setText("" + guildModel.getWorkHoursInGuild(guildName));
-            } catch (DALException ex) {
-                ExceptionDisplayer.display(ex);
+            break;
+            case ONLY_GUILD_CHOSEN: {
+                try {
+                    workHours = "" + guildModel.getWorkHoursInGuild(guildName);
+                    labelHours.setText(workHours);
+                    updateComboVolunteer(guildName);
+                } catch (DALException ex) {
+                    ExceptionDisplayer.display(ex);
+                }
             }
-        } else if (volunteer == null && guildName == null) {
-            labelHours.setText(labelPrompt);
+            break;
+            case NONE_CHOSEN:
+                labelHours.setText(labelPrompt);
+                updateComboGuild(volunteer);
+                updateComboVolunteer(guildName);
+                break;
+            default:
+                System.out.println("SHEIT!");
         }
     }
 
     /**
-     * Clears the selection of a guild, so that one can see hours for all
-     * guilds.
+     * Calls update on closed combobox.
      */
     @FXML
-    private void handleClearGuildCombo(ActionEvent event) {
-        comboGuild.getSelectionModel().clearSelection();
-//        if (comboVolunteer.getSelectionModel().getSelectedItem() == null) {
-//            resetGuildCombo();
-//        }
+    private void handleUpdate() {
+        updateHours();
     }
 
     /**
-     * Clears the selection of a Volunteer.
+     * Detects which button is pressed and clears the right comboboxes and
+     * updates the label accordingly.
      *
      * @param event
      */
     @FXML
-    private void handleClearVolunteerCombo(ActionEvent event) {
-        comboVolunteer.getSelectionModel().clearSelection();
-//        if (comboGuild.getSelectionModel().getSelectedItem() == null) {
-//            resetVolunteerCombo();
-//        }
-    }
-
-    private void resetGuildCombo() {
-        comboGuild.getItems().clear();
-        List<String> guilds = new ArrayList<>();
-        guildModel.getCachedGuilds().stream().forEach(g -> guilds.add(g.getName()));
-        comboGuild.getItems().addAll(guilds);
-    }
-
-    private void resetVolunteerCombo() {
-        comboVolunteer.getItems().clear();
-        comboVolunteer.setItems(volunteerModel.getCachedVolunteers());
+    private void handleClearCombo(ActionEvent event) {
+        Button button = (Button) event.getSource();
+        switch (button.getId()) {
+            case "btnVolunteer":
+                comboVolunteer.getSelectionModel().clearSelection();
+                updateHours();
+                break;
+            case "btnGuild":
+                comboGuild.getSelectionModel().clearSelection();
+                updateHours();
+                break;
+            case "btnClearAll":
+                comboVolunteer.getSelectionModel().clearSelection();
+                comboGuild.getSelectionModel().clearSelection();
+                updateHours();
+                break;
+            default:
+                System.out.println("SHEIT!!");
+        }
     }
 
 }
