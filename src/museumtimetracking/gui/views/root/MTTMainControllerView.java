@@ -16,12 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
@@ -94,7 +96,7 @@ public class MTTMainControllerView implements Initializable {
     @FXML
     private Button btnClearSearch;
     @FXML
-    private Label btnLogin;
+    private Hyperlink btnLogin;
     
     private ModalFactory modalFactory;
     
@@ -226,7 +228,7 @@ public class MTTMainControllerView implements Initializable {
     public void setAdminMode() {
         addTabs();
         btnLogin.setText(LOGOUT_BTN_TEXT);
-        tabPane.getSelectionModel().select(tabStatistics);
+        tabPane.getSelectionModel().select(0);
     }
 
     /**
@@ -375,9 +377,15 @@ public class MTTMainControllerView implements Initializable {
     public void displaySnackWarning(String text) {
         snackWarning.show(text, 3000);
     }
-    
+
+    /**
+     * Compare the text in the hyperlink.
+     * If it is logout then show a alert.
+     * If pressing yes set hyperlink to login and remove tabs.
+     * @param event 
+     */
     @FXML
-    private void handleLogin(MouseEvent event) {
+    private void handleLogin(ActionEvent event) {
         if (btnLogin.getText().equals(LOGOUT_BTN_TEXT)) {
             Alert alert = AlertFactory.createLogoutAlert();
             alert.showAndWait().ifPresent(type -> {
@@ -385,6 +393,7 @@ public class MTTMainControllerView implements Initializable {
                 if (type == alert.getButtonTypes().get(0)) {
             btnLogin.setText(LOGIN_BTN_TEXT);
             removeTabs();
+            tabPane.getSelectionModel().select(0);
                 }
             });
         } else {

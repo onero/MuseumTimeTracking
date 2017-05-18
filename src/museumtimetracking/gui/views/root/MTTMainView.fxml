@@ -3,7 +3,7 @@
 <?import com.jfoenix.controls.JFXSnackbar?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -50,7 +50,6 @@
                   <JFXSnackbar fx:id="snackWarning" />
                </children>
             </Pane>
-            <Label fx:id="btnLogin" accessibleRole="BUTTON" layoutX="771.0" layoutY="50.0" onMouseClicked="#handleLogin" underline="true" AnchorPane.rightAnchor="15.0" />
             <HBox fx:id="iconBox" layoutX="396.0" layoutY="20.0" prefHeight="32.0" prefWidth="153.0" AnchorPane.leftAnchor="396.0" AnchorPane.rightAnchor="301.0">
                <children>
                   <ImageView fitHeight="49.0" fitWidth="80.0" onMouseClicked="#handleExportExcel" pickOnBounds="true" preserveRatio="true">
@@ -65,6 +64,7 @@
                   </ImageView>
                </children>
             </HBox>
+            <Hyperlink fx:id="btnLogin" layoutX="777.0" layoutY="51.0" onAction="#handleLogin" style="-fx-text-fill: black;" text="Hyperlink" AnchorPane.rightAnchor="15.0" />
          </children>
       </AnchorPane>
    </top>
