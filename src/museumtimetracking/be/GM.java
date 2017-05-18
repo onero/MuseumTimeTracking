@@ -104,8 +104,12 @@ public class GM extends APerson implements Externalizable {
         return observableListOfGuilds;
     }
 
-    public StringProperty getDescription() {
+    public StringProperty getDescriptionProperty() {
         return description;
+    }
+
+    public String getDescription() {
+        return description.get();
     }
 
     public void removeGuild(String guildToRemove) {
