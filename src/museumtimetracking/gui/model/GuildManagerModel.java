@@ -43,6 +43,8 @@ public class GuildManagerModel implements Externalizable {
     private Set<GM> gmCandidatesFromDB;
     private ObservableList<GM> cachedGMCandidates;
 
+    private int descriptionRestriction;
+
     public static GuildManagerModel getInstance() throws DALException {
         if (instance == null) {
             try {
@@ -67,6 +69,7 @@ public class GuildManagerModel implements Externalizable {
         idleGuildManagersFromDB = gmManager.getAllIdleGuildManagers();
         cachedManagers = FXCollections.observableArrayList(managersFromDB);
         cachedIdleGuildManagers = FXCollections.observableArrayList(idleGuildManagersFromDB);
+        descriptionRestriction = gmManager.getGmDescriptionRestriction();
 
         gmManager.saveGuildModel(this);
 

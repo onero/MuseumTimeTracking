@@ -180,4 +180,14 @@ public class GMManager implements IExcel {
         newFile.writeExcelToFile();
     }
 
+    /**
+     * Gets the restriction of a GM's description.
+     *
+     * @return
+     * @throws DALException
+     */
+    public int getGmDescriptionRestriction() throws DALException {
+        return facadeDAO.getDescriptionRestrictionForGm();
+    }
+
 }

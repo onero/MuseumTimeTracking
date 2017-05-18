@@ -10,11 +10,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
@@ -50,6 +52,8 @@ public class VolunteerOverviewController implements Initializable {
     private ImageView imgProfile;
     @FXML
     private ToggleGroup language;
+    @FXML
+    private Label lblVolunteerAmount;
     @FXML
     private ListView<Volunteer> lstVolunteer;
     @FXML
@@ -111,6 +115,8 @@ public class VolunteerOverviewController implements Initializable {
         setTextVisibility(false);
 
         setVolunteerOptionsVisibility(false);
+
+        lblVolunteerAmount.textProperty().bind(Bindings.size((volunteerModel.getCachedVolunteers())).asString());
     }
 
     /**

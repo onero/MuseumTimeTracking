@@ -7,6 +7,7 @@ package museumtimetracking.gui.views.root.idle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -37,6 +38,10 @@ public class IdleViewController implements Initializable {
     private TableColumn<Volunteer, String> clmVolunteerDescription;
     @FXML
     private TableColumn<Volunteer, String> clmVolunteerName;
+    @FXML
+    private Label lblGMAmount;
+    @FXML
+    private Label lblVolunteerAmount;
     @FXML
     private TableView<GM> tableIdleGM;
     @FXML
@@ -71,6 +76,9 @@ public class IdleViewController implements Initializable {
         initializeTables();
         setIdleGMOptionsVisibility(false);
         setIdleVolunteerOptionsVisibility(false);
+
+        lblGMAmount.textProperty().bind(Bindings.size((guildManagerModel.getCachedIdleGuildManagers())).asString());
+        lblVolunteerAmount.textProperty().bind(Bindings.size((volunteerModel.getCachedIdleVolunteers())).asString());
     }
 
     @FXML

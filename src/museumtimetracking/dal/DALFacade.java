@@ -616,4 +616,18 @@ public class DALFacade {
                     "Timerne fra lauget kunne ikke hentes", ex);
         }
     }
+
+    /**
+     * Gets the restriction of a GM's description.
+     *
+     * @return
+     * @throws DALException
+     */
+    public int getDescriptionRestrictionForGm() throws DALException {
+        try {
+            return guildManagerDAO.getDescriptionRestriction();
+        } catch (SQLException ex) {
+            throw new DALException("Kunne ikke skaffe begrænsning for Torvholder beskrivelse.", ex);
+        }
+    }
 }
