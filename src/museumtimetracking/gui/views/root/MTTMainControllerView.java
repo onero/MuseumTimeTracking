@@ -204,9 +204,9 @@ public class MTTMainControllerView implements Initializable {
     public void removeTabButtons(boolean hide) {
         if (true) {
             //Adds and saves the tabs to a list.
-            adminTabList.add(tabPaneActiveGuild);
-            adminTabList.add(tabPaneArchivedGuild);
             adminTabList.add(tabGM);
+            adminTabList.add(tabPaneArchivedGuild);
+            adminTabList.add(tabPaneActiveGuild);
             //Removes the tabs.
             tabPane.getTabs().remove(tabPaneActiveGuild);
             tabPane.getTabs().remove(tabPaneArchivedGuild);
@@ -218,9 +218,13 @@ public class MTTMainControllerView implements Initializable {
      * Adds the tabs from the list.
      */
     public void addTabButtons() {
-        tabPane.getTabs().add(1, adminTabList.get(0));
-        tabPane.getTabs().add(2, adminTabList.get(1));
-        tabPane.getTabs().add(3, adminTabList.get(2));
+//        tabPane.getTabs().add(1, adminTabList.get(0));
+//        tabPane.getTabs().add(2, adminTabList.get(1));
+//        tabPane.getTabs().add(3, adminTabList.get(2));
+        
+        for (Tab tab : adminTabList) {
+            tabPane.getTabs().add(1, tab);
+        }
     }
 
     @FXML
@@ -364,7 +368,8 @@ public class MTTMainControllerView implements Initializable {
 
     @FXML
     private void handleLogin(MouseEvent event) {
-       getLoginView();
+//       getLoginView();
+        addTabButtons();
     }
 
 }
