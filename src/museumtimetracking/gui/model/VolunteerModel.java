@@ -21,6 +21,7 @@ import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.VolunteerManager;
 import museumtimetracking.dal.fileWriting.VolunteerFileDAO;
 import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 
 /**
  *
@@ -28,9 +29,9 @@ import museumtimetracking.exception.DALException;
  */
 public class VolunteerModel implements Externalizable {
 
-    private transient final VolunteerManager volunteerMgr;
+    private transient VolunteerManager volunteerMgr;
 
-    private transient static VolunteerModel instance;
+    private static VolunteerModel instance;
 
     private List<Volunteer> volunteerFromDB;
     private ObservableList<Volunteer> cachedVolunteers;
@@ -41,20 +42,24 @@ public class VolunteerModel implements Externalizable {
     public static VolunteerModel getInstance() throws DALException {
         if (instance == null) {
             try {
-                instance = new VolunteerModel();
+                instance = new VolunteerModel(true);
             } catch (DALException ex) {
                 instance = new VolunteerFileDAO().loadModel();
+                ExceptionDisplayer.display(ex);
             }
         }
         return instance;
     }
 
-    public VolunteerModel() throws DALException {
+    public VolunteerModel() {
+    }
+
+    public VolunteerModel(boolean sheit) throws DALException {
         volunteerMgr = new VolunteerManager();
         // Instantiate volunteerMgr
         volunteerFromDB = volunteerMgr.getAllVolunteersNotIdle();
-        idleVolunteersFromDB = volunteerMgr.getAllIdleVolunteers();
         cachedVolunteers = FXCollections.observableArrayList(volunteerFromDB);
+        idleVolunteersFromDB = volunteerMgr.getAllIdleVolunteers();
         cachedIdleVolunteers = FXCollections.observableArrayList(idleVolunteersFromDB);
 
         Collections.sort(volunteerFromDB);
@@ -200,6 +205,7 @@ public class VolunteerModel implements Externalizable {
 
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        volunteerMgr = new VolunteerManager();
         volunteerFromDB = (List<Volunteer>) in.readObject();
         cachedVolunteers = FXCollections.observableArrayList(volunteerFromDB);
 

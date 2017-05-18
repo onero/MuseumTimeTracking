@@ -22,20 +22,19 @@ public class GuildFileDAO implements IFileDAO<GuildModel> {
     public GuildModel loadModel() {
         GuildModel model = null;
 
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("guildModel.ser"))) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("GuildModel.ser"))) {
             model = (GuildModel) in.readObject();
         } catch (ClassNotFoundException ex) {
             ExceptionDisplayer.display(ex);
         } catch (IOException ex) {
-            System.out.println(ex.getLocalizedMessage());
-            ex.getStackTrace();
+            ex.printStackTrace();
         }
         return model;
     }
 
     @Override
     public void saveModelToFile(GuildModel model) {
-        try (FileOutputStream fileOut = new FileOutputStream("guildModel.ser"); ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+        try (FileOutputStream fileOut = new FileOutputStream("GuildModel.ser"); ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
             out.writeObject(model);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GuildFileDAO.class.getName()).log(Level.SEVERE, null, ex);

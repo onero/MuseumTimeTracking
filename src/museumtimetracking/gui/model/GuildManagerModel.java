@@ -32,7 +32,7 @@ public class GuildManagerModel implements Externalizable {
 
     private static GuildManagerModel instance;
 
-    private transient final GMManager gmManager;
+    private transient GMManager gmManager;
 
     private Set<GM> managersFromDB;
     private ObservableList<GM> cachedManagers;
@@ -46,15 +46,20 @@ public class GuildManagerModel implements Externalizable {
     public static GuildManagerModel getInstance() throws DALException {
         if (instance == null) {
             try {
-                instance = new GuildManagerModel();
+                instance = new GuildManagerModel(true);
             } catch (DALException ex) {
                 instance = new GMFileDAO().loadModel();
+
             }
+
         }
         return instance;
     }
 
-    public GuildManagerModel() throws DALException {
+    public GuildManagerModel() {
+    }
+
+    public GuildManagerModel(boolean sheit) throws DALException {
         gmManager = new GMManager();
         gmCandidatesFromDB = new TreeSet<>(gmManager.getAllGMCandidates());
         cachedGMCandidates = FXCollections.observableArrayList(gmCandidatesFromDB);
@@ -224,6 +229,7 @@ public class GuildManagerModel implements Externalizable {
 
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        gmManager = new GMManager();
         gmCandidatesFromDB = (Set<GM>) in.readObject();
         cachedGMCandidates = FXCollections.observableArrayList(gmCandidatesFromDB);
         managersFromDB = (Set<GM>) in.readObject();
@@ -231,7 +237,7 @@ public class GuildManagerModel implements Externalizable {
         idleGuildManagersFromDB = (Set<GM>) in.readObject();
         cachedIdleGuildManagers = FXCollections.observableArrayList(idleGuildManagersFromDB);
     }
-  
+
     public void exportROIToExcel(String location) throws IOException, DALException, WriteException {
         GuildModel guildModel = GuildModel.getInstance();
         List<Guild> guilds = guildModel.getGuildsFromDB();
