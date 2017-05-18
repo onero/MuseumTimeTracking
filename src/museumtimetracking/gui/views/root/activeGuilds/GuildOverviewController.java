@@ -9,11 +9,13 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -48,6 +50,8 @@ public class GuildOverviewController implements Initializable {
     private TableColumn<Guild, String> clmGM;
     @FXML
     private ButtonBar guildOptions;
+    @FXML
+    private Label lblGuildAmount;
     @FXML
     private Pane newGuildPane;
 
@@ -108,6 +112,7 @@ public class GuildOverviewController implements Initializable {
         initializeComboBox();
 
         setGuildOptionsVisilibity(false);
+        lblGuildAmount.textProperty().bind(Bindings.size((guildModel.getCachedGuilds())).asString());
 
     }
 

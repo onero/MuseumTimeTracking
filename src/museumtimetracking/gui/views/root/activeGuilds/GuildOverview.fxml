@@ -15,11 +15,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="anchorPane" prefHeight="501.0" prefWidth="673.0" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController">
+<AnchorPane fx:id="anchorPane" prefHeight="501.0" prefWidth="673.0" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController">
 
    <children>
-      <TableView fx:id="tableGuild" layoutX="391.0" layoutY="14.0" onMouseClicked="#handleSelectGuild" prefHeight="427.0" prefWidth="324.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="391.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+      <TableView fx:id="tableGuild" layoutX="391.0" layoutY="33.0" onMouseClicked="#handleSelectGuild" prefHeight="408.0" prefWidth="268.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="391.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="33.0">
          <columns>
             <TableColumn fx:id="clmGuildName" prefWidth="182.0" text="Laug" />
             <TableColumn fx:id="clmGuildDescription" prefWidth="234.0" text="Beskrivelse" />
@@ -84,5 +83,15 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
+      <HBox layoutX="391.0" layoutY="14.0">
+         <children>
+            <Label text="Antal laug:" />
+            <Label fx:id="lblGuildAmount">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

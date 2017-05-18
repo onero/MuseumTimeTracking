@@ -7,11 +7,13 @@ package museumtimetracking.gui.views.root.archivedGuilds;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
@@ -32,6 +34,8 @@ public class ArchivedGuildViewController implements Initializable {
     private TableColumn<Guild, String> clmGuildDescription;
     @FXML
     private TableColumn<Guild, String> clmGuildName;
+    @FXML
+    private Label lblGuildAmount;
     @FXML
     private TableView<Guild> tableGuild;
     @FXML
@@ -59,6 +63,8 @@ public class ArchivedGuildViewController implements Initializable {
 
         clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
         clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
+
+        lblGuildAmount.textProperty().bind(Bindings.size((guildModel.getCachedArchivedGuilds())).asString());
     }
 
     /**
