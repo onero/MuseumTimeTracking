@@ -111,9 +111,14 @@ Background:
     -fx-table-cell-border-color: #666666;
 }
 
-.mylistview{
+.mylistview {
     -fx-background-color: transparent;
 }
+
+.list-cell {
+    -fx-cell-size: 40;
+}
+
 .mylistview:focused{
     -fx-background-color: transparent;
 }
