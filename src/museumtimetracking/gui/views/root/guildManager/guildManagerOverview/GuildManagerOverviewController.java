@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -71,6 +72,8 @@ public class GuildManagerOverviewController implements Initializable {
     private Button btnArchiveManager;
     @FXML
     private TextArea txtDescription;
+    @FXML
+    private Label lblDescriptionRestriction;
 
     private final NodeFactory nodeFactory;
 
@@ -265,6 +268,13 @@ public class GuildManagerOverviewController implements Initializable {
                 setGMOptionsVisibility(true);
             }
         });
+
+        txtDescription.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                System.out.println(newValue);
+            }
+        });
     }
 
     /**
@@ -278,7 +288,7 @@ public class GuildManagerOverviewController implements Initializable {
         txtEmail.setText(manager.getEmail());
         txtPhone.setText(manager.getPhone() + "");
         lstGuilds.setItems(manager.getObservableListOfGuilds());
-
+        txtDescription.setText(manager.getDescription());
     }
 
     /**
@@ -290,6 +300,7 @@ public class GuildManagerOverviewController implements Initializable {
      */
     private void setShowEditability(boolean shown) {
         lstGuilds.setEditable(false);
+        txtDescription.setDisable(!shown);
         for (TextField textField : textFields) {
             textField.setDisable(!shown);
         }
@@ -309,6 +320,7 @@ public class GuildManagerOverviewController implements Initializable {
         for (TextField textField : textFields) {
             textField.setStyle("-fx-text-fill: " + color + ";");
         }
+        txtDescription.setStyle("-fx-text-fill: " + color + ";");
     }
 
     /**
@@ -388,6 +400,7 @@ public class GuildManagerOverviewController implements Initializable {
         manager.updateFullName();
         manager.setEmail(txtEmail.getText());
         manager.setPhone(Integer.parseInt(txtPhone.getText()));
+        manager.setDescription(txtDescription.getText());
     }
 
     @FXML
