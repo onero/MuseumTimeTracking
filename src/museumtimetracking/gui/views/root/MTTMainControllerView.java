@@ -200,7 +200,7 @@ public class MTTMainControllerView implements Initializable {
         imgHeader.fitWidthProperty().bind(borderPane.widthProperty());
         initializeTabPane();
         initializeTextFieldListener();
-        removeTabs();
+//        removeTabs();
         
         btnLogin.setText(LOGIN_BTN_TEXT);
     }
