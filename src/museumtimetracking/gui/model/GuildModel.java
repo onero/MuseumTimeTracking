@@ -73,7 +73,7 @@ public class GuildModel implements Externalizable {
     public GuildModel() {
     }
 
-    public GuildModel(boolean sheit) throws DALException {
+    public GuildModel(boolean onlineMode) throws DALException {
         guildManager = new GuildManager();
         // Instantiate guildManager
         // Puts in all the guilds from DB/Local file to Manager and after Model.

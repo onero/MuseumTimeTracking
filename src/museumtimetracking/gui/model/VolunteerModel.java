@@ -54,7 +54,7 @@ public class VolunteerModel implements Externalizable {
     public VolunteerModel() {
     }
 
-    public VolunteerModel(boolean sheit) throws DALException {
+    public VolunteerModel(boolean onlineMode) throws DALException {
         volunteerMgr = new VolunteerManager();
         // Instantiate volunteerMgr
         volunteerFromDB = volunteerMgr.getAllVolunteersNotIdle();

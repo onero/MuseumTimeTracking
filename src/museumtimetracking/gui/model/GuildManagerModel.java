@@ -59,7 +59,7 @@ public class GuildManagerModel implements Externalizable {
     public GuildManagerModel() {
     }
 
-    public GuildManagerModel(boolean sheit) throws DALException {
+    public GuildManagerModel(boolean onlineMode) throws DALException {
         gmManager = new GMManager();
         gmCandidatesFromDB = new TreeSet<>(gmManager.getAllGMCandidates());
         cachedGMCandidates = FXCollections.observableArrayList(gmCandidatesFromDB);
