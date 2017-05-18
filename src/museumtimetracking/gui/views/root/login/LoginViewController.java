@@ -6,11 +6,7 @@
 package museumtimetracking.gui.views.root.login;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,7 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
-import museumtimetracking.be.Guild;
+import javafx.stage.Stage;
+import museumtimetracking.gui.model.LoginModel;
 import museumtimetracking.gui.views.root.MTTMainControllerView;
 
 /**
@@ -40,11 +37,17 @@ public class LoginViewController implements Initializable {
     @FXML
     private Label errorMessage;
 
+    private LoginModel loginModel;
+
 //    private final LoginModel loginModel;
     private static LoginViewController instance;
 
     public static LoginViewController getInstance() {
         return instance;
+    }
+
+    public LoginViewController() {
+        loginModel = LoginModel.getInstance();
     }
 
     /**
@@ -78,16 +81,18 @@ public class LoginViewController implements Initializable {
 
     private void startLoginProcess(String username, String password) {
         setLoginMode(true);
-        Runnable task = () -> {
-            try {
-                if (checkUserExists(username, password)) {
-
-                }
-            } catch (SQLException ex) {
-                LoginViewController.getInstance().setErrorMessage(ex.getMessage());
+        
+        if (loginModel.userExsist(username)) {
+            if (loginModel.validateAdminLogin(username, password)) {
+                MTTMainControllerView.getInstance().setAdminMode();
+                Stage primStage = (Stage) btnLogin.getScene().getWindow();
+                primStage.close();
+            } else {
+                denyAcccess(1);
             }
-        };
-        new Thread(task).start();
+        } else {
+            denyAcccess(0);
+        }
     }
 
     /**
@@ -96,12 +101,10 @@ public class LoginViewController implements Initializable {
      * @param errorMessage
      */
     public void setErrorMessage(String errorMessage) {
-        Platform.runLater(() -> {
-            setLoginMode(false);
-            this.errorMessage.setVisible(true);
-            this.errorMessage.setWrapText(true);
-            this.errorMessage.setText(errorMessage);
-        });
+        setLoginMode(false);
+        this.errorMessage.setVisible(true);
+        this.errorMessage.setWrapText(true);
+        this.errorMessage.setText(errorMessage);
     }
 
     /**
@@ -116,31 +119,18 @@ public class LoginViewController implements Initializable {
         errorMessage.setVisible(false);
     }
 
-    /**
-     * Check if user exists
-     *
-     * @param username
-     * @param password
-     */
-    private boolean checkUserExists(String username, String password) throws SQLException {
-        MTTMainControllerView.getInstance().addTabButtons();
-        return true;
-    }
-
     private void denyAcccess(int error) {
-        Platform.runLater(() -> {
-            setLoginMode(false);
-            this.errorMessage.setVisible(true);
-            //Clears the PasswordField for better usability
-            txtPassword.clear();
-            switch (error) {
-                case 0:
-                    errorMessage.setText(txtUsername.getText() + " findes ikke.");
-                    break;
-                default:
-                    errorMessage.setText("Hej " + txtUsername.getText() + " kodeordet er forkert. \nPrøv igen.");
-            }
-        });
+        setLoginMode(false);
+        this.errorMessage.setVisible(true);
+        //Clears the PasswordField for better usability
+        txtPassword.clear();
+        switch (error) {
+            case 0:
+                errorMessage.setText(txtUsername.getText() + " findes ikke.");
+                break;
+            default:
+                errorMessage.setText("Hej " + txtUsername.getText() + " kodeordet er forkert. \nPrøv igen.");
+        }
     }
 
     /**

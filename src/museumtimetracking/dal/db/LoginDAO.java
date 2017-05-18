@@ -22,11 +22,11 @@ public class LoginDAO {
         return instance;
     }
     
-    public String getMockPassword(){
-        return "123";
-    }
-    
     public String getMockUsername(){
         return "Admin";
+    }
+    
+    public String getMockPassword(){
+        return "123";
     }
 }

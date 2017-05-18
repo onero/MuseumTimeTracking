@@ -12,7 +12,7 @@ import museumtimetracking.dal.db.LoginDAO;
  * @author Skovgaard
  */
 public class LoginManager {
-    
+
     private static LoginManager instance;
 
     private final LoginDAO loginDAO;
@@ -26,5 +26,22 @@ public class LoginManager {
 
     private LoginManager() {
         loginDAO = LoginDAO.getInstance();
+    }
+
+    /**
+     * Validate the user and password.
+     *
+     * @param username
+     * @param password
+     * @return
+     */
+    public boolean validateAdminLogin(String username, String password) {
+        boolean validUsername = username.equalsIgnoreCase(loginDAO.getMockUsername());
+        boolean validPassword = password.equals(loginDAO.getMockPassword());
+        return validUsername && validPassword;
+    }
+
+    public boolean userExsist(String username) {
+        return username.equalsIgnoreCase(loginDAO.getMockUsername());
     }
 }

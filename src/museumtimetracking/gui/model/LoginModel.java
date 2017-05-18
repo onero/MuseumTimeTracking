@@ -27,5 +27,13 @@ public class LoginModel {
     private LoginModel() {
         loginManager = LoginManager.getInstance();
     }
+    
+    public boolean validateAdminLogin(String username, String password){
+        return loginManager.validateAdminLogin(username, password);
+    }
+
+    public boolean userExsist(String username) {
+        return loginManager.userExsist(username);
+    }
 
 }

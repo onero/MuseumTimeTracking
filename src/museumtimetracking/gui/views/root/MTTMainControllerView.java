@@ -57,18 +57,18 @@ import museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController;
  * @author gta1
  */
 public class MTTMainControllerView implements Initializable {
-
+    
     @FXML
     private HBox iconBox;
     @FXML
     private ImageView imgScreenshot;
-
+    
     @FXML
     private Pane snackPane;
-
+    
     @FXML
     private JFXSnackbar snackWarning;
-
+    
     @FXML
     private Tab tabGM;
     @FXML
@@ -93,89 +93,92 @@ public class MTTMainControllerView implements Initializable {
     private Button btnClearSearch;
     @FXML
     private Label btnLogin;
-
+    
     private ModalFactory modalFactory;
-
+    
     private static MTTMainControllerView instance;
-
+    
     private final Node statistics;
     private final Node guildOverView;
     private final Node archivedGuild;
     private final Node manager;
     private final Node volunteer;
     private final Node idle;
-
+    
     public static final String WEBSITE = "http://www.levendehistorie.dk/";
-
+    
     private final StatisticsViewController statisticsViewController;
     private final GuildOverviewController guildOverViewController;
     private final ArchivedGuildViewController archivedGuildViewController;
     private final GuildManagerOverviewController guildManagerOverviewController;
     private final VolunteerOverviewController volunteerOverviewController;
     private final IdleViewController idleViewController;
-
+    
     private final NodeFactory nodeFactory;
-
+    
     private List<Tab> adminTabList;
-
+    
     private String paneTabID;
-
+    
+    private static final String LOGOUT_BTN_TEXT = "Log ud";
+    private static final String LOGIN_BTN_TEXT = "Log ind";
+    
     public static MTTMainControllerView getInstance() {
         return instance;
     }
-
+    
     public MTTMainControllerView() {
         modalFactory = ModalFactory.getInstance();
-
+        
         nodeFactory = NodeFactory.getInstance();
-
+        
         statistics = nodeFactory.createNewView(STATISTICS_OVERVIEW);
         statisticsViewController = nodeFactory.getLoader().getController();
-
+        
         statisticsViewController.createStatisticsViews();
-
+        
         guildOverView = nodeFactory.createNewView(ACTIVE_GUILD);
         guildOverViewController = nodeFactory.getLoader().getController();
-
+        
         archivedGuild = nodeFactory.createNewView(ARCHIVED_GUILD);
         archivedGuildViewController = nodeFactory.getLoader().getController();
-
+        
         manager = nodeFactory.createNewView(MANAGER_OVERVIEW);
         guildManagerOverviewController = nodeFactory.getLoader().getController();
-
+        
         volunteer = nodeFactory.createNewView(VOLUNTEER_OVERVIEW);
         volunteerOverviewController = nodeFactory.getLoader().getController();
-
+        
         idle = nodeFactory.createNewView(IDLE_OVERVIEW);
         idleViewController = nodeFactory.getLoader().getController();
-
+        
         paneTabID = "statistics";
-
+        
         adminTabList = new ArrayList<>();
     }
-
+    
     @FXML
     private void handleScreenshot() {
         WritableImage image = statistics.snapshot(new SnapshotParameters(), null);
-
+        
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
-
+        
         File img = fc.showSaveDialog(snackPane.getScene().getWindow());
-
+        
         try {
             ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", img);
         } catch (IOException e) {
             System.out.println("Error: " + e);
-
+            
         }
     }
-
+    
     private void getLoginView() {
         Stage primStage = (Stage) imgHeader.getScene().getWindow();
-
+        
         Stage loginModal = modalFactory.createNewModal(primStage, EFXMLName.LOGIN_VIEW);
-
+        
         loginModal.showAndWait();
     }
 
@@ -185,48 +188,54 @@ public class MTTMainControllerView implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instance = this;
-
+        
         snackWarning = new JFXSnackbar(snackPane);
-
+        
         setContentOfTabs();
-
+        
         imgHeader.fitWidthProperty().bind(borderPane.widthProperty());
         initializeTabPane();
         initializeTextFieldListener();
-        removeTabButtons(true);
+        removeTabs();
+        
+        btnLogin.setText(LOGIN_BTN_TEXT);
     }
 
     /**
-     * Hides the buttons in the TapPanel.
+     * Removes the tabs in the TapPanel.
      *
      * @param hide
      */
-    public void removeTabButtons(boolean hide) {
-        if (true) {
-            //Adds and saves the tabs to a list.
-            adminTabList.add(tabGM);
-            adminTabList.add(tabPaneArchivedGuild);
-            adminTabList.add(tabPaneActiveGuild);
-            //Removes the tabs.
-            tabPane.getTabs().remove(tabPaneActiveGuild);
-            tabPane.getTabs().remove(tabPaneArchivedGuild);
-            tabPane.getTabs().remove(tabGM);
-        }
+    public void removeTabs() {
+        //Adds and saves the tabs to a list.
+        adminTabList.add(tabGM);
+        adminTabList.add(tabPaneArchivedGuild);
+        adminTabList.add(tabPaneActiveGuild);
+        //Removes the tabs.
+        tabPane.getTabs().remove(tabPaneActiveGuild);
+        tabPane.getTabs().remove(tabPaneArchivedGuild);
+        tabPane.getTabs().remove(tabGM);
+    }
+    
+    /**
+     * Adds the tabButtons and sets the text in btnLabel. 
+     * Makes the admin start in statistics view.
+     */
+    public void setAdminMode() {
+        addTabs();
+        btnLogin.setText(LOGOUT_BTN_TEXT);
+        tabPane.getSelectionModel().select(tabStatistics);
     }
 
     /**
      * Adds the tabs from the list.
      */
-    public void addTabButtons() {
-//        tabPane.getTabs().add(1, adminTabList.get(0));
-//        tabPane.getTabs().add(2, adminTabList.get(1));
-//        tabPane.getTabs().add(3, adminTabList.get(2));
-        
+    private void addTabs() {
         for (Tab tab : adminTabList) {
             tabPane.getTabs().add(1, tab);
         }
     }
-
+    
     @FXML
     private void handleExportExcel() {
         try {
@@ -254,7 +263,7 @@ public class MTTMainControllerView implements Initializable {
             ExceptionDisplayer.display(ex);
         }
     }
-
+    
     @FXML
     private void handleGotoWebsite() throws MalformedURLException, URISyntaxException, IOException {
         URL website = new URL(WEBSITE);
@@ -350,7 +359,6 @@ public class MTTMainControllerView implements Initializable {
      * @param shown
      */
     private void setSearchBarVisible(boolean shown) {
-        btnLogin.setVisible(!shown);
         txtSearchBar.setVisible(shown);
         txtSearchBar.setDisable(!shown);
         btnClearSearch.setVisible(shown);
@@ -365,11 +373,15 @@ public class MTTMainControllerView implements Initializable {
     public void displaySnackWarning(String text) {
         snackWarning.show(text, 3000);
     }
-
+    
     @FXML
     private void handleLogin(MouseEvent event) {
-//       getLoginView();
-        addTabButtons();
+        if (btnLogin.getText().equals(LOGOUT_BTN_TEXT)) {
+            btnLogin.setText(LOGIN_BTN_TEXT);
+            removeTabs();
+        } else {
+            getLoginView();
+        }
     }
-
+    
 }
