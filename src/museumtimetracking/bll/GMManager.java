@@ -12,9 +12,9 @@ import javafx.collections.ObservableList;
 import jxl.write.WriteException;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.GM;
+import museumtimetracking.dal.DALFacade;
 import museumtimetracking.dal.fileWriting.excel.ExcelWriter;
 import museumtimetracking.dal.fileWriting.excel.IExcel;
-import museumtimetracking.dal.DALFacade;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.gui.model.GuildManagerModel;
 

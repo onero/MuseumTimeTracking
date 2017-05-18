@@ -71,7 +71,7 @@
                   <Font name="System Italic" size="15.0" />
                </font>
             </Label>
-            <TextArea fx:id="txtDescription" prefHeight="36.0" prefWidth="368.0" />
+            <TextArea fx:id="txtDescription" prefHeight="52.0" prefWidth="368.0" />
          </children>
       </VBox>
       <HBox layoutX="3.0" layoutY="386.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="3.0">

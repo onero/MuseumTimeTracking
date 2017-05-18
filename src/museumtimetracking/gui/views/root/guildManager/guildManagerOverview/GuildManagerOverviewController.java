@@ -272,7 +272,7 @@ public class GuildManagerOverviewController implements Initializable {
         txtEmail.setText(manager.getEmail());
         txtPhone.setText(manager.getPhone() + "");
         lstGuilds.setItems(manager.getObservableListOfGuilds());
-
+        txtDescription.setText(manager.getDescription());
     }
 
     /**
@@ -284,6 +284,7 @@ public class GuildManagerOverviewController implements Initializable {
      */
     private void setShowEditability(boolean shown) {
         lstGuilds.setEditable(false);
+        txtDescription.setDisable(!shown);
         for (TextField textField : textFields) {
             textField.setDisable(!shown);
         }
@@ -303,6 +304,7 @@ public class GuildManagerOverviewController implements Initializable {
         for (TextField textField : textFields) {
             textField.setStyle("-fx-text-fill: " + color + ";");
         }
+        txtDescription.setStyle("-fx-text-fill: " + color + ";");
     }
 
     /**
@@ -382,6 +384,7 @@ public class GuildManagerOverviewController implements Initializable {
         manager.updateFullName();
         manager.setEmail(txtEmail.getText());
         manager.setPhone(Integer.parseInt(txtPhone.getText()));
+        manager.setDescription(txtDescription.getText());
     }
 
     @FXML
