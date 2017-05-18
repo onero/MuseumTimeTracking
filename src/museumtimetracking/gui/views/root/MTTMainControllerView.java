@@ -168,8 +168,6 @@ public class MTTMainControllerView implements Initializable {
         imgHeader.fitWidthProperty().bind(borderPane.widthProperty());
         initializeTabPane();
         initializeTextFieldListener();
-
-        tabStatistics.setStyle("-fx-opacity: 0");
     }
 
     @FXML

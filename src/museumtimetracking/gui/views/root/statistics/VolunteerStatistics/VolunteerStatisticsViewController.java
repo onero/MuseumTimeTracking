@@ -241,6 +241,9 @@ public class VolunteerStatisticsViewController implements Initializable {
         }
     }
 
+    /**
+     * Clears both comboboxes and resets the hours label.
+     */
     public void clearAll() {
         updateComboGuild(null);
         updateComboVolunteer(null);
