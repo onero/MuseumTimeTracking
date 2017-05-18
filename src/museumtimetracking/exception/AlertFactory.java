@@ -12,11 +12,12 @@ import javafx.scene.control.ButtonType;
 
 public class AlertFactory {
 
-    public static final String DELETE_WARNING = "Tryk 'Ja' for at slette permanent. \n Tryk 'Nej' for at fortryde.";
+    public static final String DELETE_WARNING = "Tryk 'Ja' for at slette permanent. \nTryk 'Nej' for at fortryde.";
     public static final String VALIDATION_WARNING = "Skal udfyldes:\nFornavn.\nEfternavn\n\n"
             + "Tjekt eventuelt at:\n"
             + "Telefon nummeret kun indeholder tal.";
     public static final String ALERT_TITLE = "OBS!";
+    private static final String LOGOUT_WARNING = "Tryk 'Ja' for at logge ud. \nTryk 'Nej' for at forblive logget ind.";
 
     /**
      * Display alert with just OK button
@@ -76,6 +77,16 @@ public class AlertFactory {
      */
     public static Alert createDeleteAlert() {
         String message = DELETE_WARNING;
+        Alert alert = AlertFactory.createAlert(Alert.AlertType.WARNING, message);
+        createTwoButtons(alert);
+        return alert;
+    }
+    /**
+     * Create an logout alert for admin.
+     * @return 
+     */
+    public static Alert createLogoutAlert(){
+        String message = LOGOUT_WARNING;
         Alert alert = AlertFactory.createAlert(Alert.AlertType.WARNING, message);
         createTwoButtons(alert);
         return alert;
