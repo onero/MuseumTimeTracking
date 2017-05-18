@@ -18,6 +18,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import museumtimetracking.be.enums.EAppLanguage;
+import static museumtimetracking.be.enums.EAppLanguage.*;
 import museumtimetracking.exception.DALException;
 
 public class MuseumTimeTracking extends Application {
@@ -25,11 +27,11 @@ public class MuseumTimeTracking extends Application {
     public static final String ICON = "museumtimetracking/asset/img/icon.png";
 
     public static ResourceBundle bundle;
-    public static final String LOCALE = "eng";
+    public static EAppLanguage LOCALE = ENGLISH;
 
     @Override
     public void start(Stage stage) throws Exception {
-        bundle = ResourceBundle.getBundle("museumtimetracking.gui.language.UIResources", new Locale(LOCALE));
+        bundle = ResourceBundle.getBundle("museumtimetracking.gui.language.UIResources", new Locale(LOCALE.toString()));
         Parent startRoot = createLoadingView(stage);
 
         Stage mainStage = createMainView();

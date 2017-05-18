@@ -65,6 +65,10 @@ public class MTTMainControllerView implements Initializable {
     private HBox iconBox;
     @FXML
     private ImageView imgScreenshot;
+    @FXML
+    private ImageView imgScreenshot1;
+    @FXML
+    private HBox languageBox;
 
     @FXML
     private Pane snackPane;
@@ -158,6 +162,14 @@ public class MTTMainControllerView implements Initializable {
         paneTabID = "statistics";
 
         adminTabList = new ArrayList<>();
+    }
+
+    @FXML
+    private void handleDanish() {
+    }
+
+    @FXML
+    private void handleEnglish() {
     }
 
     @FXML
