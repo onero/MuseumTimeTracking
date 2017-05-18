@@ -399,6 +399,8 @@ public class MTTMainControllerView implements Initializable {
         } else {
             getLoginView();
         }
+        // Resets the hyperlink.
+        btnLogin.setVisited(false);
     }
     
 }
