@@ -21,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
@@ -64,6 +65,8 @@ public class GuildManagerOverviewController implements Initializable {
     private Button btnDelete;
     @FXML
     private Button btnArchiveManager;
+    @FXML
+    private TextArea txtDescription;
 
     private final NodeFactory nodeFactory;
 
@@ -269,6 +272,7 @@ public class GuildManagerOverviewController implements Initializable {
         txtEmail.setText(manager.getEmail());
         txtPhone.setText(manager.getPhone() + "");
         lstGuilds.setItems(manager.getObservableListOfGuilds());
+
     }
 
     /**
