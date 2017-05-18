@@ -6,7 +6,6 @@
 package museumtimetracking.gui.views.root.statistics.ROIOverview;
 
 import java.net.URL;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -70,16 +69,10 @@ public class ROIGmHoursViewController implements Initializable {
      * Updates the pieChart with ROI data.
      */
     public void updateDataForChart() {
-        List<Guild> guilds = guildModel.getGuildsFromDB();
-        Map<String, Integer> ROIHours = null;
-        try {
-            ROIHours = guildModel.getGMROIOnVolunteerForAMonth(guilds, 2);
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        Map<String, Integer> ROIHours = guildModel.getGuildROI();
 
         ObservableList<Data> chartData = FXCollections.observableArrayList();
-        if (ROIHours != null) {
+        if (!ROIHours.isEmpty()) {
             for (Map.Entry<String, Integer> entry : ROIHours.entrySet()) {
                 chartData.add(new Data(entry.getKey(), entry.getValue()));
             }
@@ -132,9 +125,11 @@ public class ROIGmHoursViewController implements Initializable {
         Guild guild = cmbGuilds.getSelectionModel().getSelectedItem();
         if (guild != null) {
             int[] guildROI = guildModel.getROIForAGuild(guild.getName());
-            lblWeek.setText(guildROI[0] + "");
-            lblMonth.setText(guildROI[1] + "");
-            lblYear.setText(guildROI[2] + "");
+            if (guildROI != null) {
+                lblWeek.setText(guildROI[0] + "");
+                lblMonth.setText(guildROI[1] + "");
+                lblYear.setText(guildROI[2] + "");
+            }
         }
     }
 }

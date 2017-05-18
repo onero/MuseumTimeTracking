@@ -36,7 +36,7 @@ public class DALFacade {
 
     private static DALFacade instance;
 
-    public static final String DB_CONNECTION_ERROR = "Kunne ikke forbinde til DB";
+    public static final String DB_CONNECTION_ERROR = "Kunne ikke forbinde\nStarter programmet i offline tilstand";
 
     private final GuildDAO guildDAO;
 

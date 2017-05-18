@@ -91,7 +91,7 @@ public class AlertFactory {
         Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle(ALERT_TITLE);
         alert.setHeaderText(message);
-        createSingleButton(alert);
+        alert.getButtonTypes().clear();
         return alert;
     }
 
