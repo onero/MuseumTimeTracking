@@ -201,7 +201,7 @@ public class VolunteerStatisticsViewController implements Initializable {
                 updateComboVolunteer(guildName);
                 break;
             default:
-                System.out.println("SHEIT!");
+                break;
         }
     }
 
@@ -237,7 +237,7 @@ public class VolunteerStatisticsViewController implements Initializable {
                 updateHours();
                 break;
             default:
-                System.out.println("SHEIT!!");
+                break;
         }
     }
 
