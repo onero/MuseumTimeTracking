@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import museumtimetracking.MuseumTimeTracking;
 import museumtimetracking.be.enums.EFXMLName;
 import museumtimetracking.exception.ExceptionDisplayer;
 
@@ -37,7 +38,7 @@ public class ModalFactory {
     public Stage createNewModal(Stage newPrimStage, EFXMLName modalView) {
         Stage primStage = newPrimStage;
 
-        loader = new FXMLLoader(getClass().getResource(modalView.toString()));
+        loader = new FXMLLoader(getClass().getResource(modalView.toString()), MuseumTimeTracking.bundle);
         Parent root = null;
         try {
             root = loader.load();

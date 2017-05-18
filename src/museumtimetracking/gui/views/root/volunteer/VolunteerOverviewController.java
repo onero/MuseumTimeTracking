@@ -28,6 +28,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import museumtimetracking.MuseumTimeTracking;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.EFXMLName;
 import static museumtimetracking.be.enums.EFXMLName.ADD_HOURS_VOLUNTEER;
@@ -82,7 +83,7 @@ public class VolunteerOverviewController implements Initializable {
     private Button btnDocument;
 
     public static final String NO_PHOTO = "/museumtimetracking/asset/img/no-photo.jpg";
-    private static final String NO_VOLUNTEER = "Der er ikke valgt nogen frivillig.";
+    private static final String NO_VOLUNTEER = MuseumTimeTracking.bundle.getString("NoVolunteerSelected");
 
     private VolunteerModel volunteerModel;
 
@@ -194,7 +195,7 @@ public class VolunteerOverviewController implements Initializable {
     private void handleDeleteVolunteer() {
         Volunteer volunteerToDelete = lstVolunteer.getSelectionModel().getSelectedItem();
         if (volunteerToDelete != null) {
-            if (btnDelete.getText().equals("Slet")) {
+            if (btnDelete.getText().equals(MuseumTimeTracking.bundle.getString("Delete"))) {
                 Alert deleteAlert = AlertFactory.createDeleteAlert();
                 deleteAlert.showAndWait().ifPresent(type -> {
                     //If user clicks first button
@@ -206,7 +207,7 @@ public class VolunteerOverviewController implements Initializable {
                         }
                     }
                 });
-            } else if (btnDelete.getText().equals("Annuller")) {
+            } else if (btnDelete.getText().equals(MuseumTimeTracking.bundle.getString("Cancel"))) {
                 pressingSave();
                 showButtons();
             }
@@ -220,7 +221,7 @@ public class VolunteerOverviewController implements Initializable {
         //Validate that a volunteer is selected
         if (selectedVolunteer != null) {
             //If we're not in edit mode
-            if (btnEdit.getText().equalsIgnoreCase("Rediger")) {
+            if (btnEdit.getText().equalsIgnoreCase(MuseumTimeTracking.bundle.getString("Edit"))) {
                 pressingCancel();
                 //If we are in edit mode
             } else {
@@ -239,8 +240,8 @@ public class VolunteerOverviewController implements Initializable {
     }
 
     private void pressingCancel() {
-        btnEdit.setText("Gem");
-        btnDelete.setText("Annuller");
+        btnEdit.setText(MuseumTimeTracking.bundle.getString("Save"));
+        btnDelete.setText(MuseumTimeTracking.bundle.getString("Cancel"));
         setTextVisibility(true);
         lstVolunteer.setDisable(true);
         setColorToOrange();
@@ -248,8 +249,8 @@ public class VolunteerOverviewController implements Initializable {
     }
 
     private void pressingSave() {
-        btnEdit.setText("Rediger");
-        btnDelete.setText("Slet");
+        btnEdit.setText(MuseumTimeTracking.bundle.getString("Edit"));
+        btnDelete.setText(MuseumTimeTracking.bundle.getString("Delete"));
         setTextVisibility(false);
         lstVolunteer.setDisable(false);
         setColorToBlack();

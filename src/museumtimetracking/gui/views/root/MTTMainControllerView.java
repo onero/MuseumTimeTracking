@@ -35,6 +35,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 import jxl.write.WriteException;
+import museumtimetracking.MuseumTimeTracking;
 import museumtimetracking.be.enums.EFXMLName;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.be.enums.ETabPaneID;
@@ -122,8 +123,8 @@ public class MTTMainControllerView implements Initializable {
 
     private String paneTabID;
 
-    private static final String LOGOUT_BTN_TEXT = "Log ud";
-    private static final String LOGIN_BTN_TEXT = "Log ind";
+    private static final String LOGOUT_BTN_TEXT = MuseumTimeTracking.bundle.getString("Logout");
+    private static final String LOGIN_BTN_TEXT = MuseumTimeTracking.bundle.getString("Login");
 
     public static MTTMainControllerView getInstance() {
         return instance;
@@ -257,9 +258,9 @@ public class MTTMainControllerView implements Initializable {
                         break;
                     default:
                 }
-                displaySnackWarning("Excel eksporteret!");
+                displaySnackWarning(MuseumTimeTracking.bundle.getString("ExcelExported"));
             } else {
-                displaySnackWarning("Excel blev ikke eskporteret");
+                displaySnackWarning(MuseumTimeTracking.bundle.getString("ExcelNotExported"));
             }
         } catch (IOException | DALException | WriteException ex) {
             ExceptionDisplayer.display(ex);

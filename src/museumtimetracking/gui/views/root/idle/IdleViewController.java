@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
+import museumtimetracking.MuseumTimeTracking;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.exception.AlertFactory;
@@ -57,7 +58,7 @@ public class IdleViewController implements Initializable {
 
     private GM selectedManager;
     private Volunteer selectedVolunteer;
-    public static final String TABLEVIEW_PLACEHOLDER = "Oversigten er tom";
+    public static final String TABLEVIEW_PLACEHOLDER = MuseumTimeTracking.bundle.getString("EmptyTable");
 
     public IdleViewController() {
         try {

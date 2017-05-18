@@ -9,15 +9,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import museumtimetracking.MuseumTimeTracking;
 
 public class AlertFactory {
 
-    public static final String DELETE_WARNING = "Tryk 'Ja' for at slette permanent. \nTryk 'Nej' for at fortryde.";
-    public static final String VALIDATION_WARNING = "Skal udfyldes:\nFornavn.\nEfternavn\n\n"
-            + "Tjekt eventuelt at:\n"
-            + "Telefon nummeret kun indeholder tal.";
+    public static final String DELETE_WARNING = MuseumTimeTracking.bundle.getString("DeleteWarning");
+    public static final String VALIDATION_WARNING = MuseumTimeTracking.bundle.getString("ValidationWarning");
     public static final String ALERT_TITLE = "OBS!";
-    private static final String LOGOUT_WARNING = "Tryk 'Ja' for at logge ud. \nTryk 'Nej' for at forblive logget ind.";
+    private static final String LOGOUT_WARNING = MuseumTimeTracking.bundle.getString("LogoutWarning");
 
     /**
      * Display alert with just OK button
@@ -65,8 +64,8 @@ public class AlertFactory {
      * @param alert
      */
     public static void createTwoButtons(Alert alert) {
-        ButtonType yesButton = new ButtonType("JA", ButtonBar.ButtonData.YES);
-        ButtonType noButton = new ButtonType("NEJ", ButtonBar.ButtonData.NO);
+        ButtonType yesButton = new ButtonType(MuseumTimeTracking.bundle.getString("Yes"), ButtonBar.ButtonData.YES);
+        ButtonType noButton = new ButtonType(MuseumTimeTracking.bundle.getString("No"), ButtonBar.ButtonData.NO);
         alert.getButtonTypes().setAll(yesButton, noButton);
     }
 
@@ -81,11 +80,13 @@ public class AlertFactory {
         createTwoButtons(alert);
         return alert;
     }
+
     /**
      * Create an logout alert for admin.
-     * @return 
+     *
+     * @return
      */
-    public static Alert createLogoutAlert(){
+    public static Alert createLogoutAlert() {
         String message = LOGOUT_WARNING;
         Alert alert = AlertFactory.createAlert(Alert.AlertType.WARNING, message);
         createTwoButtons(alert);
