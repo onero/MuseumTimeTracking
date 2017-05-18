@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="background" prefHeight="446.0" prefWidth="558.0" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController">
+<AnchorPane id="background" prefHeight="446.0" prefWidth="558.0" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController">
    <children>
       <ListView fx:id="lstManagers" layoutX="14.0" layoutY="24.0" onMouseClicked="#handleSelectGM" prefHeight="363.0" prefWidth="200.0" styleClass="mylistview" stylesheets="@../../../css/Style.css" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="24.0" />
       <VBox layoutX="231.0" layoutY="1.0" prefHeight="367.0" prefWidth="358.0" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="5.0">
@@ -66,11 +66,23 @@
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin></ListView>
-            <Label text="Beskrivelse:">
-               <font>
-                  <Font name="System Italic" size="15.0" />
-               </font>
-            </Label>
+            <HBox prefWidth="200.0" spacing="180.0">
+               <children>
+                  <Label text="Beskrivelse:">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblDescriptionRestriction" text="&lt;Begrænsning&gt;">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
             <TextArea fx:id="txtDescription" prefHeight="36.0" prefWidth="368.0" />
          </children>
       </VBox>
@@ -93,7 +105,7 @@
             </ButtonBar>
          </children>
       </HBox>
-      <HBox layoutX="14.0" layoutY="4.0">
+      <HBox layoutX="14.0" layoutY="4.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0">
          <children>
             <Label text="Antal tovholdere:" />
             <Label fx:id="lblGMAmount">
