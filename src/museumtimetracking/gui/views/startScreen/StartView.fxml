@@ -15,7 +15,7 @@
          </image>
       </ImageView>
       <JFXSpinner layoutX="359.0" layoutY="136.0" radius="20.0" />
-      <Label layoutX="331.0" layoutY="93.0" prefHeight="36.0" prefWidth="115.0" text="INDLÆSER" textFill="#d3971e">
+      <Label layoutX="331.0" layoutY="93.0" prefHeight="36.0" prefWidth="115.0" text="%Loading" textFill="#d3971e">
          <font>
             <Font size="23.0" />
          </font></Label>

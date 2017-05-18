@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import museumtimetracking.MuseumTimeTracking;
 import museumtimetracking.be.enums.EFXMLName;
 
 public class NodeFactory {
@@ -34,7 +35,7 @@ public class NodeFactory {
      */
     public Node createNewView(EFXMLName viewName) {
         Node node = null;
-        loader = new FXMLLoader(getClass().getResource(viewName.toString()));
+        loader = new FXMLLoader(getClass().getResource(viewName.toString()), MuseumTimeTracking.bundle);
         try {
             node = loader.load();
         } catch (IOException ex) {

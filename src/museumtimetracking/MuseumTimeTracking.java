@@ -7,6 +7,8 @@ package museumtimetracking;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,8 +24,12 @@ public class MuseumTimeTracking extends Application {
 
     public static final String ICON = "museumtimetracking/asset/img/icon.png";
 
+    public static ResourceBundle bundle;
+    public static final String LOCALE = "eng";
+
     @Override
     public void start(Stage stage) throws Exception {
+        bundle = ResourceBundle.getBundle("museumtimetracking.gui.language.UIResources", new Locale(LOCALE));
         Parent startRoot = createLoadingView(stage);
 
         Stage mainStage = createMainView();
@@ -36,7 +42,7 @@ public class MuseumTimeTracking extends Application {
 
     private Parent createLoadingView(Stage stage) throws IOException {
         //Start out loading start view
-        Parent startRoot = FXMLLoader.load(getClass().getResource("gui/views/startScreen/StartView.fxml"));
+        Parent startRoot = FXMLLoader.load(getClass().getResource("gui/views/startScreen/StartView.fxml"), bundle);
         Scene startScene = new Scene(startRoot);
         stage.getIcons().add(new Image(ICON));
         stage.setScene(startScene);
@@ -48,7 +54,7 @@ public class MuseumTimeTracking extends Application {
         //Start loading main view
         Stage mainStage = new Stage();
         URL location = getClass().getResource("/museumtimetracking/gui/views/root/MTTMainView.fxml");
-        FXMLLoader loader = new FXMLLoader(location);
+        FXMLLoader loader = new FXMLLoader(location, bundle);
         Parent root = loader.load();
         mainStage.getIcons().add(new Image(ICON));
         Scene scene = new Scene(root);

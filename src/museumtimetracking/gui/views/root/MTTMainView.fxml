@@ -17,11 +17,11 @@
    <center>
       <JFXTabPane fx:id="tabPane" side="BOTTOM" styleClass="borderPane" stylesheets="@../css/Style.css" BorderPane.alignment="CENTER">
          <tabs>
-            <Tab id="statistics" fx:id="tabStatistics" onSelectionChanged="#handleClearSearchBar" text="Statistik" />
+            <Tab id="statistics" fx:id="tabStatistics" onSelectionChanged="#handleClearSearchBar" text="%Statistics" />
             <Tab id="guildOverView" fx:id="tabPaneActiveGuild" onSelectionChanged="#handleClearSearchBar" text="Aktive Laug" />
             <Tab id="archivedGuild" fx:id="tabPaneArchivedGuild" onSelectionChanged="#handleClearSearchBar" text="Inaktive Laug" />
             <Tab id="manager" fx:id="tabGM" onSelectionChanged="#handleClearSearchBar" text="Tovholdere" />
-            <Tab id="volunteer" fx:id="tabVolunteer" onSelectionChanged="#handleClearSearchBar" text="Frivillige" />
+            <Tab id="volunteer" fx:id="tabVolunteer" onSelectionChanged="#handleClearSearchBar" text="%Volunteers" />
             <Tab id="idle" fx:id="tabIdle" onSelectionChanged="#handleClearSearchBar" text="Passive" />
          </tabs>
       </JFXTabPane>
