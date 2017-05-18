@@ -38,7 +38,11 @@ public enum EFXMLName {
     /**
      * Idle
      */
-    IDLE_OVERVIEW(MAIN_FOLDER + "idle/IdleView.fxml");
+    IDLE_OVERVIEW(MAIN_FOLDER + "idle/IdleView.fxml"),
+    /**
+     * Login
+     */
+    LOGIN_VIEW(MAIN_FOLDER + "login/loginView.fxml");
 
     private final String text;
 
