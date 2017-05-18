@@ -13,7 +13,7 @@
 
 <AnchorPane id="background" prefHeight="446.0" prefWidth="558.0" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController">
    <children>
-      <ListView fx:id="lstManagers" layoutX="14.0" onMouseClicked="#handleSelectGM" prefHeight="367.0" prefWidth="200.0" styleClass="mylistview" stylesheets="@../../../css/Style.css" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="5.0" />
+      <ListView fx:id="lstManagers" layoutX="14.0" layoutY="24.0" onMouseClicked="#handleSelectGM" prefHeight="363.0" prefWidth="200.0" styleClass="mylistview" stylesheets="@../../../css/Style.css" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="24.0" />
       <VBox layoutX="231.0" layoutY="1.0" prefHeight="367.0" prefWidth="358.0" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="5.0">
          <children>
             <Label text="Fornavn:">
@@ -81,6 +81,16 @@
                   <Insets left="10.0" />
                </HBox.margin>
             </ButtonBar>
+         </children>
+      </HBox>
+      <HBox layoutX="14.0" layoutY="4.0">
+         <children>
+            <Label text="Antal tovholdere:" />
+            <Label fx:id="lblGMAmount">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </Label>
          </children>
       </HBox>
    </children>

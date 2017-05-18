@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -44,6 +46,8 @@ public class GuildManagerOverviewController implements Initializable {
 
     @FXML
     private ButtonBar GMOptions;
+    @FXML
+    private Label lblGMAmount;
     @FXML
     private ListView<GM> lstManagers;
     @FXML
@@ -109,6 +113,8 @@ public class GuildManagerOverviewController implements Initializable {
         addListeners();
         setCellFactories();
         lstManagers.setItems(guildManagerModel.getCachedManagers());
+
+        lblGMAmount.textProperty().bind(Bindings.size((guildManagerModel.getCachedManagers())).asString());
 
         setGMOptionsVisibility(false);
     }
