@@ -11,16 +11,22 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import jxl.write.WriteException;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.GuildManager;
 import museumtimetracking.dal.fileWriting.GuildFileDAO;
+import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
 
 public class GuildModel implements Externalizable {
@@ -43,20 +49,31 @@ public class GuildModel implements Externalizable {
 
     private Map<String, Integer> guildHours;
 
-    private transient Map<String, Integer> guildROI;
+    private Map<String, Integer> guildROI;
 
     public static GuildModel getInstance() throws DALException {
         if (instance == null) {
             try {
-                instance = new GuildModel();
+                instance = new GuildModel(true);
             } catch (DALException ex) {
                 instance = new GuildFileDAO().loadModel();
+                Alert alert = AlertFactory.createExceptionAlert("Kontroller internetforbindelse\nForsøger at starte programmet igen om et øjeblik");
+                alert.show();
+                try {
+                    Thread.sleep(5000);
+                    alert.resultProperty().setValue(ButtonType.OK);
+                } catch (InterruptedException ex1) {
+                    Logger.getLogger(GuildModel.class.getName()).log(Level.SEVERE, null, ex1);
+                }
             }
         }
         return instance;
     }
 
-    public GuildModel() throws DALException {
+    public GuildModel() {
+    }
+
+    public GuildModel(boolean sheit) throws DALException {
         guildManager = new GuildManager();
         // Instantiate guildManager
         // Puts in all the guilds from DB/Local file to Manager and after Model.
@@ -70,6 +87,8 @@ public class GuildModel implements Externalizable {
         cachedAvailableGuilds = FXCollections.observableArrayList(availableGuildsFromDB);
 
         guildHours = guildManager.getAllHoursWorked(guildsFromDB);
+
+        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, 2);
 
         Collections.sort(guildsFromDB);
 
@@ -179,6 +198,10 @@ public class GuildModel implements Externalizable {
         if (hours != null) {
             guildHours = hours;
         }
+        return getGuildHours();
+    }
+
+    public Map<String, Integer> getGuildHours() {
         return guildHours;
     }
 
@@ -288,21 +311,6 @@ public class GuildModel implements Externalizable {
         guildManager.exportToExcel(location, keys, values);
     }
 
-    /*
-     * Calculate the total return on investment a guild managers spends on
-     * volunteers for a single guild in a month, for all guilds parsed.
-     *
-     * @param selectedGuilds
-     * @param GMWorkHours
-     * @return
-     * @throws museumtimetracking.exception.DALException
-     */
-    public Map<String, Integer> getGMROIOnVolunteerForAMonth(List<Guild> selectedGuilds, int GMWorkHours) throws DALException {
-        guildROI = guildManager.getGMROIOnVolunteerForAMonth(selectedGuilds, GMWorkHours);
-
-        return guildROI;
-    }
-
     /**
      * Gets the value from guildROI.
      *
@@ -322,6 +330,7 @@ public class GuildModel implements Externalizable {
         }
     }
 
+    //TODO RKL: JAVADOC!
     public List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws DALException {
         return guildManager.getGuildsAVolunteerHasWorkedOn(volunteer);
     }
@@ -351,6 +360,8 @@ public class GuildModel implements Externalizable {
 
         guildHours = (Map<String, Integer>) in.readObject();
 
+        guildROI = new HashMap<>();
+
         Collections.sort(guildsFromDB);
     }
 
@@ -364,4 +375,9 @@ public class GuildModel implements Externalizable {
         return guildManager.getWorkHoursInGuild(guildName);
 
     }
+
+    public Map<String, Integer> getGuildROI() {
+        return guildROI;
+    }
+
 }

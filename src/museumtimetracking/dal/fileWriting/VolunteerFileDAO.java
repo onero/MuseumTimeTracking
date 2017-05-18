@@ -27,9 +27,9 @@ public class VolunteerFileDAO implements IFileDAO<VolunteerModel> {
         } catch (ClassNotFoundException ex) {
             ExceptionDisplayer.display(ex);
         } catch (FileNotFoundException ex) {
-            System.out.println("Test");
+            System.out.println("Volunteer error");
         } catch (IOException ex) {
-            System.out.println("Test");
+            System.out.println("Volunteer error");
         }
         return model;
     }

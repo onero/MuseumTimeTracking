@@ -6,6 +6,7 @@
 package museumtimetracking.gui.views.root.statistics.guildHoursOverview;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -44,26 +45,26 @@ public class ChartGuildHoursOverviewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         chartHoursOverview.setLegendVisible(false);
-        updateDataForChart();
     }
 
     //TODO RKL: JAVADOC!
     public void updateDataForChart() {
         chartHoursOverview.getData().clear();
         List<Guild> guilds = guildModel.getGuildsFromDB();
-        Map<String, Integer> guildHours = null;
+        Map<String, Integer> guildHours = new HashMap<>();
         try {
             guildHours = guildModel.getMapOfHoursPerGuild();
         } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
+            System.out.println("Chart data error");
         }
         XYChart.Series hoursSeries = new XYChart.Series<>();
 
+        if (guildHours.isEmpty()) {
+            guildHours = guildModel.getGuildHours();
+        }
         for (Guild guild : guilds) {
-            if (guildHours != null) {
-                XYChart.Data data = new XYChart.Data<>(guild.getName(), guildHours.get(guild.getName()));
-                hoursSeries.getData().add(data);
-            }
+            XYChart.Data data = new XYChart.Data<>(guild.getName(), guildHours.get(guild.getName()));
+            hoursSeries.getData().add(data);
         }
         //Adds the serie to the barChart.
         chartHoursOverview.getData().add(hoursSeries);
