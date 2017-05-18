@@ -379,4 +379,26 @@ public class GuildManagerDAO extends APersonDAO {
             ps.executeUpdate();
         }
     }
+
+    /**
+     * Gets the maximum amount of characters allowed on a gm's description.
+     *
+     * @return the restriction as an int
+     * @throws SQLException
+     */
+    public int getDescriptionRestriction() throws SQLException {
+        String sql = "SELECT CHARACTER_MAXIMUM_LENGTH "
+                + "FROM INFORMATION_SCHEMA.COLUMNS "
+                + "WHERE TABLE_NAME = 'GuildManager' "
+                + "AND COLUMN_NAME = 'Description'";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("CHARACTER_MAXIMUM_LENGTH");
+            }
+        }
+        throw new SQLException();
+    }
 }
