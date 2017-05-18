@@ -203,7 +203,7 @@ public class MTTMainControllerView implements Initializable {
      */
     public void removeTabButtons(boolean hide) {
         if (true) {
-            //Adds the tabs to a list.
+            //Adds and saves the tabs to a list.
             adminTabList.add(tabPaneActiveGuild);
             adminTabList.add(tabPaneArchivedGuild);
             adminTabList.add(tabGM);
