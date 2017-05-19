@@ -86,6 +86,12 @@ public class GuildModel implements Externalizable, IASyncUpdate {
                 //When the collections are updated
                 Platform.runLater(() -> {
                     //Hide the updating view
+                    cachedGuilds.clear();
+                    cachedGuilds.addAll(guildsFromDB);
+                    cachedArchivedGuilds.clear();
+                    cachedArchivedGuilds.addAll(archivedGuildsFromDB);
+                    cachedAvailableGuilds.clear();
+                    cachedAvailableGuilds.addAll(availableGuildsFromDB);
                     MTTMainControllerView.getInstance().showUpdate(false);
                 });
             } catch (DALException ex) {
@@ -135,7 +141,7 @@ public class GuildModel implements Externalizable, IASyncUpdate {
         cachedGuilds.remove(guildToArchive);
         sortLists();
 
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     // Made a getter to call in GuildOverviewController to update the tableview.
@@ -164,7 +170,7 @@ public class GuildModel implements Externalizable, IASyncUpdate {
         cachedArchivedGuilds.remove(deleteGuild);
         guildManager.deleteGuild(deleteGuild);
 
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -177,7 +183,7 @@ public class GuildModel implements Externalizable, IASyncUpdate {
         cachedGuilds.add(guild);
         sortLists();
 
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
 
     }
 
@@ -192,7 +198,7 @@ public class GuildModel implements Externalizable, IASyncUpdate {
         cachedGuilds.add(guildToRestore);
         sortLists();
 
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -212,7 +218,7 @@ public class GuildModel implements Externalizable, IASyncUpdate {
         guildManager.updateGuild(guildToUpdate, updatedGuild);
         sortLists();
 
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -299,7 +305,7 @@ public class GuildModel implements Externalizable, IASyncUpdate {
         guildManager.updateGMForGuild(gm.getID(), guild.getName());
         guild.setGuildManager(gm);
 
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**

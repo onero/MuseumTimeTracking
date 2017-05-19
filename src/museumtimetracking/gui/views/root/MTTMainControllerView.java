@@ -445,8 +445,9 @@ public class MTTMainControllerView implements Initializable {
     }
 
     @FXML
-    private void handleUpdate() {
-        showUpdate(true);
+    public void handleUpdate() {
+        ModelFacade.getInstance().getGuildModel().updateData();
+        ModelFacade.getInstance().getGuildManagerModel().updateData();
     }
 
     /**

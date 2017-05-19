@@ -116,7 +116,7 @@ public class GuildManagerModel implements Externalizable, IASyncUpdate {
         }
         gmManager.archiveManager(selectedManager.getID(), value);
 
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -133,7 +133,7 @@ public class GuildManagerModel implements Externalizable, IASyncUpdate {
         cachedManagers.add(manager);
         sortLists();
 
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -155,7 +155,7 @@ public class GuildManagerModel implements Externalizable, IASyncUpdate {
     public void updateGuildManager(GM manager, Set<String> guildsToAdd, Set<String> guildsToDelete) throws DALException {
         gmManager.updateGuildManager(manager, guildsToAdd, guildsToDelete);
 
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -171,7 +171,7 @@ public class GuildManagerModel implements Externalizable, IASyncUpdate {
         gmManager.deleteGuildManager(guildManager.getID());
         sortLists();
 
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
