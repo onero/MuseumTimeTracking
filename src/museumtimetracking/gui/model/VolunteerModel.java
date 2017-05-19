@@ -70,7 +70,7 @@ public class VolunteerModel implements Externalizable, IASyncUpdate {
 
     public void setVolunteerDescription(int id, String text) throws DALException {
         volunteerMgr.setVolunteerDescription(id, text);
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -83,7 +83,7 @@ public class VolunteerModel implements Externalizable, IASyncUpdate {
      */
     public void setVolunteerImage(int id, File file) throws DALException, FileNotFoundException {
         volunteerMgr.setVolunteerImage(id, file);
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -94,7 +94,7 @@ public class VolunteerModel implements Externalizable, IASyncUpdate {
      */
     public void updateVolunteer(Volunteer updatedVolunteer) throws DALException {
         volunteerMgr.updateVolunteer(updatedVolunteer);
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
 
     }
 
@@ -109,7 +109,7 @@ public class VolunteerModel implements Externalizable, IASyncUpdate {
         // Removes the volunteer from the listview.
         cachedVolunteers.remove(volunteerToDelete);
         cachedIdleVolunteers.remove(volunteerToDelete);
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -121,7 +121,7 @@ public class VolunteerModel implements Externalizable, IASyncUpdate {
     public void addVolunteer(Volunteer newVolunteer) throws DALException {
         Volunteer volunteer = volunteerMgr.addVolunteer(newVolunteer);
         cachedVolunteers.add(volunteer);
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     public ObservableList<Volunteer> getCachedIdleVolunteers() {
@@ -144,7 +144,7 @@ public class VolunteerModel implements Externalizable, IASyncUpdate {
             cachedIdleVolunteers.remove(volunteer);
         }
         volunteerMgr.updateVolunteerIdle(volunteer.getID(), value);
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -157,7 +157,7 @@ public class VolunteerModel implements Externalizable, IASyncUpdate {
      */
     public void addHoursToVolunteer(int volunteerID, String guildName, int hours) throws DALException {
         volunteerMgr.addHoursToVolunteer(volunteerID, guildName, hours);
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -189,7 +189,7 @@ public class VolunteerModel implements Externalizable, IASyncUpdate {
      */
     public void exportVolunteerInfoToExcel(String location) throws IOException, WriteException, DALException {
         volunteerMgr.exportToExcel(location, cachedVolunteers);
-        updateData();
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     @Override
