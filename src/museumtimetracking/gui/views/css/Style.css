@@ -64,6 +64,15 @@ Background:
     -fx-background-color: #ed9e00;
 }
 
+.buttonUpdate {
+    -fx-background-color: transparent;
+}
+
+.buttonUpdate:hover,
+.buttonUpdate:pressed {
+    -fx-background-color: #fcc14e;
+}
+
 /*  When you have your mouse over the button. 
     When button is pressed. */
 .button:hover,
