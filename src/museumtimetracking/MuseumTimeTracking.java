@@ -31,7 +31,7 @@ public class MuseumTimeTracking extends Application {
     public static final String RESOURCE_LOCATION = "museumtimetracking.gui.language.UIResources";
     public static final String ICON = "museumtimetracking/asset/img/icon.png";
 
-    private static Stage mainStage = new Stage();
+    private static final Stage mainStage = new Stage();
 
     public static ResourceBundle bundle;
     public static StringProperty LOCALE = new SimpleStringProperty(DANISH.toString());
