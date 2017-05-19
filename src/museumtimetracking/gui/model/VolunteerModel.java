@@ -14,18 +14,21 @@ import java.io.ObjectOutput;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import jxl.write.WriteException;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.VolunteerManager;
 import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.views.root.MTTMainControllerView;
 
 /**
  *
  * @author Skovgaard
  */
-public class VolunteerModel implements Externalizable {
+public class VolunteerModel implements Externalizable, IASyncUpdate {
 
     private transient VolunteerManager volunteerMgr;
 
@@ -67,6 +70,7 @@ public class VolunteerModel implements Externalizable {
 
     public void setVolunteerDescription(int id, String text) throws DALException {
         volunteerMgr.setVolunteerDescription(id, text);
+        updateData();
     }
 
     /**
@@ -79,6 +83,7 @@ public class VolunteerModel implements Externalizable {
      */
     public void setVolunteerImage(int id, File file) throws DALException, FileNotFoundException {
         volunteerMgr.setVolunteerImage(id, file);
+        updateData();
     }
 
     /**
@@ -89,6 +94,7 @@ public class VolunteerModel implements Externalizable {
      */
     public void updateVolunteer(Volunteer updatedVolunteer) throws DALException {
         volunteerMgr.updateVolunteer(updatedVolunteer);
+        updateData();
 
     }
 
@@ -103,6 +109,7 @@ public class VolunteerModel implements Externalizable {
         // Removes the volunteer from the listview.
         cachedVolunteers.remove(volunteerToDelete);
         cachedIdleVolunteers.remove(volunteerToDelete);
+        updateData();
     }
 
     /**
@@ -114,6 +121,7 @@ public class VolunteerModel implements Externalizable {
     public void addVolunteer(Volunteer newVolunteer) throws DALException {
         Volunteer volunteer = volunteerMgr.addVolunteer(newVolunteer);
         cachedVolunteers.add(volunteer);
+        updateData();
     }
 
     public ObservableList<Volunteer> getCachedIdleVolunteers() {
@@ -136,6 +144,7 @@ public class VolunteerModel implements Externalizable {
             cachedIdleVolunteers.remove(volunteer);
         }
         volunteerMgr.updateVolunteerIdle(volunteer.getID(), value);
+        updateData();
     }
 
     /**
@@ -148,6 +157,7 @@ public class VolunteerModel implements Externalizable {
      */
     public void addHoursToVolunteer(int volunteerID, String guildName, int hours) throws DALException {
         volunteerMgr.addHoursToVolunteer(volunteerID, guildName, hours);
+        updateData();
     }
 
     /**
@@ -179,6 +189,7 @@ public class VolunteerModel implements Externalizable {
      */
     public void exportVolunteerInfoToExcel(String location) throws IOException, WriteException, DALException {
         volunteerMgr.exportToExcel(location, cachedVolunteers);
+        updateData();
     }
 
     @Override
@@ -229,5 +240,30 @@ public class VolunteerModel implements Externalizable {
      */
     public Set<Volunteer> getVolunteersThatHasWorkedOnGuild(String guildName) throws DALException {
         return volunteerMgr.getVolunteersThatHasWorkedOnGuild(guildName);
+    }
+
+    @Override
+    public void updateData() {
+        MTTMainControllerView.getInstance().showUpdate(true);
+        Runnable task = () -> {
+            try {
+                instatiateCollections();
+                Platform.runLater(() -> {
+                    MTTMainControllerView.getInstance().showUpdate(false);
+                });
+            } catch (DALException ex) {
+                ExceptionDisplayer.display(ex);
+            }
+        };
+        new Thread(task).start();
+    }
+
+    private void instatiateCollections() throws DALException {
+        volunteerFromDB = volunteerMgr.getAllVolunteersNotIdle();
+
+        idleVolunteersFromDB = volunteerMgr.getAllIdleVolunteers();
+
+        Collections.sort(volunteerFromDB);
+        Collections.sort(idleVolunteersFromDB);
     }
 }
