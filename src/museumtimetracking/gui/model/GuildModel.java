@@ -26,7 +26,7 @@ import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.views.root.MTTMainControllerView;
 
-public class GuildModel implements Externalizable {
+public class GuildModel implements Externalizable, IASyncUpdate {
 
     private List<Guild> guildsFromDB;
 
@@ -75,7 +75,8 @@ public class GuildModel implements Externalizable {
      *
      * @throws DALException
      */
-    public void updateData() throws DALException {
+    @Override
+    public void updateData() {
         MTTMainControllerView.getInstance().showUpdate(true);
         Runnable task = () -> {
             try {
@@ -241,7 +242,7 @@ public class GuildModel implements Externalizable {
         cachedGuilds.clear();
         guildsFromDB.stream()
                 .filter(g -> g.getName().toLowerCase().contains(newValue.toLowerCase())
-                || g.getGuildManager() != null && g.getGuildManager().getFullName().toLowerCase().contains(newValue.toLowerCase()))
+                        || g.getGuildManager() != null && g.getGuildManager().getFullName().toLowerCase().contains(newValue.toLowerCase()))
                 .forEach(g -> cachedGuilds.add(g));
     }
 

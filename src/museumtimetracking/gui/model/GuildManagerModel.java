@@ -24,6 +24,7 @@ import museumtimetracking.be.Guild;
 import museumtimetracking.bll.GMManager;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.views.root.MTTMainControllerView;
 
 /**
  *
@@ -58,14 +59,16 @@ public class GuildManagerModel implements Externalizable, IASyncUpdate {
 
     @Override
     public void updateData() {
+        MTTMainControllerView.getInstance().showUpdate(true);
         Runnable task = () -> {
-            Platform.runLater(() -> {
-                try {
-                    instantiateCollections();
-                } catch (DALException ex) {
-                    ExceptionDisplayer.display(ex);
-                }
-            });
+            try {
+                instantiateCollections();
+                Platform.runLater(() -> {
+                    MTTMainControllerView.getInstance().showUpdate(false);
+                });
+            } catch (DALException ex) {
+                ExceptionDisplayer.display(ex);
+            }
         };
         new Thread(task).start();
     }
