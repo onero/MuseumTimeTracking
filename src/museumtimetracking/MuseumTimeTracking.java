@@ -12,6 +12,9 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -165,11 +168,22 @@ public class MuseumTimeTracking extends Application {
 
             //Display main and close start view
             fadeOut.setOnFinished((finishedEvent) -> {
+                //Start timeline to fadeout music
+                Timeline timeline = new Timeline(
+                        //KeyFrame is to define the duration the fadeout will take
+                        new KeyFrame(Duration.seconds(3),
+                                //KeyValue is to define the start and end value
+                                new KeyValue(mediaPlayer.volumeProperty(), 0)));
+                timeline.play();
+
                 mainStage.show();
                 stage.close();
 
-                // Stops intro music.
-                mediaPlayer.stop();
+                //Set on finish task
+                timeline.setOnFinished((event) -> {
+                    // Stop intro music.
+                    mediaPlayer.stop();
+                });
 
             });
         });
