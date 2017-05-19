@@ -244,7 +244,6 @@ public class VolunteerModel implements Externalizable, IASyncUpdate {
 
     @Override
     public void updateData() {
-        MTTMainControllerView.getInstance().showUpdate(true);
         Runnable task = () -> {
             try {
                 instatiateCollections();

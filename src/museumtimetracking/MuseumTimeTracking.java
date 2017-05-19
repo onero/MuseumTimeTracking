@@ -5,7 +5,6 @@
  */
 package museumtimetracking;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
@@ -53,7 +52,7 @@ public class MuseumTimeTracking extends Application {
     public void start(Stage stage) throws Exception {
         bundle = ResourceBundle.getBundle(RESOURCE_LOCATION, new Locale(LOCALE.get()));
 
-        instatiateLanguageListener();
+        instantiateLanguageListener();
 
         Parent startRoot = createLoadingView(stage);
 
@@ -68,7 +67,7 @@ public class MuseumTimeTracking extends Application {
     /**
      * Create a changelistener for the locale language
      */
-    private void instatiateLanguageListener() {
+    private void instantiateLanguageListener() {
         LOCALE.addListener((observable, oldValue, newValue) -> {
 
             bundle = ResourceBundle.getBundle(RESOURCE_LOCATION, new Locale(LOCALE.get()));

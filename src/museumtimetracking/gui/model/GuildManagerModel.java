@@ -64,12 +64,10 @@ public class GuildManagerModel implements Externalizable, IASyncUpdate {
 
     @Override
     public void updateData() {
-        MTTMainControllerView.getInstance().showUpdate(true);
         Runnable task = () -> {
             Platform.runLater(() -> {
                 try {
                     instantiateCollections();
-                    MTTMainControllerView.getInstance().showUpdate(false);
                 } catch (DALException ex) {
                     ExceptionDisplayer.display(ex);
                 }
