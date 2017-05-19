@@ -5,6 +5,7 @@
  */
 package museumtimetracking;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
@@ -19,6 +20,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -30,6 +33,16 @@ public class MuseumTimeTracking extends Application {
 
     public static final String RESOURCE_LOCATION = "museumtimetracking.gui.language.UIResources";
     public static final String ICON = "museumtimetracking/asset/img/icon.png";
+    private static final String VIKING_STARTUP_SOUND = "asset/mp3/Viking.mp3";
+    private final MediaPlayer mediaPlayer;
+
+    public MuseumTimeTracking() {
+
+        URL sound = this.getClass().getResource(VIKING_STARTUP_SOUND);
+        Media media = new Media(sound.toString());
+        mediaPlayer = new MediaPlayer(media);
+
+    }
 
     private static final Stage MAIN_STAGE = new Stage();
 
@@ -122,12 +135,15 @@ public class MuseumTimeTracking extends Application {
     private FadeTransition createFadeIn(Parent startRoot, Stage stage) throws IOException, DALException {
         //Start fade in of start view
         FadeTransition fadeIn = new FadeTransition(Duration.seconds(3), startRoot);
-        fadeIn.setFromValue(0);
+        fadeIn.setFromValue(0.2);
         fadeIn.setToValue(1);
         fadeIn.setCycleCount(1);
         fadeIn.play();
-        stage.show();
 
+        // Plays the intro music.
+        mediaPlayer.play();
+
+        stage.show();
         return fadeIn;
     }
 
@@ -152,6 +168,10 @@ public class MuseumTimeTracking extends Application {
             fadeOut.setOnFinished((finishedEvent) -> {
                 mainStage.show();
                 stage.close();
+
+                // Stops intro music.
+                mediaPlayer.stop();
+
             });
         });
     }
