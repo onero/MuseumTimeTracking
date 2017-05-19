@@ -75,8 +75,7 @@ public class GuildModel implements Externalizable {
      * @throws DALException
      */
     public void updateData() throws DALException {
-        // Instantiate guildManager
-        // Puts in all the guilds from DB/Local file to Manager and after Model.
+
         Runnable task = () -> {
             try {
                 instatiateCollections();
