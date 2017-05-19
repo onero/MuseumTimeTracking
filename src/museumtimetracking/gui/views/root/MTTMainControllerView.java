@@ -214,7 +214,8 @@ public class MTTMainControllerView implements Initializable {
         imgHeader.fitWidthProperty().bind(borderPane.widthProperty());
         initializeTabPane();
         initializeTextFieldListener();
-        removeTabs();
+
+        setGuildManagerMode();
 
         btnLogin.setText(LOGIN_BTN_TEXT);
     }
@@ -224,7 +225,7 @@ public class MTTMainControllerView implements Initializable {
      *
      * @param hide
      */
-    public void removeTabs() {
+    public void setGuildManagerMode() {
         //Adds and saves the tabs to a list.
         adminTabList.add(tabGM);
         adminTabList.add(tabPaneArchivedGuild);
@@ -233,6 +234,9 @@ public class MTTMainControllerView implements Initializable {
         tabPane.getTabs().remove(tabPaneActiveGuild);
         tabPane.getTabs().remove(tabPaneArchivedGuild);
         tabPane.getTabs().remove(tabGM);
+
+        languageBox.setVisible(true);
+        languageBox.setDisable(false);
     }
 
     /**
@@ -243,6 +247,9 @@ public class MTTMainControllerView implements Initializable {
         addTabs();
         btnLogin.setText(LOGOUT_BTN_TEXT);
         tabPane.getSelectionModel().select(0);
+        languageBox.setDisable(true);
+        languageBox.setVisible(false);
+
     }
 
     /**
@@ -410,12 +417,19 @@ public class MTTMainControllerView implements Initializable {
                 //If the first button ("YES") is clicked.
                 if (type == alert.getButtonTypes().get(0)) {
                     btnLogin.setText(LOGIN_BTN_TEXT);
-                    removeTabs();
+                    setGuildManagerMode();
                     tabPane.getSelectionModel().select(0);
                 }
             });
         } else {
-            getLoginView();
+            if (MuseumTimeTracking.LOCALE.get().equals(ENGLISH.toString())) {
+                Alert loginAlert = new AlertFactory().createAlertWithoutCancel(Alert.AlertType.CONFIRMATION, "The program is currently in english\nDanish language will be loaded instead");
+                loginAlert.showAndWait().ifPresent((button) -> {
+                    handleDanish();
+                });
+            } else {
+                getLoginView();
+            }
         }
         // Resets the hyperlink.
         btnLogin.setVisited(false);
