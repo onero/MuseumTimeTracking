@@ -24,8 +24,14 @@ import museumtimetracking.exception.DALException;
 public class MuseumTimeTracking extends Application {
 
     public static final String ICON = "museumtimetracking/asset/img/icon.png";
+//    public static final String AUDIO_LOCATION_VIKING = "museumtimetracking/asset/mp3/Viking.mp3";
+//    private final Media media;
+//    private final MediaPlayer mediaPlayer;
 
     public MuseumTimeTracking() {
+//        File file = new File(AUDIO_LOCATION_VIKING);
+//        media = new Media(file.toURI().toString());
+//        mediaPlayer = new MediaPlayer(media);
     }
     
 //"museumtimetracking/asset/mp3.Viking.mp3"  "file:///Users/mathi/Documents/GitHub/MuseumTimeTracking/src/museumtimetracking/asset/mp3/Viking.mp3"
@@ -72,6 +78,7 @@ public class MuseumTimeTracking extends Application {
         fadeIn.play();
 
         // Plays the intro music.
+//        mediaPlayer.play();
 
         stage.show();
         return fadeIn;
@@ -92,6 +99,7 @@ public class MuseumTimeTracking extends Application {
                 stage.close();
                 
                 // Stops intro music.
+//                mediaPlayer.stop();
                 
             });
         });
