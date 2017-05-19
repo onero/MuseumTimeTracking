@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="background" prefHeight="446.0" prefWidth="558.0" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController">
+<AnchorPane id="background" prefHeight="446.0" prefWidth="558.0" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController">
    <children>
       <ListView fx:id="lstManagers" layoutX="10.0" layoutY="29.0" onMouseClicked="#handleSelectGM" prefHeight="363.0" prefWidth="200.0" styleClass="mylistview" stylesheets="@../../../css/Style.css" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="29.0" />
       <VBox layoutX="231.0" layoutY="1.0" prefHeight="224.0" prefWidth="368.0" AnchorPane.bottomAnchor="222.0" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="5.0">
@@ -88,32 +88,18 @@
             </Label>
          </children>
       </HBox>
-      <VBox layoutX="403.0" layoutY="229.0" prefHeight="100.0" prefWidth="195.0" AnchorPane.bottomAnchor="54.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="230.0">
-         <children>
-            <Label text="Laug:">
-               <font>
-                  <Font name="System Italic" size="15.0" />
-               </font>
-            </Label>
-            <ListView fx:id="lstGuilds" prefHeight="138.0" prefWidth="327.0" />
-         </children>
-      </VBox>
-      <VBox layoutX="231.0" layoutY="229.0" prefHeight="161.0" prefWidth="172.0" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="220.0" AnchorPane.topAnchor="230.0">
-         <children>
-            <Label text="Beskrivelse:">
-               <font>
-                  <Font name="System Italic" size="15.0" />
-               </font>
-            </Label>
-            <TextArea fx:id="txtDescription" prefHeight="138.0" prefWidth="167.0">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </TextArea>
-         </children>
-         <padding>
-            <Insets right="5.0" />
-         </padding>
-      </VBox>
+      <Label layoutX="432.0" layoutY="253.0" text="Laug:" AnchorPane.rightAnchor="156.0" AnchorPane.topAnchor="253.0">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="231.0" layoutY="253.0" text="Beskrivelse:" AnchorPane.leftAnchor="231.0" AnchorPane.topAnchor="253.0">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="txtDescription" layoutX="230.0" layoutY="274.0" prefHeight="153.0" prefWidth="179.0" AnchorPane.bottomAnchor="69.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="214.0" AnchorPane.topAnchor="274.0" />
+      <ListView fx:id="lstGuilds" layoutX="432.0" layoutY="274.0" prefHeight="153.0" prefWidth="167.0" AnchorPane.bottomAnchor="69.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="274.0" />
+      <Label fx:id="lblDescriptionRestriction" alignment="CENTER_RIGHT" layoutX="366.0" layoutY="253.0" text=" 0/255" AnchorPane.rightAnchor="214.0" AnchorPane.topAnchor="253.0" />
    </children>
 </AnchorPane>

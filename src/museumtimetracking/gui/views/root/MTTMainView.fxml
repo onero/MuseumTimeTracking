@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXSnackbar?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTabPane?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -12,19 +16,30 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane id="background" fx:id="borderPane" minHeight="600.0" minWidth="850.0" prefHeight="600.0" prefWidth="850.0" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.MTTMainControllerView">
    <center>
-      <JFXTabPane fx:id="tabPane" side="BOTTOM" styleClass="borderPane" stylesheets="@../css/Style.css" BorderPane.alignment="CENTER">
-         <tabs>
-            <Tab id="statistics" fx:id="tabStatistics" onSelectionChanged="#handleClearSearchBar" text="Statistik" />
-            <Tab id="guildOverView" fx:id="tabPaneActiveGuild" onSelectionChanged="#handleClearSearchBar" text="Aktive Laug" />
-            <Tab id="archivedGuild" fx:id="tabPaneArchivedGuild" onSelectionChanged="#handleClearSearchBar" text="Inaktive Laug" />
-            <Tab id="manager" fx:id="tabGM" onSelectionChanged="#handleClearSearchBar" text="Tovholdere" />
-            <Tab id="volunteer" fx:id="tabVolunteer" onSelectionChanged="#handleClearSearchBar" text="Frivillige" />
-            <Tab id="idle" fx:id="tabIdle" onSelectionChanged="#handleClearSearchBar" text="Passive" />
-         </tabs>
-      </JFXTabPane>
+      <AnchorPane prefHeight="516.0" prefWidth="1340.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXTabPane fx:id="tabPane" side="BOTTOM" styleClass="borderPane" stylesheets="@../css/Style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <tabs>
+                  <Tab id="statistics" fx:id="tabStatistics" onSelectionChanged="#handleClearSearchBar" text="%Statistics" />
+                  <Tab id="guildOverView" fx:id="tabPaneActiveGuild" onSelectionChanged="#handleClearSearchBar" text="Aktive Laug" />
+                  <Tab id="archivedGuild" fx:id="tabPaneArchivedGuild" onSelectionChanged="#handleClearSearchBar" text="Inaktive Laug" />
+                  <Tab id="manager" fx:id="tabGM" onSelectionChanged="#handleClearSearchBar" text="Tovholdere" />
+                  <Tab id="volunteer" fx:id="tabVolunteer" onSelectionChanged="#handleClearSearchBar" text="%Volunteers" />
+                  <Tab id="idle" fx:id="tabIdle" onSelectionChanged="#handleClearSearchBar" text="Passive" />
+               </tabs>
+            </JFXTabPane>
+            <JFXSpinner fx:id="spinnerUpdate" visible="false" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="5.0" />
+            <Label fx:id="lblUpdateData" text="%UpdateData" visible="false" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="45.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <JFXButton fx:id="btnUpdate" onAction="#handleUpdate" text="%Update" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="3.0" />
+         </children>
+      </AnchorPane>
    </center>
    <top>
       <AnchorPane BorderPane.alignment="CENTER">
@@ -50,7 +65,7 @@
                   <JFXSnackbar fx:id="snackWarning" />
                </children>
             </Pane>
-            <HBox fx:id="iconBox" layoutX="396.0" layoutY="20.0" prefHeight="32.0" prefWidth="153.0" AnchorPane.leftAnchor="396.0" AnchorPane.rightAnchor="301.0">
+            <HBox fx:id="iconBox" layoutX="396.0" layoutY="20.0" prefHeight="42.0" prefWidth="126.0" AnchorPane.leftAnchor="396.0" AnchorPane.rightAnchor="328.0">
                <children>
                   <ImageView fitHeight="49.0" fitWidth="80.0" onMouseClicked="#handleExportExcel" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -61,6 +76,23 @@
                      <image>
                         <Image url="@../../../asset/img/functions/screenshot.png" />
                      </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox fx:id="languageBox" layoutX="522.0" layoutY="20.0" prefHeight="42.0" prefWidth="126.0">
+               <children>
+                  <ImageView fitHeight="32.0" fitWidth="47.0" onMouseClicked="#handleDanish" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../asset/img/language/danish.PNG" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="imgScreenshot1" fitHeight="33.0" fitWidth="50.0" onMouseClicked="#handleEnglish" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../asset/img/language/english.PNG" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
                   </ImageView>
                </children>
             </HBox>

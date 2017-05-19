@@ -13,22 +13,13 @@ import museumtimetracking.bll.LoginManager;
  */
 public class LoginModel {
 
-    private static LoginModel instance;
-
     private final LoginManager loginManager;
 
-    public static LoginModel getInstance() {
-        if (instance == null) {
-            instance = new LoginModel();
-        }
-        return instance;
-    }
-
-    private LoginModel() {
+    public LoginModel() {
         loginManager = LoginManager.getInstance();
     }
-    
-    public boolean validateAdminLogin(String username, String password){
+
+    public boolean validateAdminLogin(String username, String password) {
         return loginManager.validateAdminLogin(username, password);
     }
 

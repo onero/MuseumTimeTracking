@@ -18,17 +18,17 @@
             <ListView fx:id="lstGuilds" layoutX="14.0" layoutY="14.0" prefHeight="115.0" prefWidth="200.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
             <VBox layoutX="314.0" layoutY="14.0" prefHeight="74.0" prefWidth="200.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                <children>
-                  <Label text="Laug:">
+                  <Label text="%GuildInfo">
                      <font>
                         <Font name="System Bold Italic" size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblGuildName" text="&lt;&lt;Laug&gt;&gt;">
+                  <Label fx:id="lblGuildName" text="">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
                   </Label>
-                  <Label text="Vælg Timer:">
+                  <Label text="%SelectHours">
                      <font>
                         <Font name="System Bold Italic" size="15.0" />
                      </font>
@@ -47,7 +47,7 @@
       </AnchorPane>
    </center>
    <top>
-      <Label text="Dokumentér Timer" BorderPane.alignment="CENTER">
+      <Label text="%DocumentHours" BorderPane.alignment="CENTER">
          <font>
             <Font name="System Bold Italic" size="24.0" />
          </font>
@@ -56,8 +56,8 @@
    <bottom>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
-          <Button mnemonicParsing="false" onAction="#handleDocumenButton" text="Dokumentér" />
-            <Button mnemonicParsing="false" onAction="#handleCancelButton" text="Annuller" />
+          <Button mnemonicParsing="false" onAction="#handleDocumenButton" text="%Document" />
+            <Button mnemonicParsing="false" onAction="#handleCancelButton" text="%Cancel" />
         </buttons>
          <padding>
             <Insets right="14.0" />

@@ -35,6 +35,7 @@ import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.NodeFactory;
 import museumtimetracking.gui.views.root.guildManager.guildManagerOverview.manageGuildManagerGuilds.ManageGuildManagerGuildsViewController;
@@ -97,11 +98,7 @@ public class GuildManagerOverviewController implements Initializable {
         modalFactory = ModalFactory.getInstance();
         nodeFactory = NodeFactory.getInstance();
         guildManagerModel = null;
-        try {
-            guildManagerModel = GuildManagerModel.getInstance();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        guildManagerModel = ModelFacade.getInstance().getGuildManagerModel();
     }
 
     /**
@@ -119,6 +116,7 @@ public class GuildManagerOverviewController implements Initializable {
         addListeners();
         setCellFactories();
         lstManagers.setItems(guildManagerModel.getCachedManagers());
+        lblDescriptionRestriction.setText("0/" + guildManagerModel.getDescriptionRestriction());
 
         lblGMAmount.textProperty().bind(Bindings.size((guildManagerModel.getCachedManagers())).asString());
 
@@ -180,7 +178,7 @@ public class GuildManagerOverviewController implements Initializable {
     private void handleDeleteButton() {
         GM managerToDelete = lstManagers.getSelectionModel().getSelectedItem();
         if (btnDelete.getText().equals(DELETE_BUTTON_TEXT)) {
-            Alert deleteAlert = AlertFactory.createDeleteAlert();
+            Alert deleteAlert = new AlertFactory().createDeleteAlert();
             deleteAlert.showAndWait().ifPresent(type -> {
                 //If user clicks first button
                 if (type == deleteAlert.getButtonTypes().get(0)) {
@@ -272,7 +270,11 @@ public class GuildManagerOverviewController implements Initializable {
         txtDescription.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                System.out.println(newValue);
+                if (newValue != null && newValue.toCharArray().length >= guildManagerModel.getDescriptionRestriction() + 1) {
+                    txtDescription.setText(oldValue);
+                } else {
+                    updateLabelDescriptionRestriction(newValue);
+                }
             }
         });
     }
@@ -429,6 +431,21 @@ public class GuildManagerOverviewController implements Initializable {
         if (event.getClickCount() == 2) {
             setShowEditability(true);
             setButtonTextToEditMode();
+        }
+    }
+
+    /**
+     * Update the label to show the amount of characters used.
+     *
+     * @param text
+     */
+    private void updateLabelDescriptionRestriction(String text) {
+        int restriction = guildManagerModel.getDescriptionRestriction();
+        if (text != null) {
+            char[] chars = text.toCharArray();
+            lblDescriptionRestriction.setText(chars.length + "/" + restriction);
+        } else {
+            lblDescriptionRestriction.setText("0/" + restriction);
         }
     }
 }
