@@ -249,6 +249,10 @@ public class VolunteerModel implements Externalizable, IASyncUpdate {
             try {
                 instatiateCollections();
                 Platform.runLater(() -> {
+                    cachedVolunteers.clear();
+                    cachedVolunteers.addAll(volunteerFromDB);
+                    cachedIdleVolunteers.clear();
+                    cachedIdleVolunteers.addAll(idleVolunteersFromDB);
                     MTTMainControllerView.getInstance().showUpdate(false);
                 });
             } catch (DALException ex) {
