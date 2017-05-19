@@ -91,6 +91,11 @@ public class GuildModel implements Externalizable, IASyncUpdate {
         new Thread(task).start();
     }
 
+    /**
+     * Instantiate the lists.
+     *
+     * @throws DALException
+     */
     private void instatiateCollections() throws DALException {
         guildsFromDB = guildManager.getAllGuildsNotArchived();
 
