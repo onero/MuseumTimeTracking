@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,6 +24,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
@@ -68,6 +70,10 @@ public class GuildManagerOverviewController implements Initializable {
     private Button btnDelete;
     @FXML
     private Button btnArchiveManager;
+    @FXML
+    private TextArea txtDescription;
+    @FXML
+    private Label lblDescriptionRestriction;
 
     private final NodeFactory nodeFactory;
 
@@ -113,6 +119,7 @@ public class GuildManagerOverviewController implements Initializable {
         addListeners();
         setCellFactories();
         lstManagers.setItems(guildManagerModel.getCachedManagers());
+        lblDescriptionRestriction.setText("0/" + guildManagerModel.getDescriptionRestriction());
 
         lblGMAmount.textProperty().bind(Bindings.size((guildManagerModel.getCachedManagers())).asString());
 
@@ -262,6 +269,17 @@ public class GuildManagerOverviewController implements Initializable {
                 setGMOptionsVisibility(true);
             }
         });
+
+        txtDescription.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue != null && newValue.toCharArray().length >= guildManagerModel.getDescriptionRestriction() + 1) {
+                    txtDescription.setText(oldValue);
+                } else {
+                    updateLabelDescriptionRestriction(newValue);
+                }
+            }
+        });
     }
 
     /**
@@ -275,6 +293,7 @@ public class GuildManagerOverviewController implements Initializable {
         txtEmail.setText(manager.getEmail());
         txtPhone.setText(manager.getPhone() + "");
         lstGuilds.setItems(manager.getObservableListOfGuilds());
+        txtDescription.setText(manager.getDescription());
     }
 
     /**
@@ -286,6 +305,7 @@ public class GuildManagerOverviewController implements Initializable {
      */
     private void setShowEditability(boolean shown) {
         lstGuilds.setEditable(false);
+        txtDescription.setDisable(!shown);
         for (TextField textField : textFields) {
             textField.setDisable(!shown);
         }
@@ -305,6 +325,7 @@ public class GuildManagerOverviewController implements Initializable {
         for (TextField textField : textFields) {
             textField.setStyle("-fx-text-fill: " + color + ";");
         }
+        txtDescription.setStyle("-fx-text-fill: " + color + ";");
     }
 
     /**
@@ -384,6 +405,7 @@ public class GuildManagerOverviewController implements Initializable {
         manager.updateFullName();
         manager.setEmail(txtEmail.getText());
         manager.setPhone(Integer.parseInt(txtPhone.getText()));
+        manager.setDescription(txtDescription.getText());
     }
 
     @FXML
@@ -412,6 +434,21 @@ public class GuildManagerOverviewController implements Initializable {
         if (event.getClickCount() == 2) {
             setShowEditability(true);
             setButtonTextToEditMode();
+        }
+    }
+
+    /**
+     * Update the label to show the amount of characters used.
+     *
+     * @param text
+     */
+    private void updateLabelDescriptionRestriction(String text) {
+        int restriction = guildManagerModel.getDescriptionRestriction();
+        if (text != null) {
+            char[] chars = text.toCharArray();
+            lblDescriptionRestriction.setText(chars.length + "/" + restriction);
+        } else {
+            lblDescriptionRestriction.setText("0/" + restriction);
         }
     }
 }

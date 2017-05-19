@@ -43,6 +43,8 @@ public class GuildManagerModel implements Externalizable {
     private Set<GM> gmCandidatesFromDB;
     private ObservableList<GM> cachedGMCandidates;
 
+    private int descriptionRestriction;
+
     public static GuildManagerModel getInstance() throws DALException {
         if (instance == null) {
             try {
@@ -67,6 +69,7 @@ public class GuildManagerModel implements Externalizable {
         idleGuildManagersFromDB = gmManager.getAllIdleGuildManagers();
         cachedManagers = FXCollections.observableArrayList(managersFromDB);
         cachedIdleGuildManagers = FXCollections.observableArrayList(idleGuildManagersFromDB);
+        descriptionRestriction = gmManager.getGmDescriptionRestriction();
 
         gmManager.saveGuildModel(this);
 
@@ -258,6 +261,15 @@ public class GuildManagerModel implements Externalizable {
 
         gmManager.exportToExcel(location, new ArrayList<>(guildNames),
                 new ArrayList<>(weekROI), new ArrayList<>(monthROI), new ArrayList<>(yearROI));
+    }
+
+    /**
+     * Returns the restriction of the description for a GM.
+     *
+     * @return
+     */
+    public int getDescriptionRestriction() {
+        return descriptionRestriction;
     }
 
 }

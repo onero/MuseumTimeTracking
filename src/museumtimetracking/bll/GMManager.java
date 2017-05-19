@@ -12,9 +12,9 @@ import javafx.collections.ObservableList;
 import jxl.write.WriteException;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.GM;
+import museumtimetracking.dal.DALFacade;
 import museumtimetracking.dal.fileWriting.excel.ExcelWriter;
 import museumtimetracking.dal.fileWriting.excel.IExcel;
-import museumtimetracking.dal.DALFacade;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.gui.model.GuildManagerModel;
 
@@ -178,6 +178,16 @@ public class GMManager implements IExcel {
         newFile.createRowNumberContent(3, (List<Integer>) values[3]);
 
         newFile.writeExcelToFile();
+    }
+
+    /**
+     * Gets the restriction of a GM's description.
+     *
+     * @return
+     * @throws DALException
+     */
+    public int getGmDescriptionRestriction() throws DALException {
+        return facadeDAO.getDescriptionRestrictionForGm();
     }
 
 }
