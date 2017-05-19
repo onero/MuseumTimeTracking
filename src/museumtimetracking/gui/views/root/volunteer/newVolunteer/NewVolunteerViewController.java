@@ -78,7 +78,7 @@ public class NewVolunteerViewController implements Initializable {
             }
             closeWindow();
         } else {
-            AlertFactory.createValidationAlert().show();
+            new AlertFactory().createValidationAlert().show();
         }
     }
 

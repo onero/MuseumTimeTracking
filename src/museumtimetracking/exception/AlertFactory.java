@@ -13,10 +13,10 @@ import museumtimetracking.MuseumTimeTracking;
 
 public class AlertFactory {
 
-    public static final String DELETE_WARNING = MuseumTimeTracking.bundle.getString("DeleteWarning");
-    public static final String VALIDATION_WARNING = MuseumTimeTracking.bundle.getString("ValidationWarning");
-    public static final String ALERT_TITLE = "OBS!";
-    private static final String LOGOUT_WARNING = MuseumTimeTracking.bundle.getString("LogoutWarning");
+    public final String DELETE_WARNING = MuseumTimeTracking.bundle.getString("DeleteWarning");
+    public final String VALIDATION_WARNING = MuseumTimeTracking.bundle.getString("ValidationWarning");
+    public final String ALERT_TITLE = "OBS!";
+    private final String LOGOUT_WARNING = MuseumTimeTracking.bundle.getString("LogoutWarning");
 
     /**
      * Display alert with just OK button
@@ -25,7 +25,7 @@ public class AlertFactory {
      * @param alertText
      * @return
      */
-    public static Alert createAlertWithoutCancel(AlertType type, String alertText) {
+    public Alert createAlertWithoutCancel(AlertType type, String alertText) {
         Alert alert = new Alert(type);
         alert.setTitle(ALERT_TITLE);
         alert.setHeaderText(alertText);
@@ -38,7 +38,7 @@ public class AlertFactory {
      *
      * @param alert
      */
-    private static void createSingleButton(Alert alert) {
+    private void createSingleButton(Alert alert) {
         ButtonType yesButton = new ButtonType("OK", ButtonBar.ButtonData.YES);
         alert.getButtonTypes().setAll(yesButton);
     }
@@ -50,7 +50,7 @@ public class AlertFactory {
      * @param message
      * @return
      */
-    public static Alert createAlert(AlertType type, String message) {
+    public Alert createAlert(AlertType type, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(ALERT_TITLE);
         alert.setHeaderText(message);
@@ -63,7 +63,7 @@ public class AlertFactory {
      *
      * @param alert
      */
-    public static void createTwoButtons(Alert alert) {
+    public void createTwoButtons(Alert alert) {
         ButtonType yesButton = new ButtonType(MuseumTimeTracking.bundle.getString("Yes"), ButtonBar.ButtonData.YES);
         ButtonType noButton = new ButtonType(MuseumTimeTracking.bundle.getString("No"), ButtonBar.ButtonData.NO);
         alert.getButtonTypes().setAll(yesButton, noButton);
@@ -74,9 +74,9 @@ public class AlertFactory {
      *
      * @return
      */
-    public static Alert createDeleteAlert() {
+    public Alert createDeleteAlert() {
         String message = DELETE_WARNING;
-        Alert alert = AlertFactory.createAlert(Alert.AlertType.WARNING, message);
+        Alert alert = createAlert(Alert.AlertType.WARNING, message);
         createTwoButtons(alert);
         return alert;
     }
@@ -86,9 +86,9 @@ public class AlertFactory {
      *
      * @return
      */
-    public static Alert createLogoutAlert() {
+    public Alert createLogoutAlert() {
         String message = LOGOUT_WARNING;
-        Alert alert = AlertFactory.createAlert(Alert.AlertType.WARNING, message);
+        Alert alert = createAlert(Alert.AlertType.WARNING, message);
         createTwoButtons(alert);
         return alert;
     }
@@ -99,7 +99,7 @@ public class AlertFactory {
      * @param message
      * @return
      */
-    public static Alert createExceptionAlert(String message) {
+    public Alert createExceptionAlert(String message) {
         Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle(ALERT_TITLE);
         alert.setHeaderText(message);
@@ -112,9 +112,9 @@ public class AlertFactory {
      *
      * @return
      */
-    public static Alert createValidationAlert() {
+    public Alert createValidationAlert() {
         String text = VALIDATION_WARNING;
-        Alert alert = AlertFactory.createAlertWithoutCancel(AlertType.INFORMATION, text);
+        Alert alert = createAlertWithoutCancel(AlertType.INFORMATION, text);
         return alert;
     }
 

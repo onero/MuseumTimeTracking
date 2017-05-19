@@ -196,7 +196,7 @@ public class VolunteerOverviewController implements Initializable {
         Volunteer volunteerToDelete = lstVolunteer.getSelectionModel().getSelectedItem();
         if (volunteerToDelete != null) {
             if (btnDelete.getText().equals(MuseumTimeTracking.bundle.getString("Delete"))) {
-                Alert deleteAlert = AlertFactory.createDeleteAlert();
+                Alert deleteAlert = new AlertFactory().createDeleteAlert();
                 deleteAlert.showAndWait().ifPresent(type -> {
                     //If user clicks first button
                     if (type == deleteAlert.getButtonTypes().get(0)) {

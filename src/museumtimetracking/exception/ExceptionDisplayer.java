@@ -15,7 +15,7 @@ public class ExceptionDisplayer {
 
     public static void display(Throwable ex) {
         ex.printStackTrace();
-        Alert alert = AlertFactory.createExceptionAlert(ex.getMessage());
+        Alert alert = new AlertFactory().createExceptionAlert(ex.getMessage());
         alert.show();
         try {
             Thread.sleep(5000);

@@ -128,8 +128,8 @@ public class MTTMainControllerView implements Initializable {
 
     private String paneTabID;
 
-    private static final String LOGOUT_BTN_TEXT = MuseumTimeTracking.bundle.getString("Logout");
-    private static final String LOGIN_BTN_TEXT = MuseumTimeTracking.bundle.getString("Login");
+    private final String LOGOUT_BTN_TEXT = MuseumTimeTracking.bundle.getString("Logout");
+    private final String LOGIN_BTN_TEXT = MuseumTimeTracking.bundle.getString("Login");
 
     public static MTTMainControllerView getInstance() {
         return instance;
@@ -405,7 +405,7 @@ public class MTTMainControllerView implements Initializable {
     @FXML
     private void handleLogin(ActionEvent event) {
         if (btnLogin.getText().equals(LOGOUT_BTN_TEXT)) {
-            Alert alert = AlertFactory.createLogoutAlert();
+            Alert alert = new AlertFactory().createLogoutAlert();
             alert.showAndWait().ifPresent(type -> {
                 //If the first button ("YES") is clicked.
                 if (type == alert.getButtonTypes().get(0)) {

@@ -80,7 +80,7 @@ public class ArchivedGuildViewController implements Initializable {
     @FXML
     private void handleDeleteGuid(ActionEvent event) {
         if (selectedGuild != null) {
-            Alert alert = AlertFactory.createDeleteAlert();
+            Alert alert = new AlertFactory().createDeleteAlert();
             alert.showAndWait().ifPresent(type -> {
                 //If the first button ("YES") is clicked
                 if (type == alert.getButtonTypes().get(0)) {

@@ -174,7 +174,7 @@ public class GuildManagerOverviewController implements Initializable {
     private void handleDeleteButton() {
         GM managerToDelete = lstManagers.getSelectionModel().getSelectedItem();
         if (btnDelete.getText().equals(DELETE_BUTTON_TEXT)) {
-            Alert deleteAlert = AlertFactory.createDeleteAlert();
+            Alert deleteAlert = new AlertFactory().createDeleteAlert();
             deleteAlert.showAndWait().ifPresent(type -> {
                 //If user clicks first button
                 if (type == deleteAlert.getButtonTypes().get(0)) {
