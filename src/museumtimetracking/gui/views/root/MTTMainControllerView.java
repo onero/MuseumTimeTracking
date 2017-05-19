@@ -36,6 +36,7 @@ import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 import jxl.write.WriteException;
 import museumtimetracking.MuseumTimeTracking;
+import static museumtimetracking.be.enums.EAppLanguage.*;
 import museumtimetracking.be.enums.EFXMLName;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.be.enums.ETabPaneID;
@@ -166,10 +167,12 @@ public class MTTMainControllerView implements Initializable {
 
     @FXML
     private void handleDanish() {
+        MuseumTimeTracking.changeLanguage(DANISH);
     }
 
     @FXML
     private void handleEnglish() {
+        MuseumTimeTracking.changeLanguage(ENGLISH);
     }
 
     @FXML

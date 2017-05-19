@@ -9,8 +9,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,17 +28,23 @@ import museumtimetracking.exception.DALException;
 
 public class MuseumTimeTracking extends Application {
 
+    public static final String RESOURCE_LOCATION = "museumtimetracking.gui.language.UIResources";
     public static final String ICON = "museumtimetracking/asset/img/icon.png";
 
+    private static Stage mainStage = new Stage();
+
     public static ResourceBundle bundle;
-    public static EAppLanguage LOCALE = ENGLISH;
+    public static StringProperty LOCALE = new SimpleStringProperty(DANISH.toString());
 
     @Override
     public void start(Stage stage) throws Exception {
-        bundle = ResourceBundle.getBundle("museumtimetracking.gui.language.UIResources", new Locale(LOCALE.toString()));
+        bundle = ResourceBundle.getBundle(RESOURCE_LOCATION, new Locale(LOCALE.get()));
+
+        instatiateLanguageListener();
+
         Parent startRoot = createLoadingView(stage);
 
-        Stage mainStage = createMainView();
+        createMainView();
 
         FadeTransition fadeIn = createFadeIn(startRoot, stage);
 
@@ -42,8 +52,39 @@ public class MuseumTimeTracking extends Application {
 
     }
 
+    /**
+     * Create a changelistener for the locale language
+     */
+    private void instatiateLanguageListener() {
+        LOCALE.addListener((observable, oldValue, newValue) -> {
+
+            bundle = ResourceBundle.getBundle(RESOURCE_LOCATION, new Locale(LOCALE.get()));
+
+            try {
+                createMainView();
+            } catch (IOException ex) {
+                Logger.getLogger(MuseumTimeTracking.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+    }
+
+    /**
+     * Change the language of the application
+     *
+     * @param language
+     */
+    public static void changeLanguage(EAppLanguage language) {
+        LOCALE.set(language.toString());
+    }
+
+    /**
+     * Create the start view
+     *
+     * @param stage
+     * @return
+     * @throws IOException
+     */
     private Parent createLoadingView(Stage stage) throws IOException {
-        //Start out loading start view
         Parent startRoot = FXMLLoader.load(getClass().getResource("gui/views/startScreen/StartView.fxml"), bundle);
         Scene startScene = new Scene(startRoot);
         stage.getIcons().add(new Image(ICON));
@@ -52,9 +93,14 @@ public class MuseumTimeTracking extends Application {
         return startRoot;
     }
 
+    /**
+     * Create the mainview
+     *
+     * @return
+     * @throws IOException
+     */
     private Stage createMainView() throws IOException {
         //Start loading main view
-        Stage mainStage = new Stage();
         URL location = getClass().getResource("/museumtimetracking/gui/views/root/MTTMainView.fxml");
         FXMLLoader loader = new FXMLLoader(location, bundle);
         Parent root = loader.load();
@@ -64,6 +110,15 @@ public class MuseumTimeTracking extends Application {
         return mainStage;
     }
 
+    /**
+     * Create the fadein effect
+     *
+     * @param startRoot
+     * @param stage
+     * @return
+     * @throws IOException
+     * @throws DALException
+     */
     private FadeTransition createFadeIn(Parent startRoot, Stage stage) throws IOException, DALException {
         //Start fade in of start view
         FadeTransition fadeIn = new FadeTransition(Duration.seconds(3), startRoot);
@@ -76,6 +131,14 @@ public class MuseumTimeTracking extends Application {
         return fadeIn;
     }
 
+    /**
+     * Set on fadein finished functionality
+     *
+     * @param fadeIn
+     * @param startRoot
+     * @param mainStage
+     * @param stage
+     */
     private void setOnFadeInFinished(FadeTransition fadeIn, Parent startRoot, Stage mainStage, Stage stage) {
         fadeIn.setOnFinished((e) -> {
             //Start fade out of start view
