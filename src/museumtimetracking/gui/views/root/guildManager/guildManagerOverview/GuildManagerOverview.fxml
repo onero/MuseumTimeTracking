@@ -100,5 +100,6 @@
       </Label>
       <TextArea fx:id="txtDescription" layoutX="230.0" layoutY="274.0" prefHeight="153.0" prefWidth="179.0" AnchorPane.bottomAnchor="69.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="214.0" AnchorPane.topAnchor="274.0" />
       <ListView fx:id="lstGuilds" layoutX="432.0" layoutY="274.0" prefHeight="153.0" prefWidth="167.0" AnchorPane.bottomAnchor="69.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="274.0" />
+      <Label fx:id="lblDescriptionRestriction" alignment="CENTER_RIGHT" layoutX="366.0" layoutY="253.0" text=" 0/255" AnchorPane.rightAnchor="214.0" AnchorPane.topAnchor="253.0" />
    </children>
 </AnchorPane>

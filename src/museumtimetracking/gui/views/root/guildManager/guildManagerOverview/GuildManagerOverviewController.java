@@ -119,6 +119,7 @@ public class GuildManagerOverviewController implements Initializable {
         addListeners();
         setCellFactories();
         lstManagers.setItems(guildManagerModel.getCachedManagers());
+        lblDescriptionRestriction.setText("0/" + guildManagerModel.getDescriptionRestriction());
 
         lblGMAmount.textProperty().bind(Bindings.size((guildManagerModel.getCachedManagers())).asString());
 
@@ -272,7 +273,7 @@ public class GuildManagerOverviewController implements Initializable {
         txtDescription.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                System.out.println(newValue);
+                updateLabelDescriptionRestriction(newValue);
             }
         });
     }
@@ -429,6 +430,16 @@ public class GuildManagerOverviewController implements Initializable {
         if (event.getClickCount() == 2) {
             setShowEditability(true);
             setButtonTextToEditMode();
+        }
+    }
+
+    private void updateLabelDescriptionRestriction(String text) {
+        int restriction = guildManagerModel.getDescriptionRestriction();
+        if (text != null) {
+            char[] chars = text.toCharArray();
+            lblDescriptionRestriction.setText(chars.length + "/" + restriction);
+        } else {
+            lblDescriptionRestriction.setText("0/" + restriction);
         }
     }
 }

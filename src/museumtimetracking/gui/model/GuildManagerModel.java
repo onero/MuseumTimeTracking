@@ -263,4 +263,13 @@ public class GuildManagerModel implements Externalizable {
                 new ArrayList<>(weekROI), new ArrayList<>(monthROI), new ArrayList<>(yearROI));
     }
 
+    /**
+     * Returns the restriction of the description for a GM.
+     *
+     * @return
+     */
+    public int getDescriptionRestriction() {
+        return descriptionRestriction;
+    }
+
 }
