@@ -5,7 +5,9 @@
  */
 package museumtimetracking.gui.views.root;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTabPane;
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +26,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -99,6 +102,12 @@ public class MTTMainControllerView implements Initializable {
     private Button btnClearSearch;
     @FXML
     private Hyperlink btnLogin;
+    @FXML
+    private JFXSpinner spinnerUpdate;
+    @FXML
+    private Label lblUpdateData;
+    @FXML
+    private JFXButton btnUpdate;
 
     private ModalFactory modalFactory;
 
@@ -241,8 +250,8 @@ public class MTTMainControllerView implements Initializable {
     }
 
     /**
-     * Adds the tabButtons and sets the text in btnLabel.
-     * Makes the admin start in statistics view.
+     * Adds the tabButtons and sets the text in btnLabel. Makes the admin start
+     * in statistics view.
      */
     public void setAdminMode() {
         addTabs();
@@ -404,9 +413,8 @@ public class MTTMainControllerView implements Initializable {
     }
 
     /**
-     * Compare the text in the hyperlink.
-     * If it is logout then show a alert.
-     * If pressing yes set hyperlink to login and remove tabs.
+     * Compare the text in the hyperlink. If it is logout then show a alert. If
+     * pressing yes set hyperlink to login and remove tabs.
      *
      * @param event
      */
@@ -434,6 +442,18 @@ public class MTTMainControllerView implements Initializable {
         }
         // Resets the hyperlink.
         btnLogin.setVisited(false);
+    }
+
+    @FXML
+    private void handleUpdate() {
+        showUpdate(true);
+    }
+
+    private void showUpdate(boolean shown) {
+        btnUpdate.setVisible(!shown);
+        btnUpdate.setDisable(shown);
+        spinnerUpdate.setVisible(shown);
+        lblUpdateData.setVisible(shown);
     }
 
 }
