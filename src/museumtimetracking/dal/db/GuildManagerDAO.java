@@ -89,6 +89,7 @@ public class GuildManagerDAO extends APersonDAO {
         try (Connection con = cm.getConnection()) {
             con.setAutoCommit(false);
             updatePersonInformation(con, manager);
+            setGMDescription(con, manager.getID(), manager.getDescription());
             //TODO rkl: remove isEmpty.
             if (guildsToAdd != null && !guildsToAdd.isEmpty()) {
                 for (String guild : guildsToAdd) {
@@ -378,5 +379,46 @@ public class GuildManagerDAO extends APersonDAO {
 
             ps.executeUpdate();
         }
+    }
+
+    /**
+     * Set the description of the GuildManager
+     *
+     * @param id
+     * @param text
+     * @throws java.sql.SQLException
+     */
+    public void setGMDescription(Connection con, int id, String text) throws SQLException, SQLException {
+        String sql = "UPDATE GuildManager "
+                + "SET Description = ? "
+                + "WHERE PersonID = ?";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, text);
+        ps.setInt(2, id);
+
+        ps.executeUpdate();
+    }
+
+    /**
+     * Gets the maximum amount of characters allowed on a gm's description.
+     *
+     * @return the restriction as an int
+     * @throws SQLException
+     */
+    public int getDescriptionRestriction() throws SQLException {
+        String sql = "SELECT CHARACTER_MAXIMUM_LENGTH "
+                + "FROM INFORMATION_SCHEMA.COLUMNS "
+                + "WHERE TABLE_NAME = 'GuildManager' "
+                + "AND COLUMN_NAME = 'Description'";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("CHARACTER_MAXIMUM_LENGTH");
+            }
+        }
+        throw new SQLException();
     }
 }
