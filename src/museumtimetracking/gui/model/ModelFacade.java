@@ -6,6 +6,7 @@
 package museumtimetracking.gui.model;
 
 import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 
 public class ModelFacade {
 
@@ -14,6 +15,7 @@ public class ModelFacade {
     private GuildModel guildModel;
     private GuildManagerModel guildManagerModel;
     private VolunteerModel volunteerModel;
+    private LoginModel loginModel;
 
     public static ModelFacade getInstance() {
         if (instance == null) {
@@ -27,7 +29,9 @@ public class ModelFacade {
             guildModel = new GuildModel(true);
             guildManagerModel = new GuildManagerModel(true);
             volunteerModel = new VolunteerModel(true);
+            loginModel = new LoginModel();
         } catch (DALException ex) {
+            ExceptionDisplayer.display(ex);
 
         }
     }
@@ -42,6 +46,10 @@ public class ModelFacade {
 
     public VolunteerModel getVolunteerModel() {
         return volunteerModel;
+    }
+
+    public LoginModel getLoginModel() {
+        return loginModel;
     }
 
 }

@@ -41,8 +41,8 @@ public class VolunteerStatisticsViewController implements Initializable {
     @FXML
     private Label labelHours;
 
-    private VolunteerModel volunteerModel;
-    private GuildModel guildModel;
+    private final VolunteerModel volunteerModel;
+    private final GuildModel guildModel;
     private static final String labelPrompt = "Intet Valgt";
 
     public VolunteerStatisticsViewController() {

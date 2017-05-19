@@ -17,6 +17,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import museumtimetracking.gui.model.LoginModel;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.views.root.MTTMainControllerView;
 
 /**
@@ -47,7 +48,7 @@ public class LoginViewController implements Initializable {
     }
 
     public LoginViewController() {
-        loginModel = LoginModel.getInstance();
+        loginModel = ModelFacade.getInstance().getLoginModel();
     }
 
     /**
@@ -81,7 +82,7 @@ public class LoginViewController implements Initializable {
 
     private void startLoginProcess(String username, String password) {
         setLoginMode(true);
-        
+
         if (loginModel.userExsist(username)) {
             if (loginModel.validateAdminLogin(username, password)) {
                 MTTMainControllerView.getInstance().setAdminMode();
