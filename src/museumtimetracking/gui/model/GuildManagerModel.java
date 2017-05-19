@@ -50,34 +50,46 @@ public class GuildManagerModel implements Externalizable, IASyncUpdate {
 
     public GuildManagerModel(boolean onlineMode) throws DALException {
         gmManager = new GMManager();
-        instantiateCollections();
+//        instantiateCollections();
+        gmCandidatesFromDB = new TreeSet<>(gmManager.getAllGMCandidates());
+        managersFromDB = gmManager.getAllGuildManagersNotIdle();
+        idleGuildManagersFromDB = gmManager.getAllIdleGuildManagers();
+
         cachedGMCandidates = FXCollections.observableArrayList(gmCandidatesFromDB);
         cachedManagers = FXCollections.observableArrayList(managersFromDB);
         cachedIdleGuildManagers = FXCollections.observableArrayList(idleGuildManagersFromDB);
 
+        descriptionRestriction = gmManager.getGmDescriptionRestriction();
     }
 
     @Override
     public void updateData() {
         MTTMainControllerView.getInstance().showUpdate(true);
         Runnable task = () -> {
-            try {
-                instantiateCollections();
-                Platform.runLater(() -> {
+            Platform.runLater(() -> {
+                try {
+                    instantiateCollections();
                     MTTMainControllerView.getInstance().showUpdate(false);
-                });
-            } catch (DALException ex) {
-                ExceptionDisplayer.display(ex);
-            }
+                } catch (DALException ex) {
+                    ExceptionDisplayer.display(ex);
+                }
+            });
         };
         new Thread(task).start();
     }
 
     private void instantiateCollections() throws DALException {
         gmCandidatesFromDB = new TreeSet<>(gmManager.getAllGMCandidates());
+        cachedGMCandidates.clear();
+        cachedGMCandidates.addAll(cachedManagers);
+
         managersFromDB = gmManager.getAllGuildManagersNotIdle();
+        cachedManagers.clear();
+        cachedManagers.addAll(managersFromDB);
+
         idleGuildManagersFromDB = gmManager.getAllIdleGuildManagers();
-        descriptionRestriction = gmManager.getGmDescriptionRestriction();
+        cachedIdleGuildManagers.clear();
+        cachedIdleGuildManagers.addAll(idleGuildManagersFromDB);
 
         gmManager.saveGuildModel(this);
     }
