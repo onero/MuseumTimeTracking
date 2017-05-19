@@ -77,11 +77,15 @@ public class GuildModel implements Externalizable, IASyncUpdate {
      */
     @Override
     public void updateData() {
+        //Show updating data view
         MTTMainControllerView.getInstance().showUpdate(true);
+        //Create new runnable task for updating data
         Runnable task = () -> {
             try {
                 instatiateCollections();
+                //When the collections are updated
                 Platform.runLater(() -> {
+                    //Hide the updating view
                     MTTMainControllerView.getInstance().showUpdate(false);
                 });
             } catch (DALException ex) {
@@ -92,7 +96,7 @@ public class GuildModel implements Externalizable, IASyncUpdate {
     }
 
     /**
-     * Instantiate the lists.
+     * Instantiate the lists with updated data.
      *
      * @throws DALException
      */
@@ -247,7 +251,7 @@ public class GuildModel implements Externalizable, IASyncUpdate {
         cachedGuilds.clear();
         guildsFromDB.stream()
                 .filter(g -> g.getName().toLowerCase().contains(newValue.toLowerCase())
-                        || g.getGuildManager() != null && g.getGuildManager().getFullName().toLowerCase().contains(newValue.toLowerCase()))
+                || g.getGuildManager() != null && g.getGuildManager().getFullName().toLowerCase().contains(newValue.toLowerCase()))
                 .forEach(g -> cachedGuilds.add(g));
     }
 
