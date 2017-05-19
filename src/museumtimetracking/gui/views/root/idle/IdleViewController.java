@@ -22,6 +22,7 @@ import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.model.VolunteerModel;
 
 /**
@@ -62,7 +63,7 @@ public class IdleViewController implements Initializable {
 
     public IdleViewController() {
         try {
-            guildManagerModel = GuildManagerModel.getInstance();
+            guildManagerModel = ModelFacade.getInstance().getGuildManagerModel();
             volunteerModel = VolunteerModel.getInstance();
         } catch (DALException ex) {
             ExceptionDisplayer.display(ex);

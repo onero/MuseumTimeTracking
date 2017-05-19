@@ -21,7 +21,6 @@ import museumtimetracking.be.APerson;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
 import museumtimetracking.bll.GMManager;
-import museumtimetracking.dal.fileWriting.GMFileDAO;
 import museumtimetracking.exception.DALException;
 
 /**
@@ -30,8 +29,7 @@ import museumtimetracking.exception.DALException;
  */
 public class GuildManagerModel implements Externalizable {
 
-    private static GuildManagerModel instance;
-
+//    private static GuildManagerModel instance;
     private transient GMManager gmManager;
 
     private Set<GM> managersFromDB;
@@ -45,19 +43,18 @@ public class GuildManagerModel implements Externalizable {
 
     private int descriptionRestriction;
 
-    public static GuildManagerModel getInstance() throws DALException {
-        if (instance == null) {
-            try {
-                instance = new GuildManagerModel(true);
-            } catch (DALException ex) {
-                instance = new GMFileDAO().loadModel();
-
-            }
-
-        }
-        return instance;
-    }
-
+//    public static GuildManagerModel getInstance() throws DALException {
+//        if (instance == null) {
+//            try {
+//                instance = new GuildManagerModel(true);
+//            } catch (DALException ex) {
+//                instance = new GMFileDAO().loadModel();
+//
+//            }
+//
+//        }
+//        return instance;
+//    }
     public GuildManagerModel() {
     }
 

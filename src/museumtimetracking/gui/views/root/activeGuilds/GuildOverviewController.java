@@ -90,12 +90,9 @@ public class GuildOverviewController implements Initializable {
 
     public GuildOverviewController() {
         modalFactory = ModalFactory.getInstance();
-        try {
-            this.guildModel = ModelFacade.getInstance().getGuildModel();
-            guildManagerModel = GuildManagerModel.getInstance();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        guildModel = ModelFacade.getInstance().getGuildModel();
+        guildManagerModel = ModelFacade.getInstance().getGuildManagerModel();
+
     }
 
     @FXML

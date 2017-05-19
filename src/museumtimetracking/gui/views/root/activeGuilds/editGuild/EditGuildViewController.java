@@ -51,12 +51,9 @@ public class EditGuildViewController implements Initializable {
     private GuildModel guildModel;
 
     public EditGuildViewController() {
-        try {
-            guildManagerModel = GuildManagerModel.getInstance();
-            guildModel = ModelFacade.getInstance().getGuildModel();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        guildManagerModel = ModelFacade.getInstance().getGuildManagerModel();
+        guildModel = ModelFacade.getInstance().getGuildModel();
+
     }
 
     @FXML

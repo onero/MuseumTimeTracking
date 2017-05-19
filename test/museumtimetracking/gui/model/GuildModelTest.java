@@ -18,7 +18,10 @@ import org.junit.Test;
  */
 public class GuildModelTest {
 
+    private final GuildModel instance;
+
     public GuildModelTest() {
+        instance = ModelFacade.getInstance().getGuildModel();
     }
 
     /**
@@ -28,7 +31,6 @@ public class GuildModelTest {
     @Test
     public void testGuildAddedToArchiveGuildList() throws Exception {
         Guild guildToArchive = new Guild("TestArchiveGuild", "This guild is for unitTesting", false);
-        GuildModel instance = GuildModel.getInstance();
         List<Guild> listOfArchivedGuilds = instance.getCachedArchivedGuilds();
         //Adds the guild to cachedGuilds, so we can move it to archived.
         instance.addGuild(guildToArchive);
@@ -53,7 +55,6 @@ public class GuildModelTest {
     @Test
     public void testGuildRemovedFromCachedGuildsWhenAddedToArchived() throws IOException, DALException {
         Guild guildToArchive = new Guild("TestRemovedFromCachedWhenArchivedGuild", "This guild is for unitTesting", false);
-        GuildModel instance = GuildModel.getInstance();
         List<Guild> listOfCachedGuilds = instance.getCachedGuilds();
         //Adds the guild to chachedGuilds, so we can archive it.
         instance.addGuild(guildToArchive);
@@ -75,7 +76,6 @@ public class GuildModelTest {
     @Test
     public void testDeleteGuildFromCachedGuilds() throws Exception {
         Guild deleteGuild = new Guild("TestDeleteGuildFromCached", "This guild is for unitTesting", false);
-        GuildModel instance = GuildModel.getInstance();
         List<Guild> listOfGuilds = instance.getCachedGuilds();
         //Adds the guild  to the list, so we are able to remove it.
         instance.addGuild(deleteGuild);
@@ -98,7 +98,6 @@ public class GuildModelTest {
     @Test
     public void testDeleteGuildFromAvailableGuilds() throws IOException, DALException {
         Guild deleteGuild = new Guild("TestDeleteGuildFromAvailable", "This guild is for unitTesting", false);
-        GuildModel instance = GuildModel.getInstance();
         List<Guild> listOfGuilds = instance.getCachedAvailableGuilds();
         //Adds the guild  to the list, so we are able to remove it.
         instance.addCachedAvailableGuild(deleteGuild);
@@ -121,7 +120,6 @@ public class GuildModelTest {
     @Test
     public void testDeleteGuildFromArchivedGuilds() throws IOException, DALException {
         Guild deleteGuild = new Guild("TestDeleteGuildFromArchived", "This guild is for unitTesting", false);
-        GuildModel instance = GuildModel.getInstance();
         List<Guild> listOfGuilds = instance.getCachedArchivedGuilds();
         //Adds the guild  to the list, so we are able to remove it.
         instance.archiveGuild(deleteGuild);
@@ -141,7 +139,6 @@ public class GuildModelTest {
     @Test
     public void testAddGuild() throws Exception {
         Guild guild = new Guild("TestAddGuild", "This guild is for unitTesting", false);
-        GuildModel instance = GuildModel.getInstance();
         List<Guild> listOfGuilds = instance.getCachedGuilds();
 
         //Check if the guild is not in the list before the action.
@@ -162,7 +159,6 @@ public class GuildModelTest {
     @Test
     public void testGuildRemovedFromArchivedWhenRestoreGuild() throws Exception {
         Guild guildToRestore = new Guild("TestRestoreFromArchived", "This guild is for unitTesting", false);
-        GuildModel instance = GuildModel.getInstance();
         List<Guild> listOfArchivedGuilds = instance.getCachedArchivedGuilds();
         //Adds the guild to archived, to see if it gets removed.
         instance.archiveGuild(guildToRestore);
@@ -187,7 +183,6 @@ public class GuildModelTest {
     @Test
     public void testGuildIsAddedToCachedWhenRestoreGuild() throws IOException, DALException {
         Guild guildToRestore = new Guild("TestRestoreToCached", "This guild is for unitTesting", false);
-        GuildModel instance = GuildModel.getInstance();
         List<Guild> listOfCachedGuilds = instance.getCachedGuilds();
         //Adds the guild to archived, so we can restore it.
         instance.archiveGuild(guildToRestore);
@@ -209,7 +204,6 @@ public class GuildModelTest {
     @Test
     public void testAddCachedAvailableGuild() throws IOException, DALException {
         Guild guildToAdd = new Guild("TestGuildAddedToCachedAvailableGuilds", "This guild is for unitTesting", false);
-        GuildModel instance = GuildModel.getInstance();
         List<Guild> listOfAvailableGuilds = instance.getCachedAvailableGuilds();
 
         //Checks if the guild is not in the list before.
@@ -230,7 +224,6 @@ public class GuildModelTest {
     @Test
     public void testRemoveCachedAvailableGuild() throws IOException, DALException {
         Guild guildToRemove = new Guild("GuildToRemoveFromAvailable", "This guild is for unitTesting", false);
-        GuildModel instance = GuildModel.getInstance();
         List<Guild> listOfAvailableGuilds = instance.getCachedAvailableGuilds();
         //Adds the guild to the list, so we can remove it.
         instance.addCachedAvailableGuild(guildToRemove);
