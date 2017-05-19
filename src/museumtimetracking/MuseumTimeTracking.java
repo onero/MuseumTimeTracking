@@ -5,6 +5,7 @@
  */
 package museumtimetracking;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import javafx.animation.FadeTransition;
@@ -13,6 +14,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -22,6 +25,10 @@ public class MuseumTimeTracking extends Application {
 
     public static final String ICON = "museumtimetracking/asset/img/icon.png";
 
+    public MuseumTimeTracking() {
+    }
+    
+//"museumtimetracking/asset/mp3.Viking.mp3"  "file:///Users/mathi/Documents/GitHub/MuseumTimeTracking/src/museumtimetracking/asset/mp3/Viking.mp3"
     @Override
     public void start(Stage stage) throws Exception {
         Parent startRoot = createLoadingView(stage);
@@ -59,12 +66,14 @@ public class MuseumTimeTracking extends Application {
     private FadeTransition createFadeIn(Parent startRoot, Stage stage) throws IOException, DALException {
         //Start fade in of start view
         FadeTransition fadeIn = new FadeTransition(Duration.seconds(3), startRoot);
-        fadeIn.setFromValue(0);
+        fadeIn.setFromValue(0.2);
         fadeIn.setToValue(1);
         fadeIn.setCycleCount(1);
         fadeIn.play();
-        stage.show();
 
+        // Plays the intro music.
+
+        stage.show();
         return fadeIn;
     }
 
@@ -81,6 +90,9 @@ public class MuseumTimeTracking extends Application {
             fadeOut.setOnFinished((finishedEvent) -> {
                 mainStage.show();
                 stage.close();
+                
+                // Stops intro music.
+                
             });
         });
     }
