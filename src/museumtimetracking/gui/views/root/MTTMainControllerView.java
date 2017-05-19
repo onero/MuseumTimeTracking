@@ -449,7 +449,12 @@ public class MTTMainControllerView implements Initializable {
         showUpdate(true);
     }
 
-    private void showUpdate(boolean shown) {
+    /**
+     * Show the update process
+     *
+     * @param shown
+     */
+    public void showUpdate(boolean shown) {
         btnUpdate.setVisible(!shown);
         btnUpdate.setDisable(shown);
         spinnerUpdate.setVisible(shown);

@@ -24,6 +24,7 @@ import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.GuildManager;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.views.root.MTTMainControllerView;
 
 public class GuildModel implements Externalizable {
 
@@ -75,12 +76,12 @@ public class GuildModel implements Externalizable {
      * @throws DALException
      */
     public void updateData() throws DALException {
-
+        MTTMainControllerView.getInstance().showUpdate(true);
         Runnable task = () -> {
             try {
                 instatiateCollections();
                 Platform.runLater(() -> {
-
+                    MTTMainControllerView.getInstance().showUpdate(false);
                 });
             } catch (DALException ex) {
                 ExceptionDisplayer.display(ex);
