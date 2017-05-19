@@ -242,7 +242,7 @@ public class GuildManagerModel implements Externalizable {
     }
 
     public void exportROIToExcel(String location) throws IOException, DALException, WriteException {
-        GuildModel guildModel = GuildModel.getInstance();
+        GuildModel guildModel = ModelFacade.getInstance().getGuildModel();
         List<Guild> guilds = guildModel.getGuildsFromDB();
         List<String> guildNames = new ArrayList<>();
         List<Integer> weekROI = new ArrayList<>();

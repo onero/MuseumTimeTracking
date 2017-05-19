@@ -16,8 +16,8 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import museumtimetracking.be.Guild;
 import museumtimetracking.exception.DALException;
-import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.model.ModelFacade;
 
 /**
  * FXML Controller class
@@ -32,11 +32,7 @@ public class ChartGuildHoursOverviewController implements Initializable {
     private GuildModel guildModel;
 
     public ChartGuildHoursOverviewController() {
-        try {
-            guildModel = GuildModel.getInstance();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        guildModel = ModelFacade.getInstance().getGuildModel();
     }
 
     /**

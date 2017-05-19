@@ -22,6 +22,7 @@ import museumtimetracking.be.Volunteer;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.model.VolunteerModel;
 
 /**
@@ -50,7 +51,7 @@ public class AddVolunteersHoursViewController implements Initializable {
 
     public AddVolunteersHoursViewController() {
         try {
-            guildModel = GuildModel.getInstance();
+            guildModel = ModelFacade.getInstance().getGuildModel();
             volunteerModel = VolunteerModel.getInstance();
         } catch (DALException ex) {
             ExceptionDisplayer.display(ex);

@@ -44,7 +44,7 @@ import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
-import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.model.VolunteerModel;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.NodeFactory;
@@ -104,6 +104,8 @@ public class MTTMainControllerView implements Initializable {
 
     private ModalFactory modalFactory;
 
+    private ModelFacade modelFacade;
+
     private static MTTMainControllerView instance;
 
     private final Node statistics;
@@ -136,6 +138,7 @@ public class MTTMainControllerView implements Initializable {
     }
 
     public MTTMainControllerView() {
+        modelFacade = ModelFacade.getInstance();
         modalFactory = ModalFactory.getInstance();
 
         nodeFactory = NodeFactory.getInstance();
@@ -271,7 +274,7 @@ public class MTTMainControllerView implements Initializable {
                 ETabPaneID paneID = ETabPaneID.getTabByString(paneTabID);
                 switch (paneID) {
                     case STATISTICS:
-                        GuildModel.getInstance().exportGuildHoursToExcel(location);
+                        modelFacade.getGuildModel().exportGuildHoursToExcel(location);
                         String[] locationArray = location.split("\\.");
                         GuildManagerModel.getInstance().exportROIToExcel(locationArray[0] + "ROI." + locationArray[1]);
                         break;

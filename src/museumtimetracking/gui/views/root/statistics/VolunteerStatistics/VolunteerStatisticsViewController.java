@@ -24,6 +24,7 @@ import static museumtimetracking.be.enums.EVolunteerStatisticsState.*;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.model.VolunteerModel;
 
 /**
@@ -47,7 +48,7 @@ public class VolunteerStatisticsViewController implements Initializable {
     public VolunteerStatisticsViewController() {
         try {
             volunteerModel = VolunteerModel.getInstance();
-            guildModel = GuildModel.getInstance();
+            guildModel = ModelFacade.getInstance().getGuildModel();
         } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
