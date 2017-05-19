@@ -448,6 +448,7 @@ public class MTTMainControllerView implements Initializable {
     public void handleUpdate() {
         ModelFacade.getInstance().getGuildModel().updateData();
         ModelFacade.getInstance().getGuildManagerModel().updateData();
+        ModelFacade.getInstance().getVolunteerModel().updateData();
     }
 
     /**
