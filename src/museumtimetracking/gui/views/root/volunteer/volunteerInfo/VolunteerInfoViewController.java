@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.model.VolunteerModel;
 
 /**
@@ -33,15 +34,10 @@ public class VolunteerInfoViewController implements Initializable {
 
     private Stage primStage;
 
-    private VolunteerModel volunteerModel;
+    private final VolunteerModel volunteerModel;
 
     public VolunteerInfoViewController() {
-        volunteerModel = null;
-        try {
-            volunteerModel = VolunteerModel.getInstance();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        volunteerModel = ModelFacade.getInstance().getVolunteerModel();
     }
 
     @FXML

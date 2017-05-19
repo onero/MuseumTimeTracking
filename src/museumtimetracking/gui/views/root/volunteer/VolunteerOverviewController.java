@@ -35,6 +35,7 @@ import static museumtimetracking.be.enums.EFXMLName.ADD_HOURS_VOLUNTEER;
 import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.model.VolunteerModel;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.root.volunteer.addHours.AddVolunteersHoursViewController;
@@ -97,11 +98,8 @@ public class VolunteerOverviewController implements Initializable {
 
     public VolunteerOverviewController() {
         modalFactory = ModalFactory.getInstance();
-        try {
-            volunteerModel = VolunteerModel.getInstance();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        volunteerModel = ModelFacade.getInstance().getVolunteerModel();
+
     }
 
     /**
@@ -229,7 +227,7 @@ public class VolunteerOverviewController implements Initializable {
                 updateVolunteer();
                 //Update volunteer in DB
                 try {
-                    VolunteerModel.getInstance().updateVolunteer(selectedVolunteer);
+                    ModelFacade.getInstance().getVolunteerModel().updateVolunteer(selectedVolunteer);
                 } catch (DALException ex) {
                     ExceptionDisplayer.display(ex);
                 }

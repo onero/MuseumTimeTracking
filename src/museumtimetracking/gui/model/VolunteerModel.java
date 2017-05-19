@@ -19,9 +19,7 @@ import javafx.collections.ObservableList;
 import jxl.write.WriteException;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.VolunteerManager;
-import museumtimetracking.dal.fileWriting.VolunteerFileDAO;
 import museumtimetracking.exception.DALException;
-import museumtimetracking.exception.ExceptionDisplayer;
 
 /**
  *
@@ -31,26 +29,24 @@ public class VolunteerModel implements Externalizable {
 
     private transient VolunteerManager volunteerMgr;
 
-    private static VolunteerModel instance;
-
+//    private static VolunteerModel instance;
     private List<Volunteer> volunteerFromDB;
     private ObservableList<Volunteer> cachedVolunteers;
 
     private List<Volunteer> idleVolunteersFromDB;
     private ObservableList<Volunteer> cachedIdleVolunteers;
 
-    public static VolunteerModel getInstance() throws DALException {
-        if (instance == null) {
-            try {
-                instance = new VolunteerModel(true);
-            } catch (DALException ex) {
-                instance = new VolunteerFileDAO().loadModel();
-                ExceptionDisplayer.display(ex);
-            }
-        }
-        return instance;
-    }
-
+//    public static VolunteerModel getInstance() throws DALException {
+//        if (instance == null) {
+//            try {
+//                instance = new VolunteerModel(true);
+//            } catch (DALException ex) {
+//                instance = new VolunteerFileDAO().loadModel();
+//                ExceptionDisplayer.display(ex);
+//            }
+//        }
+//        return instance;
+//    }
     public VolunteerModel() {
     }
 

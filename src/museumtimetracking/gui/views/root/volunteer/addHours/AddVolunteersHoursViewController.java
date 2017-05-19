@@ -45,17 +45,13 @@ public class AddVolunteersHoursViewController implements Initializable {
     private static final int MAXIMUM_RANGE = 20;
     private static final int INITIAL_VALUE = 8;
 
-    private GuildModel guildModel;
-    private VolunteerModel volunteerModel;
+    private final GuildModel guildModel;
+    private final VolunteerModel volunteerModel;
     private Volunteer volunteer;
 
     public AddVolunteersHoursViewController() {
-        try {
-            guildModel = ModelFacade.getInstance().getGuildModel();
-            volunteerModel = VolunteerModel.getInstance();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        guildModel = ModelFacade.getInstance().getGuildModel();
+        volunteerModel = ModelFacade.getInstance().getVolunteerModel();
     }
 
     /**

@@ -46,12 +46,9 @@ public class VolunteerStatisticsViewController implements Initializable {
     private static final String labelPrompt = "Intet Valgt";
 
     public VolunteerStatisticsViewController() {
-        try {
-            volunteerModel = VolunteerModel.getInstance();
-            guildModel = ModelFacade.getInstance().getGuildModel();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        volunteerModel = ModelFacade.getInstance().getVolunteerModel();
+        guildModel = ModelFacade.getInstance().getGuildModel();
+
     }
 
     /**

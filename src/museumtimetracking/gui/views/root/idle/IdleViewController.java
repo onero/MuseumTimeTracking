@@ -62,12 +62,8 @@ public class IdleViewController implements Initializable {
     private final String TABLEVIEW_PLACEHOLDER = MuseumTimeTracking.bundle.getString("EmptyTable");
 
     public IdleViewController() {
-        try {
-            guildManagerModel = ModelFacade.getInstance().getGuildManagerModel();
-            volunteerModel = VolunteerModel.getInstance();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        guildManagerModel = ModelFacade.getInstance().getGuildManagerModel();
+        volunteerModel = ModelFacade.getInstance().getVolunteerModel();
     }
 
     /**
