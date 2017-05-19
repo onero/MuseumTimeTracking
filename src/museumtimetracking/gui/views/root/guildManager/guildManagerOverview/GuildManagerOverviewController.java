@@ -273,7 +273,11 @@ public class GuildManagerOverviewController implements Initializable {
         txtDescription.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                updateLabelDescriptionRestriction(newValue);
+                if (newValue != null && newValue.toCharArray().length == guildManagerModel.getDescriptionRestriction() + 1) {
+                    txtDescription.setText(oldValue);
+                } else {
+                    updateLabelDescriptionRestriction(newValue);
+                }
             }
         });
     }
@@ -433,6 +437,11 @@ public class GuildManagerOverviewController implements Initializable {
         }
     }
 
+    /**
+     * Update the label to show the amount of characters used.
+     *
+     * @param text
+     */
     private void updateLabelDescriptionRestriction(String text) {
         int restriction = guildManagerModel.getDescriptionRestriction();
         if (text != null) {
