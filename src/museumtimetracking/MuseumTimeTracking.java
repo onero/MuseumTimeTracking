@@ -31,7 +31,7 @@ public class MuseumTimeTracking extends Application {
     public static final String RESOURCE_LOCATION = "museumtimetracking.gui.language.UIResources";
     public static final String ICON = "museumtimetracking/asset/img/icon.png";
 
-    private static final Stage mainStage = new Stage();
+    private static final Stage MAIN_STAGE = new Stage();
 
     public static ResourceBundle bundle;
     public static StringProperty LOCALE = new SimpleStringProperty(DANISH.toString());
@@ -48,7 +48,7 @@ public class MuseumTimeTracking extends Application {
 
         FadeTransition fadeIn = createFadeIn(startRoot, stage);
 
-        setOnFadeInFinished(fadeIn, startRoot, mainStage, stage);
+        setOnFadeInFinished(fadeIn, startRoot, MAIN_STAGE, stage);
 
     }
 
@@ -104,10 +104,10 @@ public class MuseumTimeTracking extends Application {
         URL location = getClass().getResource("/museumtimetracking/gui/views/root/MTTMainView.fxml");
         FXMLLoader loader = new FXMLLoader(location, bundle);
         Parent root = loader.load();
-        mainStage.getIcons().add(new Image(ICON));
+        MAIN_STAGE.getIcons().add(new Image(ICON));
         Scene scene = new Scene(root);
-        mainStage.setScene(scene);
-        return mainStage;
+        MAIN_STAGE.setScene(scene);
+        return MAIN_STAGE;
     }
 
     /**
