@@ -27,7 +27,7 @@
          <children>
             <HBox>
                <children>
-                  <Label text="Antal tovholdere:" />
+                  <Label text="%GMAmount" />
                   <Label fx:id="lblGMAmount">
                      <HBox.margin>
                         <Insets left="5.0" />
@@ -37,7 +37,7 @@
             </HBox>
             <HBox GridPane.columnIndex="1">
                <children>
-                  <Label text="Antal frivillige:" />
+                  <Label text="%VolunteerAmount" />
                   <Label fx:id="lblVolunteerAmount">
                      <HBox.margin>
                         <Insets left="5.0" />
@@ -47,8 +47,8 @@
             </HBox>
             <TableView fx:id="tableIdleGM" onMouseClicked="#handleSelectGM" prefHeight="166.0" prefWidth="300.0" GridPane.rowIndex="1">
                <columns>
-                  <TableColumn fx:id="clmGMName" prefWidth="182.0" text="Inaktiv Tovholder" />
-                  <TableColumn fx:id="clmGMDescription" prefWidth="234.0" text="Beskrivelse" />
+                  <TableColumn fx:id="clmGMName" prefWidth="182.0" text="%InactiveGM" />
+                  <TableColumn fx:id="clmGMDescription" prefWidth="234.0" text="%Description" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -56,8 +56,8 @@
             </TableView>
             <TableView fx:id="tableIdleVolunteer" onMouseClicked="#handleSelectVounteer" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <columns>
-                  <TableColumn fx:id="clmVolunteerName" prefWidth="182.0" text="Inaktiv Frivillig" />
-                  <TableColumn fx:id="clmVolunteerDescription" prefWidth="234.0" text="Beskrivelse" />
+                  <TableColumn fx:id="clmVolunteerName" prefWidth="182.0" text="%InactiveVolunteer" />
+                  <TableColumn fx:id="clmVolunteerDescription" prefWidth="234.0" text="%Description" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -65,14 +65,14 @@
             </TableView>
             <VBox fx:id="vBoxGMOptions" spacing="15.0" stylesheets="@../../css/Style.css" GridPane.rowIndex="2">
                <children>
-                  <Button mnemonicParsing="false" onAction="#handleRestoreGM" text="Genaktiver Tovholder" />
-                  <Button mnemonicParsing="false" onAction="#handleDeleteGM" text="Slet Tovholder" />
+                  <Button mnemonicParsing="false" onAction="#handleRestoreGM" text="%ReactivateGM" />
+                  <Button mnemonicParsing="false" onAction="#handleDeleteGM" text="%DeleteGM" />
                </children>
             </VBox>
             <VBox fx:id="vBoxVolunteerOptions" spacing="15.0" stylesheets="@../../css/Style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <Button mnemonicParsing="false" onAction="#handleRestoreVolunteer" text="Genaktiver Frivillig" />
-                  <Button mnemonicParsing="false" onAction="#handleDeleteVolunteer" text="Slet Frivillig" />
+                  <Button mnemonicParsing="false" onAction="#handleRestoreVolunteer" text="%ReactivateVolunteer" />
+                  <Button mnemonicParsing="false" onAction="#handleDeleteVolunteer" text="%DeleteVolunteer" />
                </children>
             </VBox>
          </children>

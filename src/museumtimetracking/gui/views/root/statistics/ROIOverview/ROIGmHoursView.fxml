@@ -29,7 +29,7 @@
             </HBox>
             <VBox layoutX="133.0" layoutY="79.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                <children>
-                  <Label text="Oversigt for enkelt laug:" textAlignment="CENTER">
+                  <Label text="%GuildOverview" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold Italic" size="28.0" />
                      </font>
@@ -41,7 +41,7 @@
                               <Font name="System Bold Italic" size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblWeek" text="&lt;&lt;Ingen Data&gt;&gt;">
+                        <Label fx:id="lblWeek" text="">
                            <font>
                               <Font name="System Italic" size="15.0" />
                            </font></Label>
@@ -49,12 +49,12 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <Label prefWidth="90.0" text="Måned: ">
+                        <Label prefWidth="90.0" text="%Month">
                            <font>
                               <Font name="System Bold Italic" size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblMonth" text="&lt;&lt;Ingen Data&gt;&gt;">
+                        <Label fx:id="lblMonth" text="">
                            <font>
                               <Font name="System Italic" size="15.0" />
                            </font></Label>
@@ -62,12 +62,12 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <Label prefWidth="90.0" text="År: ">
+                        <Label prefWidth="90.0" text="%Year">
                            <font>
                               <Font name="System Bold Italic" size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblYear" text="&lt;&lt;Ingen Data&gt;&gt;">
+                        <Label fx:id="lblYear" text="">
                            <font>
                               <Font name="System Italic" size="15.0" />
                            </font></Label>
@@ -79,7 +79,7 @@
       </AnchorPane>
    </right>
    <top>
-      <Label text="Torvholder ROI for frivillige" BorderPane.alignment="CENTER">
+      <Label text="%ROI" BorderPane.alignment="CENTER">
          <font>
             <Font name="System Bold Italic" size="34.0" />
          </font>

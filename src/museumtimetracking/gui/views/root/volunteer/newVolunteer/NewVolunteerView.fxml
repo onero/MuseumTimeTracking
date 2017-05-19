@@ -16,7 +16,7 @@
    <children>
       <VBox prefHeight="326.0" prefWidth="207.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="186.0" text="Ny Frivillig">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="186.0" text="%NewVolunteer">
                <font>
                   <Font name="System Bold Italic" size="24.0" />
                </font>
@@ -27,7 +27,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Label>
-            <Label text="Fornavn:">
+            <Label text="%Firstname">
                <font>
                   <Font name="System Italic" size="15.0" />
                </font>
@@ -37,7 +37,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </TextField>
-            <Label text="Efternavn:">
+            <Label text="%Lastname">
                <font>
                   <Font name="System Italic" size="15.0" />
                </font>
@@ -47,7 +47,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </TextField>
-            <Label text="Email:">
+            <Label text="Email">
                <font>
                   <Font name="System Italic" size="15.0" />
                </font>
@@ -57,7 +57,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </TextField>
-            <Label text="Telefon nr:">
+            <Label text="%Phone">
                <font>
                   <Font name="System Italic" size="15.0" />
                </font>
@@ -75,12 +75,12 @@
             <RadioButton fx:id="checkBoxGerman" mnemonicParsing="false" text="DE" toggleGroup="$language" />
             <HBox alignment="CENTER" spacing="25.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#handleAddButton" prefWidth="80.0" text="Tilføj">
+                  <Button mnemonicParsing="false" onAction="#handleAddButton" prefWidth="80.0" text="%Add">
                      <font>
                         <Font name="System Italic" size="15.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleCancelButton" prefWidth="80.0" text="Annuller">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleCancelButton" prefWidth="80.0" text="%Cancel">
                      <font>
                         <Font name="System Italic" size="15.0" />
                      </font>
@@ -97,7 +97,7 @@
       </VBox>
       <VBox prefHeight="326.0" prefWidth="207.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="186.0" text="Ekstra Info">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="186.0" text="%AdditionalInfo">
                <font>
                   <Font name="System Bold Italic" size="24.0" />
                </font>
@@ -108,7 +108,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Label>
-            <Label text="*Ikke påkrævet">
+            <Label text="%NotRequired">
                <font>
                   <Font name="System Italic" size="15.0" />
                </font>

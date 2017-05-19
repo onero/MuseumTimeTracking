@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
+import museumtimetracking.MuseumTimeTracking;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.exception.AlertFactory;
@@ -57,7 +58,7 @@ public class IdleViewController implements Initializable {
 
     private GM selectedManager;
     private Volunteer selectedVolunteer;
-    public static final String TABLEVIEW_PLACEHOLDER = "Oversigten er tom";
+    private final String TABLEVIEW_PLACEHOLDER = MuseumTimeTracking.bundle.getString("EmptyTable");
 
     public IdleViewController() {
         try {
@@ -83,7 +84,7 @@ public class IdleViewController implements Initializable {
 
     @FXML
     private void handleDeleteGM() {
-        Alert alert = AlertFactory.createDeleteAlert();
+        Alert alert = new AlertFactory().createDeleteAlert();
         alert.showAndWait().ifPresent(type -> {
             //If the first button ("YES") is clicked
             if (type == alert.getButtonTypes().get(0)) {
@@ -98,7 +99,7 @@ public class IdleViewController implements Initializable {
 
     @FXML
     private void handleDeleteVolunteer() {
-        Alert alert = AlertFactory.createDeleteAlert();
+        Alert alert = new AlertFactory().createDeleteAlert();
         alert.showAndWait().ifPresent(type -> {
             //If the first button ("YES") is clicked
             if (type == alert.getButtonTypes().get(0)) {

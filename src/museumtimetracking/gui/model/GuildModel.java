@@ -57,7 +57,7 @@ public class GuildModel implements Externalizable {
                 instance = new GuildModel(true);
             } catch (DALException ex) {
                 instance = new GuildFileDAO().loadModel();
-                Alert alert = AlertFactory.createExceptionAlert("Kontroller internetforbindelse\nForsøger at starte programmet igen om et øjeblik");
+                Alert alert = new AlertFactory().createExceptionAlert("Kontroller internetforbindelse\nForsøger at starte programmet igen om et øjeblik");
                 alert.show();
                 try {
                     Thread.sleep(5000);

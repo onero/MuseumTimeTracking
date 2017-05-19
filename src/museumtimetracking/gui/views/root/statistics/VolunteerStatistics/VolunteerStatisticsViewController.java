@@ -42,9 +42,6 @@ public class VolunteerStatisticsViewController implements Initializable {
 
     private VolunteerModel volunteerModel;
     private GuildModel guildModel;
-
-    private static final String stringComboVolunteerPrompt = "Vælg en frivillig";
-    private static final String stringComboGuildPrompt = "Alle laug";
     private static final String labelPrompt = "Intet Valgt";
 
     public VolunteerStatisticsViewController() {
@@ -61,9 +58,6 @@ public class VolunteerStatisticsViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        comboVolunteer.setPromptText(stringComboVolunteerPrompt);
-        comboGuild.setPromptText(stringComboGuildPrompt);
-        labelHours.setText(labelPrompt);
         initializeComboBoxes();
     }
 
@@ -72,8 +66,8 @@ public class VolunteerStatisticsViewController implements Initializable {
      */
     private void initializeComboBoxes() {
 
-        updateComboVolunteer(null);
-        updateComboGuild(null);
+//        updateComboVolunteer(null);
+//        updateComboGuild(null);
         //Sets the list of volunteers to be their names.
         comboVolunteer.setCellFactory(new Callback<ListView<Volunteer>, ListCell<Volunteer>>() {
 
@@ -196,7 +190,7 @@ public class VolunteerStatisticsViewController implements Initializable {
             }
             break;
             case NONE_CHOSEN:
-                labelHours.setText(labelPrompt);
+                labelHours.setText("");
                 updateComboGuild(volunteer);
                 updateComboVolunteer(guildName);
                 break;

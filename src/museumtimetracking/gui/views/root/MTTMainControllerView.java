@@ -35,6 +35,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 import jxl.write.WriteException;
+import museumtimetracking.MuseumTimeTracking;
+import static museumtimetracking.be.enums.EAppLanguage.*;
 import museumtimetracking.be.enums.EFXMLName;
 import static museumtimetracking.be.enums.EFXMLName.*;
 import museumtimetracking.be.enums.ETabPaneID;
@@ -64,6 +66,10 @@ public class MTTMainControllerView implements Initializable {
     private HBox iconBox;
     @FXML
     private ImageView imgScreenshot;
+    @FXML
+    private ImageView imgScreenshot1;
+    @FXML
+    private HBox languageBox;
 
     @FXML
     private Pane snackPane;
@@ -122,8 +128,8 @@ public class MTTMainControllerView implements Initializable {
 
     private String paneTabID;
 
-    private static final String LOGOUT_BTN_TEXT = "Log ud";
-    private static final String LOGIN_BTN_TEXT = "Log ind";
+    private final String LOGOUT_BTN_TEXT = MuseumTimeTracking.bundle.getString("Logout");
+    private final String LOGIN_BTN_TEXT = MuseumTimeTracking.bundle.getString("Login");
 
     public static MTTMainControllerView getInstance() {
         return instance;
@@ -157,6 +163,16 @@ public class MTTMainControllerView implements Initializable {
         paneTabID = "statistics";
 
         adminTabList = new ArrayList<>();
+    }
+
+    @FXML
+    private void handleDanish() {
+        MuseumTimeTracking.changeLanguage(DANISH);
+    }
+
+    @FXML
+    private void handleEnglish() {
+        MuseumTimeTracking.changeLanguage(ENGLISH);
     }
 
     @FXML
@@ -198,7 +214,8 @@ public class MTTMainControllerView implements Initializable {
         imgHeader.fitWidthProperty().bind(borderPane.widthProperty());
         initializeTabPane();
         initializeTextFieldListener();
-//        removeTabs();
+
+        setGuildManagerMode();
 
         btnLogin.setText(LOGIN_BTN_TEXT);
     }
@@ -208,7 +225,7 @@ public class MTTMainControllerView implements Initializable {
      *
      * @param hide
      */
-    public void removeTabs() {
+    public void setGuildManagerMode() {
         //Adds and saves the tabs to a list.
         adminTabList.add(tabGM);
         adminTabList.add(tabPaneArchivedGuild);
@@ -217,6 +234,9 @@ public class MTTMainControllerView implements Initializable {
         tabPane.getTabs().remove(tabPaneActiveGuild);
         tabPane.getTabs().remove(tabPaneArchivedGuild);
         tabPane.getTabs().remove(tabGM);
+
+        languageBox.setVisible(true);
+        languageBox.setDisable(false);
     }
 
     /**
@@ -227,6 +247,9 @@ public class MTTMainControllerView implements Initializable {
         addTabs();
         btnLogin.setText(LOGOUT_BTN_TEXT);
         tabPane.getSelectionModel().select(0);
+        languageBox.setDisable(true);
+        languageBox.setVisible(false);
+
     }
 
     /**
@@ -257,9 +280,9 @@ public class MTTMainControllerView implements Initializable {
                         break;
                     default:
                 }
-                displaySnackWarning("Excel eksporteret!");
+                displaySnackWarning(MuseumTimeTracking.bundle.getString("ExcelExported"));
             } else {
-                displaySnackWarning("Excel blev ikke eskporteret");
+                displaySnackWarning(MuseumTimeTracking.bundle.getString("ExcelNotExported"));
             }
         } catch (IOException | DALException | WriteException ex) {
             ExceptionDisplayer.display(ex);
@@ -389,17 +412,24 @@ public class MTTMainControllerView implements Initializable {
     @FXML
     private void handleLogin(ActionEvent event) {
         if (btnLogin.getText().equals(LOGOUT_BTN_TEXT)) {
-            Alert alert = AlertFactory.createLogoutAlert();
+            Alert alert = new AlertFactory().createLogoutAlert();
             alert.showAndWait().ifPresent(type -> {
                 //If the first button ("YES") is clicked.
                 if (type == alert.getButtonTypes().get(0)) {
                     btnLogin.setText(LOGIN_BTN_TEXT);
-                    removeTabs();
+                    setGuildManagerMode();
                     tabPane.getSelectionModel().select(0);
                 }
             });
         } else {
-            getLoginView();
+            if (MuseumTimeTracking.LOCALE.get().equals(ENGLISH.toString())) {
+                Alert loginAlert = new AlertFactory().createAlertWithoutCancel(Alert.AlertType.CONFIRMATION, "The program is currently in english\nDanish language will be loaded instead");
+                loginAlert.showAndWait().ifPresent((button) -> {
+                    handleDanish();
+                });
+            } else {
+                getLoginView();
+            }
         }
         // Resets the hyperlink.
         btnLogin.setVisited(false);

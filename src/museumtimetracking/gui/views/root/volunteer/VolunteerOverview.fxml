@@ -17,14 +17,14 @@
 
 <AnchorPane id="background" prefHeight="447.0" prefWidth="845.0" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController">
    <children>
-      <Label layoutX="290.0" layoutY="6.0" text="Frivillig Oversigt">
+      <Label layoutX="290.0" layoutY="6.0" text="%VolunteerOverview">
          <font>
             <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
       <HBox layoutX="26.0" layoutY="31.0">
          <children>
-            <Label text="Antal frivillige:" />
+            <Label text="%VolunteerAmount" />
             <Label fx:id="lblVolunteerAmount">
                <HBox.margin>
                   <Insets left="5.0" />
@@ -40,7 +40,7 @@
                   <Insets />
                </VBox.margin>
             </ImageView>
-            <Label text="Beskrivelse:" />
+            <Label text="%Description" />
             <TextArea fx:id="txtVolunteerInfo" prefHeight="135.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets top="3.0" />
@@ -50,7 +50,7 @@
       </VBox>
       <VBox layoutX="444.0" layoutY="63.0" prefHeight="323.0" prefWidth="378.0" AnchorPane.leftAnchor="444.0" AnchorPane.rightAnchor="23.0">
          <children>
-            <Label text="Fornavn">
+            <Label text="%Firstname">
                <font>
                   <Font name="System Italic" size="15.0" />
                </font>
@@ -60,7 +60,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </TextField>
-            <Label text="Efternavn">
+            <Label text="%Lastname">
                <font>
                   <Font name="System Italic" size="15.0" />
                </font>
@@ -80,7 +80,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </TextField>
-            <Label text="Telefon nr.">
+            <Label text="%Phone">
                <font>
                   <Font name="System Italic" size="15.0" />
                </font>
@@ -90,7 +90,7 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </TextField>
-            <Label text="Sprog til kommunikation">
+            <Label text="%Language">
                <font>
                   <Font name="System Italic" size="15.0" />
                </font>
@@ -128,15 +128,15 @@
          <children>
             <ButtonBar buttonMinWidth="100.0">
                <buttons>
-                  <Button fx:id="btnAddVolunteer" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleNewVolunteer" prefWidth="140.0" text="Ny Frivillig" />
+                  <Button fx:id="btnAddVolunteer" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleNewVolunteer" prefWidth="140.0" text="%NewVolunteer" />
                </buttons>
             </ButtonBar>
             <ButtonBar fx:id="volunteerOptions" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0">
               <buttons>
-                  <Button fx:id="btnDocument" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleDocumentHoursButton" prefWidth="140.0" text="Dokumentér" />
-                  <Button fx:id="btnMakeInactive" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleInactiveVolunteer" prefWidth="140.0" text="Gør Inaktiv" />
-                  <Button fx:id="btnDelete" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleDeleteVolunteer" prefWidth="140.0" text="Slet" />
-                  <Button fx:id="btnEdit" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleEditVolunteer" prefWidth="140.0" text="Rediger" />
+                  <Button fx:id="btnDocument" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleDocumentHoursButton" prefWidth="140.0" text="%Document" />
+                  <Button fx:id="btnMakeInactive" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleInactiveVolunteer" prefWidth="140.0" text="%MakeInactive" />
+                  <Button fx:id="btnDelete" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleDeleteVolunteer" prefWidth="140.0" text="%Delete" />
+                  <Button fx:id="btnEdit" maxWidth="140.0" minWidth="140.0" mnemonicParsing="false" onAction="#handleEditVolunteer" prefWidth="140.0" text="%Edit" />
               </buttons>
                <HBox.margin>
                   <Insets left="10.0" />
