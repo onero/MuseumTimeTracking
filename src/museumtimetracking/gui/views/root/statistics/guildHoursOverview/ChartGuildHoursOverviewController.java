@@ -18,6 +18,7 @@ import museumtimetracking.be.Guild;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.gui.model.GuildModel;
 import museumtimetracking.gui.model.ModelFacade;
+import museumtimetracking.gui.views.root.MTTMainControllerView;
 
 /**
  * FXML Controller class
@@ -48,10 +49,12 @@ public class ChartGuildHoursOverviewController implements Initializable {
         chartHoursOverview.getData().clear();
         List<Guild> guilds = guildModel.getGuildsFromDB();
         Map<String, Integer> guildHours = new HashMap<>();
-        try {
-            guildHours = guildModel.getMapOfHoursPerGuild();
-        } catch (DALException ex) {
-            System.out.println("Chart data error");
+        if (MTTMainControllerView.isOnline()) {
+            try {
+                guildHours = guildModel.getMapOfHoursPerGuild();
+            } catch (DALException ex) {
+                System.out.println("Chart data error");
+            }
         }
         XYChart.Series hoursSeries = new XYChart.Series<>();
 

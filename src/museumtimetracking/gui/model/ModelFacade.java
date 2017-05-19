@@ -5,8 +5,10 @@
  */
 package museumtimetracking.gui.model;
 
+import museumtimetracking.dal.DALFacade;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.views.root.MTTMainControllerView;
 
 public class ModelFacade {
 
@@ -31,6 +33,10 @@ public class ModelFacade {
             volunteerModel = new VolunteerModel(true);
             loginModel = new LoginModel();
         } catch (DALException ex) {
+            guildModel = DALFacade.getInstance().loadGuildModelFromFile();
+            guildManagerModel = DALFacade.getInstance().loadGuildManagerModelFromFile();
+            volunteerModel = DALFacade.getInstance().loadVolunteerModelFromFile();
+            MTTMainControllerView.updateOnlineStatus(false);
             ExceptionDisplayer.display(ex);
 
         }

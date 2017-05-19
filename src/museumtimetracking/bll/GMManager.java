@@ -141,7 +141,7 @@ public class GMManager implements IExcel {
      * @param model
      * @throws IOException
      */
-    public void saveGuildModel(GuildManagerModel model) {
+    public void saveModel(GuildManagerModel model) {
         facadeDAO.saveGuildManagerModelToFile(model);
     }
 

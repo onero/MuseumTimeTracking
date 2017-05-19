@@ -511,7 +511,7 @@ public class DALFacade {
      * @return GuildModel
      * @throws IOException
      */
-    public GuildModel loadGuildModelFromFile() throws IOException {
+    public GuildModel loadGuildModelFromFile() {
         return guildFileDAO.loadModel();
     }
 
@@ -551,7 +551,7 @@ public class DALFacade {
      * @return GuildModel
      * @throws IOException
      */
-    public VolunteerModel loadVolunteerModelFromFile() throws IOException {
+    public VolunteerModel loadVolunteerModelFromFile() {
         return volunteerFileDAO.loadModel();
     }
 

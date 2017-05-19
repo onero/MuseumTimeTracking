@@ -28,7 +28,7 @@ import museumtimetracking.gui.views.root.MTTMainControllerView;
  *
  * @author Skovgaard
  */
-public class VolunteerModel implements Externalizable, IASyncUpdate {
+public class VolunteerModel implements Externalizable, IASyncUpdate, ISaveModel<VolunteerModel> {
 
     private transient VolunteerManager volunteerMgr;
 
@@ -52,8 +52,13 @@ public class VolunteerModel implements Externalizable, IASyncUpdate {
         Collections.sort(volunteerFromDB);
         Collections.sort(idleVolunteersFromDB);
 
-        volunteerMgr.saveVolunteerModel(this);
+        saveModel(this);
 
+    }
+
+    @Override
+    public void saveModel(VolunteerModel model) {
+        volunteerMgr.saveModel(this);
     }
 
     /**

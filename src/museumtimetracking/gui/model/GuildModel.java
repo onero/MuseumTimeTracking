@@ -26,7 +26,7 @@ import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.views.root.MTTMainControllerView;
 
-public class GuildModel implements Externalizable, IASyncUpdate {
+public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<GuildModel> {
 
     private List<Guild> guildsFromDB;
 
@@ -66,8 +66,13 @@ public class GuildModel implements Externalizable, IASyncUpdate {
 
         Collections.sort(guildsFromDB);
 
-        guildManager.saveGuildModel(this);
+        saveModel(this);
 
+    }
+
+    @Override
+    public void saveModel(GuildModel model) {
+        guildManager.saveModel(this);
     }
 
     /**

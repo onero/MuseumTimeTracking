@@ -16,9 +16,9 @@ import java.util.Map;
 import jxl.write.WriteException;
 import museumtimetracking.be.Guild;
 import museumtimetracking.be.Volunteer;
+import museumtimetracking.dal.DALFacade;
 import museumtimetracking.dal.fileWriting.excel.ExcelWriter;
 import museumtimetracking.dal.fileWriting.excel.IExcel;
-import museumtimetracking.dal.DALFacade;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.gui.model.GuildModel;
 
@@ -288,13 +288,12 @@ public class GuildManager implements IExcel {
     }
 
     /**
-     * <<<<<<< HEAD
      * Save the entire guild model
      *
      * @param model
      * @throws IOException
      */
-    public void saveGuildModel(GuildModel model) {
+    public void saveModel(GuildModel model) {
         facadeDAO.saveGuildModelToFile(model);
     }
 

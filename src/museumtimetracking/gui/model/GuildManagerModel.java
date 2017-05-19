@@ -30,7 +30,7 @@ import museumtimetracking.gui.views.root.MTTMainControllerView;
  *
  * @author Mathias
  */
-public class GuildManagerModel implements Externalizable, IASyncUpdate {
+public class GuildManagerModel implements Externalizable, IASyncUpdate, ISaveModel<GuildManagerModel> {
 
     private transient GMManager gmManager;
 
@@ -60,6 +60,14 @@ public class GuildManagerModel implements Externalizable, IASyncUpdate {
         cachedIdleGuildManagers = FXCollections.observableArrayList(idleGuildManagersFromDB);
 
         descriptionRestriction = gmManager.getGmDescriptionRestriction();
+
+        saveModel(this);
+
+    }
+
+    @Override
+    public void saveModel(GuildManagerModel model) {
+        gmManager.saveModel(this);
     }
 
     @Override
@@ -89,7 +97,7 @@ public class GuildManagerModel implements Externalizable, IASyncUpdate {
         cachedIdleGuildManagers.clear();
         cachedIdleGuildManagers.addAll(idleGuildManagersFromDB);
 
-        gmManager.saveGuildModel(this);
+        gmManager.saveModel(this);
     }
 
     /**
@@ -192,6 +200,9 @@ public class GuildManagerModel implements Externalizable, IASyncUpdate {
         return cachedIdleGuildManagers;
     }
 
+    /**
+     * Clears and resets the cached guild managers
+     */
     public void resetGuildManagers() {
         cachedManagers.clear();
         cachedManagers.addAll(managersFromDB);
@@ -251,21 +262,22 @@ public class GuildManagerModel implements Externalizable, IASyncUpdate {
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeObject(managersFromDB);
-        out.writeObject(idleGuildManagersFromDB);
         out.writeObject(gmCandidatesFromDB);
+        out.writeObject(idleGuildManagersFromDB);
     }
 
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         gmManager = new GMManager();
-        gmCandidatesFromDB = (Set<GM>) in.readObject();
-        cachedGMCandidates = FXCollections.observableArrayList(gmCandidatesFromDB);
         managersFromDB = (Set<GM>) in.readObject();
         cachedManagers = FXCollections.observableArrayList(managersFromDB);
+        gmCandidatesFromDB = (Set<GM>) in.readObject();
+        cachedGMCandidates = FXCollections.observableArrayList(gmCandidatesFromDB);
         idleGuildManagersFromDB = (Set<GM>) in.readObject();
         cachedIdleGuildManagers = FXCollections.observableArrayList(idleGuildManagersFromDB);
     }
 
+    //TODO RKL: JAVADOC!
     public void exportROIToExcel(String location) throws IOException, DALException, WriteException {
         GuildModel guildModel = ModelFacade.getInstance().getGuildModel();
         List<Guild> guilds = guildModel.getGuildsFromDB();

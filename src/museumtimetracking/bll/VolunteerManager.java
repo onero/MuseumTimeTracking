@@ -166,7 +166,7 @@ public class VolunteerManager implements IExcel {
      * @param model
      * @throws IOException
      */
-    public void saveVolunteerModel(VolunteerModel model) {
+    public void saveModel(VolunteerModel model) {
         facadeDAO.saveVolunteerModelToFile(model);
     }
 

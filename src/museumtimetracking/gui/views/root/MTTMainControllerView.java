@@ -109,6 +109,8 @@ public class MTTMainControllerView implements Initializable {
     @FXML
     private JFXButton btnUpdate;
 
+    private static boolean online;
+
     private ModalFactory modalFactory;
 
     private ModelFacade modelFacade;
@@ -145,6 +147,7 @@ public class MTTMainControllerView implements Initializable {
     }
 
     public MTTMainControllerView() {
+        online = true;
         modelFacade = ModelFacade.getInstance();
         modalFactory = ModalFactory.getInstance();
 
@@ -446,9 +449,13 @@ public class MTTMainControllerView implements Initializable {
 
     @FXML
     public void handleUpdate() {
-        ModelFacade.getInstance().getGuildModel().updateData();
-        ModelFacade.getInstance().getGuildManagerModel().updateData();
-        ModelFacade.getInstance().getVolunteerModel().updateData();
+        if (online) {
+            ModelFacade.getInstance().getGuildModel().updateData();
+            ModelFacade.getInstance().getGuildManagerModel().updateData();
+            ModelFacade.getInstance().getVolunteerModel().updateData();
+        } else {
+            displaySnackWarning(MuseumTimeTracking.bundle.getString("OfflineWarning"));
+        }
     }
 
     /**
@@ -461,6 +468,23 @@ public class MTTMainControllerView implements Initializable {
         btnUpdate.setDisable(shown);
         spinnerUpdate.setVisible(shown);
         lblUpdateData.setVisible(shown);
+    }
+
+    /**
+     *
+     * @return online status
+     */
+    public static boolean isOnline() {
+        return online;
+    }
+
+    /**
+     * Set the online status of the program
+     *
+     * @param value as boolean (true == online)
+     */
+    public static void updateOnlineStatus(boolean value) {
+        online = value;
     }
 
 }
