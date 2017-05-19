@@ -33,19 +33,16 @@ public class MuseumTimeTracking extends Application {
 
     public static final String RESOURCE_LOCATION = "museumtimetracking.gui.language.UIResources";
     public static final String ICON = "museumtimetracking/asset/img/icon.png";
-
-//    public static final String AUDIO_LOCATION_VIKING = "museumtimetracking/asset/mp3/Viking.mp3";
-//    private final Media media;
-//    private final MediaPlayer mediaPlayer;
+    private static final String VIKING_STARTUP_SOUND = "asset/mp3/Viking.mp3";
+    private final MediaPlayer mediaPlayer;
 
     public MuseumTimeTracking() {
-//        File file = new File(AUDIO_LOCATION_VIKING);
-//        media = new Media(file.toURI().toString());
-//        mediaPlayer = new MediaPlayer(media);
-    }
-    
-//"museumtimetracking/asset/mp3.Viking.mp3"  "file:///Users/mathi/Documents/GitHub/MuseumTimeTracking/src/museumtimetracking/asset/mp3/Viking.mp3"
 
+        URL sound = this.getClass().getResource(VIKING_STARTUP_SOUND);
+        Media media = new Media(sound.toString());
+        mediaPlayer = new MediaPlayer(media);
+
+    }
 
     private static final Stage MAIN_STAGE = new Stage();
 
@@ -144,7 +141,7 @@ public class MuseumTimeTracking extends Application {
         fadeIn.play();
 
         // Plays the intro music.
-//        mediaPlayer.play();
+        mediaPlayer.play();
 
         stage.show();
         return fadeIn;
@@ -171,10 +168,10 @@ public class MuseumTimeTracking extends Application {
             fadeOut.setOnFinished((finishedEvent) -> {
                 mainStage.show();
                 stage.close();
-                
+
                 // Stops intro music.
-//                mediaPlayer.stop();
-                
+                mediaPlayer.stop();
+
             });
         });
     }
