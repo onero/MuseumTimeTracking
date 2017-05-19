@@ -273,7 +273,7 @@ public class GuildManagerOverviewController implements Initializable {
         txtDescription.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (newValue != null && newValue.toCharArray().length == guildManagerModel.getDescriptionRestriction() + 1) {
+                if (newValue != null && newValue.toCharArray().length >= guildManagerModel.getDescriptionRestriction() + 1) {
                     txtDescription.setText(oldValue);
                 } else {
                     updateLabelDescriptionRestriction(newValue);
