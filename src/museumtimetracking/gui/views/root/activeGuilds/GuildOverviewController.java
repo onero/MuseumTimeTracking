@@ -32,6 +32,7 @@ import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.root.MTTMainControllerView;
 import museumtimetracking.gui.views.root.activeGuilds.editGuild.EditGuildViewController;
@@ -89,12 +90,9 @@ public class GuildOverviewController implements Initializable {
 
     public GuildOverviewController() {
         modalFactory = ModalFactory.getInstance();
-        try {
-            this.guildModel = GuildModel.getInstance();
-            guildManagerModel = GuildManagerModel.getInstance();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        guildModel = ModelFacade.getInstance().getGuildModel();
+        guildManagerModel = ModelFacade.getInstance().getGuildManagerModel();
+
     }
 
     @FXML

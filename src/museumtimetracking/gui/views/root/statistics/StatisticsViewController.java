@@ -13,9 +13,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import museumtimetracking.be.enums.EFXMLName;
-import museumtimetracking.exception.DALException;
-import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.views.NodeFactory;
 import museumtimetracking.gui.views.root.statistics.ROIOverview.ROIGmHoursViewController;
 import museumtimetracking.gui.views.root.statistics.VolunteerStatistics.VolunteerStatisticsViewController;
@@ -44,13 +43,8 @@ public class StatisticsViewController implements Initializable {
     private VolunteerStatisticsViewController volunteerStatisticsViewController;
 
     public StatisticsViewController() {
-        try {
-            guildModel = GuildModel.getInstance();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        guildModel = ModelFacade.getInstance().getGuildModel();
         nodeFactory = NodeFactory.getInstance();
-
     }
 
     /**

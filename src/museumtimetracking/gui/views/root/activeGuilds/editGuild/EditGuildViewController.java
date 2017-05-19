@@ -21,6 +21,7 @@ import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.model.ModelFacade;
 
 /**
  * FXML Controller class
@@ -50,12 +51,9 @@ public class EditGuildViewController implements Initializable {
     private GuildModel guildModel;
 
     public EditGuildViewController() {
-        try {
-            guildManagerModel = GuildManagerModel.getInstance();
-            guildModel = GuildModel.getInstance();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        guildManagerModel = ModelFacade.getInstance().getGuildManagerModel();
+        guildModel = ModelFacade.getInstance().getGuildModel();
+
     }
 
     @FXML
@@ -97,7 +95,7 @@ public class EditGuildViewController implements Initializable {
         } else {
             Guild updatedGuild = new Guild(txtGuildName.getText(), txtGuildDescription.getText(), false);
             try {
-                GuildModel.getInstance().updateGuild(currentGuild.getName(), updatedGuild);
+                ModelFacade.getInstance().getGuildModel().updateGuild(currentGuild.getName(), updatedGuild);
             } catch (DALException ex) {
                 ExceptionDisplayer.display(ex);
             }

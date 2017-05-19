@@ -24,6 +24,7 @@ import static museumtimetracking.be.enums.EVolunteerStatisticsState.*;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.model.VolunteerModel;
 
 /**
@@ -40,17 +41,14 @@ public class VolunteerStatisticsViewController implements Initializable {
     @FXML
     private Label labelHours;
 
-    private VolunteerModel volunteerModel;
-    private GuildModel guildModel;
+    private final VolunteerModel volunteerModel;
+    private final GuildModel guildModel;
     private static final String labelPrompt = "Intet Valgt";
 
     public VolunteerStatisticsViewController() {
-        try {
-            volunteerModel = VolunteerModel.getInstance();
-            guildModel = GuildModel.getInstance();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        volunteerModel = ModelFacade.getInstance().getVolunteerModel();
+        guildModel = ModelFacade.getInstance().getGuildModel();
+
     }
 
     /**

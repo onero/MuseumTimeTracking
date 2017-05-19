@@ -35,6 +35,7 @@ import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.NodeFactory;
 import museumtimetracking.gui.views.root.guildManager.guildManagerOverview.manageGuildManagerGuilds.ManageGuildManagerGuildsViewController;
@@ -97,11 +98,7 @@ public class GuildManagerOverviewController implements Initializable {
         modalFactory = ModalFactory.getInstance();
         nodeFactory = NodeFactory.getInstance();
         guildManagerModel = null;
-        try {
-            guildManagerModel = GuildManagerModel.getInstance();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        guildManagerModel = ModelFacade.getInstance().getGuildManagerModel();
     }
 
     /**
