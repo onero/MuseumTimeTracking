@@ -29,7 +29,7 @@ import museumtimetracking.exception.ExceptionDisplayer;
  *
  * @author Mathias
  */
-public class GuildManagerModel implements Externalizable {
+public class GuildManagerModel implements Externalizable, IASyncUpdate {
 
     private transient GMManager gmManager;
 
@@ -56,6 +56,7 @@ public class GuildManagerModel implements Externalizable {
 
     }
 
+    @Override
     public void updateData() {
         Runnable task = () -> {
             Platform.runLater(() -> {
