@@ -11,5 +11,8 @@ package museumtimetracking.gui.model;
  */
 public interface IASyncUpdate {
 
+    /**
+     * Update local data with external data
+     */
     public void updateData();
 }
