@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import jxl.write.WriteException;
@@ -22,6 +23,7 @@ import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
 import museumtimetracking.bll.GMManager;
 import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 
 /**
  *
@@ -60,16 +62,33 @@ public class GuildManagerModel implements Externalizable {
 
     public GuildManagerModel(boolean onlineMode) throws DALException {
         gmManager = new GMManager();
-        gmCandidatesFromDB = new TreeSet<>(gmManager.getAllGMCandidates());
+        instantiateCollections();
         cachedGMCandidates = FXCollections.observableArrayList(gmCandidatesFromDB);
-        managersFromDB = gmManager.getAllGuildManagersNotIdle();
-        idleGuildManagersFromDB = gmManager.getAllIdleGuildManagers();
         cachedManagers = FXCollections.observableArrayList(managersFromDB);
         cachedIdleGuildManagers = FXCollections.observableArrayList(idleGuildManagersFromDB);
+
+    }
+
+    public void updateData() {
+        Runnable task = () -> {
+            Platform.runLater(() -> {
+                try {
+                    instantiateCollections();
+                } catch (DALException ex) {
+                    ExceptionDisplayer.display(ex);
+                }
+            });
+        };
+        new Thread(task).start();
+    }
+
+    private void instantiateCollections() throws DALException {
+        gmCandidatesFromDB = new TreeSet<>(gmManager.getAllGMCandidates());
+        managersFromDB = gmManager.getAllGuildManagersNotIdle();
+        idleGuildManagersFromDB = gmManager.getAllIdleGuildManagers();
         descriptionRestriction = gmManager.getGmDescriptionRestriction();
 
         gmManager.saveGuildModel(this);
-
     }
 
     /**
@@ -105,6 +124,8 @@ public class GuildManagerModel implements Externalizable {
             sortLists();
         }
         gmManager.archiveManager(selectedManager.getID(), value);
+
+        updateData();
     }
 
     /**
@@ -120,6 +141,8 @@ public class GuildManagerModel implements Externalizable {
         guild.setGuildManager(manager);
         cachedManagers.add(manager);
         sortLists();
+
+        updateData();
     }
 
     /**
@@ -140,6 +163,8 @@ public class GuildManagerModel implements Externalizable {
      */
     public void updateGuildManager(GM manager, Set<String> guildsToAdd, Set<String> guildsToDelete) throws DALException {
         gmManager.updateGuildManager(manager, guildsToAdd, guildsToDelete);
+
+        updateData();
     }
 
     /**
@@ -154,6 +179,8 @@ public class GuildManagerModel implements Externalizable {
         cachedIdleGuildManagers.remove(guildManager);
         gmManager.deleteGuildManager(guildManager.getID());
         sortLists();
+
+        updateData();
     }
 
     /**
