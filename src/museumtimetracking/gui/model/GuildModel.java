@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import jxl.write.WriteException;
@@ -22,10 +23,10 @@ import museumtimetracking.be.Guild;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.GuildManager;
 import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 
 public class GuildModel implements Externalizable {
 
-//    private static GuildModel instance;
     private List<Guild> guildsFromDB;
 
     private ObservableList<Guild> cachedGuilds;
@@ -44,31 +45,11 @@ public class GuildModel implements Externalizable {
 
     private Map<String, Integer> guildROI;
 
-//    public static GuildModel getInstance() throws DALException {
-//        if (instance == null) {
-//            try {
-//                instance = new GuildModel(true);
-//            } catch (DALException ex) {
-//                instance = new GuildFileDAO().loadModel();
-//                Alert alert = new AlertFactory().createExceptionAlert("Kontroller internetforbindelse\nForsøger at starte programmet igen om et øjeblik");
-//                alert.show();
-//                try {
-//                    Thread.sleep(5000);
-//                    alert.resultProperty().setValue(ButtonType.OK);
-//                } catch (InterruptedException ex1) {
-//                    Logger.getLogger(GuildModel.class.getName()).log(Level.SEVERE, null, ex1);
-//                }
-//            }
-//        }
-//        return instance;
-//    }
     public GuildModel() {
     }
 
     public GuildModel(boolean onlineMode) throws DALException {
         guildManager = new GuildManager();
-        // Instantiate guildManager
-        // Puts in all the guilds from DB/Local file to Manager and after Model.
         guildsFromDB = guildManager.getAllGuildsNotArchived();
         cachedGuilds = FXCollections.observableArrayList(guildsFromDB);
 
@@ -86,6 +67,41 @@ public class GuildModel implements Externalizable {
 
         guildManager.saveGuildModel(this);
 
+    }
+
+    /**
+     * Updates data
+     *
+     * @throws DALException
+     */
+    public void updateData() throws DALException {
+        // Instantiate guildManager
+        // Puts in all the guilds from DB/Local file to Manager and after Model.
+        Runnable task = () -> {
+            try {
+                instatiateCollections();
+                Platform.runLater(() -> {
+
+                });
+            } catch (DALException ex) {
+                ExceptionDisplayer.display(ex);
+            }
+        };
+        new Thread(task).start();
+    }
+
+    private void instatiateCollections() throws DALException {
+        guildsFromDB = guildManager.getAllGuildsNotArchived();
+
+        archivedGuildsFromDB = guildManager.getAllGuildsArchived();
+
+        availableGuildsFromDB = guildManager.getGuildsWithoutManagers();
+
+        guildHours = guildManager.getAllHoursWorked(guildsFromDB);
+
+        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, 2);
+
+        Collections.sort(guildsFromDB);
     }
 
     /**
@@ -108,6 +124,8 @@ public class GuildModel implements Externalizable {
         guildManager.archiveGuild(guildToArchive);
         cachedGuilds.remove(guildToArchive);
         sortLists();
+
+        updateData();
     }
 
     // Made a getter to call in GuildOverviewController to update the tableview.
@@ -135,6 +153,8 @@ public class GuildModel implements Externalizable {
         cachedAvailableGuilds.remove(deleteGuild);
         cachedArchivedGuilds.remove(deleteGuild);
         guildManager.deleteGuild(deleteGuild);
+
+        updateData();
     }
 
     /**
@@ -146,6 +166,8 @@ public class GuildModel implements Externalizable {
         guildManager.addGuild(guild);
         cachedGuilds.add(guild);
         sortLists();
+
+        updateData();
 
     }
 
@@ -159,6 +181,8 @@ public class GuildModel implements Externalizable {
         cachedArchivedGuilds.remove(guildToRestore);
         cachedGuilds.add(guildToRestore);
         sortLists();
+
+        updateData();
     }
 
     /**
@@ -177,6 +201,8 @@ public class GuildModel implements Externalizable {
                 });
         guildManager.updateGuild(guildToUpdate, updatedGuild);
         sortLists();
+
+        updateData();
     }
 
     /**
@@ -262,6 +288,8 @@ public class GuildModel implements Externalizable {
     public void updateGMForGuild(GM gm, Guild guild) throws DALException {
         guildManager.updateGMForGuild(gm.getID(), guild.getName());
         guild.setGuildManager(gm);
+
+        updateData();
     }
 
     /**
@@ -269,7 +297,7 @@ public class GuildModel implements Externalizable {
      *
      * @param guildToAdd
      */
-    public void addCachedAvailableGuild(Guild guildToAdd) {
+    public void addCachedAvailableGuild(Guild guildToAdd) throws DALException {
         cachedAvailableGuilds.add(guildToAdd);
         sortLists();
     }
