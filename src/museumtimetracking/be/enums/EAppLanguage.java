@@ -7,7 +7,7 @@ package museumtimetracking.be.enums;
 
 public enum EAppLanguage {
 
-    DANISH("da_DK"),
+    DANISH("da"),
     ENGLISH("eng");
 
     private final String text;
