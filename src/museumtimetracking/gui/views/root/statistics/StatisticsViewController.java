@@ -16,6 +16,7 @@ import museumtimetracking.be.enums.EFXMLName;
 import museumtimetracking.gui.model.GuildModel;
 import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.views.NodeFactory;
+import museumtimetracking.gui.views.root.MTTMainControllerView;
 import museumtimetracking.gui.views.root.statistics.ROIOverview.ROIGmHoursViewController;
 import museumtimetracking.gui.views.root.statistics.VolunteerStatistics.VolunteerStatisticsViewController;
 import museumtimetracking.gui.views.root.statistics.guildHoursOverview.ChartGuildHoursOverviewController;
@@ -31,6 +32,13 @@ public class StatisticsViewController implements Initializable {
     private BorderPane borderpane;
 
     private GuildModel guildModel;
+
+    private static StatisticsViewController instance;
+
+    public static StatisticsViewController getInstance() {
+
+        return instance;
+    }
 
     private final NodeFactory nodeFactory;
 
@@ -52,6 +60,7 @@ public class StatisticsViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        instance = this;
     }
 
     /**
@@ -97,17 +106,20 @@ public class StatisticsViewController implements Initializable {
     @FXML
     private void handleGM(ActionEvent event) {
         borderpane.setCenter(ROIGmHours);
+        MTTMainControllerView.getInstance().setExportToExcelVisibility(true);
     }
 
     @FXML
-    private void handleGuild(ActionEvent event) {
+    public void handleGuild(ActionEvent event) {
         borderpane.setCenter(guildHoursOverview);
+        MTTMainControllerView.getInstance().setExportToExcelVisibility(true);
     }
 
     @FXML
     private void handleVolunteer(ActionEvent event) {
         borderpane.setCenter(volunteerStatistics);
         volunteerStatisticsViewController.clearAll();
+        MTTMainControllerView.getInstance().setExportToExcelVisibility(false);
     }
 
 }

@@ -66,9 +66,9 @@ public class MTTMainControllerView implements Initializable {
     @FXML
     private HBox iconBox;
     @FXML
-    private ImageView imgScreenshot;
+    private ImageView imgExcel;
     @FXML
-    private ImageView imgScreenshot1;
+    private ImageView imgScreenshot;
     @FXML
     private HBox languageBox;
 
@@ -339,18 +339,24 @@ public class MTTMainControllerView implements Initializable {
         setSearchBarVisible(false);
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             paneTabID = newTab.getId();
-            if (paneTabID.equals("statistics")) {
-                setSearchBarVisible(false);
-                statisticsViewController.updateDataForGuildHoursOverview();
-                imgScreenshot.setVisible(true);
-                imgScreenshot.setDisable(false);
-            } else {
-                imgScreenshot.setVisible(false);
-                imgScreenshot.setDisable(true);
-                setSearchBarVisible(true);
-            }
-            if (paneTabID.equals("guildOverView")) {
-                guildOverViewController.refreshTable();
+            switch (paneTabID) {
+                case "statistics":
+                    setSearchBarVisible(false);
+                    statisticsViewController.updateDataForGuildHoursOverview();
+                    setScreenshotVisibility(true);
+                    setExportToExcelVisibility(true);
+                    StatisticsViewController.getInstance().handleGuild(null);
+                    break;
+                case "guildOverView":
+                    guildOverViewController.refreshTable();
+                    setExportToExcelVisibility(false);
+                    break;
+                case "volunteer":
+                    setExportToExcelVisibility(true);
+                    break;
+                default:
+                    setExportToExcelVisibility(false);
+                    setSearchBarVisible(true);
             }
         });
     }
@@ -485,6 +491,26 @@ public class MTTMainControllerView implements Initializable {
      */
     public static void updateOnlineStatus(boolean value) {
         online = value;
+    }
+
+    /**
+     * Show or hide export to excel
+     *
+     * @param shown
+     */
+    public void setExportToExcelVisibility(boolean shown) {
+        imgExcel.setVisible(shown);
+        imgExcel.setDisable(!shown);
+    }
+
+    /**
+     * Show or hide screenshot btn
+     *
+     * @param shown
+     */
+    public void setScreenshotVisibility(boolean shown) {
+        imgScreenshot.setVisible(shown);
+        imgScreenshot.setDisable(!shown);
     }
 
 }
