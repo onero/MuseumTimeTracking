@@ -13,8 +13,6 @@ public class LoginDAO {
     
     private static LoginDAO instance;
 
-    private DBConnectionManager cm;
-
     public static LoginDAO getInstance() {
         if (instance == null) {
             instance = new LoginDAO();
@@ -23,7 +21,7 @@ public class LoginDAO {
     }
     
     public String getMockUsername(){
-        return "Admin";
+        return "admin";
     }
     
     public String getMockPassword(){

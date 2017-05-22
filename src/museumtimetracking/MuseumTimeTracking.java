@@ -172,8 +172,8 @@ public class MuseumTimeTracking extends Application {
                 Timeline timeline = new Timeline(
                         //KeyFrame is to define the duration the fadeout will take
                         new KeyFrame(Duration.seconds(3),
-                                //KeyValue is to define the start and end value
-                                new KeyValue(mediaPlayer.volumeProperty(), 0)));
+                        //KeyValue is to define the start and end value
+                        new KeyValue(mediaPlayer.volumeProperty(), 0)));
                 timeline.play();
 
                 mainStage.show();
