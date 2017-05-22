@@ -12,7 +12,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Side;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.ComboBox;
@@ -54,8 +53,9 @@ public class ROIGmHoursViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        chartPie.setLabelsVisible(false);
-        chartPie.setLegendSide(Side.LEFT);
+        chartPie.setLabelsVisible(true);
+//        chartPie.setLegendSide(Side.LEFT);
+        chartPie.setLegendVisible(false);
         updateDataForChart();
         initializeComboBox();
     }
