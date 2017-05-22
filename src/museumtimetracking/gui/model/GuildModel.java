@@ -49,6 +49,7 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
     public GuildModel() {
     }
 
+    //TODO ALH: Explain
     public GuildModel(boolean onlineMode) throws DALException {
         guildManager = new GuildManager();
         guildsFromDB = guildManager.getAllGuildsNotArchived();
@@ -90,13 +91,14 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
                 instatiateCollections();
                 //When the collections are updated
                 Platform.runLater(() -> {
-                    //Hide the updating view
+                    //todo alh: rEFACTOR INTO METHOD
                     cachedGuilds.clear();
                     cachedGuilds.addAll(guildsFromDB);
                     cachedArchivedGuilds.clear();
                     cachedArchivedGuilds.addAll(archivedGuildsFromDB);
                     cachedAvailableGuilds.clear();
                     cachedAvailableGuilds.addAll(availableGuildsFromDB);
+                    //Hide the updating view
                     MTTMainControllerView.getInstance().showUpdate(false);
                 });
             } catch (DALException ex) {

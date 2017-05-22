@@ -495,7 +495,6 @@ public class DALFacade {
     }
 
     /**
-     * <<<<<<< HEAD:src/museumtimetracking/dal/DALFacade.java Save the entire
      * guild model
      *
      * @param model

@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import jxl.CellView;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
 import jxl.format.UnderlineStyle;
@@ -103,12 +102,6 @@ public class ExcelWriter {
         timesBoldUnderline = new WritableCellFormat(times10ptBoldUnderline);
         // Lets automatically wrap the cells
         timesBoldUnderline.setWrap(true);
-
-        //TODO ALH: Why?
-        CellView cv = new CellView();
-        cv.setFormat(times);
-        cv.setFormat(timesBoldUnderline);
-        cv.setAutosize(true);
     }
 
     /**
