@@ -171,11 +171,11 @@ public class GMManager implements IExcel {
         newFile.setOutputFile(location);
         newFile.createNewExcel("ROI for Laug");
 
-        newFile.createCaptions("Laug", "Uge", "Måned", "År");
+        newFile.createCaptions("Laug", "Afkast");
 
         newFile.createLabelNumberContent((List<String>) values[0], (List<Integer>) values[1]);
-        newFile.createRowNumberContent(2, (List<Integer>) values[2]);
-        newFile.createRowNumberContent(3, (List<Integer>) values[3]);
+//        newFile.createRowNumberContent(2, (List<Integer>) values[2]);
+//        newFile.createRowNumberContent(3, (List<Integer>) values[3]);
 
         newFile.writeExcelToFile();
     }

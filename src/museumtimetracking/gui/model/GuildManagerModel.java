@@ -278,6 +278,7 @@ public class GuildManagerModel implements Externalizable, IASyncUpdate, ISaveMod
     }
 
     //TODO RKL: JAVADOC!
+    //TODO RKL: Fix this sheit.
     public void exportROIToExcel(String location) throws IOException, DALException, WriteException {
         GuildModel guildModel = ModelFacade.getInstance().getGuildModel();
         List<Guild> guilds = guildModel.getGuildsFromDB();
@@ -297,7 +298,7 @@ public class GuildManagerModel implements Externalizable, IASyncUpdate, ISaveMod
         }
 
         gmManager.exportToExcel(location, new ArrayList<>(guildNames),
-                new ArrayList<>(weekROI), new ArrayList<>(monthROI), new ArrayList<>(yearROI));
+                /*new ArrayList<>(weekROI), */ new ArrayList<>(monthROI)/*, new ArrayList<>(yearROI)*/);
     }
 
     /**
