@@ -102,16 +102,9 @@ public class StatisticsViewController implements Initializable {
         ROIGmHoursController.updateDataForChart();
     }
 
-    private void handleChangeStatisticsButton() {
-        if (borderpane.getCenter() == guildHoursOverview) {
-            borderpane.setCenter(ROIGmHours);
-        } else {
-            borderpane.setCenter(guildHoursOverview);
-        }
-    }
-
     @FXML
     private void handleGM() {
+        ROIGmHoursController.clearSearch();
         borderpane.setCenter(ROIGmHours);
         MTTMainControllerView.getInstance().setExportToExcelVisibility(true);
         btnOverview.underlineProperty().set(false);
@@ -138,4 +131,7 @@ public class StatisticsViewController implements Initializable {
         btnWorkhours.underlineProperty().set(true);
     }
 
+    public ROIGmHoursViewController getROIGmHoursController() {
+        return ROIGmHoursController;
+    }
 }

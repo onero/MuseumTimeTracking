@@ -167,4 +167,8 @@ public class ROIGmHoursViewController implements Initializable {
 //            return new SimpleStringProperty(0 + "");
 //        });
     }
+
+    public void clearSearch() {
+        txtSearchBar.clear();
+    }
 }

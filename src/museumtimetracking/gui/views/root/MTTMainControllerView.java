@@ -53,6 +53,7 @@ import museumtimetracking.gui.views.root.activeGuilds.GuildOverviewController;
 import museumtimetracking.gui.views.root.archivedGuilds.ArchivedGuildViewController;
 import museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController;
 import museumtimetracking.gui.views.root.idle.IdleViewController;
+import museumtimetracking.gui.views.root.statistics.ROIOverview.ROIGmHoursViewController;
 import museumtimetracking.gui.views.root.statistics.StatisticsViewController;
 import museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController;
 
@@ -132,6 +133,7 @@ public class MTTMainControllerView implements Initializable {
     private final GuildManagerOverviewController guildManagerOverviewController;
     private final VolunteerOverviewController volunteerOverviewController;
     private final IdleViewController idleViewController;
+    private final ROIGmHoursViewController rOIGmHoursViewController;
 
     private final NodeFactory nodeFactory;
 
@@ -157,6 +159,7 @@ public class MTTMainControllerView implements Initializable {
         statisticsViewController = nodeFactory.getLoader().getController();
 
         statisticsViewController.createStatisticsViews();
+        rOIGmHoursViewController = statisticsViewController.getROIGmHoursController();
 
         guildOverView = nodeFactory.createNewView(ACTIVE_GUILD);
         guildOverViewController = nodeFactory.getLoader().getController();
@@ -360,6 +363,7 @@ public class MTTMainControllerView implements Initializable {
                     setExportToExcelVisibility(false);
                     setSearchBarVisible(true);
             }
+            rOIGmHoursViewController.clearSearch();
         });
     }
 
