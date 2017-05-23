@@ -12,11 +12,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jxl.write.WriteException;
 import museumtimetracking.be.Volunteer;
+import museumtimetracking.dal.DALFacade;
 import museumtimetracking.dal.fileWriting.excel.ExcelWriter;
 import museumtimetracking.dal.fileWriting.excel.IExcel;
-import museumtimetracking.dal.DALFacade;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.gui.model.VolunteerModel;
 
@@ -144,23 +146,31 @@ public class VolunteerManager implements IExcel {
         newFile.setOutputFile(location);
         newFile.createNewExcel("Rapport over frivillige");
 
-        newFile.createCaptions("Frivillig", "Email");
+        newFile.createCaptions("Frivillig", "Email", "Telefon", "Antal timer i laug");
 
         List<String> names = new ArrayList<>();
         List<String> emails = new ArrayList<>();
+        List<Integer> phones = new ArrayList<>();
+        List<Integer> hours = new ArrayList<>();
         List<Volunteer> volunteers = (List<Volunteer>) values[0];
         volunteers.stream()
-                .forEachOrdered(v -> names.add(v.getFullName()));
-        volunteers.stream()
-                .forEachOrdered(v -> emails.add(v.getEmail()));
+                .forEachOrdered(v -> {
+                    names.add(v.getFullName());
+                    emails.add(v.getEmail());
+                    phones.add(v.getPhone());
+                    try {
+                        hours.add(getWorkHoursForAVolunteerInAllGuilds(v));
+                    } catch (DALException ex) {
+                        Logger.getLogger(VolunteerManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
 
-        newFile.createLabelContent(names, emails);
+        newFile.createVolunteerContent(names, emails, phones, hours);
 
         newFile.writeExcelToFile();
     }
 
     /**
-     * <<<<<<< HEAD
      * Save the entire VolunteerModel
      *
      * @param model
