@@ -463,6 +463,10 @@ public class MTTMainControllerView implements Initializable {
             displaySnackWarning(MuseumTimeTracking.bundle.getString("OfflineWarning"));
         }
     }
+    
+    public void setHideUpdateButton(boolean shown){
+        btnUpdate.setDisable(shown);
+    }
 
     /**
      * Show the update process

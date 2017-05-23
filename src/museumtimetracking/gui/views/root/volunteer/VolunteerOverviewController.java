@@ -38,6 +38,7 @@ import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.model.VolunteerModel;
 import museumtimetracking.gui.views.ModalFactory;
+import museumtimetracking.gui.views.root.MTTMainControllerView;
 import museumtimetracking.gui.views.root.volunteer.addHours.AddVolunteersHoursViewController;
 import museumtimetracking.gui.views.root.volunteer.volunteerInfo.VolunteerInfoViewController;
 
@@ -392,6 +393,7 @@ public class VolunteerOverviewController implements Initializable {
         radioDE.setDisable(false);
         radioENG.setDisable(false);
         imgProfile.setDisable(false);
+        MTTMainControllerView.getInstance().setHideUpdateButton(true);
     }
 
     /**
@@ -406,6 +408,7 @@ public class VolunteerOverviewController implements Initializable {
         radioDE.setDisable(true);
         radioENG.setDisable(true);
         imgProfile.setDisable(true);
+        MTTMainControllerView.getInstance().setHideUpdateButton(false);
     }
 
     /**
