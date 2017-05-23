@@ -272,7 +272,6 @@ public class MTTMainControllerView implements Initializable {
     private void addTabs() {
         for (Tab tab : adminTabList) {
             tabPane.getTabs().add(1, tab);
-            System.out.println("test");
         }
     }
 
