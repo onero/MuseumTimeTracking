@@ -8,6 +8,7 @@ package museumtimetracking.gui.views.root.statistics.ROIOverview;
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,6 +18,8 @@ import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import museumtimetracking.be.Guild;
 import museumtimetracking.gui.model.GuildModel;
@@ -41,6 +44,16 @@ public class ROIGmHoursViewController implements Initializable {
     private Label lblMonth;
     @FXML
     private Label lblYear;
+    @FXML
+    private TableView<Guild> tableROI;
+    @FXML
+    private TableColumn<Guild, String> clmName;
+    @FXML
+    private TableColumn<Guild, String> clmWeek;
+    @FXML
+    private TableColumn<Guild, String> clmMonth;
+    @FXML
+    private TableColumn<Guild, String> clmYear;
 
     private GuildModel guildModel;
 
@@ -58,6 +71,7 @@ public class ROIGmHoursViewController implements Initializable {
         chartPie.setLegendVisible(false);
         updateDataForChart();
         initializeComboBox();
+        initializeTable();
     }
 
     /**
@@ -126,5 +140,33 @@ public class ROIGmHoursViewController implements Initializable {
                 lblYear.setText(guildROI[2] + "");
             }
         }
+    }
+
+    private void initializeTable() {
+        tableROI.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tableROI.setItems(guildModel.getCachedGuilds());
+
+        clmName.setCellValueFactory(g -> g.getValue().getNameProperty());
+
+        clmWeek.setCellValueFactory(g -> {
+            if (guildModel.getGuildROI().get(g.getValue().getName()) != null) {
+                return new SimpleStringProperty(guildModel.getGuildROI().get(g.getValue().getName()) / 4 + "");
+            }
+            return new SimpleStringProperty(0 + "");
+        });
+
+        clmMonth.setCellValueFactory(g -> {
+            if (guildModel.getGuildROI().get(g.getValue().getName()) != null) {
+                return new SimpleStringProperty(guildModel.getGuildROI().get(g.getValue().getName()) + "");
+            }
+            return new SimpleStringProperty(0 + "");
+        });
+
+        clmYear.setCellValueFactory(g -> {
+            if (guildModel.getGuildROI().get(g.getValue().getName()) != null) {
+                return new SimpleStringProperty(guildModel.getGuildROI().get(g.getValue().getName()) * 12 + "");
+            }
+            return new SimpleStringProperty(0 + "");
+        });
     }
 }
