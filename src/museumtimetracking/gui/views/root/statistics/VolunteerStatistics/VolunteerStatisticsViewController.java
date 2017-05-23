@@ -46,7 +46,6 @@ public class VolunteerStatisticsViewController implements Initializable {
 
     private final VolunteerModel volunteerModel;
     private final GuildModel guildModel;
-    private static final String labelPrompt = "Intet Valgt";
 
     public VolunteerStatisticsViewController() {
         volunteerModel = ModelFacade.getInstance().getVolunteerModel();
@@ -196,7 +195,7 @@ public class VolunteerStatisticsViewController implements Initializable {
             ExceptionDisplayer.display(ex);
         }
         labelHours.setText(workHours);
-        initializeComboBoxes();
+        resizeCombos();
     }
 
     /**
@@ -254,6 +253,15 @@ public class VolunteerStatisticsViewController implements Initializable {
         if (volunteerInList == null || volunteerInList.getID() != volunteer.getID()) {
             comboVolunteer.getSelectionModel().selectNext();
             selectVolunteer(volunteer);
+        }
+    }
+
+    private void resizeCombos() {
+        comboVolunteer.setVisibleRowCount(comboVolunteer.getItems().size());
+        if (comboGuild.getItems().size() >= 5) {
+            comboGuild.setVisibleRowCount(5);
+        } else {
+            comboGuild.setVisibleRowCount(comboGuild.getItems().size());
         }
     }
 
