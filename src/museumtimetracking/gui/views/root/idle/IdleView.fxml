@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 
 <AnchorPane id="background" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.idle.IdleViewController">
    <children>
@@ -63,18 +62,21 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <VBox fx:id="vBoxGMOptions" spacing="15.0" stylesheets="@../../css/Style.css" GridPane.rowIndex="2">
+            <HBox fx:id="vBoxGMOptions" spacing="15.0" GridPane.rowIndex="2">
                <children>
                   <Button mnemonicParsing="false" onAction="#handleRestoreGM" text="%ReactivateGM" />
                   <Button mnemonicParsing="false" onAction="#handleDeleteGM" text="%DeleteGM" />
                </children>
-            </VBox>
-            <VBox fx:id="vBoxVolunteerOptions" spacing="15.0" stylesheets="@../../css/Style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </HBox>
+            <HBox fx:id="vBoxVolunteerOptions" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
                   <Button mnemonicParsing="false" onAction="#handleRestoreVolunteer" text="%ReactivateVolunteer" />
                   <Button mnemonicParsing="false" onAction="#handleDeleteVolunteer" text="%DeleteVolunteer" />
                </children>
-            </VBox>
+            </HBox>
          </children>
       </GridPane>
    </children>

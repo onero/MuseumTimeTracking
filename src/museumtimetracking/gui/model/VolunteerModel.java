@@ -194,7 +194,6 @@ public class VolunteerModel implements Externalizable, IASyncUpdate, ISaveModel<
      */
     public void exportVolunteerInfoToExcel(String location) throws IOException, WriteException, DALException {
         volunteerMgr.exportToExcel(location, cachedVolunteers);
-        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     @Override
