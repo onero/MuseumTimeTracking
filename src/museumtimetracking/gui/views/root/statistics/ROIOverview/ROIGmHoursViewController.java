@@ -41,12 +41,10 @@ public class ROIGmHoursViewController implements Initializable {
     private TableView<Guild> tableROI;
     @FXML
     private TableColumn<Guild, String> clmName;
+//    private TableColumn<Guild, String> clmWeek;
     @FXML
-    private TableColumn<Guild, String> clmWeek;
-    @FXML
-    private TableColumn<Guild, String> clmMonth;
-    @FXML
-    private TableColumn<Guild, String> clmYear;
+    private TableColumn<Guild, String> clmInvestment;
+//    private TableColumn<Guild, String> clmYear;
 
     private GuildModel guildModel;
 
@@ -149,25 +147,24 @@ public class ROIGmHoursViewController implements Initializable {
 
         clmName.setCellValueFactory(g -> g.getValue().getNameProperty());
 
-        clmWeek.setCellValueFactory(g -> {
-            if (guildModel.getGuildROI().get(g.getValue().getName()) != null) {
-                return new SimpleStringProperty(guildModel.getGuildROI().get(g.getValue().getName()) / 4 + "");
-            }
-            return new SimpleStringProperty(0 + "");
-        });
-
-        clmMonth.setCellValueFactory(g -> {
+//        clmWeek.setCellValueFactory(g -> {
+//            if (guildModel.getGuildROI().get(g.getValue().getName()) != null) {
+//                return new SimpleStringProperty(guildModel.getGuildROI().get(g.getValue().getName()) / 4 + "");
+//            }
+//            return new SimpleStringProperty(0 + "");
+//        });
+        clmInvestment.setCellValueFactory(g -> {
             if (guildModel.getGuildROI().get(g.getValue().getName()) != null) {
                 return new SimpleStringProperty(guildModel.getGuildROI().get(g.getValue().getName()) + "");
             }
             return new SimpleStringProperty(0 + "");
         });
 
-        clmYear.setCellValueFactory(g -> {
-            if (guildModel.getGuildROI().get(g.getValue().getName()) != null) {
-                return new SimpleStringProperty(guildModel.getGuildROI().get(g.getValue().getName()) * 12 + "");
-            }
-            return new SimpleStringProperty(0 + "");
-        });
+//        clmYear.setCellValueFactory(g -> {
+//            if (guildModel.getGuildROI().get(g.getValue().getName()) != null) {
+//                return new SimpleStringProperty(guildModel.getGuildROI().get(g.getValue().getName()) * 12 + "");
+//            }
+//            return new SimpleStringProperty(0 + "");
+//        });
     }
 }

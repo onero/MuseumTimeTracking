@@ -30,10 +30,8 @@
          <children>
             <TableView fx:id="tableROI" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="0.0">
               <columns>
-                <TableColumn fx:id="clmName" prefWidth="75.0" text="%GM" />
-                <TableColumn fx:id="clmWeek" prefWidth="75.0" text="%Week" />
-                  <TableColumn fx:id="clmMonth" prefWidth="75.0" text="%Month" />
-                  <TableColumn fx:id="clmYear" prefWidth="75.0" text="%Year" />
+                <TableColumn fx:id="clmName" prefWidth="75.0" text="%Guild" />
+                  <TableColumn fx:id="clmInvestment" prefWidth="75.0" text="%Investment" />
               </columns>
                <columnResizePolicy>
                </columnResizePolicy>
