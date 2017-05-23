@@ -54,7 +54,7 @@
                   <Image url="@../../../asset/img/logo.png" />
                </image>
             </ImageView>
-            <HBox alignment="TOP_RIGHT" layoutX="620.0" layoutY="25.0" prefHeight="20.0" prefWidth="216.0" AnchorPane.rightAnchor="14.0">
+            <HBox alignment="TOP_RIGHT" layoutX="620.0" layoutY="24.0" prefHeight="20.0" prefWidth="216.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="22.0">
                <children>
                   <TextField fx:id="txtSearchBar" />
                   <Button fx:id="btnClearSearch" mnemonicParsing="false" onAction="#handleClearSearchBar" text="X" />
@@ -96,7 +96,7 @@
                   </ImageView>
                </children>
             </HBox>
-            <Hyperlink fx:id="hyperlinkLogin" layoutX="777.0" layoutY="51.0" onAction="#handleLogin" style="-fx-text-fill: black;" text="Hyperlink" AnchorPane.rightAnchor="15.0" />
+            <Hyperlink fx:id="hyperlinkLogin" layoutX="777.0" layoutY="50.0" onAction="#handleLogin" prefHeight="11.0" prefWidth="59.0" style="-fx-text-fill: black;" text="Hyperlink" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="46.0" />
          </children>
       </AnchorPane>
    </top>
