@@ -36,12 +36,12 @@ public class LoginManager {
      * @return
      */
     public boolean validateAdminLogin(String username, String password) {
-        boolean validUsername = username.equalsIgnoreCase(loginDAO.getMockUsername());
+        boolean validUsername = username.equals(loginDAO.getMockUsername());
         boolean validPassword = password.equals(loginDAO.getMockPassword());
         return validUsername && validPassword;
     }
 
     public boolean userExsist(String username) {
-        return username.equalsIgnoreCase(loginDAO.getMockUsername());
+        return username.equals(loginDAO.getMockUsername());
     }
 }

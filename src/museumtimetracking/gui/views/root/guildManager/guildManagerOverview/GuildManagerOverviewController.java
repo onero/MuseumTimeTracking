@@ -270,6 +270,7 @@ public class GuildManagerOverviewController implements Initializable {
         txtDescription.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //TODO RKL: FIX SHEIT:
                 if (newValue != null && newValue.toCharArray().length >= guildManagerModel.getDescriptionRestriction() + 1) {
                     txtDescription.setText(oldValue);
                 } else {
@@ -442,6 +443,7 @@ public class GuildManagerOverviewController implements Initializable {
     private void updateLabelDescriptionRestriction(String text) {
         int restriction = guildManagerModel.getDescriptionRestriction();
         if (text != null) {
+            //TODO RKL: Check length of string.
             char[] chars = text.toCharArray();
             lblDescriptionRestriction.setText(chars.length + "/" + restriction);
         } else {

@@ -5,9 +5,9 @@
  */
 package museumtimetracking.gui.views.root.statistics;
 
+import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -30,6 +30,12 @@ public class StatisticsViewController implements Initializable {
 
     @FXML
     private BorderPane borderpane;
+    @FXML
+    private JFXButton btnOverview;
+    @FXML
+    private JFXButton btnROI;
+    @FXML
+    private JFXButton btnWorkhours;
 
     private GuildModel guildModel;
 
@@ -84,6 +90,7 @@ public class StatisticsViewController implements Initializable {
     private void initialSetup() {
         borderpane.setCenter(guildHoursOverview);
         updateDataForGuildHoursOverview();
+        btnOverview.underlineProperty().set(true);
     }
 
     /**
@@ -104,22 +111,31 @@ public class StatisticsViewController implements Initializable {
     }
 
     @FXML
-    private void handleGM(ActionEvent event) {
+    private void handleGM() {
         borderpane.setCenter(ROIGmHours);
         MTTMainControllerView.getInstance().setExportToExcelVisibility(true);
+        btnOverview.underlineProperty().set(false);
+        btnROI.underlineProperty().set(true);
+        btnWorkhours.underlineProperty().set(false);
     }
 
     @FXML
-    public void handleGuild(ActionEvent event) {
+    public void handleGuild() {
         borderpane.setCenter(guildHoursOverview);
         MTTMainControllerView.getInstance().setExportToExcelVisibility(true);
+        btnOverview.underlineProperty().set(true);
+        btnROI.underlineProperty().set(false);
+        btnWorkhours.underlineProperty().set(false);
     }
 
     @FXML
-    private void handleVolunteer(ActionEvent event) {
+    private void handleVolunteer() {
+        MTTMainControllerView.getInstance().setExportToExcelVisibility(false);
         borderpane.setCenter(volunteerStatistics);
         volunteerStatisticsViewController.clearAll();
-        MTTMainControllerView.getInstance().setExportToExcelVisibility(false);
+        btnROI.underlineProperty().set(false);
+        btnOverview.underlineProperty().set(false);
+        btnWorkhours.underlineProperty().set(true);
     }
 
 }

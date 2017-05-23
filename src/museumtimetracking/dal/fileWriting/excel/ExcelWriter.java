@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import jxl.CellView;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
 import jxl.format.UnderlineStyle;
@@ -103,12 +102,6 @@ public class ExcelWriter {
         timesBoldUnderline = new WritableCellFormat(times10ptBoldUnderline);
         // Lets automatically wrap the cells
         timesBoldUnderline.setWrap(true);
-
-        //TODO ALH: Why?
-        CellView cv = new CellView();
-        cv.setFormat(times);
-        cv.setFormat(timesBoldUnderline);
-        cv.setAutosize(true);
     }
 
     /**
@@ -161,6 +154,40 @@ public class ExcelWriter {
         //Insert all the values for the keys
         for (int i = 0; i < values.size(); i++) {
             addLabel(excelSheet, 1, i + 1, values.get(i));
+        }
+    }
+
+    /**
+     * Write volunteer info to sheet
+     *
+     * @param names
+     * @param emails
+     * @param phones
+     * @param hours
+     * @throws WriteException
+     * @throws RowsExceededException
+     * @throws IOException
+     * @throws DALException
+     */
+    public void createVolunteerContent(List<String> names, List<String> emails, List<Integer> phones, List<Integer> hours) throws WriteException, RowsExceededException, IOException, DALException {
+
+        //Insert all the names
+        for (int i = 0; i < names.size(); i++) {
+            addLabel(excelSheet, 0, i + 1, names.get(i));
+        }
+
+        //Insert all the emails
+        for (int i = 0; i < emails.size(); i++) {
+            addLabel(excelSheet, 1, i + 1, emails.get(i));
+        }
+
+        //Insert all phone numbers
+        for (int i = 0; i < phones.size(); i++) {
+            addNumber(excelSheet, 2, i + 1, phones.get(i));
+        }
+        //Insert all documented hours for volunteer
+        for (int i = 0; i < hours.size(); i++) {
+            addNumber(excelSheet, 3, i + 1, hours.get(i));
         }
     }
 

@@ -14,7 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import museumtimetracking.MuseumTimeTracking;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Volunteer;
@@ -49,9 +49,9 @@ public class IdleViewController implements Initializable {
     @FXML
     private TableView<Volunteer> tableIdleVolunteer;
     @FXML
-    private VBox vBoxGMOptions;
+    private HBox vBoxGMOptions;
     @FXML
-    private VBox vBoxVolunteerOptions;
+    private HBox vBoxVolunteerOptions;
 
     private GuildManagerModel guildManagerModel;
 
@@ -92,6 +92,25 @@ public class IdleViewController implements Initializable {
                 }
             }
         });
+        if (tableIdleGM.getSelectionModel().isEmpty()) {
+            hideGMButtons();
+        }
+    }
+
+    /**
+     * Hides the GM Buttons
+     */
+    public void hideGMButtons() {
+        vBoxGMOptions.setDisable(true);
+        vBoxGMOptions.setVisible(false);
+    }
+
+    /**
+     * Hides the Volunteer Buttons
+     */
+    public void hideVolunteerButtons() {
+        vBoxVolunteerOptions.setDisable(true);
+        vBoxVolunteerOptions.setVisible(false);
     }
 
     @FXML
@@ -107,6 +126,9 @@ public class IdleViewController implements Initializable {
                 }
             }
         });
+        if (tableIdleVolunteer.getSelectionModel().isEmpty()) {
+            hideVolunteerButtons();
+        }
     }
 
     @FXML
@@ -116,6 +138,9 @@ public class IdleViewController implements Initializable {
         } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
+        if (tableIdleGM.getSelectionModel().isEmpty()) {
+            hideGMButtons();
+        }
     }
 
     @FXML
@@ -124,6 +149,9 @@ public class IdleViewController implements Initializable {
             volunteerModel.updateIdleVolunteer(selectedVolunteer, false);
         } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
+        }
+        if (tableIdleVolunteer.getSelectionModel().isEmpty()) {
+            hideVolunteerButtons();
         }
     }
 

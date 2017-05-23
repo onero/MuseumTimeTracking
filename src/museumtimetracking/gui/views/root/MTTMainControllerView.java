@@ -101,7 +101,7 @@ public class MTTMainControllerView implements Initializable {
     @FXML
     private Button btnClearSearch;
     @FXML
-    private Hyperlink btnLogin;
+    private Hyperlink hyperlinkLogin;
     @FXML
     private JFXSpinner spinnerUpdate;
     @FXML
@@ -230,7 +230,7 @@ public class MTTMainControllerView implements Initializable {
 
         setGuildManagerMode();
 
-        btnLogin.setText(LOGIN_BTN_TEXT);
+        hyperlinkLogin.setText(LOGIN_BTN_TEXT);
     }
 
     /**
@@ -258,7 +258,8 @@ public class MTTMainControllerView implements Initializable {
      */
     public void setAdminMode() {
         addTabs();
-        btnLogin.setText(LOGOUT_BTN_TEXT);
+        hyperlinkLogin.setText(LOGOUT_BTN_TEXT);
+        // Starts at the statestics view.
         tabPane.getSelectionModel().select(0);
         languageBox.setDisable(true);
         languageBox.setVisible(false);
@@ -345,11 +346,12 @@ public class MTTMainControllerView implements Initializable {
                     statisticsViewController.updateDataForGuildHoursOverview();
                     setScreenshotVisibility(true);
                     setExportToExcelVisibility(true);
-                    StatisticsViewController.getInstance().handleGuild(null);
+                    StatisticsViewController.getInstance().handleGuild();
                     break;
                 case "guildOverView":
                     guildOverViewController.refreshTable();
                     setExportToExcelVisibility(false);
+                    setSearchBarVisible(true);
                     break;
                 case "volunteer":
                     setExportToExcelVisibility(true);
@@ -429,28 +431,26 @@ public class MTTMainControllerView implements Initializable {
      */
     @FXML
     private void handleLogin(ActionEvent event) {
-        if (btnLogin.getText().equals(LOGOUT_BTN_TEXT)) {
+        if (hyperlinkLogin.getText().equals(LOGOUT_BTN_TEXT)) {
             Alert alert = new AlertFactory().createLogoutAlert();
             alert.showAndWait().ifPresent(type -> {
                 //If the first button ("YES") is clicked.
                 if (type == alert.getButtonTypes().get(0)) {
-                    btnLogin.setText(LOGIN_BTN_TEXT);
+                    hyperlinkLogin.setText(LOGIN_BTN_TEXT);
                     setGuildManagerMode();
                     tabPane.getSelectionModel().select(0);
                 }
             });
+        } else if (MuseumTimeTracking.LOCALE.get().equals(ENGLISH.toString())) {
+            Alert loginAlert = new AlertFactory().createAlertWithoutCancel(Alert.AlertType.CONFIRMATION, "The program is currently in english\nDanish language will be loaded instead");
+            loginAlert.showAndWait().ifPresent((button) -> {
+                handleDanish();
+            });
         } else {
-            if (MuseumTimeTracking.LOCALE.get().equals(ENGLISH.toString())) {
-                Alert loginAlert = new AlertFactory().createAlertWithoutCancel(Alert.AlertType.CONFIRMATION, "The program is currently in english\nDanish language will be loaded instead");
-                loginAlert.showAndWait().ifPresent((button) -> {
-                    handleDanish();
-                });
-            } else {
-                getLoginView();
-            }
+            getLoginView();
         }
         // Resets the hyperlink.
-        btnLogin.setVisited(false);
+        hyperlinkLogin.setVisited(false);
     }
 
     @FXML
