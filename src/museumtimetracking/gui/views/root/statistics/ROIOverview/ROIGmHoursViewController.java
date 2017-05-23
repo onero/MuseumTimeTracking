@@ -15,9 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -36,14 +33,10 @@ public class ROIGmHoursViewController implements Initializable {
     private PieChart chartPie;
     @FXML
     private TextField txtSearchBar;
-    @FXML
-    private ComboBox<Guild> cmbGuilds;
-    @FXML
-    private Label lblWeek;
-    @FXML
-    private Label lblMonth;
-    @FXML
-    private Label lblYear;
+//    private ComboBox<Guild> cmbGuilds;
+//    private Label lblWeek;
+//    private Label lblMonth;
+//    private Label lblYear;
     @FXML
     private TableView<Guild> tableROI;
     @FXML
@@ -70,8 +63,13 @@ public class ROIGmHoursViewController implements Initializable {
 //        chartPie.setLegendSide(Side.LEFT);
         chartPie.setLegendVisible(false);
         updateDataForChart();
-        initializeComboBox();
+//        initializeComboBox();
         initializeTable();
+
+        //Set a search listener on serach textfield
+        txtSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            guildModel.searchGuilds(newValue);
+        });
     }
 
     /**
@@ -89,59 +87,62 @@ public class ROIGmHoursViewController implements Initializable {
         }
     }
 
-    private void initializeComboBox() {
-        cmbGuilds.setItems(guildModel.getCachedGuilds());
-
-        if (!cmbGuilds.getItems().isEmpty()) {
-            cmbGuilds.getSelectionModel().selectFirst();
-            selectGuild();
-        }
-
-        //Fill combobox with guilds
-        cmbGuilds.setCellFactory(gm -> new ListCell<Guild>() {
-            @Override
-            protected void updateItem(Guild guild, boolean empty) {
-                super.updateItem(guild, empty);
-                if (empty) {
-                    setText(null);
-                } else {
-                    setText(guild.getName());
-                }
-            }
-        });
-
-        //Make sure that the guilds name is shown
-        cmbGuilds.setButtonCell(
-                new ListCell<Guild>() {
-            @Override
-            protected void updateItem(Guild guild, boolean bln) {
-                super.updateItem(guild, bln);
-                if (bln) {
-                    setText("");
-                } else {
-                    setText(guild.getName());
-                }
-            }
-        });
-        //Set a search listener on serach textfield
-        txtSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
-            guildModel.searchGuilds(newValue);
-        });
-    }
-
-    @FXML
-    private void selectGuild() {
-        Guild guild = cmbGuilds.getSelectionModel().getSelectedItem();
-        if (guild != null) {
-            int[] guildROI = guildModel.getROIForAGuild(guild.getName());
-            if (guildROI != null) {
-                lblWeek.setText(guildROI[0] + "");
-                lblMonth.setText(guildROI[1] + "");
-                lblYear.setText(guildROI[2] + "");
-            }
-        }
-    }
-
+//    private void initializeComboBox() {
+//        cmbGuilds.setItems(guildModel.getCachedGuilds());
+//
+//        if (!cmbGuilds.getItems().isEmpty()) {
+//            cmbGuilds.getSelectionModel().selectFirst();
+//            selectGuild();
+//        }
+//
+//        //Fill combobox with guilds
+//        cmbGuilds.setCellFactory(gm -> new ListCell<Guild>() {
+//            @Override
+//            protected void updateItem(Guild guild, boolean empty) {
+//                super.updateItem(guild, empty);
+//                if (empty) {
+//                    setText(null);
+//                } else {
+//                    setText(guild.getName());
+//                }
+//            }
+//        });
+//
+//        //Make sure that the guilds name is shown
+//        cmbGuilds.setButtonCell(
+//                new ListCell<Guild>() {
+//            @Override
+//            protected void updateItem(Guild guild, boolean bln) {
+//                super.updateItem(guild, bln);
+//                if (bln) {
+//                    setText("");
+//                } else {
+//                    setText(guild.getName());
+//                }
+//            }
+//        });
+//        //Set a search listener on serach textfield
+//        txtSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+//            guildModel.searchGuilds(newValue);
+//        });
+//    }
+//    private void selectGuild() {
+//        Guild guild = cmbGuilds.getSelectionModel().getSelectedItem();
+//        if (guild != null) {
+//            int[] guildROI = guildModel.getROIForAGuild(guild.getName());
+//            if (guildROI != null) {
+////                lblWeek.setText(guildROI[0] + "");
+////                lblMonth.setText(guildROI[1] + "");
+////                lblYear.setText(guildROI[2] + "");
+//            }
+//        }
+//    }
+    /**
+     * Sets the items in the tableview and specifies what data each column
+     * holds.
+     *
+     * TODO RKL: Clean it up.
+     */
     private void initializeTable() {
         tableROI.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableROI.setItems(guildModel.getCachedGuilds());
