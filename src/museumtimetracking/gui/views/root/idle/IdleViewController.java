@@ -73,7 +73,7 @@ public class IdleViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         initializeTables();
         setIdleGMOptionsVisibility(false);
-        setIdleVolunteerOptionsVisibility(false);
+        setIdleVolunteerOptionsVisibility(true);
 
         lblGMAmount.textProperty().bind(Bindings.size((guildManagerModel.getCachedIdleGuildManagers())).asString());
         lblVolunteerAmount.textProperty().bind(Bindings.size((volunteerModel.getCachedIdleVolunteers())).asString());
@@ -162,7 +162,6 @@ public class IdleViewController implements Initializable {
 
     @FXML
     private void handleSelectVounteer() {
-        setIdleVolunteerOptionsVisibility(true);
         selectedVolunteer = tableIdleVolunteer.getSelectionModel().getSelectedItem();
     }
 
