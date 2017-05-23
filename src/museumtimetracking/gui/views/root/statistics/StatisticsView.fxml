@@ -13,9 +13,9 @@
                <children>
                   <ButtonBar AnchorPane.rightAnchor="14.0">
                      <buttons>
-                        <JFXButton maxWidth="140.0" minWidth="140.0" onAction="#handleGuild" prefWidth="140.0" text="%Guild" />
-                        <JFXButton maxWidth="140.0" minWidth="140.0" onAction="#handleGM" prefWidth="140.0" text="%GM" />
-                        <JFXButton maxWidth="140.0" minWidth="140.0" onAction="#handleVolunteer" prefWidth="140.0" text="%Volunteer" />
+                        <JFXButton maxWidth="140.0" minWidth="140.0" onAction="#handleGuild" prefWidth="140.0" text="%Overview" />
+                        <JFXButton maxWidth="140.0" minWidth="140.0" onAction="#handleGM" prefWidth="140.0" text="%ROI" />
+                        <JFXButton maxWidth="140.0" minWidth="140.0" onAction="#handleVolunteer" prefWidth="140.0" text="%Workhours" />
                      </buttons>
                   </ButtonBar>
                </children>
