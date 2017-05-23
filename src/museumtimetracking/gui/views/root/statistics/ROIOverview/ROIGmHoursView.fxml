@@ -19,9 +19,9 @@
       </AnchorPane>
    </center>
    <top>
-      <Label text="%ROI" BorderPane.alignment="CENTER">
+      <Label text="%ROIHeadline" BorderPane.alignment="CENTER">
          <font>
-            <Font name="System Bold Italic" size="34.0" />
+            <Font name="System Bold Italic" size="30.0" />
          </font>
       </Label>
    </top>
