@@ -263,7 +263,7 @@ public class MTTMainControllerView implements Initializable {
         tabPane.getSelectionModel().select(0);
         languageBox.setDisable(true);
         languageBox.setVisible(false);
-
+        idleViewController.setIdleGMOptionsVisibility(true);
     }
 
     /**
