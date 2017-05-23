@@ -14,7 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import museumtimetracking.MuseumTimeTracking;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Volunteer;
@@ -49,9 +49,9 @@ public class IdleViewController implements Initializable {
     @FXML
     private TableView<Volunteer> tableIdleVolunteer;
     @FXML
-    private VBox vBoxGMOptions;
+    private HBox vBoxGMOptions;
     @FXML
-    private VBox vBoxVolunteerOptions;
+    private HBox vBoxVolunteerOptions;
 
     private GuildManagerModel guildManagerModel;
 
