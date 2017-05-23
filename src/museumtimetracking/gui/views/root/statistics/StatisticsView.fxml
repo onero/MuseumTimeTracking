@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.statistics.StatisticsViewController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.statistics.StatisticsViewController">
    <children>
       <BorderPane fx:id="borderpane" layoutX="14.0" layoutY="14.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <bottom>
@@ -13,9 +13,9 @@
                <children>
                   <ButtonBar AnchorPane.rightAnchor="14.0">
                      <buttons>
-                        <JFXButton maxWidth="140.0" minWidth="140.0" onAction="#handleGuild" prefWidth="140.0" text="%Overview" />
-                        <JFXButton maxWidth="140.0" minWidth="140.0" onAction="#handleGM" prefWidth="140.0" text="%ROI" />
-                        <JFXButton maxWidth="140.0" minWidth="140.0" onAction="#handleVolunteer" prefWidth="140.0" text="%Workhours" />
+                        <JFXButton fx:id="btnOverview" maxWidth="140.0" minWidth="140.0" onAction="#handleGuild" prefWidth="140.0" text="%Overview" />
+                        <JFXButton fx:id="btnROI" maxWidth="140.0" minWidth="140.0" onAction="#handleGM" prefWidth="140.0" text="%ROI" />
+                        <JFXButton fx:id="btnWorkhours" maxWidth="140.0" minWidth="140.0" onAction="#handleVolunteer" prefWidth="140.0" text="%Workhours" />
                      </buttons>
                   </ButtonBar>
                </children>

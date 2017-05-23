@@ -346,7 +346,7 @@ public class MTTMainControllerView implements Initializable {
                     statisticsViewController.updateDataForGuildHoursOverview();
                     setScreenshotVisibility(true);
                     setExportToExcelVisibility(true);
-                    StatisticsViewController.getInstance().handleGuild(null);
+                    StatisticsViewController.getInstance().handleGuild();
                     break;
                 case "guildOverView":
                     guildOverViewController.refreshTable();
