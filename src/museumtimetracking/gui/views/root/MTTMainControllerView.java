@@ -354,12 +354,15 @@ public class MTTMainControllerView implements Initializable {
                 case "guildOverView":
                     guildOverViewController.refreshTable();
                     setExportToExcelVisibility(false);
+                    setScreenshotVisibility(false);
                     setSearchBarVisible(true);
                     break;
                 case "volunteer":
+                    setScreenshotVisibility(false);
                     setExportToExcelVisibility(true);
                     break;
                 default:
+                    setScreenshotVisibility(false);
                     setExportToExcelVisibility(false);
                     setSearchBarVisible(true);
             }
