@@ -54,7 +54,6 @@ public class VolunteerStatisticsViewController implements Initializable {
 
     }
 
-    //TODO MSP: Sorted!!!
     /**
      * Initializes the controller class.
      */
@@ -197,6 +196,7 @@ public class VolunteerStatisticsViewController implements Initializable {
             ExceptionDisplayer.display(ex);
         }
         labelHours.setText(workHours);
+        initializeComboBoxes();
     }
 
     /**
@@ -243,11 +243,18 @@ public class VolunteerStatisticsViewController implements Initializable {
         updateHours(null);
     }
 
+    /**
+     * When called in recursion, this method will select the volunteer in the
+     * combobox that matches the volunteer given in the param.
+     *
+     * @param volunteer
+     */
     private void selectVolunteer(Volunteer volunteer) {
-//        for (int i = 0; i < arr.length; i++) {
-//            Object object = arr[i];
-//
-//        }
+        Volunteer volunteerInList = comboVolunteer.getSelectionModel().getSelectedItem();
+        if (volunteerInList == null || volunteerInList.getID() != volunteer.getID()) {
+            comboVolunteer.getSelectionModel().selectNext();
+            selectVolunteer(volunteer);
+        }
     }
 
 }
