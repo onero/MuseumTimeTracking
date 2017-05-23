@@ -8,8 +8,8 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="268.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.statistics.VolunteerStatistics.VolunteerStatisticsViewController">
    <children>
-      <JFXComboBox fx:id="comboVolunteer" layoutX="63.0" layoutY="83.0" onHidden="#handleUpdate" prefHeight="25.0" prefWidth="150.0" promptText="%SelectVolunteer" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="80.0" />
-      <JFXComboBox fx:id="comboGuild" layoutX="60.0" layoutY="154.0" onHidden="#handleUpdate" prefHeight="25.0" prefWidth="150.0" promptText="%AllGuilds" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="154.0" />
+      <JFXComboBox id="volunteer" fx:id="comboVolunteer" layoutX="63.0" layoutY="83.0" onHidden="#handleUpdate" prefHeight="25.0" prefWidth="150.0" promptText="%SelectVolunteer" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="80.0" />
+      <JFXComboBox id="guild" fx:id="comboGuild" layoutX="60.0" layoutY="154.0" onHidden="#handleUpdate" prefHeight="25.0" prefWidth="150.0" promptText="%AllGuilds" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="154.0" />
       <Label layoutX="63.0" layoutY="63.0" text="%VolunteerInfo" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="63.0" />
       <Label layoutX="60.0" layoutY="137.0" text="%GuildInfo" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="137.0" />
       <Label layoutX="87.0" layoutY="250.0" text="%Hours" AnchorPane.bottomAnchor="133.0" />
