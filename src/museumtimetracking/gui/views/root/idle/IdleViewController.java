@@ -157,7 +157,6 @@ public class IdleViewController implements Initializable {
 
     @FXML
     private void handleSelectGM() {
-        setIdleGMOptionsVisibility(true);
         selectedManager = tableIdleGM.getSelectionModel().getSelectedItem();
     }
 

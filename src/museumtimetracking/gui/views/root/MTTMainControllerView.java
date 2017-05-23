@@ -263,7 +263,7 @@ public class MTTMainControllerView implements Initializable {
         tabPane.getSelectionModel().select(0);
         languageBox.setDisable(true);
         languageBox.setVisible(false);
-
+        idleViewController.setIdleGMOptionsVisibility(true);
     }
 
     /**
@@ -462,6 +462,10 @@ public class MTTMainControllerView implements Initializable {
         } else {
             displaySnackWarning(MuseumTimeTracking.bundle.getString("OfflineWarning"));
         }
+    }
+    
+    public void setHideUpdateButton(boolean shown){
+        btnUpdate.setDisable(shown);
     }
 
     /**
