@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import museumtimetracking.MuseumTimeTracking;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
@@ -50,11 +51,11 @@ public class VolunteerInfoViewController implements Initializable {
     @FXML
     private void handleEditVolunteerInfo() {
         primStage = (Stage) btnEdit.getScene().getWindow();
-        if (btnEdit.getText().equalsIgnoreCase("rediger")) {
-            btnEdit.setText("Gem");
+        if (btnEdit.getText().equalsIgnoreCase(MuseumTimeTracking.bundle.getString("Edit"))) {
+            btnEdit.setText(MuseumTimeTracking.bundle.getString("Save"));
             txtVolunteerInfo.setDisable(false);
         } else {
-            btnEdit.setText("Rediger");
+            btnEdit.setText(MuseumTimeTracking.bundle.getString("Edit"));
             txtVolunteerInfo.setDisable(true);
             currentVolunteer.setDescription(txtVolunteerInfo.getText());
             try {
