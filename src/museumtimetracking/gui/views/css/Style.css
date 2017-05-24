@@ -64,6 +64,15 @@ Background:
     -fx-background-color: #ed9e00;
 }
 
+.buttonUpdate {
+    -fx-background-color: transparent;
+}
+
+.buttonUpdate:hover,
+.buttonUpdate:pressed {
+    -fx-background-color: #fcc14e;
+}
+
 /*  When you have your mouse over the button. 
     When button is pressed. */
 .button:hover,
@@ -111,9 +120,14 @@ Background:
     -fx-table-cell-border-color: #666666;
 }
 
-.mylistview{
+.mylistview {
     -fx-background-color: transparent;
 }
+
+.list-cell {
+    -fx-cell-size: 40;
+}
+
 .mylistview:focused{
     -fx-background-color: transparent;
 }

@@ -7,35 +7,100 @@ package museumtimetracking;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import museumtimetracking.be.enums.EAppLanguage;
+import static museumtimetracking.be.enums.EAppLanguage.*;
+import museumtimetracking.exception.DALException;
 
 public class MuseumTimeTracking extends Application {
 
+    public static final String RESOURCE_LOCATION = "museumtimetracking.gui.language.UIResources";
     public static final String ICON = "museumtimetracking/asset/img/icon.png";
+    private static final String VIKING_STARTUP_SOUND = "asset/mp3/Viking.mp3";
+    private final MediaPlayer mediaPlayer;
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        Parent startRoot = createLoadingView(stage);
+    public MuseumTimeTracking() {
 
-        Stage mainStage = createMainView();
-
-        FadeTransition fadeIn = createFadeIn(startRoot, stage);
-
-        setOnFadeInFinished(fadeIn, startRoot, mainStage, stage);
+        URL sound = this.getClass().getResource(VIKING_STARTUP_SOUND);
+        Media media = new Media(sound.toString());
+        mediaPlayer = new MediaPlayer(media);
 
     }
 
+    private static final Stage MAIN_STAGE = new Stage();
+
+    public static ResourceBundle bundle;
+    public static StringProperty LOCALE = new SimpleStringProperty(DANISH.toString());
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        bundle = ResourceBundle.getBundle(RESOURCE_LOCATION, new Locale(LOCALE.get()));
+
+        instantiateLanguageListener();
+
+        Parent startRoot = createLoadingView(stage);
+
+        createMainView();
+
+        FadeTransition fadeIn = createFadeIn(startRoot, stage);
+
+        setOnFadeInFinished(fadeIn, startRoot, MAIN_STAGE, stage);
+
+    }
+
+    /**
+     * Create a changelistener for the locale language
+     */
+    private void instantiateLanguageListener() {
+        LOCALE.addListener((observable, oldValue, newValue) -> {
+
+            bundle = ResourceBundle.getBundle(RESOURCE_LOCATION, new Locale(LOCALE.get()));
+
+            try {
+                createMainView();
+            } catch (IOException ex) {
+                Logger.getLogger(MuseumTimeTracking.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+    }
+
+    /**
+     * Change the language of the application
+     *
+     * @param language
+     */
+    public static void changeLanguage(EAppLanguage language) {
+        LOCALE.set(language.toString());
+    }
+
+    /**
+     * Create the start view
+     *
+     * @param stage
+     * @return
+     * @throws IOException
+     */
     private Parent createLoadingView(Stage stage) throws IOException {
-        //Start out loading start view
-        Parent startRoot = FXMLLoader.load(getClass().getResource("gui/views/startScreen/StartView.fxml"));
+        Parent startRoot = FXMLLoader.load(getClass().getResource("gui/views/startScreen/StartView.fxml"), bundle);
         Scene startScene = new Scene(startRoot);
         stage.getIcons().add(new Image(ICON));
         stage.setScene(startScene);
@@ -43,29 +108,55 @@ public class MuseumTimeTracking extends Application {
         return startRoot;
     }
 
+    /**
+     * Create the mainview
+     *
+     * @return
+     * @throws IOException
+     */
     private Stage createMainView() throws IOException {
         //Start loading main view
-        Stage mainStage = new Stage();
         URL location = getClass().getResource("/museumtimetracking/gui/views/root/MTTMainView.fxml");
-        FXMLLoader loader = new FXMLLoader(location);
+        FXMLLoader loader = new FXMLLoader(location, bundle);
         Parent root = loader.load();
-        mainStage.getIcons().add(new Image(ICON));
+        MAIN_STAGE.getIcons().add(new Image(ICON));
         Scene scene = new Scene(root);
-        mainStage.setScene(scene);
-        return mainStage;
+        MAIN_STAGE.setScene(scene);
+        return MAIN_STAGE;
     }
 
-    private FadeTransition createFadeIn(Parent startRoot, Stage stage) {
+    /**
+     * Create the fadein effect
+     *
+     * @param startRoot
+     * @param stage
+     * @return
+     * @throws IOException
+     * @throws DALException
+     */
+    private FadeTransition createFadeIn(Parent startRoot, Stage stage) throws IOException, DALException {
         //Start fade in of start view
         FadeTransition fadeIn = new FadeTransition(Duration.seconds(3), startRoot);
-        fadeIn.setFromValue(0);
+        fadeIn.setFromValue(0.2);
         fadeIn.setToValue(1);
         fadeIn.setCycleCount(1);
         fadeIn.play();
+
+        // Plays the intro music.
+        mediaPlayer.play();
+
         stage.show();
         return fadeIn;
     }
 
+    /**
+     * Set on fadein finished functionality
+     *
+     * @param fadeIn
+     * @param startRoot
+     * @param mainStage
+     * @param stage
+     */
     private void setOnFadeInFinished(FadeTransition fadeIn, Parent startRoot, Stage mainStage, Stage stage) {
         fadeIn.setOnFinished((e) -> {
             //Start fade out of start view
@@ -77,8 +168,23 @@ public class MuseumTimeTracking extends Application {
 
             //Display main and close start view
             fadeOut.setOnFinished((finishedEvent) -> {
+                //Start timeline to fadeout music
+                Timeline timeline = new Timeline(
+                        //KeyFrame is to define the duration the fadeout will take
+                        new KeyFrame(Duration.seconds(3),
+                        //KeyValue is to define the start and end value
+                        new KeyValue(mediaPlayer.volumeProperty(), 0)));
+                timeline.play();
+
                 mainStage.show();
                 stage.close();
+
+                //Set on finish task
+                timeline.setOnFinished((event) -> {
+                    // Stop intro music.
+                    mediaPlayer.stop();
+                });
+
             });
         });
     }

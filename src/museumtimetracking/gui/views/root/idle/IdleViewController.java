@@ -5,22 +5,24 @@
  */
 package museumtimetracking.gui.views.root.idle;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import museumtimetracking.MuseumTimeTracking;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.model.VolunteerModel;
 
 /**
@@ -39,13 +41,17 @@ public class IdleViewController implements Initializable {
     @FXML
     private TableColumn<Volunteer, String> clmVolunteerName;
     @FXML
+    private Label lblGMAmount;
+    @FXML
+    private Label lblVolunteerAmount;
+    @FXML
     private TableView<GM> tableIdleGM;
     @FXML
     private TableView<Volunteer> tableIdleVolunteer;
     @FXML
-    private VBox vBoxGMOptions;
+    private HBox vBoxGMOptions;
     @FXML
-    private VBox vBoxVolunteerOptions;
+    private HBox vBoxVolunteerOptions;
 
     private GuildManagerModel guildManagerModel;
 
@@ -53,15 +59,11 @@ public class IdleViewController implements Initializable {
 
     private GM selectedManager;
     private Volunteer selectedVolunteer;
-    public static final String TABLEVIEW_PLACEHOLDER = "Oversigten er tom";
+    private final String TABLEVIEW_PLACEHOLDER = MuseumTimeTracking.bundle.getString("EmptyTable");
 
     public IdleViewController() {
-        try {
-            guildManagerModel = GuildManagerModel.getInstance();
-            volunteerModel = VolunteerModel.getInstance();
-        } catch (IOException | DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        guildManagerModel = ModelFacade.getInstance().getGuildManagerModel();
+        volunteerModel = ModelFacade.getInstance().getVolunteerModel();
     }
 
     /**
@@ -69,14 +71,16 @@ public class IdleViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         initializeTables();
-        setIdleGMOptionsVisibility(false);
-        setIdleVolunteerOptionsVisibility(false);
+
+        lblGMAmount.textProperty().bind(Bindings.size((guildManagerModel.getCachedIdleGuildManagers())).asString());
+        lblVolunteerAmount.textProperty().bind(Bindings.size((volunteerModel.getCachedIdleVolunteers())).asString());
     }
 
     @FXML
     private void handleDeleteGM() {
-        Alert alert = AlertFactory.createDeleteAlert();
+        Alert alert = new AlertFactory().createDeleteAlert();
         alert.showAndWait().ifPresent(type -> {
             //If the first button ("YES") is clicked
             if (type == alert.getButtonTypes().get(0)) {
@@ -87,11 +91,14 @@ public class IdleViewController implements Initializable {
                 }
             }
         });
+        if (tableIdleGM.getSelectionModel().isEmpty()) {
+            setIdleGMOptionsVisibility(false);
+        }
     }
 
     @FXML
     private void handleDeleteVolunteer() {
-        Alert alert = AlertFactory.createDeleteAlert();
+        Alert alert = new AlertFactory().createDeleteAlert();
         alert.showAndWait().ifPresent(type -> {
             //If the first button ("YES") is clicked
             if (type == alert.getButtonTypes().get(0)) {
@@ -102,6 +109,9 @@ public class IdleViewController implements Initializable {
                 }
             }
         });
+        if (tableIdleVolunteer.getSelectionModel().isEmpty()) {
+            setIdleVolunteerOptionsVisibility(false);
+        }
     }
 
     @FXML
@@ -110,6 +120,9 @@ public class IdleViewController implements Initializable {
             guildManagerModel.updateIdleManager(selectedManager, false);
         } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
+        }
+        if (tableIdleGM.getSelectionModel().isEmpty()) {
+            setIdleGMOptionsVisibility(false);
         }
     }
 
@@ -120,18 +133,21 @@ public class IdleViewController implements Initializable {
         } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
+        if (tableIdleVolunteer.getSelectionModel().isEmpty()) {
+            setIdleVolunteerOptionsVisibility(false);
+        }
     }
 
     @FXML
     private void handleSelectGM() {
-        setIdleGMOptionsVisibility(true);
         selectedManager = tableIdleGM.getSelectionModel().getSelectedItem();
+        setIdleGMOptionsVisibility(true);
     }
 
     @FXML
     private void handleSelectVounteer() {
-        setIdleVolunteerOptionsVisibility(true);
         selectedVolunteer = tableIdleVolunteer.getSelectionModel().getSelectedItem();
+        setIdleVolunteerOptionsVisibility(true);
     }
 
     /**
@@ -163,13 +179,22 @@ public class IdleViewController implements Initializable {
         tableIdleGM.setPlaceholder(new Label(TABLEVIEW_PLACEHOLDER));
 
         clmGMName.setCellValueFactory(gm -> gm.getValue().getFullNameProperty());
-        clmGMDescription.setCellValueFactory(gm -> gm.getValue().getDescription());
+        clmGMDescription.setCellValueFactory(gm -> gm.getValue().getDescriptionProperty());
 
         tableIdleVolunteer.setItems(volunteerModel.getCachedIdleVolunteers());
         tableIdleVolunteer.setPlaceholder(new Label(TABLEVIEW_PLACEHOLDER));
 
         clmVolunteerName.setCellValueFactory(v -> v.getValue().getFullNameProperty());
         clmVolunteerDescription.setCellValueFactory(v -> v.getValue().getDescriptionProperty());
+
+        //Check if Idle GM is empty
+        if (tableIdleGM.getSelectionModel().isEmpty()) {
+            setIdleGMOptionsVisibility(false);
+        }
+        //Check if idle volunteer is empty
+        if (tableIdleVolunteer.getSelectionModel().isEmpty()) {
+            setIdleVolunteerOptionsVisibility(false);
+        }
     }
 
     /**

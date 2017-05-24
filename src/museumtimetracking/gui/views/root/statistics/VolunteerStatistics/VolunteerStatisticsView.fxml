@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="268.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.statistics.VolunteerStatistics.VolunteerStatisticsViewController">
+   <children>
+      <Label alignment="CENTER" layoutX="75.0" layoutY="78.0" text="%Hours" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="78.0">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font></Label>
+      <Label fx:id="labelHours" alignment="CENTER" layoutX="82.0" layoutY="123.0" text="&lt;Text&gt;" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="123.0">
+         <font>
+            <Font name="System Bold Italic" size="30.0" />
+         </font></Label>
+      <JFXButton id="btnClearAll" layoutX="72.0" layoutY="185.0" maxWidth="140.0" minWidth="140.0" onAction="#handleClearCombo" prefWidth="140.0" text="%Clear" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+         <font>
+            <Font name="System Bold Italic" size="15.0" />
+         </font></JFXButton>
+      <Label layoutX="14.0" layoutY="218.0" text="%VolunteerInfo" AnchorPane.bottomAnchor="181.0" AnchorPane.leftAnchor="14.0" />
+      <JFXComboBox id="volunteer" fx:id="comboVolunteer" layoutX="18.0" layoutY="287.0" onHidden="#handleUpdate" prefHeight="25.0" prefWidth="150.0" promptText="%SelectVolunteer" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="40.0" />
+      <Label layoutX="14.0" layoutY="290.0" text="%GuildInfo" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="14.0" />
+      <Label alignment="CENTER" contentDisplay="RIGHT" layoutX="53.0" layoutY="14.0" text="%WorkhoursHeadline" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font name="System Bold Italic" size="30.0" />
+         </font>
+      </Label>
+      <JFXButton id="btnVolunteer" layoutX="195.0" layoutY="262.0" onAction="#handleClearCombo" text="X" AnchorPane.bottomAnchor="150.0" AnchorPane.rightAnchor="14.0" />
+      <JFXComboBox id="guild" fx:id="comboGuild" layoutX="18.0" layoutY="347.0" onHidden="#handleUpdate" prefHeight="25.0" prefWidth="150.0" promptText="%AllGuilds" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="40.0" />
+      <JFXButton id="btnGuild" layoutX="181.0" layoutY="316.0" onAction="#handleClearCombo" text="X" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="14.0" />
+   </children>
+</AnchorPane>

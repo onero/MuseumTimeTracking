@@ -5,20 +5,27 @@
  */
 package museumtimetracking.be;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Guild implements Comparable<Guild> {
+public class Guild implements Comparable<Guild>, Externalizable {
 
-    private final StringProperty name;
+    private StringProperty name;
 
-    private final StringProperty description;
+    private StringProperty description;
 
-    private final BooleanProperty isArchived;
+    private BooleanProperty isArchived;
 
     private GM guildManager;
+
+    public Guild() {
+    }
 
     public Guild(String name, String description, boolean archived) {
         this.name = new SimpleStringProperty(name);
@@ -96,6 +103,22 @@ public class Guild implements Comparable<Guild> {
 
     public void setGuildManager(GM guildManager) {
         this.guildManager = guildManager;
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        this.name = new SimpleStringProperty((String) in.readObject());
+        this.description = new SimpleStringProperty((String) in.readObject());
+        isArchived = new SimpleBooleanProperty(in.readBoolean());
+        setGuildManager((GM) in.readObject());
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeObject(name.get());
+        out.writeObject(description.get());
+        out.writeBoolean(isArchived.get());
+        out.writeObject(guildManager);
     }
 
 }

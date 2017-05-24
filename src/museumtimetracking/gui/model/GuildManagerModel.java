@@ -5,53 +5,99 @@
  */
 package museumtimetracking.gui.model;
 
+import java.io.Externalizable;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import jxl.write.WriteException;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
-import museumtimetracking.bll.GuildMGRManager;
+import museumtimetracking.bll.GMManager;
 import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.views.root.MTTMainControllerView;
 
 /**
  *
  * @author Mathias
  */
-public class GuildManagerModel {
+public class GuildManagerModel implements Externalizable, IASyncUpdate, ISaveModel<GuildManagerModel> {
 
-    private static GuildManagerModel instance;
+    private transient GMManager gmManager;
 
-    private final GuildMGRManager guildMGRManager;
+    private Set<GM> managersFromDB;
+    private ObservableList<GM> cachedManagers;
 
-    private final Set<GM> managersFromDB;
-    private final ObservableList<GM> cachedManagers;
+    private Set<GM> idleGuildManagersFromDB;
+    private ObservableList<GM> cachedIdleGuildManagers;
 
-    private final Set<GM> idleGuildManagersFromDB;
-    private final ObservableList<GM> cachedIdleGuildManagers;
+    private Set<GM> gmCandidatesFromDB;
+    private ObservableList<GM> cachedGMCandidates;
 
-    private final Set<GM> gmCandidatesFromDB;
-    private final ObservableList<GM> cachedGMCandidates;
+    private int descriptionRestriction;
 
-    public static GuildManagerModel getInstance() throws IOException, DALException {
-        if (instance == null) {
-            instance = new GuildManagerModel();
-        }
-        return instance;
+    public GuildManagerModel() {
     }
 
-    private GuildManagerModel() throws IOException, DALException {
-        guildMGRManager = new GuildMGRManager();
-        gmCandidatesFromDB = new TreeSet<>(guildMGRManager.getAllGMCandidates());
+    public GuildManagerModel(boolean onlineMode) throws DALException {
+        gmManager = new GMManager();
+//        instantiateCollections();
+        gmCandidatesFromDB = new TreeSet<>(gmManager.getAllGMCandidates());
+        managersFromDB = gmManager.getAllGuildManagersNotIdle();
+        idleGuildManagersFromDB = gmManager.getAllIdleGuildManagers();
+
         cachedGMCandidates = FXCollections.observableArrayList(gmCandidatesFromDB);
-        managersFromDB = guildMGRManager.getAllGuildManagersNotIdle();
-        idleGuildManagersFromDB = guildMGRManager.getAllIdleGuildManagers();
         cachedManagers = FXCollections.observableArrayList(managersFromDB);
         cachedIdleGuildManagers = FXCollections.observableArrayList(idleGuildManagersFromDB);
 
+        descriptionRestriction = gmManager.getGmDescriptionRestriction();
+
+        saveModel(this);
+
+    }
+
+    @Override
+    public void saveModel(GuildManagerModel model) {
+        gmManager.saveModel(this);
+    }
+
+    @Override
+    public void updateData() {
+        Runnable task = () -> {
+            Platform.runLater(() -> {
+                try {
+                    instantiateCollections();
+                } catch (DALException ex) {
+                    ExceptionDisplayer.display(ex);
+                }
+            });
+        };
+        new Thread(task).start();
+    }
+
+    private void instantiateCollections() throws DALException {
+        gmCandidatesFromDB = new TreeSet<>(gmManager.getAllGMCandidates());
+        cachedGMCandidates.clear();
+        cachedGMCandidates.addAll(cachedManagers);
+
+        managersFromDB = gmManager.getAllGuildManagersNotIdle();
+        cachedManagers.clear();
+        cachedManagers.addAll(managersFromDB);
+
+        idleGuildManagersFromDB = gmManager.getAllIdleGuildManagers();
+        cachedIdleGuildManagers.clear();
+        cachedIdleGuildManagers.addAll(idleGuildManagersFromDB);
+
+        gmManager.saveModel(this);
     }
 
     /**
@@ -86,7 +132,9 @@ public class GuildManagerModel {
             cachedIdleGuildManagers.remove(selectedManager);
             sortLists();
         }
-        guildMGRManager.archiveManager(selectedManager.getID(), value);
+        gmManager.archiveManager(selectedManager.getID(), value);
+
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -98,10 +146,12 @@ public class GuildManagerModel {
      * @throws museumtimetracking.exception.DALException
      */
     public void createNewGuildManager(APerson person, Guild guild) throws DALException {
-        GM manager = guildMGRManager.createNewGuildManager(person, guild.getName());
+        GM manager = gmManager.createNewGuildManager(person, guild.getName());
         guild.setGuildManager(manager);
         cachedManagers.add(manager);
         sortLists();
+
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -121,7 +171,9 @@ public class GuildManagerModel {
      * @param guildsToDelete
      */
     public void updateGuildManager(GM manager, Set<String> guildsToAdd, Set<String> guildsToDelete) throws DALException {
-        guildMGRManager.updateGuildManager(manager, guildsToAdd, guildsToDelete);
+        gmManager.updateGuildManager(manager, guildsToAdd, guildsToDelete);
+
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -134,8 +186,10 @@ public class GuildManagerModel {
         cachedManagers.remove(guildManager);
         cachedGMCandidates.remove(guildManager);
         cachedIdleGuildManagers.remove(guildManager);
-        guildMGRManager.deleteGuildManager(guildManager.getID());
+        gmManager.deleteGuildManager(guildManager.getID());
         sortLists();
+
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -146,6 +200,9 @@ public class GuildManagerModel {
         return cachedIdleGuildManagers;
     }
 
+    /**
+     * Clears and resets the cached guild managers
+     */
     public void resetGuildManagers() {
         cachedManagers.clear();
         cachedManagers.addAll(managersFromDB);
@@ -163,7 +220,7 @@ public class GuildManagerModel {
      * @throws DALException
      */
     public void assignGuildToManager(GM gm, Guild guild) throws DALException {
-        guildMGRManager.assignGuildToManager(gm.getID(), guild.getName());
+        gmManager.assignGuildToManager(gm.getID(), guild.getName());
         guild.setGuildManager(gm);
     }
 
@@ -200,6 +257,57 @@ public class GuildManagerModel {
         cachedManagers.stream()
                 .filter(gm -> gm.getObservableListOfGuilds().contains(guildToRemove))
                 .forEach(gm -> gm.removeGuild(guildToRemove));
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeObject(managersFromDB);
+        out.writeObject(gmCandidatesFromDB);
+        out.writeObject(idleGuildManagersFromDB);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        gmManager = new GMManager();
+        managersFromDB = (Set<GM>) in.readObject();
+        cachedManagers = FXCollections.observableArrayList(managersFromDB);
+        gmCandidatesFromDB = (Set<GM>) in.readObject();
+        cachedGMCandidates = FXCollections.observableArrayList(gmCandidatesFromDB);
+        idleGuildManagersFromDB = (Set<GM>) in.readObject();
+        cachedIdleGuildManagers = FXCollections.observableArrayList(idleGuildManagersFromDB);
+    }
+
+    //TODO RKL: JAVADOC!
+    //TODO RKL: Fix this sheit.
+    public void exportROIToExcel(String location) throws IOException, DALException, WriteException {
+        GuildModel guildModel = ModelFacade.getInstance().getGuildModel();
+        List<Guild> guilds = guildModel.getGuildsFromDB();
+        List<String> guildNames = new ArrayList<>();
+        List<Integer> weekROI = new ArrayList<>();
+        List<Integer> monthROI = new ArrayList<>();
+        List<Integer> yearROI = new ArrayList<>();
+
+        for (Guild guild : guilds) {
+            int[] roi = guildModel.getROIForAGuild(guild.getName());
+            if (roi != null) {
+                guildNames.add(guild.getName());
+                weekROI.add(roi[0]);
+                monthROI.add(roi[1]);
+                yearROI.add(roi[2]);
+            }
+        }
+
+        gmManager.exportToExcel(location, new ArrayList<>(guildNames),
+                /*new ArrayList<>(weekROI), */ new ArrayList<>(monthROI)/*, new ArrayList<>(yearROI)*/);
+    }
+
+    /**
+     * Returns the restriction of the description for a GM.
+     *
+     * @return
+     */
+    public int getDescriptionRestriction() {
+        return descriptionRestriction;
     }
 
 }

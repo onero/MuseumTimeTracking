@@ -14,7 +14,7 @@
    <children>
       <VBox layoutX="10.0" layoutY="10.0" prefWidth="207.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="186.0" text="Ekstra Info">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="186.0" text="%AdditionalInfo">
                <font>
                   <Font name="System Bold Italic" size="24.0" />
                </font>
@@ -33,8 +33,8 @@
                <children>
                   <ButtonBar>
                     <buttons>
-                      <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#handleEditVolunteerInfo" text="Rediger" />
-                        <Button mnemonicParsing="false" onAction="#handleBack" text="Tilbage" />
+                      <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#handleEditVolunteerInfo" text="%Edit" />
+                        <Button mnemonicParsing="false" onAction="#handleBack" text="%Back" />
                     </buttons>
                   </ButtonBar>
                </children>

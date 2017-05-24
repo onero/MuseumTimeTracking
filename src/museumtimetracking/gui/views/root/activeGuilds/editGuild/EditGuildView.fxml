@@ -18,8 +18,8 @@
       <ButtonBar layoutX="14.0" layoutY="432.0" nodeOrientation="RIGHT_TO_LEFT" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0">
 
         <buttons>
-            <Button mnemonicParsing="false" onAction="#handleBack" text="Tilbage" />
-          <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handleSaveGuild" text="Rediger" />
+            <Button mnemonicParsing="false" onAction="#handleBack" text="%Back" />
+          <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handleSaveGuild" text="%Edit" />
         </buttons>
       </ButtonBar>
       <VBox prefHeight="265.0" prefWidth="468.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">

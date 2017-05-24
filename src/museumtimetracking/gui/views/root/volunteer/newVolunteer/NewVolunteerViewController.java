@@ -5,7 +5,6 @@
  */
 package museumtimetracking.gui.views.root.volunteer.newVolunteer;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -21,6 +20,7 @@ import museumtimetracking.bll.APersonManager;
 import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.model.VolunteerModel;
 
 /**
@@ -52,11 +52,7 @@ public class NewVolunteerViewController implements Initializable {
     private VolunteerModel volunteerModel;
 
     public NewVolunteerViewController() {
-        try {
-            volunteerModel = VolunteerModel.getInstance();
-        } catch (IOException | DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        volunteerModel = ModelFacade.getInstance().getVolunteerModel();
     }
 
     @FXML
@@ -79,7 +75,7 @@ public class NewVolunteerViewController implements Initializable {
             }
             closeWindow();
         } else {
-            AlertFactory.createValidationAlert().show();
+            new AlertFactory().createValidationAlert().show();
         }
     }
 

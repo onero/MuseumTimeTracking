@@ -5,56 +5,126 @@
  */
 package museumtimetracking.gui.model;
 
+import java.io.Externalizable;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import jxl.write.WriteException;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
+import museumtimetracking.be.Volunteer;
 import museumtimetracking.bll.GuildManager;
 import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.views.root.MTTMainControllerView;
 
-public class GuildModel {
+public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<GuildModel> {
 
-    private static GuildModel instance;
+    private List<Guild> guildsFromDB;
 
-    public static GuildModel getInstance() throws IOException, DALException {
-        if (instance == null) {
-            instance = new GuildModel();
-        }
-        return instance;
-    }
+    private ObservableList<Guild> cachedGuilds;
 
-    private final List<Guild> guildsFromDB;
+    private List<Guild> availableGuildsFromDB;
 
-    private final ObservableList<Guild> cachedGuilds;
+    private ObservableList<Guild> cachedAvailableGuilds;
 
-    private final ObservableList<Guild> cachedAvailableGuilds;
+    private List<Guild> archivedGuildsFromDB;
 
-    private final List<Guild> archivedGuildsFromDB;
+    private ObservableList<Guild> cachedArchivedGuilds;
 
-    private final ObservableList<Guild> cachedArchivedGuilds;
-
-    private final GuildManager guildManager;
+    private transient GuildManager guildManager;
 
     private Map<String, Integer> guildHours;
 
-    private GuildModel() throws IOException, DALException {
-        // Instantiate guildManager
+    private Map<String, Integer> guildROI;
+
+    public GuildModel() {
+    }
+
+    //TODO ALH: Explain
+    public GuildModel(boolean onlineMode) throws DALException {
         guildManager = new GuildManager();
-        // Puts in all the guilds from DB to Manager and after Model.
         guildsFromDB = guildManager.getAllGuildsNotArchived();
-        archivedGuildsFromDB = guildManager.getAllGuildsArchived();
-        // Puts the guilds from the DB inside a ObservableList.
         cachedGuilds = FXCollections.observableArrayList(guildsFromDB);
-        cachedAvailableGuilds = FXCollections.observableArrayList(guildManager.getGuildsWithoutManagers());
+
+        archivedGuildsFromDB = guildManager.getAllGuildsArchived();
         cachedArchivedGuilds = FXCollections.observableArrayList(archivedGuildsFromDB);
+
+        availableGuildsFromDB = guildManager.getGuildsWithoutManagers();
+        cachedAvailableGuilds = FXCollections.observableArrayList(availableGuildsFromDB);
+
         guildHours = guildManager.getAllHoursWorked(guildsFromDB);
+
+        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, 2);
 
         Collections.sort(guildsFromDB);
 
+        saveModel(this);
+
+    }
+
+    @Override
+    public void saveModel(GuildModel model) {
+        guildManager.saveModel(this);
+    }
+
+    /**
+     * Updates data
+     *
+     * @throws DALException
+     */
+    @Override
+    public void updateData() {
+        //Show updating data view
+        MTTMainControllerView.getInstance().showUpdate(true);
+        //Create new runnable task for updating data
+        Runnable task = () -> {
+            try {
+                instatiateCollections();
+                //When the collections are updated
+                Platform.runLater(() -> {
+                    //todo alh: rEFACTOR INTO METHOD
+                    cachedGuilds.clear();
+                    cachedGuilds.addAll(guildsFromDB);
+                    cachedArchivedGuilds.clear();
+                    cachedArchivedGuilds.addAll(archivedGuildsFromDB);
+                    cachedAvailableGuilds.clear();
+                    cachedAvailableGuilds.addAll(availableGuildsFromDB);
+                    //Hide the updating view
+                    MTTMainControllerView.getInstance().showUpdate(false);
+                });
+            } catch (DALException ex) {
+                ExceptionDisplayer.display(ex);
+            }
+        };
+        new Thread(task).start();
+    }
+
+    /**
+     * Instantiate the lists with updated data.
+     *
+     * @throws DALException
+     */
+    private void instatiateCollections() throws DALException {
+        guildsFromDB = guildManager.getAllGuildsNotArchived();
+
+        archivedGuildsFromDB = guildManager.getAllGuildsArchived();
+
+        availableGuildsFromDB = guildManager.getGuildsWithoutManagers();
+
+        guildHours = guildManager.getAllHoursWorked(guildsFromDB);
+
+        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, 2);
+
+        Collections.sort(guildsFromDB);
     }
 
     /**
@@ -77,6 +147,8 @@ public class GuildModel {
         guildManager.archiveGuild(guildToArchive);
         cachedGuilds.remove(guildToArchive);
         sortLists();
+
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     // Made a getter to call in GuildOverviewController to update the tableview.
@@ -104,6 +176,8 @@ public class GuildModel {
         cachedAvailableGuilds.remove(deleteGuild);
         cachedArchivedGuilds.remove(deleteGuild);
         guildManager.deleteGuild(deleteGuild);
+
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -115,6 +189,8 @@ public class GuildModel {
         guildManager.addGuild(guild);
         cachedGuilds.add(guild);
         sortLists();
+
+        MTTMainControllerView.getInstance().handleUpdate();
 
     }
 
@@ -128,6 +204,8 @@ public class GuildModel {
         cachedArchivedGuilds.remove(guildToRestore);
         cachedGuilds.add(guildToRestore);
         sortLists();
+
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -146,6 +224,8 @@ public class GuildModel {
                 });
         guildManager.updateGuild(guildToUpdate, updatedGuild);
         sortLists();
+
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -155,7 +235,14 @@ public class GuildModel {
      * @throws museumtimetracking.exception.DALException
      */
     public Map<String, Integer> getMapOfHoursPerGuild() throws DALException {
-        guildHours = guildManager.getAllHoursWorked(guildsFromDB);
+        Map<String, Integer> hours = guildManager.getAllHoursWorked(guildsFromDB);
+        if (hours != null) {
+            guildHours = hours;
+        }
+        return getGuildHours();
+    }
+
+    public Map<String, Integer> getGuildHours() {
         return guildHours;
     }
 
@@ -224,6 +311,8 @@ public class GuildModel {
     public void updateGMForGuild(GM gm, Guild guild) throws DALException {
         guildManager.updateGMForGuild(gm.getID(), guild.getName());
         guild.setGuildManager(gm);
+
+        MTTMainControllerView.getInstance().handleUpdate();
     }
 
     /**
@@ -231,7 +320,7 @@ public class GuildModel {
      *
      * @param guildToAdd
      */
-    public void addCachedAvailableGuild(Guild guildToAdd) {
+    public void addCachedAvailableGuild(Guild guildToAdd) throws DALException {
         cachedAvailableGuilds.add(guildToAdd);
         sortLists();
     }
@@ -244,4 +333,94 @@ public class GuildModel {
     public void removeCachedAvailableGuild(Guild guildToRemove) {
         cachedAvailableGuilds.remove(guildToRemove);
     }
+
+    /**
+     * Export all guild hours to excel sheet
+     *
+     * @param location
+     * @throws IOException
+     * @throws WriteException
+     * @throws DALException
+     */
+    public void exportGuildHoursToExcel(String location) throws IOException, WriteException, DALException {
+        getMapOfHoursPerGuild();
+
+        //Create Guild name keys (Will be strings)
+        List keys = new ArrayList<>(guildHours.keySet());
+
+        //Create hour values (will be integers)
+        List values = new ArrayList<>(guildHours.values());
+
+        guildManager.exportToExcel(location, keys, values);
+    }
+
+    /**
+     * Gets the value from guildROI.
+     *
+     * @param guildName the key for the map.
+     * @return ROI for the guild as int. Or zero if there is no ROI.
+     */
+    public int[] getROIForAGuild(String guildName) {
+        try {
+            int[] roi = new int[3];
+            int roiForGuild = guildROI.get(guildName);
+            roi[0] = roiForGuild / 4;
+            roi[1] = roiForGuild;
+            roi[2] = roiForGuild * 12;
+            return roi;
+        } catch (NullPointerException nex) {
+            return null;
+        }
+    }
+
+    //TODO RKL: JAVADOC!
+    public List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws DALException {
+        return guildManager.getGuildsAVolunteerHasWorkedOn(volunteer);
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeObject(guildsFromDB);
+
+        out.writeObject(availableGuildsFromDB);
+
+        out.writeObject(archivedGuildsFromDB);
+
+        out.writeObject(guildHours);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        guildManager = new GuildManager();
+        guildsFromDB = (List<Guild>) in.readObject();
+        cachedGuilds = FXCollections.observableArrayList(guildsFromDB);
+
+        availableGuildsFromDB = (List<Guild>) in.readObject();
+        cachedAvailableGuilds = FXCollections.observableArrayList(availableGuildsFromDB);
+
+        archivedGuildsFromDB = (List<Guild>) in.readObject();
+        cachedArchivedGuilds = FXCollections.observableArrayList(archivedGuildsFromDB);
+
+        guildHours = (Map<String, Integer>) in.readObject();
+
+        guildROI = new HashMap<>();
+
+        Collections.sort(guildsFromDB);
+    }
+
+    /**
+     * Gets all hours that has been added to a guild.
+     *
+     * @param guildName
+     * @return
+     */
+    public Integer getWorkHoursInGuild(String guildName) throws DALException {
+        return guildManager.getWorkHoursInGuild(guildName);
+
+    }
+
+    public Map<String, Integer> getGuildROI() {
+        return guildROI;
+    }
+
 }

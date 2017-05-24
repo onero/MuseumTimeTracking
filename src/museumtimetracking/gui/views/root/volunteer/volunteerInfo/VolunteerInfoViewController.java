@@ -5,7 +5,6 @@
  */
 package museumtimetracking.gui.views.root.volunteer.volunteerInfo;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -13,9 +12,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import museumtimetracking.MuseumTimeTracking;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.model.VolunteerModel;
 
 /**
@@ -34,15 +35,10 @@ public class VolunteerInfoViewController implements Initializable {
 
     private Stage primStage;
 
-    private VolunteerModel volunteerModel;
+    private final VolunteerModel volunteerModel;
 
     public VolunteerInfoViewController() {
-        volunteerModel = null;
-        try {
-            volunteerModel = VolunteerModel.getInstance();
-        } catch (IOException | DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        volunteerModel = ModelFacade.getInstance().getVolunteerModel();
     }
 
     @FXML
@@ -55,11 +51,11 @@ public class VolunteerInfoViewController implements Initializable {
     @FXML
     private void handleEditVolunteerInfo() {
         primStage = (Stage) btnEdit.getScene().getWindow();
-        if (btnEdit.getText().equalsIgnoreCase("rediger")) {
-            btnEdit.setText("Gem");
+        if (btnEdit.getText().equalsIgnoreCase(MuseumTimeTracking.bundle.getString("Edit"))) {
+            btnEdit.setText(MuseumTimeTracking.bundle.getString("Save"));
             txtVolunteerInfo.setDisable(false);
         } else {
-            btnEdit.setText("Rediger");
+            btnEdit.setText(MuseumTimeTracking.bundle.getString("Edit"));
             txtVolunteerInfo.setDisable(true);
             currentVolunteer.setDescription(txtVolunteerInfo.getText());
             try {

@@ -6,7 +6,6 @@
 package museumtimetracking.gui.views.root.guildManager.newGuildManager;
 
 import com.jfoenix.controls.JFXSnackbar;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -22,8 +21,8 @@ import museumtimetracking.be.Guild;
 import museumtimetracking.bll.APersonManager;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
-import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.model.ModelFacade;
 
 /**
  * FXML Controller class
@@ -51,11 +50,8 @@ public class NewGuildManagerViewController implements Initializable {
     private GuildModel guildModel;
 
     public NewGuildManagerViewController() {
-        try {
-            guildModel = GuildModel.getInstance();
-        } catch (IOException | DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        guildModel = ModelFacade.getInstance().getGuildModel();
+
     }
 
     /**
@@ -107,8 +103,8 @@ public class NewGuildManagerViewController implements Initializable {
             APerson person = new GM(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), Integer.parseInt(txtPhone.getText()));
             Guild selectedGuild = comboGuild.getSelectionModel().getSelectedItem();
             try {
-                GuildManagerModel.getInstance().createNewGuildManager(person, selectedGuild);
-            } catch (IOException | DALException ex) {
+                ModelFacade.getInstance().getGuildManagerModel().createNewGuildManager(person, selectedGuild);
+            } catch (DALException ex) {
                 ExceptionDisplayer.display(ex);
             }
             closeWindow();

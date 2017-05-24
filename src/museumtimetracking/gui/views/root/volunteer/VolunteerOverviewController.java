@@ -10,11 +10,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
@@ -26,14 +28,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import museumtimetracking.MuseumTimeTracking;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.EFXMLName;
 import static museumtimetracking.be.enums.EFXMLName.ADD_HOURS_VOLUNTEER;
 import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.model.VolunteerModel;
 import museumtimetracking.gui.views.ModalFactory;
+import museumtimetracking.gui.views.root.MTTMainControllerView;
 import museumtimetracking.gui.views.root.volunteer.addHours.AddVolunteersHoursViewController;
 import museumtimetracking.gui.views.root.volunteer.volunteerInfo.VolunteerInfoViewController;
 
@@ -50,6 +55,8 @@ public class VolunteerOverviewController implements Initializable {
     private ImageView imgProfile;
     @FXML
     private ToggleGroup language;
+    @FXML
+    private Label lblVolunteerAmount;
     @FXML
     private ListView<Volunteer> lstVolunteer;
     @FXML
@@ -78,7 +85,7 @@ public class VolunteerOverviewController implements Initializable {
     private Button btnDocument;
 
     public static final String NO_PHOTO = "/museumtimetracking/asset/img/no-photo.jpg";
-    private static final String NO_VOLUNTEER = "Der er ikke valgt nogen frivillig.";
+    private static final String NO_VOLUNTEER = MuseumTimeTracking.bundle.getString("NoVolunteerSelected");
 
     private VolunteerModel volunteerModel;
 
@@ -92,11 +99,8 @@ public class VolunteerOverviewController implements Initializable {
 
     public VolunteerOverviewController() {
         modalFactory = ModalFactory.getInstance();
-        try {
-            volunteerModel = VolunteerModel.getInstance();
-        } catch (IOException | DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        volunteerModel = ModelFacade.getInstance().getVolunteerModel();
+
     }
 
     /**
@@ -111,6 +115,8 @@ public class VolunteerOverviewController implements Initializable {
         setTextVisibility(false);
 
         setVolunteerOptionsVisibility(false);
+
+        lblVolunteerAmount.textProperty().bind(Bindings.size((volunteerModel.getCachedVolunteers())).asString());
     }
 
     /**
@@ -180,21 +186,30 @@ public class VolunteerOverviewController implements Initializable {
         });
     }
 
+    /**
+     * Sends the selected Volunteer through the layers to delete it and returns
+     * the buttons to view mode.
+     */
     @FXML
     private void handleDeleteVolunteer() {
         Volunteer volunteerToDelete = lstVolunteer.getSelectionModel().getSelectedItem();
         if (volunteerToDelete != null) {
-            Alert deleteAlert = AlertFactory.createDeleteAlert();
-            deleteAlert.showAndWait().ifPresent(type -> {
-                //If user clicks first button
-                if (type == deleteAlert.getButtonTypes().get(0)) {
-                    try {
-                        volunteerModel.deleteVolunteer(volunteerToDelete);
-                    } catch (DALException ex) {
-                        ExceptionDisplayer.display(ex);
+            if (btnDelete.getText().equals(MuseumTimeTracking.bundle.getString("Delete"))) {
+                Alert deleteAlert = new AlertFactory().createDeleteAlert();
+                deleteAlert.showAndWait().ifPresent(type -> {
+                    //If user clicks first button
+                    if (type == deleteAlert.getButtonTypes().get(0)) {
+                        try {
+                            volunteerModel.deleteVolunteer(volunteerToDelete);
+                        } catch (DALException ex) {
+                            ExceptionDisplayer.display(ex);
+                        }
                     }
-                }
-            });
+                });
+            } else if (btnDelete.getText().equals(MuseumTimeTracking.bundle.getString("Cancel"))) {
+                pressingSave();
+                showButtons();
+            }
         }
         lstVolunteer.refresh();
     }
@@ -205,29 +220,39 @@ public class VolunteerOverviewController implements Initializable {
         //Validate that a volunteer is selected
         if (selectedVolunteer != null) {
             //If we're not in edit mode
-            if (btnEdit.getText().equalsIgnoreCase("Rediger")) {
-                btnEdit.setText("Gem");
-                setTextVisibility(true);
-                lstVolunteer.setDisable(true);
-                setColorToOrange();
-                hideButtons();
+            if (btnEdit.getText().equalsIgnoreCase(MuseumTimeTracking.bundle.getString("Edit"))) {
+                pressingCancel();
                 //If we are in edit mode
             } else {
-                btnEdit.setText("Rediger");
-                setTextVisibility(false);
-                lstVolunteer.setDisable(false);
-                setColorToBlack();
+                pressingSave();
                 updateVolunteer();
                 //Update volunteer in DB
                 try {
-                    VolunteerModel.getInstance().updateVolunteer(selectedVolunteer);
-                } catch (IOException | DALException ex) {
+                    ModelFacade.getInstance().getVolunteerModel().updateVolunteer(selectedVolunteer);
+                } catch (DALException ex) {
                     ExceptionDisplayer.display(ex);
                 }
                 showButtons();
             }
         }
         lstVolunteer.refresh();
+    }
+
+    private void pressingCancel() {
+        btnEdit.setText(MuseumTimeTracking.bundle.getString("Save"));
+        btnDelete.setText(MuseumTimeTracking.bundle.getString("Cancel"));
+        setTextVisibility(true);
+        lstVolunteer.setDisable(true);
+        setColorToOrange();
+        hideButtons();
+    }
+
+    private void pressingSave() {
+        btnEdit.setText(MuseumTimeTracking.bundle.getString("Edit"));
+        btnDelete.setText(MuseumTimeTracking.bundle.getString("Delete"));
+        setTextVisibility(false);
+        lstVolunteer.setDisable(false);
+        setColorToBlack();
     }
 
     /**
@@ -253,8 +278,13 @@ public class VolunteerOverviewController implements Initializable {
     }
 
     @FXML
-    private void handleSelectVolunteer() {
+    private void handleSelectVolunteer(MouseEvent event) {
         selectedVolunteer = lstVolunteer.getSelectionModel().getSelectedItem();
+        // Doubleclick to edit the volunteer.
+        if (event.getClickCount() == 2) {
+            handleEditVolunteer();
+        }
+
         setVolunteerOptionsVisibility(true);
 
         txtFirstName.setText(selectedVolunteer.getFirstName());
@@ -357,13 +387,13 @@ public class VolunteerOverviewController implements Initializable {
      */
     private void hideButtons() {
         hideButton(btnAddVolunteer);
-        hideButton(btnDelete);
         hideButton(btnDocument);
         hideButton(btnMakeInactive);
         radioDA.setDisable(false);
         radioDE.setDisable(false);
         radioENG.setDisable(false);
         imgProfile.setDisable(false);
+        MTTMainControllerView.getInstance().setHideUpdateButton(true);
     }
 
     /**
@@ -372,13 +402,13 @@ public class VolunteerOverviewController implements Initializable {
      */
     private void showButtons() {
         showButton(btnAddVolunteer);
-        showButton(btnDelete);
         showButton(btnDocument);
         showButton(btnMakeInactive);
         radioDA.setDisable(true);
         radioDE.setDisable(true);
         radioENG.setDisable(true);
         imgProfile.setDisable(true);
+        MTTMainControllerView.getInstance().setHideUpdateButton(false);
     }
 
     /**

@@ -13,13 +13,16 @@ import javafx.scene.image.Image;
 
 public abstract class APerson implements Comparable<APerson> {
 
-    private int ID;
-    private final StringProperty firstName;
-    private final StringProperty lastName;
-    private final StringProperty fullName;
-    private final StringProperty email;
-    private final IntegerProperty phone;
-    private Image image;
+    protected int ID;
+    protected StringProperty firstName;
+    protected StringProperty lastName;
+    protected StringProperty fullName;
+    protected StringProperty email;
+    protected IntegerProperty phone;
+    protected Image image;
+
+    public APerson() {
+    }
 
     public APerson(int newID, String firstName, String lastName, String email, int phone) {
         this.ID = newID;
@@ -45,6 +48,10 @@ public abstract class APerson implements Comparable<APerson> {
 
     public int getID() {
         return ID;
+    }
+
+    public void setID(int id) {
+        this.ID = id;
     }
 
     public Image getImage() {
@@ -114,4 +121,9 @@ public abstract class APerson implements Comparable<APerson> {
     public void updateFullName() {
         fullName.set(firstName.get() + " " + lastName.get());
     }
+
+    public void setFullName(String fullName) {
+        this.fullName.setValue(fullName);
+    }
+
 }

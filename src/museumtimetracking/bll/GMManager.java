@@ -6,23 +6,28 @@
 package museumtimetracking.bll;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 import javafx.collections.ObservableList;
+import jxl.write.WriteException;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.GM;
-import museumtimetracking.dal.FacadeDAO;
+import museumtimetracking.dal.DALFacade;
+import museumtimetracking.dal.fileWriting.excel.ExcelWriter;
+import museumtimetracking.dal.fileWriting.excel.IExcel;
 import museumtimetracking.exception.DALException;
+import museumtimetracking.gui.model.GuildManagerModel;
 
 /**
  *
  * @author Mathias
  */
-public class GuildMGRManager {
+public class GMManager implements IExcel {
 
-    private final FacadeDAO facadeDAO;
+    private final DALFacade facadeDAO;
 
-    public GuildMGRManager() throws IOException {
-        facadeDAO = FacadeDAO.getInstance();
+    public GMManager() {
+        facadeDAO = DALFacade.getInstance();
     }
 
     /**
@@ -57,8 +62,7 @@ public class GuildMGRManager {
     }
 
     /**
-     * Gets a list of idle Guild Managers
-     * GuildManagers and it's Guilds.
+     * Gets a list of idle Guild Managers GuildManagers and it's Guilds.
      *
      * @return
      * @throws museumtimetracking.exception.DALException
@@ -130,4 +134,60 @@ public class GuildMGRManager {
     public void assignGuildToManager(int id, String guildName) throws DALException {
         facadeDAO.assignGuildToManager(id, guildName);
     }
+
+    /**
+     * Save the entire GuildManager model
+     *
+     * @param model
+     * @throws IOException
+     */
+    public void saveModel(GuildManagerModel model) {
+        facadeDAO.saveGuildManagerModelToFile(model);
+    }
+
+    /**
+     * Load entire GuildManager model
+     *
+     * @return
+     * @throws IOException
+     */
+    public GuildManagerModel loadGuildModelFromFile() {
+        return facadeDAO.loadGuildManagerModelFromFile();
+    }
+
+    /*
+     * Writes the ROI to a excel sheet and saves it.
+     *
+     * @param <T>
+     * @param location
+     * @param values
+     * @throws IOException
+     * @throws WriteException
+     * @throws DALException
+     */
+    @Override
+    public <T> void exportToExcel(String location, List<T>... values) throws IOException, WriteException, DALException {
+        ExcelWriter newFile = new ExcelWriter();
+        newFile.setOutputFile(location);
+        newFile.createNewExcel("ROI for Laug");
+
+        newFile.createCaptions("Laug", "Afkast");
+
+        newFile.createLabelNumberContent((List<String>) values[0], (List<Integer>) values[1]);
+//        newFile.createRowNumberContent(2, (List<Integer>) values[2]);
+//        newFile.createRowNumberContent(3, (List<Integer>) values[3]);
+
+        newFile.writeExcelToFile();
+    }
+
+    /**
+     * Gets the restriction of a GM's description.
+     *
+     * @return
+     * @throws DALException
+     */
+    public int getGmDescriptionRestriction() throws DALException {
+        return facadeDAO.getDescriptionRestrictionForGm();
+    }
+
 }

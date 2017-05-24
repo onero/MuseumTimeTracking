@@ -3,20 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package museumtimetracking.dal;
+package museumtimetracking.dal.db;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import javafx.scene.image.Image;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.be.enums.ELanguage;
@@ -29,7 +30,7 @@ public class VolunteerDAO extends APersonDAO {
 
     private final DBConnectionManager cm;
 
-    public VolunteerDAO() throws IOException {
+    public VolunteerDAO() {
         this.cm = DBConnectionManager.getInstance();
     }
 
@@ -112,13 +113,16 @@ public class VolunteerDAO extends APersonDAO {
      * Create a Volunteer in the Person table.
      *
      * @param newVolunteer
+     * @return
      * @throws com.microsoft.sqlserver.jdbc.SQLServerException
      */
-    public void createVolunteer(Volunteer newVolunteer) throws SQLServerException, SQLException {
+    public Volunteer createVolunteer(Volunteer newVolunteer) throws SQLServerException, SQLException {
         try (Connection con = cm.getConnection()) {
             int id = createNewPersonInDatabase(con, newVolunteer);
             addVolunteer(con, id);
             updateVolunteerInfo(con, newVolunteer.getDescription(), id);
+            newVolunteer.setID(id);
+            return newVolunteer;
         }
     }
 
@@ -263,10 +267,103 @@ public class VolunteerDAO extends APersonDAO {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, volunteerID);
             ps.setString(2, guildName);
-            ps.setDate(3, date);
+            ps.setTimestamp(3, new java.sql.Timestamp(date.getTime()));
             ps.setInt(4, hours);
 
             ps.executeUpdate();
         }
     }
+
+    /**
+     * Gets the total hours for a volunteer in i guild.
+     *
+     * @param guildName
+     * @param volunteer
+     * @return
+     * @throws SQLException
+     */
+    public List<Integer> getWorkHoursForAVolunteerInAGuild(String guildName, Volunteer volunteer) throws SQLException {
+        List<Integer> hours = new ArrayList<>();
+
+        String sql = "SELECT vw.Hours "
+                + "FROM VolunteerWork vw "
+                + "WHERE vw.VolunteerID = ? "
+                + "AND vw.GuildName = ?";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, volunteer.getID());
+            ps.setString(2, guildName);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                hours.add(rs.getInt("Hours"));
+            }
+        }
+        return hours;
+    }
+
+    /**
+     * Gets the total workhours for a volunteer in all guilds.
+     *
+     * @param volunteer
+     * @return
+     * @throws SQLException
+     */
+    public List<Integer> getWorkHoursForAVolunteerInAllGuilds(Volunteer volunteer) throws SQLException {
+        List<Integer> hours = new ArrayList<>();
+
+        String sql = "SELECT vw.Hours "
+                + "FROM VolunteerWork vw "
+                + "WHERE vw.VolunteerID = ? ";
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, volunteer.getID());
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                hours.add(rs.getInt("Hours"));
+            }
+        }
+        return hours;
+    }
+
+    public Set<Volunteer> getVolunteersThatHasWorkedOnGuild(String guildName) throws SQLException {
+        Set<Volunteer> volunteersSet = new TreeSet<>();
+
+        String sql = "SELECT p.ID, "
+                + "p.FirstName, "
+                + "p.LastName, "
+                + "p.Email, "
+                + "p.Phone, "
+                + "v.IsIdle, "
+                + "v.Language, "
+                + "v.Description, "
+                + "p.Picture "
+                + "FROM Volunteer v "
+                + "JOIN VolunteerWork vw ON vw.VolunteerID = v.PersonID "
+                + "JOIN Person p ON p.ID = v.PersonID "
+                + "WHERE vw.GuildName = ?";
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, guildName);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Volunteer volunteer = getOneVolunteer(rs);
+                boolean idExists = volunteersSet
+                        .stream()
+                        .anyMatch(gm -> gm.getID() == volunteer.getID());
+                if (!idExists) {
+                    volunteersSet.add(volunteer);
+                }
+            }
+        }
+
+        return volunteersSet;
+    }
+
 }

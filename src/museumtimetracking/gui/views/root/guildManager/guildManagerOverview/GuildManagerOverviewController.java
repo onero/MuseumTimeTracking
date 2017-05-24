@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,9 +21,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import museumtimetracking.be.GM;
@@ -30,6 +35,7 @@ import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.NodeFactory;
 import museumtimetracking.gui.views.root.guildManager.guildManagerOverview.manageGuildManagerGuilds.ManageGuildManagerGuildsViewController;
@@ -43,7 +49,8 @@ public class GuildManagerOverviewController implements Initializable {
 
     @FXML
     private ButtonBar GMOptions;
-
+    @FXML
+    private Label lblGMAmount;
     @FXML
     private ListView<GM> lstManagers;
     @FXML
@@ -64,6 +71,10 @@ public class GuildManagerOverviewController implements Initializable {
     private Button btnDelete;
     @FXML
     private Button btnArchiveManager;
+    @FXML
+    private TextArea txtDescription;
+    @FXML
+    private Label lblDescriptionRestriction;
 
     private final NodeFactory nodeFactory;
 
@@ -71,10 +82,12 @@ public class GuildManagerOverviewController implements Initializable {
 
     private List<TextField> textFields;
 
-    private static final String ADD_GUILD_BUTTON_TEXT = "Tilføj Laug";
+    private static final String ADD_GUILD_BUTTON_TEXT = "Tilføj/fjern Laug";
     private static final String EDIT_BUTTON_TEXT = "Rediger";
     private static final String SAVE_BUTTON_TEXT = "Gem";
     private static final String NEW_GUILD_MANAGER_TEXT = "Ny Tovholder";
+    private static final String CANCEL_BUTTON_TEXT = "Annuller";
+    private static final String DELETE_BUTTON_TEXT = "Slet";
 
     private final ModalFactory modalFactory;
 
@@ -85,15 +98,14 @@ public class GuildManagerOverviewController implements Initializable {
         modalFactory = ModalFactory.getInstance();
         nodeFactory = NodeFactory.getInstance();
         guildManagerModel = null;
-        try {
-            guildManagerModel = GuildManagerModel.getInstance();
-        } catch (IOException | DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        guildManagerModel = ModelFacade.getInstance().getGuildManagerModel();
     }
 
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -104,6 +116,9 @@ public class GuildManagerOverviewController implements Initializable {
         addListeners();
         setCellFactories();
         lstManagers.setItems(guildManagerModel.getCachedManagers());
+        lblDescriptionRestriction.setText("0/" + guildManagerModel.getDescriptionRestriction());
+
+        lblGMAmount.textProperty().bind(Bindings.size((guildManagerModel.getCachedManagers())).asString());
 
         setGMOptionsVisibility(false);
     }
@@ -162,18 +177,21 @@ public class GuildManagerOverviewController implements Initializable {
     @FXML
     private void handleDeleteButton() {
         GM managerToDelete = lstManagers.getSelectionModel().getSelectedItem();
-        Alert deleteAlert = AlertFactory.createDeleteAlert();
-        deleteAlert.showAndWait().ifPresent(type -> {
-            //If user clicks first button
-            if (type == deleteAlert.getButtonTypes().get(0)) {
-                try {
-                    guildManagerModel.deleteGuildManager(managerToDelete);
-                } catch (DALException ex) {
-                    ExceptionDisplayer.display(ex);
+        if (btnDelete.getText().equals(DELETE_BUTTON_TEXT)) {
+            Alert deleteAlert = new AlertFactory().createDeleteAlert();
+            deleteAlert.showAndWait().ifPresent(type -> {
+                //If user clicks first button
+                if (type == deleteAlert.getButtonTypes().get(0)) {
+                    try {
+                        guildManagerModel.deleteGuildManager(managerToDelete);
+                    } catch (DALException ex) {
+                        ExceptionDisplayer.display(ex);
+                    }
                 }
-            }
-        });
-
+            });
+        } else if (btnDelete.getText().equals(CANCEL_BUTTON_TEXT)) {
+            setShowEditability(false);
+        }
         setButtonTextToViewMode();
         setSetsToNull();
         lstManagers.refresh();
@@ -248,6 +266,18 @@ public class GuildManagerOverviewController implements Initializable {
                 setGMOptionsVisibility(true);
             }
         });
+
+        txtDescription.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //TODO RKL: FIX SHEIT:
+                if (newValue != null && newValue.toCharArray().length >= guildManagerModel.getDescriptionRestriction() + 1) {
+                    txtDescription.setText(oldValue);
+                } else {
+                    updateLabelDescriptionRestriction(newValue);
+                }
+            }
+        });
     }
 
     /**
@@ -261,6 +291,7 @@ public class GuildManagerOverviewController implements Initializable {
         txtEmail.setText(manager.getEmail());
         txtPhone.setText(manager.getPhone() + "");
         lstGuilds.setItems(manager.getObservableListOfGuilds());
+        txtDescription.setText(manager.getDescription());
     }
 
     /**
@@ -272,6 +303,7 @@ public class GuildManagerOverviewController implements Initializable {
      */
     private void setShowEditability(boolean shown) {
         lstGuilds.setEditable(false);
+        txtDescription.setDisable(!shown);
         for (TextField textField : textFields) {
             textField.setDisable(!shown);
         }
@@ -291,6 +323,7 @@ public class GuildManagerOverviewController implements Initializable {
         for (TextField textField : textFields) {
             textField.setStyle("-fx-text-fill: " + color + ";");
         }
+        txtDescription.setStyle("-fx-text-fill: " + color + ";");
     }
 
     /**
@@ -309,8 +342,7 @@ public class GuildManagerOverviewController implements Initializable {
      */
     private void setButtonTextToEditMode() {
         btnNewGuildManager.setText(ADD_GUILD_BUTTON_TEXT);
-        btnDelete.setDisable(true);
-        btnDelete.setVisible(false);
+        btnDelete.setText(CANCEL_BUTTON_TEXT);
         btnEdit.setText(SAVE_BUTTON_TEXT);
         lstManagers.setDisable(true);
         btnArchiveManager.setDisable(true);
@@ -324,8 +356,7 @@ public class GuildManagerOverviewController implements Initializable {
      */
     private void setButtonTextToViewMode() {
         btnNewGuildManager.setText(NEW_GUILD_MANAGER_TEXT);
-        btnDelete.setDisable(false);
-        btnDelete.setVisible(true);
+        btnDelete.setText(DELETE_BUTTON_TEXT);
         btnEdit.setText(EDIT_BUTTON_TEXT);
         lstManagers.setDisable(false);
         btnArchiveManager.setDisable(false);
@@ -372,6 +403,7 @@ public class GuildManagerOverviewController implements Initializable {
         manager.updateFullName();
         manager.setEmail(txtEmail.getText());
         manager.setPhone(Integer.parseInt(txtPhone.getText()));
+        manager.setDescription(txtDescription.getText());
     }
 
     @FXML
@@ -393,5 +425,29 @@ public class GuildManagerOverviewController implements Initializable {
      */
     public void handleSearch(String searchText) {
         guildManagerModel.searchActiveManagers(searchText);
+    }
+
+    @FXML
+    private void handleSelectGM(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            setShowEditability(true);
+            setButtonTextToEditMode();
+        }
+    }
+
+    /**
+     * Update the label to show the amount of characters used.
+     *
+     * @param text
+     */
+    private void updateLabelDescriptionRestriction(String text) {
+        int restriction = guildManagerModel.getDescriptionRestriction();
+        if (text != null) {
+            //TODO RKL: Check length of string.
+            char[] chars = text.toCharArray();
+            lblDescriptionRestriction.setText(chars.length + "/" + restriction);
+        } else {
+            lblDescriptionRestriction.setText("0/" + restriction);
+        }
     }
 }

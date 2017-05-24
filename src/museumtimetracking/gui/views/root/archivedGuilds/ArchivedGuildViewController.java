@@ -5,14 +5,15 @@
  */
 package museumtimetracking.gui.views.root.archivedGuilds;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
@@ -21,6 +22,7 @@ import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.model.ModelFacade;
 
 /**
  * FXML Controller class
@@ -34,6 +36,8 @@ public class ArchivedGuildViewController implements Initializable {
     @FXML
     private TableColumn<Guild, String> clmGuildName;
     @FXML
+    private Label lblGuildAmount;
+    @FXML
     private TableView<Guild> tableGuild;
     @FXML
     private ButtonBar btnbButtons;
@@ -43,11 +47,7 @@ public class ArchivedGuildViewController implements Initializable {
     private Guild selectedGuild;
 
     public ArchivedGuildViewController() {
-        try {
-            guildModel = GuildModel.getInstance();
-        } catch (IOException | DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        guildModel = ModelFacade.getInstance().getGuildModel();
     }
 
     /**
@@ -60,6 +60,8 @@ public class ArchivedGuildViewController implements Initializable {
 
         clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
         clmGuildDescription.setCellValueFactory(g -> g.getValue().getDescriptionProperty());
+
+        lblGuildAmount.textProperty().bind(Bindings.size((guildModel.getCachedArchivedGuilds())).asString());
     }
 
     /**
@@ -75,7 +77,7 @@ public class ArchivedGuildViewController implements Initializable {
     @FXML
     private void handleDeleteGuid(ActionEvent event) {
         if (selectedGuild != null) {
-            Alert alert = AlertFactory.createDeleteAlert();
+            Alert alert = new AlertFactory().createDeleteAlert();
             alert.showAndWait().ifPresent(type -> {
                 //If the first button ("YES") is clicked
                 if (type == alert.getButtonTypes().get(0)) {

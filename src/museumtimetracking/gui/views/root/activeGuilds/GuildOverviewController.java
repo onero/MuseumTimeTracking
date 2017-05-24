@@ -7,14 +7,15 @@ package museumtimetracking.gui.views.root.activeGuilds;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -31,6 +32,7 @@ import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.root.MTTMainControllerView;
 import museumtimetracking.gui.views.root.activeGuilds.editGuild.EditGuildViewController;
@@ -49,6 +51,8 @@ public class GuildOverviewController implements Initializable {
     private TableColumn<Guild, String> clmGM;
     @FXML
     private ButtonBar guildOptions;
+    @FXML
+    private Label lblGuildAmount;
     @FXML
     private Pane newGuildPane;
 
@@ -86,12 +90,14 @@ public class GuildOverviewController implements Initializable {
 
     public GuildOverviewController() {
         modalFactory = ModalFactory.getInstance();
-        try {
-            this.guildModel = GuildModel.getInstance();
-            guildManagerModel = GuildManagerModel.getInstance();
-        } catch (IOException | DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        guildModel = ModelFacade.getInstance().getGuildModel();
+        guildManagerModel = ModelFacade.getInstance().getGuildManagerModel();
+
+    }
+
+    @FXML
+    private void handleComboClear() {
+        cmbGuildManager.getSelectionModel().clearSelection();
     }
 
     /**
@@ -104,6 +110,7 @@ public class GuildOverviewController implements Initializable {
         initializeComboBox();
 
         setGuildOptionsVisilibity(false);
+        lblGuildAmount.textProperty().bind(Bindings.size((guildModel.getCachedGuilds())).asString());
 
     }
 
@@ -153,6 +160,7 @@ public class GuildOverviewController implements Initializable {
      * Fill the Guild TableView
      */
     private void initializeGuildTable() {
+        tableGuild.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableGuild.setItems(guildModel.getCachedGuilds());
 
         clmGuildName.setCellValueFactory(g -> g.getValue().getNameProperty());
@@ -173,18 +181,26 @@ public class GuildOverviewController implements Initializable {
 
         //Enter edit mode
         if (event.getClickCount() == 2) {
-
-            Stage primStage = (Stage) txtDescription.getScene().getWindow();
-
-            Stage editGuildModal = modalFactory.createNewModal(primStage, EFXMLName.EDIT_GUILD);
-
-            EditGuildViewController controller = modalFactory.getLoader().getController();
-
-            controller.setCurrentGuild(selectedGuild);
-
-            editGuildModal.showAndWait();
-            tableGuild.refresh();
+            getEditGuildView();
         }
+    }
+
+    @FXML
+    private void handleEditGuild() {
+        getEditGuildView();
+    }
+
+    private void getEditGuildView() {
+        Stage primStage = (Stage) txtDescription.getScene().getWindow();
+
+        Stage editGuildModal = modalFactory.createNewModal(primStage, EFXMLName.EDIT_GUILD);
+
+        EditGuildViewController controller = modalFactory.getLoader().getController();
+
+        controller.setCurrentGuild(selectedGuild);
+
+        editGuildModal.showAndWait();
+        tableGuild.refresh();
     }
 
     @FXML
@@ -223,7 +239,7 @@ public class GuildOverviewController implements Initializable {
 
     @FXML
     private void handleDeleteGuid() {
-        Alert alert = AlertFactory.createDeleteAlert();
+        Alert alert = new AlertFactory().createDeleteAlert();
         alert.showAndWait().ifPresent(type -> {
             //If the first button ("YES") is clicked
             if (type == alert.getButtonTypes().get(0)) {

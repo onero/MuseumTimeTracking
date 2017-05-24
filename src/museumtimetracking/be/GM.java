@@ -5,8 +5,13 @@
  */
 package museumtimetracking.be;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -16,18 +21,27 @@ import javafx.collections.ObservableList;
  *
  * @author Mathias
  */
-public class GM extends APerson {
+public class GM extends APerson implements Externalizable {
 
-    private final List<String> listOfGuilds;
-    private final ObservableList<String> observableListOfGuilds;
+    private List<String> listOfGuilds;
+
+    private transient ObservableList<String> observableListOfGuilds;
 
     private StringProperty description;
+
+    public GM() {
+    }
 
     public GM(String firstName, String lastName, String email, int phone) {
         super(firstName, lastName, email, phone);
         listOfGuilds = new ArrayList();
         observableListOfGuilds = FXCollections.observableArrayList();
         this.description = new SimpleStringProperty();
+    }
+
+    public GM(List<String> listOfGuilds, String firstName, String lastName, String email, int phone) {
+        super(firstName, lastName, email, phone);
+        this.observableListOfGuilds = FXCollections.observableArrayList(listOfGuilds);
     }
 
     public GM(int ID, String firstName, String lastName, String email, int phone, String description) {
@@ -41,9 +55,6 @@ public class GM extends APerson {
         super(ID, firstName, lastName, email, phone);
         listOfGuilds = new ArrayList();
         this.description = new SimpleStringProperty();
-//        for (String guildName : guildNames) {
-//            listOfGuilds.add(guildName);
-//        }
         observableListOfGuilds = FXCollections.observableArrayList();
         for (String guildName : guildNames) {
             observableListOfGuilds.add(guildName);
@@ -93,12 +104,38 @@ public class GM extends APerson {
         return observableListOfGuilds;
     }
 
-    public StringProperty getDescription() {
+    public StringProperty getDescriptionProperty() {
         return description;
+    }
+
+    public String getDescription() {
+        return description.get();
     }
 
     public void removeGuild(String guildToRemove) {
         observableListOfGuilds.remove(guildToRemove);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        ID = in.readInt();
+        firstName = new SimpleStringProperty((String) in.readObject());
+        lastName = new SimpleStringProperty((String) in.readObject());
+        fullName = new SimpleStringProperty((String) in.readObject());
+        email = new SimpleStringProperty((String) in.readObject());
+        phone = new SimpleIntegerProperty(in.readInt());
+        this.observableListOfGuilds = FXCollections.observableArrayList((List<String>) in.readObject());
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeInt(getID());
+        out.writeObject(getFirstName());
+        out.writeObject(getLastName());
+        out.writeObject(getFullName());
+        out.writeObject(getEmail());
+        out.writeInt(getPhone());
+        out.writeObject(listOfGuilds);
     }
 
 }

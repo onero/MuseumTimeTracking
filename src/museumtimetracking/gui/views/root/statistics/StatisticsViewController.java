@@ -5,19 +5,21 @@
  */
 package museumtimetracking.gui.views.root.statistics;
 
-import java.io.IOException;
+import com.jfoenix.controls.JFXButton;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.XYChart;
-import museumtimetracking.be.Guild;
-import museumtimetracking.exception.DALException;
-import museumtimetracking.exception.ExceptionDisplayer;
+import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
+import museumtimetracking.be.enums.EFXMLName;
 import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.model.ModelFacade;
+import museumtimetracking.gui.views.NodeFactory;
+import museumtimetracking.gui.views.root.MTTMainControllerView;
+import museumtimetracking.gui.views.root.statistics.ROIOverview.ROIGmHoursViewController;
+import museumtimetracking.gui.views.root.statistics.VolunteerStatistics.VolunteerStatisticsViewController;
+import museumtimetracking.gui.views.root.statistics.guildHoursOverview.ChartGuildHoursOverviewController;
 
 /**
  * FXML Controller class
@@ -27,16 +29,36 @@ import museumtimetracking.gui.model.GuildModel;
 public class StatisticsViewController implements Initializable {
 
     @FXML
-    private BarChart<String, Integer> chartHoursOverview;
+    private BorderPane borderpane;
+    @FXML
+    private JFXButton btnOverview;
+    @FXML
+    private JFXButton btnROI;
+    @FXML
+    private JFXButton btnWorkhours;
 
     private GuildModel guildModel;
 
+    private static StatisticsViewController instance;
+
+    public static StatisticsViewController getInstance() {
+
+        return instance;
+    }
+
+    private final NodeFactory nodeFactory;
+
+    private Node guildHoursOverview;
+    private Node ROIGmHours;
+    private Node volunteerStatistics;
+
+    private ChartGuildHoursOverviewController chartGuildHoursOverviewController;
+    private ROIGmHoursViewController ROIGmHoursController;
+    private VolunteerStatisticsViewController volunteerStatisticsViewController;
+
     public StatisticsViewController() {
-        try {
-            guildModel = GuildModel.getInstance();
-        } catch (IOException | DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
+        guildModel = ModelFacade.getInstance().getGuildModel();
+        nodeFactory = NodeFactory.getInstance();
     }
 
     /**
@@ -44,34 +66,72 @@ public class StatisticsViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        chartHoursOverview.setLegendVisible(false);
-        updateDataForChart();
+        instance = this;
+    }
+
+    /**
+     * Creates the nodes and controllers for the different statisticsViews.
+     */
+    public void createStatisticsViews() {
+        guildHoursOverview = nodeFactory.createNewView(EFXMLName.CHART_GUILD_HOURS_OVERVIEW);
+        chartGuildHoursOverviewController = nodeFactory.getLoader().getController();
+
+        ROIGmHours = nodeFactory.createNewView(EFXMLName.ROI_GM_HOURS);
+        ROIGmHoursController = nodeFactory.getLoader().getController();
+
+        volunteerStatistics = nodeFactory.createNewView(EFXMLName.VOLUNTEER_STATISTICS);
+        volunteerStatisticsViewController = nodeFactory.getLoader().getController();
+        initialSetup();
+    }
+
+    /**
+     * Sets the initial setup.
+     */
+    private void initialSetup() {
+        borderpane.setCenter(guildHoursOverview);
+        updateDataForGuildHoursOverview();
+        btnOverview.underlineProperty().set(true);
     }
 
     /**
      * Clears the data in the chart and fills it with freshly fetched data.
      *
-     * @param title
      */
-    public void updateDataForChart() {
-        chartHoursOverview.getData().clear();
-        List<Guild> guilds = guildModel.getGuildsFromDB();
-        Map<String, Integer> guildHours = null;
-        try {
-            guildHours = guildModel.getMapOfHoursPerGuild();
-        } catch (DALException ex) {
-            ExceptionDisplayer.display(ex);
-        }
-        XYChart.Series hoursSeries = new XYChart.Series<>();
-
-        for (Guild guild : guilds) {
-            if (guildHours != null) {
-                XYChart.Data data = new XYChart.Data<>(guild.getName(), guildHours.get(guild.getName()));
-                hoursSeries.getData().add(data);
-            }
-        }
-        //Adds the serie to the barChart.
-        chartHoursOverview.getData().add(hoursSeries);
+    public void updateDataForGuildHoursOverview() {
+        chartGuildHoursOverviewController.updateDataForChart();
+        ROIGmHoursController.updateDataForChart();
     }
 
+    @FXML
+    private void handleGM() {
+        ROIGmHoursController.clearSearch();
+        borderpane.setCenter(ROIGmHours);
+        MTTMainControllerView.getInstance().setExportToExcelVisibility(true);
+        btnOverview.underlineProperty().set(false);
+        btnROI.underlineProperty().set(true);
+        btnWorkhours.underlineProperty().set(false);
+    }
+
+    @FXML
+    public void handleGuild() {
+        borderpane.setCenter(guildHoursOverview);
+        MTTMainControllerView.getInstance().setExportToExcelVisibility(true);
+        btnOverview.underlineProperty().set(true);
+        btnROI.underlineProperty().set(false);
+        btnWorkhours.underlineProperty().set(false);
+    }
+
+    @FXML
+    private void handleVolunteer() {
+        MTTMainControllerView.getInstance().setExportToExcelVisibility(false);
+        borderpane.setCenter(volunteerStatistics);
+        volunteerStatisticsViewController.clearAll();
+        btnROI.underlineProperty().set(false);
+        btnOverview.underlineProperty().set(false);
+        btnWorkhours.underlineProperty().set(true);
+    }
+
+    public ROIGmHoursViewController getROIGmHoursController() {
+        return ROIGmHoursController;
+    }
 }

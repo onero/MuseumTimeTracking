@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -13,8 +14,8 @@
 
 <AnchorPane id="background" prefHeight="446.0" prefWidth="558.0" stylesheets="@../../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.guildManager.guildManagerOverview.GuildManagerOverviewController">
    <children>
-      <ListView fx:id="lstManagers" layoutX="14.0" prefHeight="367.0" prefWidth="200.0" styleClass="mylistview" stylesheets="@../../../css/Style.css" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="5.0" />
-      <VBox layoutX="231.0" layoutY="1.0" prefHeight="367.0" prefWidth="358.0" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="5.0">
+      <ListView fx:id="lstManagers" layoutX="10.0" layoutY="29.0" onMouseClicked="#handleSelectGM" prefHeight="363.0" prefWidth="200.0" styleClass="mylistview" stylesheets="@../../../css/Style.css" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="29.0" />
+      <VBox layoutX="231.0" layoutY="1.0" prefHeight="224.0" prefWidth="368.0" AnchorPane.bottomAnchor="222.0" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="5.0">
          <children>
             <Label text="Fornavn:">
                <font>
@@ -56,12 +57,6 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </TextField>
-            <Label text="Laug:">
-               <font>
-                  <Font name="System Italic" size="15.0" />
-               </font>
-            </Label>
-            <ListView fx:id="lstGuilds" prefHeight="117.0" prefWidth="167.0" />
          </children>
       </VBox>
       <HBox layoutX="3.0" layoutY="386.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="3.0">
@@ -83,5 +78,28 @@
             </ButtonBar>
          </children>
       </HBox>
+      <HBox layoutX="14.0" layoutY="4.0">
+         <children>
+            <Label text="Antal tovholdere:" />
+            <Label fx:id="lblGMAmount">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <Label layoutX="432.0" layoutY="253.0" text="Laug:" AnchorPane.rightAnchor="156.0" AnchorPane.topAnchor="253.0">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="231.0" layoutY="253.0" text="Beskrivelse:" AnchorPane.leftAnchor="231.0" AnchorPane.topAnchor="253.0">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="txtDescription" layoutX="230.0" layoutY="274.0" prefHeight="153.0" prefWidth="179.0" AnchorPane.bottomAnchor="69.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="214.0" AnchorPane.topAnchor="274.0" />
+      <ListView fx:id="lstGuilds" layoutX="432.0" layoutY="274.0" prefHeight="153.0" prefWidth="167.0" AnchorPane.bottomAnchor="69.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="274.0" />
+      <Label fx:id="lblDescriptionRestriction" alignment="CENTER_RIGHT" layoutX="366.0" layoutY="253.0" text=" 0/255" AnchorPane.rightAnchor="214.0" AnchorPane.topAnchor="253.0" />
    </children>
 </AnchorPane>

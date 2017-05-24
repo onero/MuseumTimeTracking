@@ -8,8 +8,8 @@ package museumtimetracking.dal;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,17 +17,26 @@ import museumtimetracking.be.APerson;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
 import museumtimetracking.be.Volunteer;
+import museumtimetracking.dal.db.GuildDAO;
+import museumtimetracking.dal.db.GuildManagerDAO;
+import museumtimetracking.dal.db.VolunteerDAO;
+import museumtimetracking.dal.fileWriting.GMFileDAO;
+import museumtimetracking.dal.fileWriting.GuildFileDAO;
+import museumtimetracking.dal.fileWriting.VolunteerFileDAO;
 import museumtimetracking.exception.DALException;
+import museumtimetracking.gui.model.GuildManagerModel;
+import museumtimetracking.gui.model.GuildModel;
+import museumtimetracking.gui.model.VolunteerModel;
 
 /**
  *
  * @author Mathias
  */
-public class FacadeDAO {
+public class DALFacade {
 
-    private static FacadeDAO instance;
+    private static DALFacade instance;
 
-    public static final String DB_CONNECTION_ERROR = "Kunne ikke forbinde til DB";
+    public static final String DB_CONNECTION_ERROR = "Kunne ikke forbinde\nStarter programmet i offline tilstand";
 
     private final GuildDAO guildDAO;
 
@@ -35,17 +44,26 @@ public class FacadeDAO {
 
     private final GuildManagerDAO guildManagerDAO;
 
-    public static FacadeDAO getInstance() throws IOException {
+    private final GuildFileDAO guildFileDAO;
+
+    private final GMFileDAO GMFileDAO;
+
+    private final VolunteerFileDAO volunteerFileDAO;
+
+    public static DALFacade getInstance() {
         if (instance == null) {
-            instance = new FacadeDAO();
+            instance = new DALFacade();
         }
         return instance;
     }
 
-    private FacadeDAO() throws IOException {
+    private DALFacade() {
         guildDAO = new GuildDAO();
         volunteerDAO = new VolunteerDAO();
         guildManagerDAO = new GuildManagerDAO();
+        guildFileDAO = new GuildFileDAO();
+        GMFileDAO = new GMFileDAO();
+        volunteerFileDAO = new VolunteerFileDAO();
     }
 
     /**
@@ -139,7 +157,7 @@ public class FacadeDAO {
      * @return
      * @throws museumtimetracking.exception.DALException
      */
-    public List<Guild> getAllGuildsNotArchived() throws DALException {
+    public List<Guild> getAllGuildsNotArchivedFromDB() throws DALException {
         try {
             return guildDAO.getAllGuildsNotArchived();
         } catch (SQLException ex) {
@@ -163,6 +181,23 @@ public class FacadeDAO {
     }
 
     /**
+     * Returns a Map of hours work for each guild for at specific period.
+     *
+     * @param guildNames
+     * @param startDate
+     * @param endDate
+     * @return
+     * @throws DALException
+     */
+    public Map<String, Integer> getAllHoursWorkedForSpecificPeriod(List<String> guildNames, String startDate, String endDate) throws DALException {
+        try {
+            return guildDAO.getVolunteerWorkHoursForSpecificPeriod(guildNames, startDate, endDate);
+        } catch (SQLException ex) {
+            throw new DALException("Det var ikke muligt at hente de dokumenterede timer.", ex);
+        }
+    }
+
+    /**
      * Restore guild from archive in DB
      *
      * @param guildToRestore
@@ -179,11 +214,12 @@ public class FacadeDAO {
     /**
      *
      * @param volunteer
+     * @return
      * @throws museumtimetracking.exception.DALException
      */
-    public void addVolunteer(Volunteer volunteer) throws DALException {
+    public Volunteer addVolunteer(Volunteer volunteer) throws DALException {
         try {
-            volunteerDAO.createVolunteer(volunteer);
+            return volunteerDAO.createVolunteer(volunteer);
         } catch (SQLException ex) {
             throw new DALException(DB_CONNECTION_ERROR, ex);
         }
@@ -423,17 +459,174 @@ public class FacadeDAO {
         try {
             volunteerDAO.addHoursToVolunteer(volunteerID, guildName, date, hours);
         } catch (SQLException ex) {
-            throw new DALException(
-                    "Den frivillige har allerede fået dokumenteret tid får dette Laug idag.", ex);
+            throw new DALException("Tidregistreringen for den frivillige kunne ikke dokumenteres.", ex);
         }
     }
 
+    /**
+     * Get all guilds that do not have a manager
+     *
+     * @return guilds as List<Guild>
+     * @throws DALException
+     */
     public List<Guild> getGuildsWithoutManagers() throws DALException {
         try {
             return guildDAO.getGuildsWithoutManagers();
         } catch (SQLException ex) {
             throw new DALException(
                     "De ledige laug uden tovholdere kunne ikke hentes fra databasen.", ex);
+        }
+    }
+
+    /**
+     * Get all guilds a volunteer has worked on
+     *
+     * @param volunteer
+     * @return guilds as List<String>
+     * @throws DALException
+     */
+    public List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws DALException {
+        try {
+            return guildDAO.getGuildsAVolunteerHasWorkedOn(volunteer);
+        } catch (SQLException ex) {
+            throw new DALException(
+                    "Laugene den frivillige har arbejdet på kunne ikke hentet.", ex);
+        }
+    }
+
+    /**
+     * guild model
+     *
+     * @param model
+     * @throws IOException
+     */
+    public void saveGuildModelToFile(GuildModel model) {
+        guildFileDAO.saveModelToFile(model);
+    }
+
+    /**
+     * Load the guildmodel
+     *
+     * @return GuildModel
+     * @throws IOException
+     */
+    public GuildModel loadGuildModelFromFile() {
+        return guildFileDAO.loadModel();
+    }
+
+    /**
+     * Save the entire GuildManager model
+     *
+     * @param model
+     * @throws IOException
+     */
+    public void saveGuildManagerModelToFile(GuildManagerModel model) {
+        GMFileDAO.saveModelToFile(model);
+    }
+
+    /**
+     * Load the GuildManager model
+     *
+     * @return GuildModel
+     * @throws IOException
+     */
+    public GuildManagerModel loadGuildManagerModelFromFile() {
+        return GMFileDAO.loadModel();
+    }
+
+    /**
+     * Save the entire Volunteer model
+     *
+     * @param model
+     * @throws IOException
+     */
+    public void saveVolunteerModelToFile(VolunteerModel model) {
+        volunteerFileDAO.saveModelToFile(model);
+    }
+
+    /**
+     * Load the Volunteer model
+     *
+     * @return GuildModel
+     * @throws IOException
+     */
+    public VolunteerModel loadVolunteerModelFromFile() {
+        return volunteerFileDAO.loadModel();
+    }
+
+    /*
+     * Gets the total hours for a volunteer in i guild.
+     *
+     * @param guildName
+     * @param volunteer
+     * @return
+     * @throws DALException
+     */
+    public List<Integer> getWorkHoursForAVolunteerInAGuild(String guildName, Volunteer volunteer) throws DALException {
+        try {
+            return volunteerDAO.getWorkHoursForAVolunteerInAGuild(guildName, volunteer);
+        } catch (SQLException ex) {
+            throw new DALException(
+                    "Timerne den frivillige har arbejdet i lauget kunne ikke hentes.", ex);
+        }
+    }
+
+    /**
+     * Gets the total workhours for a volunteer in all guilds.
+     *
+     * @param volunteer
+     * @return
+     */
+    public List<Integer> getWorkHoursForAVolunteerInAllGuilds(Volunteer volunteer) throws DALException {
+        try {
+            return volunteerDAO.getWorkHoursForAVolunteerInAllGuilds(volunteer);
+        } catch (SQLException ex) {
+            throw new DALException(
+                    "Timerne den frivillige har arbejdet kunne ikke hentes.", ex);
+        }
+    }
+
+    /**
+     * Gets all volunteers that have worked on specified guild.
+     *
+     * @param guildName
+     * @return
+     */
+    public Set<Volunteer> getVolunteersThatHasWorkedOnGuild(String guildName) throws DALException {
+        try {
+            return volunteerDAO.getVolunteersThatHasWorkedOnGuild(guildName);
+        } catch (SQLException ex) {
+            throw new DALException(
+                    "De frivillige der har arbejdet i lauget kunne ikke hentes.", ex);
+        }
+    }
+
+    /**
+     * Gets all hours that has been added to a guild.
+     *
+     * @param guildName
+     * @return
+     */
+    public List<Integer> getWorkHoursInGuild(String guildName) throws DALException {
+        try {
+            return guildDAO.getWorkHoursInGuild(guildName);
+        } catch (SQLException ex) {
+            throw new DALException(
+                    "Timerne fra lauget kunne ikke hentes", ex);
+        }
+    }
+
+    /**
+     * Gets the restriction of a GM's description.
+     *
+     * @return
+     * @throws DALException
+     */
+    public int getDescriptionRestrictionForGm() throws DALException {
+        try {
+            return guildManagerDAO.getDescriptionRestriction();
+        } catch (SQLException ex) {
+            throw new DALException("Kunne ikke skaffe begrænsning for Torvholder beskrivelse.", ex);
         }
     }
 }
