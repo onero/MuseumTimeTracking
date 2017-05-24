@@ -466,12 +466,13 @@ public class MTTMainControllerView implements Initializable {
             ModelFacade.getInstance().getGuildModel().updateData();
             ModelFacade.getInstance().getGuildManagerModel().updateData();
             ModelFacade.getInstance().getVolunteerModel().updateData();
+            statisticsViewController.updateDataForGuildHoursOverview();
         } else {
             displaySnackWarning(MuseumTimeTracking.bundle.getString("OfflineWarning"));
         }
     }
-    
-    public void setHideUpdateButton(boolean shown){
+
+    public void setHideUpdateButton(boolean shown) {
         btnUpdate.setDisable(shown);
     }
 
