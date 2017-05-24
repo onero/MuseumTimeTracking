@@ -71,9 +71,8 @@ public class IdleViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         initializeTables();
-        setIdleGMOptionsVisibility(false);
-        setIdleVolunteerOptionsVisibility(true);
 
         lblGMAmount.textProperty().bind(Bindings.size((guildManagerModel.getCachedIdleGuildManagers())).asString());
         lblVolunteerAmount.textProperty().bind(Bindings.size((volunteerModel.getCachedIdleVolunteers())).asString());
@@ -93,24 +92,8 @@ public class IdleViewController implements Initializable {
             }
         });
         if (tableIdleGM.getSelectionModel().isEmpty()) {
-            hideGMButtons();
+            setIdleGMOptionsVisibility(false);
         }
-    }
-
-    /**
-     * Hides the GM Buttons
-     */
-    public void hideGMButtons() {
-        vBoxGMOptions.setDisable(true);
-        vBoxGMOptions.setVisible(false);
-    }
-
-    /**
-     * Hides the Volunteer Buttons
-     */
-    public void hideVolunteerButtons() {
-        vBoxVolunteerOptions.setDisable(true);
-        vBoxVolunteerOptions.setVisible(false);
     }
 
     @FXML
@@ -127,7 +110,7 @@ public class IdleViewController implements Initializable {
             }
         });
         if (tableIdleVolunteer.getSelectionModel().isEmpty()) {
-            hideVolunteerButtons();
+            setIdleVolunteerOptionsVisibility(false);
         }
     }
 
@@ -139,7 +122,7 @@ public class IdleViewController implements Initializable {
             ExceptionDisplayer.display(ex);
         }
         if (tableIdleGM.getSelectionModel().isEmpty()) {
-            hideGMButtons();
+            setIdleGMOptionsVisibility(false);
         }
     }
 
@@ -151,18 +134,20 @@ public class IdleViewController implements Initializable {
             ExceptionDisplayer.display(ex);
         }
         if (tableIdleVolunteer.getSelectionModel().isEmpty()) {
-            hideVolunteerButtons();
+            setIdleVolunteerOptionsVisibility(false);
         }
     }
 
     @FXML
     private void handleSelectGM() {
         selectedManager = tableIdleGM.getSelectionModel().getSelectedItem();
+        setIdleGMOptionsVisibility(true);
     }
 
     @FXML
     private void handleSelectVounteer() {
         selectedVolunteer = tableIdleVolunteer.getSelectionModel().getSelectedItem();
+        setIdleVolunteerOptionsVisibility(true);
     }
 
     /**
@@ -201,6 +186,15 @@ public class IdleViewController implements Initializable {
 
         clmVolunteerName.setCellValueFactory(v -> v.getValue().getFullNameProperty());
         clmVolunteerDescription.setCellValueFactory(v -> v.getValue().getDescriptionProperty());
+
+        //Check if Idle GM is empty
+        if (tableIdleGM.getSelectionModel().isEmpty()) {
+            setIdleGMOptionsVisibility(false);
+        }
+        //Check if idle volunteer is empty
+        if (tableIdleVolunteer.getSelectionModel().isEmpty()) {
+            setIdleVolunteerOptionsVisibility(false);
+        }
     }
 
     /**
