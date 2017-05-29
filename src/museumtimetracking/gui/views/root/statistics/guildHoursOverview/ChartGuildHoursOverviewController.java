@@ -44,11 +44,16 @@ public class ChartGuildHoursOverviewController implements Initializable {
         chartHoursOverview.setLegendVisible(false);
     }
 
-    //TODO RKL: JAVADOC!
+    /**
+     * Updates the data in the chart.
+     */
     public void updateDataForChart() {
+        //Clears the chart so there won't be duplicated data.
         chartHoursOverview.getData().clear();
+
         List<Guild> guilds = guildModel.getGuildsFromDB();
         Map<String, Integer> guildHours = new HashMap<>();
+        //Check if the program is online. If not, it shall not call the database!
         if (MTTMainControllerView.isOnline()) {
             try {
                 guildHours = guildModel.getMapOfHoursPerGuild();
@@ -56,11 +61,12 @@ public class ChartGuildHoursOverviewController implements Initializable {
                 System.out.println("Chart data error");
             }
         }
-        XYChart.Series hoursSeries = new XYChart.Series<>();
-
+        //Checks if there is no data. If yes - Gets the cached guildHours.
         if (guildHours.isEmpty()) {
             guildHours = guildModel.getGuildHours();
         }
+        XYChart.Series hoursSeries = new XYChart.Series<>();
+        //Populates Series with data for all the guilds.
         for (Guild guild : guilds) {
             XYChart.Data data = new XYChart.Data<>(guild.getName(), guildHours.get(guild.getName()));
             hoursSeries.getData().add(data);
