@@ -63,7 +63,7 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
 
         guildHours = guildManager.getAllHoursWorked(guildsFromDB);
 
-        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, 2);
+        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, 1);
 
         Collections.sort(guildsFromDB);
 
@@ -122,7 +122,7 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
 
         guildHours = guildManager.getAllHoursWorked(guildsFromDB);
 
-        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, 2);
+        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, 1);
 
         Collections.sort(guildsFromDB);
     }
