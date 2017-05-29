@@ -91,17 +91,12 @@ public class GMManager implements IExcel {
      * @param guildsToDelete
      */
     private void updateGuildsOnManager(ObservableList<String> managerGuilds, Set<String> guildsToAdd, Set<String> guildsToDelete) {
-        //TODO rkl: Use addAll.
+
         if (guildsToAdd != null) {
-            for (String guildName : guildsToAdd) {
-                managerGuilds.add(guildName);
-            }
+            managerGuilds.addAll(guildsToAdd);
         }
-//        managerGuilds.addAll(guildsToAdd);
         if (guildsToDelete != null) {
-            for (String guildName : guildsToDelete) {
-                managerGuilds.remove(guildName);
-            }
+            managerGuilds.removeAll(guildsToDelete);
         }
     }
 
