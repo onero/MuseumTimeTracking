@@ -41,7 +41,7 @@
                </padding>
             </TableView>
             <TextField fx:id="txtSearchBar" promptText="%Search" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="14.0" />
-            <Spinner layoutY="28.0" prefHeight="25.0" prefWidth="232.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="30.0" />
+            <Spinner fx:id="spnHours" layoutY="28.0" prefHeight="25.0" prefWidth="232.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="30.0" />
             <Label layoutY="4.0" text="%SelectGuildHours">
                <font>
                   <Font name="System Bold" size="15.0" />

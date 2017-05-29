@@ -15,10 +15,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import museumtimetracking.be.Guild;
+import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
 import museumtimetracking.gui.model.ModelFacade;
 
@@ -41,6 +44,8 @@ public class ROIGmHoursViewController implements Initializable {
     private TableColumn<Guild, String> clmInvestment;
 
     private GuildModel guildModel;
+    @FXML
+    private Spinner<Integer> spnHours;
 
     public ROIGmHoursViewController() {
         guildModel = ModelFacade.getInstance().getGuildModel();
@@ -62,6 +67,15 @@ public class ROIGmHoursViewController implements Initializable {
         });
     }
 
+//    private void gmToVolunteerHours(){
+//        Guild guild = tableROI.getSelectionModel().getSelectedItem();
+//        if (guild != null) {
+//                int hours = spnHours.getValue();
+//                
+//        }
+//    }
+    
+    
     /**
      * Updates the pieChart with ROI data.
      */
