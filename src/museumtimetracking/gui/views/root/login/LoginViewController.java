@@ -7,7 +7,6 @@ package museumtimetracking.gui.views.root.login;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -67,7 +66,7 @@ public class LoginViewController implements Initializable {
      * @param event
      */
     @FXML
-    private void handleLoginBtn(ActionEvent event) {
+    private void handleLoginBtn() {
         String username = txtUsername.getText();
         String password = txtPassword.getText();
         if (!username.isEmpty() && !password.isEmpty()) {
@@ -119,7 +118,6 @@ public class LoginViewController implements Initializable {
         errorMessage.setVisible(false);
     }
 
-    
     //TODO Skovgaard: Lav det til enums.
     private void denyAccess(int error) {
         setLoginMode(false);
