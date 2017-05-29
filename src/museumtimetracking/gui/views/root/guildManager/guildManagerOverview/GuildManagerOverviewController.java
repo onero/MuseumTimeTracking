@@ -270,8 +270,9 @@ public class GuildManagerOverviewController implements Initializable {
         txtDescription.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                //TODO RKL: FIX SHEIT:
-                if (newValue != null && newValue.toCharArray().length >= guildManagerModel.getDescriptionRestriction() + 1) {
+                //Checks if the text in the textArea exceeds the maximum amount of character allowed.
+                //If yes, sets the text to the oldValue. Else updates the descriptioLabel.
+                if (newValue != null && newValue.toCharArray().length > guildManagerModel.getDescriptionRestriction()) {
                     txtDescription.setText(oldValue);
                 } else {
                     updateLabelDescriptionRestriction(newValue);
