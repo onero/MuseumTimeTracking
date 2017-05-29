@@ -51,6 +51,11 @@ public class ROIGmHoursViewController implements Initializable {
     private GuildModel guildModel;
     @FXML
     private Spinner<Integer> spnHours;
+    
+    /**
+     * The number startup for the spinner.
+     */
+    public static final int INITIAL_VALUE_FOR_GM = 8;
 
     public ROIGmHoursViewController() {
         guildModel = ModelFacade.getInstance().getGuildModel();
@@ -109,9 +114,8 @@ public class ROIGmHoursViewController implements Initializable {
     private void initializeSpinner() {
         int minValue = 1;
         int maxValue = 248; //31 dage * 8 arbejdstimer.
-        int initValue = 1;
         SpinnerValueFactory.IntegerSpinnerValueFactory valueFactory
-                = new SpinnerValueFactory.IntegerSpinnerValueFactory(minValue, maxValue, initValue);
+                = new SpinnerValueFactory.IntegerSpinnerValueFactory(minValue, maxValue, INITIAL_VALUE_FOR_GM);
         spnHours.setValueFactory(valueFactory);
     }
 

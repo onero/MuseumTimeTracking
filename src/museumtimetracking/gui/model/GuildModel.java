@@ -25,6 +25,7 @@ import museumtimetracking.bll.GuildManager;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.views.root.MTTMainControllerView;
+import museumtimetracking.gui.views.root.statistics.ROIOverview.ROIGmHoursViewController;
 
 public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<GuildModel> {
 
@@ -63,7 +64,7 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
 
         guildHours = guildManager.getAllHoursWorked(guildsFromDB);
 
-        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, 1);
+        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, ROIGmHoursViewController.INITIAL_VALUE_FOR_GM);
 
         Collections.sort(guildsFromDB);
 
@@ -122,7 +123,7 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
 
         guildHours = guildManager.getAllHoursWorked(guildsFromDB);
 
-        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, 1);
+        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, ROIGmHoursViewController.INITIAL_VALUE_FOR_GM);
 
         Collections.sort(guildsFromDB);
     }
