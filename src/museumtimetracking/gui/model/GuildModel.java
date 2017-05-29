@@ -126,6 +126,10 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
 
         Collections.sort(guildsFromDB);
     }
+    
+    public void updateGuildROI(int gmHours) throws DALException{
+        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, gmHours);
+    }
 
     /**
      * Sort lists in natural order

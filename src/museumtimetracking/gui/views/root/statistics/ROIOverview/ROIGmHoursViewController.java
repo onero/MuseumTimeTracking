@@ -8,7 +8,11 @@ package museumtimetracking.gui.views.root.statistics.ROIOverview;
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -60,6 +65,8 @@ public class ROIGmHoursViewController implements Initializable {
         chartPie.setLegendVisible(false);
         updateDataForChart();
         initializeTable();
+        initializeSpinner();
+        addListener();
 
         //Set a search listener on serach textfield
         txtSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -67,15 +74,47 @@ public class ROIGmHoursViewController implements Initializable {
         });
     }
 
-//    private void gmToVolunteerHours(){
-//        Guild guild = tableROI.getSelectionModel().getSelectedItem();
-//        if (guild != null) {
-//                int hours = spnHours.getValue();
-//                
-//        }
-//    }
-    
-    
+    /**
+     * Updates the Guild ROI with the new selected hours.
+     *
+     * @param gmHours
+     */
+    private void updateGuildROIWithSelectedGmHour(int gmHours) {
+        try {
+            guildModel.updateGuildROI(gmHours);
+        } catch (DALException ex) {
+            ExceptionDisplayer.display(ex);
+        }
+        updateDataForChart();
+    }
+
+    /**
+     * Listens if the spinner gets a new value.
+     */
+    private void addListener() {
+        spnHours.valueProperty().addListener(new ChangeListener<Integer>() {
+            @Override
+            public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+                if (newValue != oldValue) {
+                    updateGuildROIWithSelectedGmHour(newValue);
+                    tableROI.refresh();
+                }
+            }
+        });
+    }
+
+    /**
+     * Sets the min, max and init value on the spinner.
+     */
+    private void initializeSpinner() {
+        int minValue = 1;
+        int maxValue = 248; //31 dage * 8 arbejdstimer.
+        int initValue = 1;
+        SpinnerValueFactory.IntegerSpinnerValueFactory valueFactory
+                = new SpinnerValueFactory.IntegerSpinnerValueFactory(minValue, maxValue, initValue);
+        spnHours.setValueFactory(valueFactory);
+    }
+
     /**
      * Updates the pieChart with ROI data.
      */
