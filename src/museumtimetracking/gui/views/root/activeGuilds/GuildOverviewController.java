@@ -212,7 +212,6 @@ public class GuildOverviewController implements Initializable {
             try {
                 guildModel.addGuild(newGuild);
                 guildModel.addCachedAvailableGuild(newGuild);
-                //TODO RKL: Make sure "selectedGuildManager" is sat to null where needed.
                 if (selectedGuildManager != null) {
                     guildManagerModel.assignGuildToManager(selectedGuildManager, newGuild);
                     selectedGuildManager = null;

@@ -332,8 +332,6 @@ public class DALFacade {
      * Creates the person in the DB. Then adds its guild, so it's a manager.
      * Then return a GuildManager with its accoiated guilds.
      *
-     * TODO RKL: Refactor to transaction.
-     *
      * @param person
      * @param guildName
      * @return

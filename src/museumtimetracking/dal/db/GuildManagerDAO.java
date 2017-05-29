@@ -90,14 +90,13 @@ public class GuildManagerDAO extends APersonDAO {
             con.setAutoCommit(false);
             updatePersonInformation(con, manager);
             setGMDescription(con, manager.getID(), manager.getDescription());
-            //TODO rkl: remove isEmpty.
-            if (guildsToAdd != null && !guildsToAdd.isEmpty()) {
+            if (guildsToAdd != null) {
                 for (String guild : guildsToAdd) {
                     addGuildToManagerInDatabase(con, manager.getID(), guild);
                 }
             }
 
-            if (guildsTodelete != null && !guildsTodelete.isEmpty()) {
+            if (guildsTodelete != null) {
                 for (String guild : guildsTodelete) {
                     removeGuildFromManagerFromDatabase(con, manager.getID(), guild);
                 }
