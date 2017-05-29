@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.statistics.ROIOverview.ROIGmHoursViewController">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="museumtimetracking.gui.views.root.statistics.ROIOverview.ROIGmHoursViewController">
    <center>
       <AnchorPane id="AnchorPane">
          <children>
@@ -28,7 +29,7 @@
    <right>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="tableROI" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="0.0">
+            <TableView fx:id="tableROI" layoutY="62.0" prefHeight="338.0" prefWidth="243.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="62.0">
               <columns>
                 <TableColumn fx:id="clmName" prefWidth="75.0" text="%Guild" />
                   <TableColumn fx:id="clmInvestment" prefWidth="75.0" text="%Investment" />
@@ -40,6 +41,11 @@
                </padding>
             </TableView>
             <TextField fx:id="txtSearchBar" promptText="%Search" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="14.0" />
+            <Spinner fx:id="spnHours" layoutY="28.0" prefHeight="25.0" prefWidth="232.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="30.0" />
+            <Label layoutY="4.0" text="%SelectGuildHours">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Label>
          </children>
       </AnchorPane>
    </right>
