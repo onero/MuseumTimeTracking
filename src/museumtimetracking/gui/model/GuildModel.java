@@ -264,7 +264,7 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
         cachedGuilds.clear();
         guildsFromDB.stream()
                 .filter(g -> g.getName().toLowerCase().contains(newValue.toLowerCase())
-                || g.getGuildManager() != null && g.getGuildManager().getFullName().toLowerCase().contains(newValue.toLowerCase()))
+                        || g.getGuildManager() != null && g.getGuildManager().getFullName().toLowerCase().contains(newValue.toLowerCase()))
                 .forEach(g -> cachedGuilds.add(g));
     }
 
@@ -360,20 +360,20 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
      * @param guildName the key for the map.
      * @return ROI for the guild as int. Or zero if there is no ROI.
      */
-    public int[] getROIForAGuild(String guildName) {
-        try {
-            int[] roi = new int[3];
-            int roiForGuild = guildROI.get(guildName);
-            roi[0] = roiForGuild / 4;
-            roi[1] = roiForGuild;
-            roi[2] = roiForGuild * 12;
-            return roi;
-        } catch (NullPointerException nex) {
-            return null;
+    public int getROIForAGuild(String guildName) {
+        if (guildROI.get(guildName) != null) {
+            return guildROI.get(guildName);
         }
+        return 0;
     }
 
-    //TODO RKL: JAVADOC!
+    /**
+     * Return all Guilds a volunteer has worked on.
+     *
+     * @param volunteer
+     * @return
+     * @throws DALException
+     */
     public List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws DALException {
         return guildManager.getGuildsAVolunteerHasWorkedOn(volunteer);
     }
