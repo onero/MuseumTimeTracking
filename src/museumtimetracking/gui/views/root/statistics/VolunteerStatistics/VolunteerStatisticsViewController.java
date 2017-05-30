@@ -159,7 +159,6 @@ public class VolunteerStatisticsViewController implements Initializable {
         EVolunteerStatisticsState state = EVolunteerStatisticsState.getState(volunteer, guildName, id);
         String workHours = "";
 
-        //TODO MSP: Exceptions skal kunne oversættes.
         try {
             switch (state) {
                 case BOTH_VOLUNTEER_AND_GUILD_CHOSEN_ON_VOLUNTEER_COMBO: {

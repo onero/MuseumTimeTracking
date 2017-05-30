@@ -39,13 +39,14 @@ import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.NodeFactory;
 import museumtimetracking.gui.views.root.guildManager.guildManagerOverview.manageGuildManagerGuilds.ManageGuildManagerGuildsViewController;
+import museumtimetracking.gui.views.root.ISearchableController;
 
 /**
  * FXML Controller class
  *
  * @author Rasmus
  */
-public class GuildManagerOverviewController implements Initializable {
+public class GuildManagerOverviewController implements Initializable, ISearchableController {
 
     @FXML
     private ButtonBar GMOptions;

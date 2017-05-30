@@ -41,13 +41,14 @@ import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.root.MTTMainControllerView;
 import museumtimetracking.gui.views.root.volunteer.addHours.AddVolunteersHoursViewController;
 import museumtimetracking.gui.views.root.volunteer.volunteerInfo.VolunteerInfoViewController;
+import museumtimetracking.gui.views.root.ISearchableController;
 
 /**
  * FXML Controller class
  *
  * @author gta1
  */
-public class VolunteerOverviewController implements Initializable {
+public class VolunteerOverviewController implements Initializable, ISearchableController {
 
     @FXML
     private Button btnEdit;

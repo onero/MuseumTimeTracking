@@ -21,13 +21,14 @@ import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildModel;
 import museumtimetracking.gui.model.ModelFacade;
+import museumtimetracking.gui.views.root.ISearchableController;
 
 /**
  * FXML Controller class
  *
  * @author gta1
  */
-public class ArchivedGuildViewController implements Initializable {
+public class ArchivedGuildViewController implements Initializable, ISearchableController {
 
     @FXML
     private TableColumn<Guild, String> clmGuildDescription;

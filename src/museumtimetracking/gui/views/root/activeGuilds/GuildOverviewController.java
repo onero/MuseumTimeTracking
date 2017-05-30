@@ -36,13 +36,14 @@ import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.root.MTTMainControllerView;
 import museumtimetracking.gui.views.root.activeGuilds.editGuild.EditGuildViewController;
+import museumtimetracking.gui.views.root.ISearchableController;
 
 /**
  * FXML Controller class
  *
  * @author gta1
  */
-public class GuildOverviewController implements Initializable {
+public class GuildOverviewController implements Initializable, ISearchableController {
 
     @FXML
     private AnchorPane anchorPane;

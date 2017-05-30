@@ -24,13 +24,14 @@ import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.model.VolunteerModel;
+import museumtimetracking.gui.views.root.ISearchableController;
 
 /**
  * FXML Controller class
  *
  * @author gta1
  */
-public class IdleViewController implements Initializable {
+public class IdleViewController implements Initializable, ISearchableController {
 
     @FXML
     private TableColumn<GM, String> clmGMDescription;

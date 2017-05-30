@@ -403,7 +403,6 @@ public class MTTMainControllerView implements Initializable {
      */
     private void initializeTextFieldListener() {
         txtSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
-            //TODO GRØN: Make an abstract controller and an interface for the models.
             handleSearch(newValue);
         });
     }
