@@ -15,6 +15,7 @@ public class ExceptionDisplayer {
      * @param ex as Throwable exception
      */
     public static void display(Throwable ex) {
+        ex.printStackTrace();
         Alert alert = new AlertFactory().createExceptionAlert(ex.getMessage());
         alert.show();
     }
