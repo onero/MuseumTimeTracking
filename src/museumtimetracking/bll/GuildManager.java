@@ -78,8 +78,8 @@ public class GuildManager implements IExcel {
     }
 
     /**
-     * Gets all the guilds from the DB if connection is available.
-     * Else get all guilds from file, if available
+     * Gets all the guilds from the DB if connection is available. Else get all
+     * guilds from file, if available
      *
      * @return guilds as List<Guild>
      * @throws museumtimetracking.exception.DALException
@@ -195,6 +195,10 @@ public class GuildManager implements IExcel {
         date += month + "-";
         if (day < 10) {
             date += "0";
+        }
+        //Checks if the is "0" aka, not a real date.
+        if (day == 0) {
+            day++;
         }
         date += day;
         return date;
