@@ -378,7 +378,6 @@ public class GuildManagerOverviewController implements Initializable {
         controller.initializeGuildLists(manager.getListOfGuilds());
 
         stage.showAndWait();
-        //TODO ALH: Clean up this mess!
         setGuildsToAdd = controller.getSetGuildsToAdd();
         setGuildsToDelete = controller.getSetGuildsToDelete();
         lstGuilds.setItems(controller.getManagerGuilds());

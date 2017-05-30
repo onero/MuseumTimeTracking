@@ -50,7 +50,13 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
     public GuildModel() {
     }
 
-    //TODO ALH: Explain
+    /**
+     * Standard constructor of the GuildModel
+     *
+     * @param onlineMode, which defines if the program should goonline for data
+     * update
+     * @throws DALException
+     */
     public GuildModel(boolean onlineMode) throws DALException {
         guildManager = new GuildManager();
         guildsFromDB = guildManager.getAllGuildsNotArchived();
@@ -92,13 +98,7 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
                 instatiateCollections();
                 //When the collections are updated
                 Platform.runLater(() -> {
-                    //todo alh: rEFACTOR INTO METHOD
-                    cachedGuilds.clear();
-                    cachedGuilds.addAll(guildsFromDB);
-                    cachedArchivedGuilds.clear();
-                    cachedArchivedGuilds.addAll(archivedGuildsFromDB);
-                    cachedAvailableGuilds.clear();
-                    cachedAvailableGuilds.addAll(availableGuildsFromDB);
+                    updateCachedCollections();
                     //Hide the updating view
                     MTTMainControllerView.getInstance().showUpdate(false);
                 });
@@ -107,6 +107,18 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
             }
         };
         new Thread(task).start();
+    }
+
+    /**
+     * Clear and refill observable collections
+     */
+    private void updateCachedCollections() {
+        cachedGuilds.clear();
+        cachedGuilds.addAll(guildsFromDB);
+        cachedArchivedGuilds.clear();
+        cachedArchivedGuilds.addAll(archivedGuildsFromDB);
+        cachedAvailableGuilds.clear();
+        cachedAvailableGuilds.addAll(availableGuildsFromDB);
     }
 
     /**
@@ -127,8 +139,8 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
 
         Collections.sort(guildsFromDB);
     }
-    
-    public void updateGuildROI(int gmHours) throws DALException{
+
+    public void updateGuildROI(int gmHours) throws DALException {
         guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, gmHours);
     }
 
@@ -269,7 +281,7 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
         cachedGuilds.clear();
         guildsFromDB.stream()
                 .filter(g -> g.getName().toLowerCase().contains(newValue.toLowerCase())
-                        || g.getGuildManager() != null && g.getGuildManager().getFullName().toLowerCase().contains(newValue.toLowerCase()))
+                || g.getGuildManager() != null && g.getGuildManager().getFullName().toLowerCase().contains(newValue.toLowerCase()))
                 .forEach(g -> cachedGuilds.add(g));
     }
 
