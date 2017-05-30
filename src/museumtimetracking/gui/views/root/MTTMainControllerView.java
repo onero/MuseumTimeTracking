@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -433,11 +432,9 @@ public class MTTMainControllerView implements Initializable {
     /**
      * Compare the text in the hyperlink. If it is logout then show a alert. If
      * pressing yes set hyperlink to login and remove tabs.
-     *
-     * @param event
      */
     @FXML
-    private void handleLogin(ActionEvent event) {
+    private void handleLogin() {
         if (hyperlinkLogin.getText().equals(LOGOUT_BTN_TEXT)) {
             Alert alert = new AlertFactory().createLogoutAlert();
             alert.showAndWait().ifPresent(type -> {
@@ -466,12 +463,13 @@ public class MTTMainControllerView implements Initializable {
             ModelFacade.getInstance().getGuildModel().updateData();
             ModelFacade.getInstance().getGuildManagerModel().updateData();
             ModelFacade.getInstance().getVolunteerModel().updateData();
+            statisticsViewController.updateDataForGuildHoursOverview();
         } else {
             displaySnackWarning(MuseumTimeTracking.bundle.getString("OfflineWarning"));
         }
     }
-    
-    public void setHideUpdateButton(boolean shown){
+
+    public void setHideUpdateButton(boolean shown) {
         btnUpdate.setDisable(shown);
     }
 

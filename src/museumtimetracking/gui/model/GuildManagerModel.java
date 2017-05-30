@@ -277,28 +277,31 @@ public class GuildManagerModel implements Externalizable, IASyncUpdate, ISaveMod
         cachedIdleGuildManagers = FXCollections.observableArrayList(idleGuildManagersFromDB);
     }
 
-    //TODO RKL: JAVADOC!
-    //TODO RKL: Fix this sheit.
+    /**
+     * Finds all guildNames and their acosiated ROI and export them to an excel.
+     *
+     * @param location
+     * @throws IOException
+     * @throws DALException
+     * @throws WriteException
+     */
     public void exportROIToExcel(String location) throws IOException, DALException, WriteException {
         GuildModel guildModel = ModelFacade.getInstance().getGuildModel();
         List<Guild> guilds = guildModel.getGuildsFromDB();
         List<String> guildNames = new ArrayList<>();
-        List<Integer> weekROI = new ArrayList<>();
-        List<Integer> monthROI = new ArrayList<>();
-        List<Integer> yearROI = new ArrayList<>();
+        List<Integer> guildROI = new ArrayList<>();
 
+        //Gets the ROI for each guild and puts it in guildROI so that
+        //the guild at index x in guildNames mathces the ROI at index x in guildROI.
         for (Guild guild : guilds) {
-            int[] roi = guildModel.getROIForAGuild(guild.getName());
-            if (roi != null) {
+            int roi = guildModel.getROIForAGuild(guild.getName());
+            if (roi != 0) {
                 guildNames.add(guild.getName());
-                weekROI.add(roi[0]);
-                monthROI.add(roi[1]);
-                yearROI.add(roi[2]);
+                guildROI.add(roi);
             }
         }
 
-        gmManager.exportToExcel(location, new ArrayList<>(guildNames),
-                /*new ArrayList<>(weekROI), */ new ArrayList<>(monthROI)/*, new ArrayList<>(yearROI)*/);
+        gmManager.exportToExcel(location, new ArrayList<>(guildNames), new ArrayList<>(guildROI));
     }
 
     /**

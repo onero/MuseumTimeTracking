@@ -270,8 +270,9 @@ public class GuildManagerOverviewController implements Initializable {
         txtDescription.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                //TODO RKL: FIX SHEIT:
-                if (newValue != null && newValue.toCharArray().length >= guildManagerModel.getDescriptionRestriction() + 1) {
+                //Checks if the text in the textArea exceeds the maximum amount of character allowed.
+                //If yes, sets the text to the oldValue. Else updates the descriptioLabel.
+                if (newValue != null && newValue.toCharArray().length > guildManagerModel.getDescriptionRestriction()) {
                     txtDescription.setText(oldValue);
                 } else {
                     updateLabelDescriptionRestriction(newValue);
@@ -374,7 +375,7 @@ public class GuildManagerOverviewController implements Initializable {
         ManageGuildManagerGuildsViewController controller = modalFactory.getLoader().getController();
 
         GM manager = lstManagers.getSelectionModel().getSelectedItem();
-        controller.addGuilds(manager.getListOfGuilds());
+        controller.initializeGuildLists(manager.getListOfGuilds());
 
         stage.showAndWait();
         //TODO ALH: Clean up this mess!
@@ -443,9 +444,7 @@ public class GuildManagerOverviewController implements Initializable {
     private void updateLabelDescriptionRestriction(String text) {
         int restriction = guildManagerModel.getDescriptionRestriction();
         if (text != null) {
-            //TODO RKL: Check length of string.
-            char[] chars = text.toCharArray();
-            lblDescriptionRestriction.setText(chars.length + "/" + restriction);
+            lblDescriptionRestriction.setText(text.length() + "/" + restriction);
         } else {
             lblDescriptionRestriction.setText("0/" + restriction);
         }

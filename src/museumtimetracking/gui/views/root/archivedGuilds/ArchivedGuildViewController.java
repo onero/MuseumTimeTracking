@@ -8,7 +8,6 @@ package museumtimetracking.gui.views.root.archivedGuilds;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -16,7 +15,6 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.input.MouseEvent;
 import museumtimetracking.be.Guild;
 import museumtimetracking.exception.AlertFactory;
 import museumtimetracking.exception.DALException;
@@ -74,8 +72,12 @@ public class ArchivedGuildViewController implements Initializable {
         btnbButtons.setVisible(shown);
     }
 
+    //TODO ? : MISSING JAVADOC !?!?
+    /**
+     *
+     */
     @FXML
-    private void handleDeleteGuid(ActionEvent event) {
+    private void handleDeleteGuid() {
         if (selectedGuild != null) {
             Alert alert = new AlertFactory().createDeleteAlert();
             alert.showAndWait().ifPresent(type -> {
@@ -92,7 +94,7 @@ public class ArchivedGuildViewController implements Initializable {
     }
 
     @FXML
-    private void handleSelectGuild(MouseEvent event) {
+    private void handleSelectGuild() {
         setGuildOptionsVisibility(true);
         selectedGuild = tableGuild.getSelectionModel().getSelectedItem();
     }
