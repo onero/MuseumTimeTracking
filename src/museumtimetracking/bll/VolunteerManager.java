@@ -12,14 +12,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
 import museumtimetracking.be.Volunteer;
 import museumtimetracking.dal.DALFacade;
 import museumtimetracking.dal.fileWriting.excel.ExcelWriter;
 import museumtimetracking.dal.fileWriting.excel.IExcel;
 import museumtimetracking.exception.DALException;
+import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.model.VolunteerModel;
 
 /**
@@ -146,13 +146,39 @@ public class VolunteerManager implements IExcel {
         newFile.setOutputFile(location);
         newFile.createNewExcel("Rapport over frivillige");
 
-        newFile.createCaptions("Frivillig", "Email", "Telefon", "Antal timer i laug");
+        newFile.createCaptions(0, "Frivillig", "Email", "Telefon", "Antal timer i laug");
 
+        writeDataToFile(newFile, values[0], 1);
+
+        //If a second list is parsed, prints its information under the first list.
+        if (values.length > 1 && values[1] != null) {
+            newFile.createCaptions(values[0].size() + 1, "Inaktive Frivillige");
+
+            writeDataToFile(newFile, values[1], values[1].size() + 2);
+        }
+
+        newFile.writeExcelToFile();
+    }
+
+    /**
+     * Takes the parsed list and writes its information in the parsed file
+     * beginning on the parsed row.
+     *
+     * @param <T>
+     * @param newFile
+     * @param list
+     * @param row
+     * @throws WriteException
+     * @throws RowsExceededException
+     * @throws IOException
+     * @throws DALException
+     */
+    private <T> void writeDataToFile(ExcelWriter newFile, List<T> list, int row) throws WriteException, RowsExceededException, IOException, DALException {
         List<String> names = new ArrayList<>();
         List<String> emails = new ArrayList<>();
         List<Integer> phones = new ArrayList<>();
         List<Integer> hours = new ArrayList<>();
-        List<Volunteer> volunteers = (List<Volunteer>) values[0];
+        List<Volunteer> volunteers = (List<Volunteer>) list;
         volunteers.stream()
                 .forEachOrdered(v -> {
                     names.add(v.getFullName());
@@ -161,13 +187,11 @@ public class VolunteerManager implements IExcel {
                     try {
                         hours.add(getWorkHoursForAVolunteerInAllGuilds(v));
                     } catch (DALException ex) {
-                        Logger.getLogger(VolunteerManager.class.getName()).log(Level.SEVERE, null, ex);
+                        ExceptionDisplayer.display(ex);
                     }
                 });
 
-        newFile.createVolunteerContent(names, emails, phones, hours);
-
-        newFile.writeExcelToFile();
+        newFile.createVolunteerContent(row, names, emails, phones, hours);
     }
 
     /**

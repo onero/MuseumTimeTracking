@@ -190,10 +190,22 @@ public class VolunteerModel implements Externalizable, IASyncUpdate, ISaveModel<
     }
 
     /**
-     * Export volunteer info to excel sheet
+     * Export volunteer info to excel sheet. If inactiveIncluded is true -
+     * Writes both inactive and active volunteers. If false - Only writes active
+     * volunteers.
+     *
+     * @param location
+     * @param inactiveIncluded
+     * @throws java.io.IOException
+     * @throws jxl.write.WriteException
+     * @throws museumtimetracking.exception.DALException
      */
-    public void exportVolunteerInfoToExcel(String location) throws IOException, WriteException, DALException {
-        volunteerMgr.exportToExcel(location, cachedVolunteers);
+    public void exportVolunteerInfoToExcel(String location, boolean inactiveIncluded) throws IOException, WriteException, DALException {
+        if (inactiveIncluded) {
+            volunteerMgr.exportToExcel(location, cachedVolunteers, cachedIdleVolunteers);
+        } else {
+            volunteerMgr.exportToExcel(location, cachedVolunteers);
+        }
     }
 
     @Override

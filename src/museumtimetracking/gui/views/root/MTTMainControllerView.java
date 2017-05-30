@@ -55,6 +55,7 @@ import museumtimetracking.gui.views.root.idle.IdleViewController;
 import museumtimetracking.gui.views.root.statistics.ROIOverview.ROIGmHoursViewController;
 import museumtimetracking.gui.views.root.statistics.StatisticsViewController;
 import museumtimetracking.gui.views.root.volunteer.VolunteerOverviewController;
+import museumtimetracking.gui.views.root.volunteer.volunteerExportModel.VolunteerExportModalViewController;
 
 /**
  * FXML Controller class
@@ -280,29 +281,41 @@ public class MTTMainControllerView implements Initializable {
     @FXML
     private void handleExportExcel() {
         try {
-            FileChooser fc = new FileChooser();
-            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel", "*.xls"));
-            String location = fc.showSaveDialog(snackPane.getScene().getWindow()).getAbsolutePath();
-            if (location != null) {
-                ETabPaneID paneID = ETabPaneID.getTabByString(paneTabID);
-                switch (paneID) {
-                    case STATISTICS:
+//            FileChooser fc = new FileChooser();
+//            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel", "*.xls"));
+//            String location = fc.showSaveDialog(snackPane.getScene().getWindow()).getAbsolutePath();
+//            if (location != null) {
+            ETabPaneID paneID = ETabPaneID.getTabByString(paneTabID);
+            switch (paneID) {
+                case STATISTICS:
+                    String location = selectPath();
+                    if (location != null) {
                         modelFacade.getGuildModel().exportGuildHoursToExcel(location);
                         String[] locationArray = location.split("\\.");
                         ModelFacade.getInstance().getGuildManagerModel().exportROIToExcel(locationArray[0] + "ROI." + locationArray[1]);
-                        break;
-                    case VOLUNTEER:
-                        ModelFacade.getInstance().getVolunteerModel().exportVolunteerInfoToExcel(location);
-                        break;
-                    default:
-                }
-                displaySnackWarning(MuseumTimeTracking.bundle.getString("ExcelExported"));
-            } else {
-                displaySnackWarning(MuseumTimeTracking.bundle.getString("ExcelNotExported"));
+                        displaySnackWarning(MuseumTimeTracking.bundle.getString("ExcelExported"));
+                    } else {
+                        displaySnackWarning(MuseumTimeTracking.bundle.getString("ExcelNotExported"));
+                    }
+                    break;
+                case VOLUNTEER:
+                    Stage newPrimStage = (Stage) lblUpdateData.getScene().getWindow();
+                    Stage exportModal = modalFactory.createNewModal(newPrimStage, VOLUNTEER_EXPORT_MODAL);
+                    VolunteerExportModalViewController controller = modalFactory.getLoader().getController();
+                    controller.setControllerAndPane(this, snackPane);
+                    exportModal.show();
+                    break;
+                default:
             }
         } catch (IOException | DALException | WriteException ex) {
             ExceptionDisplayer.display(ex);
         }
+    }
+
+    private String selectPath() {
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel", "*.xls"));
+        return fc.showSaveDialog(snackPane.getScene().getWindow()).getAbsolutePath();
     }
 
     @FXML

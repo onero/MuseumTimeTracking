@@ -238,7 +238,7 @@ public class GuildManager implements IExcel {
         newFile.setOutputFile(location);
         newFile.createNewExcel("Rapport over laug");
 
-        newFile.createCaptions("Laug", "Timer");
+        newFile.createCaptions(0, "Laug", "Timer");
 
         newFile.createLabelNumberContent((List<String>) values[0], (List<Integer>) values[1]);
 
