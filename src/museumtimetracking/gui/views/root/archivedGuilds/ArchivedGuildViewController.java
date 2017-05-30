@@ -73,10 +73,6 @@ public class ArchivedGuildViewController implements Initializable, ISearchableCo
         btnbButtons.setVisible(shown);
     }
 
-    //TODO ? : MISSING JAVADOC !?!?
-    /**
-     *
-     */
     @FXML
     private void handleDeleteGuid() {
         if (selectedGuild != null) {
