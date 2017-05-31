@@ -160,41 +160,56 @@ public class VolunteerStatisticsViewController implements Initializable {
         String workHours = "";
 
         try {
-            switch (state) {
-                case BOTH_VOLUNTEER_AND_GUILD_CHOSEN_ON_VOLUNTEER_COMBO: {
-                    workHours = "" + volunteerModel.getWorkHoursForAVolunteerInAGuild(guildName, volunteer);
-                    updateComboGuild(volunteer);
-                    comboGuild.getSelectionModel().select(guildName);
-                }
-                break;
-                case BOTH_VOLUNTEER_AND_GUILD_CHOSEN_ON_GUILD_COMBO: {
-                    workHours = "" + volunteerModel.getWorkHoursForAVolunteerInAGuild(guildName, volunteer);
-                    updateComboVolunteer(guildName);
-                    selectVolunteer(volunteer);
-                }
-                break;
-                case ONLY_VOLUNTEER_CHOSEN: {
-                    workHours = "" + volunteerModel.getWorkHoursForAVolunteerInAllGuilds(volunteer);
-                    updateComboGuild(volunteer);
-                }
-                break;
-                case ONLY_GUILD_CHOSEN: {
-                    workHours = "" + guildModel.getWorkHoursInGuild(guildName);
-                    updateComboVolunteer(guildName);
-                }
-                break;
-                case NONE_CHOSEN:
-                    updateComboGuild(volunteer);
-                    updateComboVolunteer(guildName);
-                    break;
-                default:
-                    break;
-            }
+            handleUpdate(state, workHours, guildName, volunteer);
         } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
         labelHours.setText(workHours);
         resizeCombos();
+    }
+
+    /**
+     * Depending on the state, it gets the right amount of hours from the DB.
+     *
+     * @param state
+     * @param workHours
+     * @param guildName
+     * @param volunteer
+     * @return workHours in case that it needs modification.
+     * @throws DALException
+     */
+    private String handleUpdate(EVolunteerStatisticsState state, String workHours, String guildName, Volunteer volunteer) throws DALException {
+        switch (state) {
+            case BOTH_VOLUNTEER_AND_GUILD_CHOSEN_ON_VOLUNTEER_COMBO: {
+                workHours += volunteerModel.getWorkHoursForAVolunteerInAGuild(guildName, volunteer);
+                updateComboGuild(volunteer);
+                comboGuild.getSelectionModel().select(guildName);
+            }
+            break;
+            case BOTH_VOLUNTEER_AND_GUILD_CHOSEN_ON_GUILD_COMBO: {
+                workHours += volunteerModel.getWorkHoursForAVolunteerInAGuild(guildName, volunteer);
+                updateComboVolunteer(guildName);
+                selectVolunteer(volunteer);
+            }
+            break;
+            case ONLY_VOLUNTEER_CHOSEN: {
+                workHours += volunteerModel.getWorkHoursForAVolunteerInAllGuilds(volunteer);
+                updateComboGuild(volunteer);
+            }
+            break;
+            case ONLY_GUILD_CHOSEN: {
+                workHours += guildModel.getWorkHoursInGuild(guildName);
+                updateComboVolunteer(guildName);
+            }
+            break;
+            case NONE_CHOSEN:
+                updateComboGuild(volunteer);
+                updateComboVolunteer(guildName);
+                break;
+            default:
+                break;
+        }
+        return workHours;
     }
 
     /**
