@@ -21,6 +21,7 @@ import jxl.write.WriteException;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
+import museumtimetracking.bll.APersonManager;
 import museumtimetracking.bll.GMManager;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
@@ -311,6 +312,22 @@ public class GuildManagerModel implements Externalizable, IASyncUpdate, ISaveMod
      */
     public int getDescriptionRestriction() {
         return descriptionRestriction;
+    }
+
+    /**
+     * Returns true if the parsed data is valid for a GM.
+     *
+     * @param firstName
+     * @param lastName
+     * @param phone
+     * @return
+     */
+    public boolean validateGMdata(boolean firstName, boolean lastName, boolean phone) {
+        return APersonManager.checkAllValidation(firstName, lastName, phone);
+    }
+
+    public boolean validateGMPhone(String phone) {
+        return APersonManager.validatePhone(phone);
     }
 
 }
