@@ -123,7 +123,6 @@ public class LoginViewController implements Initializable {
         errorMessage.setVisible(false);
     }
 
-    //TODO Skovgaard: Lav det til enums.
     private void denyAccess() {
         setLoginMode(false);
         this.errorMessage.setVisible(true);
