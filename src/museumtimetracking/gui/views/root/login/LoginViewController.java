@@ -58,13 +58,6 @@ public class LoginViewController implements Initializable {
         spinner.setVisible(false);
     }
 
-    /**
-     * Sends a request to the LoginManager for a verification of the user and
-     * logs it in, which will send it to the AllstudentsView or displays an
-     * error message.
-     *
-     * @param event
-     */
     @FXML
     private void handleLoginBtn() {
         String username = txtUsername.getText();
@@ -78,22 +71,32 @@ public class LoginViewController implements Initializable {
         }
     }
 
+    /**
+     * Starts by checking if the username exsists, if it does then checks if the
+     * password is correct aswell.
+     *
+     * @param username
+     * @param password
+     */
     private void startLoginProcess(String username, String password) {
         String wrongPassword = "Hej " + txtUsername.getText() + " kodeordet er forkert.\nPrøv igen.";
         String wrongUsername = txtUsername.getText() + " findes ikke.";
-        
-        setLoginMode(true);
 
-        if (loginModel.userExsist(username)) {
-            if (loginModel.validateAdminLogin(username, password)) {
+        setLoginMode(true);
+        // Checks if username is correct.
+        if (loginModel.validUsername(username)) {
+            // Checks if password is correct. If it is, then login.
+            if (loginModel.validPassword(password)) {
                 MTTMainControllerView.getInstance().setAdminMode();
                 Stage primStage = (Stage) btnLogin.getScene().getWindow();
                 primStage.close();
             } else {
+                // Password is wrong.
                 denyAccess();
                 errorMessage.setText(wrongPassword);
             }
         } else {
+            // Username is wrong.
             denyAccess();
             errorMessage.setText(wrongUsername);
         }

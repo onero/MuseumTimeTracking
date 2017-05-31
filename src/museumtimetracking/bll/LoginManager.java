@@ -31,17 +31,16 @@ public class LoginManager {
     /**
      * Validate the user and password.
      *
-     * @param username
      * @param password
      * @return
      */
-    public boolean validateAdminLogin(String username, String password) {
-        boolean validUsername = username.equals(loginDAO.getMockUsername());
+    public boolean validPassword(String password) {
         boolean validPassword = password.equals(loginDAO.getMockPassword());
-        return validUsername && validPassword;
+        return validPassword;
     }
 
-    public boolean userExsist(String username) {
-        return username.equals(loginDAO.getMockUsername());
+    public boolean validUsername(String username) {
+        boolean validUsername = username.equals(loginDAO.getMockUsername());
+        return validUsername;
     }
 }
