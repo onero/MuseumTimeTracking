@@ -153,10 +153,10 @@ public class VolunteerStatisticsViewController implements Initializable {
      *
      * @param guildName
      */
-    private void updateHours(String id) {
+    private void updateHours(String comboBoxID) {
         String guildName = comboGuild.getSelectionModel().getSelectedItem();
         Volunteer volunteer = comboVolunteer.getSelectionModel().getSelectedItem();
-        EVolunteerStatisticsState state = EVolunteerStatisticsState.getState(volunteer, guildName, id);
+        EVolunteerStatisticsState state = EVolunteerStatisticsState.getState(volunteer, guildName, comboBoxID);
         String workHours = "";
 
         try {
