@@ -203,7 +203,7 @@ public class MTTMainControllerView implements Initializable {
         try {
             ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", img);
         } catch (IOException e) {
-            System.out.println("Error: " + e);
+            ExceptionDisplayer.display(e);
 
         }
     }
