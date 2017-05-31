@@ -79,6 +79,9 @@ public class LoginViewController implements Initializable {
     }
 
     private void startLoginProcess(String username, String password) {
+        String wrongPassword = "Hej " + txtUsername.getText() + " kodeordet er forkert.\nPrøv igen.";
+        String wrongUsername = txtUsername.getText() + " findes ikke.";
+        
         setLoginMode(true);
 
         if (loginModel.userExsist(username)) {
@@ -87,10 +90,12 @@ public class LoginViewController implements Initializable {
                 Stage primStage = (Stage) btnLogin.getScene().getWindow();
                 primStage.close();
             } else {
-                denyAccess(1);
+                denyAccess();
+                errorMessage.setText(wrongPassword);
             }
         } else {
-            denyAccess(0);
+            denyAccess();
+            errorMessage.setText(wrongUsername);
         }
     }
 
@@ -119,18 +124,11 @@ public class LoginViewController implements Initializable {
     }
 
     //TODO Skovgaard: Lav det til enums.
-    private void denyAccess(int error) {
+    private void denyAccess() {
         setLoginMode(false);
         this.errorMessage.setVisible(true);
         //Clears the PasswordField for better usability
         txtPassword.clear();
-        switch (error) {
-            case 0:
-                errorMessage.setText(txtUsername.getText() + " findes ikke.");
-                break;
-            default:
-                errorMessage.setText("Hej " + txtUsername.getText() + " kodeordet er forkert.\nPrøv igen.");
-        }
     }
 
 }
