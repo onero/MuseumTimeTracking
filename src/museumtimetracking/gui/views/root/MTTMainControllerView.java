@@ -137,6 +137,7 @@ public class MTTMainControllerView implements Initializable {
 
     private final NodeFactory nodeFactory;
 
+    private List<Tab> gmTabList;
     private List<Tab> adminTabList;
 
     private String paneTabID;
@@ -178,6 +179,7 @@ public class MTTMainControllerView implements Initializable {
 
         paneTabID = "statistics";
 
+        gmTabList = new ArrayList<>();
         adminTabList = new ArrayList<>();
     }
 
@@ -228,11 +230,11 @@ public class MTTMainControllerView implements Initializable {
         setContentOfTabs();
 
         imgHeader.fitWidthProperty().bind(borderPane.widthProperty());
-        initializeTabPane();
-        initializeTextFieldListener();
-
+        initializeTabsLists();
         setGuildManagerMode();
-
+        initializeTabPaneListener();
+        initializeTextFieldListener();
+        setSearchBarVisible(false);
         hyperlinkLogin.setText(LOGIN_BTN_TEXT);
     }
 
@@ -242,15 +244,11 @@ public class MTTMainControllerView implements Initializable {
      * @param hide
      */
     public void setGuildManagerMode() {
-        //Adds and saves the tabs to a list.
-        adminTabList.add(tabGM);
-        adminTabList.add(tabPaneArchivedGuild);
-        adminTabList.add(tabPaneActiveGuild);
-        //Removes the tabs.
-        tabPane.getTabs().remove(tabPaneActiveGuild);
-        tabPane.getTabs().remove(tabPaneArchivedGuild);
-        tabPane.getTabs().remove(tabGM);
-
+        tabPane.getTabs().clear();
+        for (Tab tab : gmTabList) {
+            tabPane.getTabs().add(tab);
+        }
+        tabPane.getSelectionModel().select(tabStatistics);
         languageBox.setVisible(true);
         languageBox.setDisable(false);
     }
@@ -260,22 +258,16 @@ public class MTTMainControllerView implements Initializable {
      * in statistics view.
      */
     public void setAdminMode() {
-        addTabs();
         hyperlinkLogin.setText(LOGOUT_BTN_TEXT);
+        tabPane.getTabs().clear();
+        for (Tab tab : adminTabList) {
+            tabPane.getTabs().add(tab);
+        }
         // Starts at the statestics view.
-        tabPane.getSelectionModel().select(0);
+        tabPane.getSelectionModel().select(tabStatistics);
         languageBox.setDisable(true);
         languageBox.setVisible(false);
         idleViewController.setIdleGMOptionsVisibility(true);
-    }
-
-    /**
-     * Adds the tabs from the list.
-     */
-    private void addTabs() {
-        for (Tab tab : adminTabList) {
-            tabPane.getTabs().add(1, tab);
-        }
     }
 
     @FXML
@@ -351,34 +343,34 @@ public class MTTMainControllerView implements Initializable {
      * Adds a listener for the tabs, so that the searchID gets updated on
      * changed. Also makes the searchbar invisible on statistics view.
      */
-    private void initializeTabPane() {
-        setSearchBarVisible(false);
+    private void initializeTabPaneListener() {
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
-            paneTabID = newTab.getId();
-            switch (paneTabID) {
-                case "statistics":
-                    setSearchBarVisible(false);
-                    statisticsViewController.updateDataForGuildHoursOverview();
-                    setScreenshotVisibility(true);
-                    setExportToExcelVisibility(true);
-                    StatisticsViewController.getInstance().handleGuild();
-                    break;
-                case "guildOverView":
-                    guildOverViewController.refreshTable();
-                    setExportToExcelVisibility(false);
-                    setScreenshotVisibility(false);
-                    setSearchBarVisible(true);
-                    break;
-                case "volunteer":
-                    setScreenshotVisibility(false);
-                    setExportToExcelVisibility(true);
-                    break;
-                default:
-                    setScreenshotVisibility(false);
-                    setExportToExcelVisibility(false);
-                    setSearchBarVisible(true);
+            if (newTab != null) {
+                paneTabID = newTab.getId();
+                setSearchBarVisible(true);
+                switch (paneTabID) {
+                    case "statistics":
+                        statisticsViewController.updateDataForGuildHoursOverview();
+                        setScreenshotVisibility(true);
+                        setExportToExcelVisibility(true);
+                        StatisticsViewController.getInstance().handleGuild();
+                        setSearchBarVisible(false);
+                        break;
+                    case "guildOverView":
+                        guildOverViewController.refreshTable();
+                        setExportToExcelVisibility(false);
+                        setScreenshotVisibility(false);
+                        break;
+                    case "volunteer":
+                        setScreenshotVisibility(false);
+                        setExportToExcelVisibility(true);
+                        break;
+                    default:
+                        setScreenshotVisibility(false);
+                        setExportToExcelVisibility(false);
+                }
+                rOIGmHoursViewController.clearSearch();
             }
-            rOIGmHoursViewController.clearSearch();
         });
     }
 
@@ -454,7 +446,6 @@ public class MTTMainControllerView implements Initializable {
                 if (type == alert.getButtonTypes().get(0)) {
                     hyperlinkLogin.setText(LOGIN_BTN_TEXT);
                     setGuildManagerMode();
-                    tabPane.getSelectionModel().select(0);
                 }
             });
         } else if (MuseumTimeTracking.LOCALE.get().equals(ENGLISH.toString())) {
@@ -534,4 +525,20 @@ public class MTTMainControllerView implements Initializable {
         imgScreenshot.setDisable(!shown);
     }
 
+    /**
+     * fills the tablists with appropriate tabs.
+     */
+    private void initializeTabsLists() {
+        //Statistik, frivillig, passive
+        gmTabList.add(tabStatistics);
+        gmTabList.add(tabVolunteer);
+        gmTabList.add(tabIdle);
+        //Statistik, Aktive Laug, Inaktive Laug, Tovholder, frivillig, passive
+        adminTabList.add(tabStatistics);
+        adminTabList.add(tabPaneActiveGuild);
+        adminTabList.add(tabPaneArchivedGuild);
+        adminTabList.add(tabGM);
+        adminTabList.add(tabVolunteer);
+        adminTabList.add(tabIdle);
+    }
 }
