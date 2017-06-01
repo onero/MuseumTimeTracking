@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import museumtimetracking.MuseumTimeTracking;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
@@ -176,7 +177,7 @@ public class DALFacade {
         try {
             return guildDAO.getVolunteerWorkHours(guildNames);
         } catch (SQLException ex) {
-            throw new DALException("Det var ikke muligt at hente de dokumenterede timer.", ex);
+            throw new DALException(MuseumTimeTracking.bundle.getString("DocumentedHoursWarning"), ex);
         }
     }
 
@@ -193,7 +194,7 @@ public class DALFacade {
         try {
             return guildDAO.getVolunteerWorkHoursForSpecificPeriod(guildNames, startDate, endDate);
         } catch (SQLException ex) {
-            throw new DALException("Det var ikke muligt at hente de dokumenterede timer.", ex);
+            throw new DALException(MuseumTimeTracking.bundle.getString("DocumentedHoursWarning"), ex);
         }
     }
 
@@ -331,8 +332,6 @@ public class DALFacade {
      * Creates the person in the DB. Then adds its guild, so it's a manager.
      * Then return a GuildManager with its accoiated guilds.
      *
-     * TODO RKL: Refactor to transaction.
-     *
      * @param person
      * @param guildName
      * @return
@@ -459,7 +458,7 @@ public class DALFacade {
         try {
             volunteerDAO.addHoursToVolunteer(volunteerID, guildName, date, hours);
         } catch (SQLException ex) {
-            throw new DALException("Tidregistreringen for den frivillige kunne ikke dokumenteres.", ex);
+            throw new DALException(MuseumTimeTracking.bundle.getString("TimeNotDocumentedWarning"), ex);
         }
     }
 
@@ -473,8 +472,7 @@ public class DALFacade {
         try {
             return guildDAO.getGuildsWithoutManagers();
         } catch (SQLException ex) {
-            throw new DALException(
-                    "De ledige laug uden tovholdere kunne ikke hentes fra databasen.", ex);
+            throw new DALException(MuseumTimeTracking.bundle.getString("GuildsWithoutGMWarning"), ex);
         }
     }
 
@@ -489,8 +487,7 @@ public class DALFacade {
         try {
             return guildDAO.getGuildsAVolunteerHasWorkedOn(volunteer);
         } catch (SQLException ex) {
-            throw new DALException(
-                    "Laugene den frivillige har arbejdet på kunne ikke hentet.", ex);
+            throw new DALException(MuseumTimeTracking.bundle.getString("GuildsVolunteerHasWorkedInWarning"), ex);
         }
     }
 
@@ -566,8 +563,7 @@ public class DALFacade {
         try {
             return volunteerDAO.getWorkHoursForAVolunteerInAGuild(guildName, volunteer);
         } catch (SQLException ex) {
-            throw new DALException(
-                    "Timerne den frivillige har arbejdet i lauget kunne ikke hentes.", ex);
+            throw new DALException(MuseumTimeTracking.bundle.getString("HoursForVolunteerInGuild"), ex);
         }
     }
 
@@ -581,8 +577,7 @@ public class DALFacade {
         try {
             return volunteerDAO.getWorkHoursForAVolunteerInAllGuilds(volunteer);
         } catch (SQLException ex) {
-            throw new DALException(
-                    "Timerne den frivillige har arbejdet kunne ikke hentes.", ex);
+            throw new DALException(MuseumTimeTracking.bundle.getString("TotalHoursForVolunteer"), ex);
         }
     }
 
@@ -596,8 +591,7 @@ public class DALFacade {
         try {
             return volunteerDAO.getVolunteersThatHasWorkedOnGuild(guildName);
         } catch (SQLException ex) {
-            throw new DALException(
-                    "De frivillige der har arbejdet i lauget kunne ikke hentes.", ex);
+            throw new DALException(MuseumTimeTracking.bundle.getString("VolunteersInGuild"), ex);
         }
     }
 
@@ -611,8 +605,7 @@ public class DALFacade {
         try {
             return guildDAO.getWorkHoursInGuild(guildName);
         } catch (SQLException ex) {
-            throw new DALException(
-                    "Timerne fra lauget kunne ikke hentes", ex);
+            throw new DALException(MuseumTimeTracking.bundle.getString("HoursInGuild"), ex);
         }
     }
 
@@ -626,7 +619,7 @@ public class DALFacade {
         try {
             return guildManagerDAO.getDescriptionRestriction();
         } catch (SQLException ex) {
-            throw new DALException("Kunne ikke skaffe begrænsning for Torvholder beskrivelse.", ex);
+            throw new DALException(MuseumTimeTracking.bundle.getString("DBDescriptionLimit"), ex);
         }
     }
 }

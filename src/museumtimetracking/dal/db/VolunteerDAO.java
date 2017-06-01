@@ -118,10 +118,12 @@ public class VolunteerDAO extends APersonDAO {
      */
     public Volunteer createVolunteer(Volunteer newVolunteer) throws SQLServerException, SQLException {
         try (Connection con = cm.getConnection()) {
+            con.setAutoCommit(false);
             int id = createNewPersonInDatabase(con, newVolunteer);
             addVolunteer(con, id);
             updateVolunteerInfo(con, newVolunteer.getDescription(), id);
             newVolunteer.setID(id);
+            con.commit();
             return newVolunteer;
         }
     }
@@ -172,9 +174,11 @@ public class VolunteerDAO extends APersonDAO {
      */
     public void updateVolunteerPersonInfo(Volunteer volunteer) throws SQLServerException, SQLException {
         try (Connection con = cm.getConnection()) {
+            con.setAutoCommit(false);
             // updatePersonInformation is from a abstract class "APersonDAO".
             updatePersonInformation(con, volunteer);
             updateVolunteerInfo(con, volunteer.getDescription(), volunteer.getID());
+            con.commit();
         }
     }
 

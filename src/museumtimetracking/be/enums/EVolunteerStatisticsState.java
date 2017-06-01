@@ -19,17 +19,18 @@ public enum EVolunteerStatisticsState {
     ONLY_GUILD_CHOSEN,
     NONE_CHOSEN;
 
-    //TODO MSP: Documentation! :D
     /**
+     * Hides the complexity by returning the state of the combined params.
      *
      * @param volunteer
      * @param guildName
+     * @param comboID
      * @return
      */
-    public static EVolunteerStatisticsState getState(Volunteer volunteer, String guildName, String id) {
-        if (volunteer != null && guildName != null && id.equals("volunteer")) {
+    public static EVolunteerStatisticsState getState(Volunteer volunteer, String guildName, String comboID) {
+        if (volunteer != null && guildName != null && comboID.equals("volunteer")) {
             return BOTH_VOLUNTEER_AND_GUILD_CHOSEN_ON_VOLUNTEER_COMBO;
-        } else if (volunteer != null && guildName != null && id.equals("guild")) {
+        } else if (volunteer != null && guildName != null && comboID.equals("guild")) {
             return BOTH_VOLUNTEER_AND_GUILD_CHOSEN_ON_GUILD_COMBO;
         } else if (volunteer != null && guildName == null) {
             return ONLY_VOLUNTEER_CHOSEN;

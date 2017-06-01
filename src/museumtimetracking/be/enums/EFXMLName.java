@@ -35,6 +35,7 @@ public enum EFXMLName {
     VOLUNTEER_INFO(MAIN_FOLDER + "volunteer/volunteerInfo/VolunteerInfoView.fxml"),
     LIST_CELL_VOLUNTEER(MAIN_FOLDER + "volunteer/controls/VolunteerListCellView.fxml"),
     ADD_HOURS_VOLUNTEER(MAIN_FOLDER + "volunteer/addHours/AddVolunteersHoursView.fxml"),
+    VOLUNTEER_EXPORT_MODAL(MAIN_FOLDER + "volunteer/volunteerExportModel/VolunteerExportModalView.fxml"),
     /**
      * Idle
      */

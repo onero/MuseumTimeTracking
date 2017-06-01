@@ -25,6 +25,7 @@ import museumtimetracking.bll.GuildManager;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
 import museumtimetracking.gui.views.root.MTTMainControllerView;
+import museumtimetracking.gui.views.root.statistics.ROIOverview.ROIGmHoursViewController;
 
 public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<GuildModel> {
 
@@ -49,7 +50,13 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
     public GuildModel() {
     }
 
-    //TODO ALH: Explain
+    /**
+     * Standard constructor of the GuildModel
+     *
+     * @param onlineMode, which defines if the program should goonline for data
+     * update
+     * @throws DALException
+     */
     public GuildModel(boolean onlineMode) throws DALException {
         guildManager = new GuildManager();
         guildsFromDB = guildManager.getAllGuildsNotArchived();
@@ -63,7 +70,7 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
 
         guildHours = guildManager.getAllHoursWorked(guildsFromDB);
 
-        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, 2);
+        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, ROIGmHoursViewController.INITIAL_VALUE_FOR_GM);
 
         Collections.sort(guildsFromDB);
 
@@ -91,13 +98,7 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
                 instatiateCollections();
                 //When the collections are updated
                 Platform.runLater(() -> {
-                    //todo alh: rEFACTOR INTO METHOD
-                    cachedGuilds.clear();
-                    cachedGuilds.addAll(guildsFromDB);
-                    cachedArchivedGuilds.clear();
-                    cachedArchivedGuilds.addAll(archivedGuildsFromDB);
-                    cachedAvailableGuilds.clear();
-                    cachedAvailableGuilds.addAll(availableGuildsFromDB);
+                    updateCachedCollections();
                     //Hide the updating view
                     MTTMainControllerView.getInstance().showUpdate(false);
                 });
@@ -106,6 +107,18 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
             }
         };
         new Thread(task).start();
+    }
+
+    /**
+     * Clear and refill observable collections
+     */
+    private void updateCachedCollections() {
+        cachedGuilds.clear();
+        cachedGuilds.addAll(guildsFromDB);
+        cachedArchivedGuilds.clear();
+        cachedArchivedGuilds.addAll(archivedGuildsFromDB);
+        cachedAvailableGuilds.clear();
+        cachedAvailableGuilds.addAll(availableGuildsFromDB);
     }
 
     /**
@@ -122,9 +135,13 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
 
         guildHours = guildManager.getAllHoursWorked(guildsFromDB);
 
-        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, 2);
+        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, ROIGmHoursViewController.INITIAL_VALUE_FOR_GM);
 
         Collections.sort(guildsFromDB);
+    }
+
+    public void updateGuildROI(int gmHours) throws DALException {
+        guildROI = guildManager.getGMROIOnVolunteerForAMonth(cachedGuilds, gmHours);
     }
 
     /**
@@ -360,20 +377,20 @@ public class GuildModel implements Externalizable, IASyncUpdate, ISaveModel<Guil
      * @param guildName the key for the map.
      * @return ROI for the guild as int. Or zero if there is no ROI.
      */
-    public int[] getROIForAGuild(String guildName) {
-        try {
-            int[] roi = new int[3];
-            int roiForGuild = guildROI.get(guildName);
-            roi[0] = roiForGuild / 4;
-            roi[1] = roiForGuild;
-            roi[2] = roiForGuild * 12;
-            return roi;
-        } catch (NullPointerException nex) {
-            return null;
+    public int getROIForAGuild(String guildName) {
+        if (guildROI.get(guildName) != null) {
+            return guildROI.get(guildName);
         }
+        return 0;
     }
 
-    //TODO RKL: JAVADOC!
+    /**
+     * Return all Guilds a volunteer has worked on.
+     *
+     * @param volunteer
+     * @return
+     * @throws DALException
+     */
     public List<String> getGuildsAVolunteerHasWorkedOn(Volunteer volunteer) throws DALException {
         return guildManager.getGuildsAVolunteerHasWorkedOn(volunteer);
     }

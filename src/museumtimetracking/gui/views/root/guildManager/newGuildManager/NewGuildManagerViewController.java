@@ -18,9 +18,9 @@ import javafx.stage.Stage;
 import museumtimetracking.be.APerson;
 import museumtimetracking.be.GM;
 import museumtimetracking.be.Guild;
-import museumtimetracking.bll.APersonManager;
 import museumtimetracking.exception.DALException;
 import museumtimetracking.exception.ExceptionDisplayer;
+import museumtimetracking.gui.model.GuildManagerModel;
 import museumtimetracking.gui.model.GuildModel;
 import museumtimetracking.gui.model.ModelFacade;
 
@@ -47,11 +47,12 @@ public class NewGuildManagerViewController implements Initializable {
 
     private JFXSnackbar snackBar;
 
-    private GuildModel guildModel;
+    private final GuildModel guildModel;
+    private final GuildManagerModel guildManagerModel;
 
     public NewGuildManagerViewController() {
         guildModel = ModelFacade.getInstance().getGuildModel();
-
+        guildManagerModel = ModelFacade.getInstance().getGuildManagerModel();
     }
 
     /**
@@ -138,10 +139,10 @@ public class NewGuildManagerViewController implements Initializable {
         boolean isLastNameThere = !txtLastName.getText().isEmpty();
         String phone = txtPhone.getText();
         Guild selectedGuild = comboGuild.getSelectionModel().getSelectedItem();
-        boolean isPhoneValid = APersonManager.validatePhone(phone);
+        boolean isPhoneValid = guildManagerModel.validateGMPhone(phone);
         boolean isGuildSelected = (selectedGuild != null);
         if (isGuildSelected) {
-            return APersonManager.checkAllValidation(isFirstNameThere, isLastNameThere, isPhoneValid);
+            return guildManagerModel.validateGMdata(isFirstNameThere, isLastNameThere, isPhoneValid);
         }
         return false;
     }

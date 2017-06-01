@@ -6,7 +6,6 @@
 package museumtimetracking.gui.views.root.guildManager.guildManagerOverview.manageGuildManagerGuilds;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -69,7 +68,6 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
 
     @FXML
     private void handleMoveGuildButton() {
-        //TODO rkl: Check for rightside.
         if (leftListSelected) {
             moveFromAvailableToManager();
         } else {
@@ -78,28 +76,18 @@ public class ManageGuildManagerGuildsViewController implements Initializable {
     }
 
     /**
-     * Adds the parsed guilds to the managers list. Then gets the list of all
-     * guilds and remove duplicates from it.
+     * Fills oManagerGuilds with the parsed guilds. Then fills oAvailableGuilds
+     * with all available guilds.
      *
      * @param managerGuilds
      */
-    public void addGuilds(List<String> managerGuilds) {
-        //TODO rkl: More comments/refactor. Ask Adam about streams.
-        //Just use the manager guilds.
+    public void initializeGuildLists(List<String> managerGuilds) {
+        //Fills the list that shows the manager guilds with the managers guilds.
         oManagerGuilds.addAll(managerGuilds);
-        for (Guild cachedGuild : guildModel.getCachedGuilds()) {
-            oAvaiableGuilds.add(cachedGuild.getName());
+        //Fills the list that shows the available guilds with all available guilds.
+        for (Guild availableGuild : guildModel.getCachedAvailableGuilds()) {
+            oAvaiableGuilds.add(availableGuild.getName());
         }
-        List<String> toRemove = new ArrayList<>();
-        for (String guildName : oAvaiableGuilds) {
-            for (String managerGuild : managerGuilds) {
-                if (guildName.equals(managerGuild)) {
-                    toRemove.add(guildName);
-                }
-            }
-        }
-        oAvaiableGuilds.removeAll(toRemove);
-
     }
 
     private void addListeners() {

@@ -91,17 +91,12 @@ public class GMManager implements IExcel {
      * @param guildsToDelete
      */
     private void updateGuildsOnManager(ObservableList<String> managerGuilds, Set<String> guildsToAdd, Set<String> guildsToDelete) {
-        //TODO rkl: Use addAll.
+
         if (guildsToAdd != null) {
-            for (String guildName : guildsToAdd) {
-                managerGuilds.add(guildName);
-            }
+            managerGuilds.addAll(guildsToAdd);
         }
-//        managerGuilds.addAll(guildsToAdd);
         if (guildsToDelete != null) {
-            for (String guildName : guildsToDelete) {
-                managerGuilds.remove(guildName);
-            }
+            managerGuilds.removeAll(guildsToDelete);
         }
     }
 
@@ -171,11 +166,9 @@ public class GMManager implements IExcel {
         newFile.setOutputFile(location);
         newFile.createNewExcel("ROI for Laug");
 
-        newFile.createCaptions("Laug", "Afkast");
+        newFile.createCaptions(0, "Laug", "Afkast");
 
         newFile.createLabelNumberContent((List<String>) values[0], (List<Integer>) values[1]);
-//        newFile.createRowNumberContent(2, (List<Integer>) values[2]);
-//        newFile.createRowNumberContent(3, (List<Integer>) values[3]);
 
         newFile.writeExcelToFile();
     }

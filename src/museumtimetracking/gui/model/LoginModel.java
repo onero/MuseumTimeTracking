@@ -19,12 +19,14 @@ public class LoginModel {
         loginManager = LoginManager.getInstance();
     }
 
-    public boolean validateAdminLogin(String username, String password) {
-        return loginManager.validateAdminLogin(username, password);
+    public boolean validPassword(String password) {
+        boolean validPassword = loginManager.validPassword(password);
+        return validPassword;
     }
 
-    public boolean userExsist(String username) {
-        return loginManager.userExsist(username);
+    public boolean validUsername(String username) {
+        boolean validUsername = loginManager.validUsername(username);
+        return validUsername;
     }
 
 }

@@ -46,7 +46,6 @@ public class VolunteerInfoViewController implements Initializable {
         primStage = (Stage) btnEdit.getScene().getWindow();
         primStage.close();
     }
-// TODO Skovgaard : refactor til instance variabler.
 
     @FXML
     private void handleEditVolunteerInfo() {

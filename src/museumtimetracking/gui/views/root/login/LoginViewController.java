@@ -7,7 +7,6 @@ package museumtimetracking.gui.views.root.login;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -59,15 +58,8 @@ public class LoginViewController implements Initializable {
         spinner.setVisible(false);
     }
 
-    /**
-     * Sends a request to the LoginManager for a verification of the user and
-     * logs it in, which will send it to the AllstudentsView or displays an
-     * error message.
-     *
-     * @param event
-     */
     @FXML
-    private void handleLoginBtn(ActionEvent event) {
+    private void handleLoginBtn() {
         String username = txtUsername.getText();
         String password = txtPassword.getText();
         if (!username.isEmpty() && !password.isEmpty()) {
@@ -79,19 +71,34 @@ public class LoginViewController implements Initializable {
         }
     }
 
+    /**
+     * Starts by checking if the username exsists, if it does then checks if the
+     * password is correct aswell.
+     *
+     * @param username
+     * @param password
+     */
     private void startLoginProcess(String username, String password) {
-        setLoginMode(true);
+        String wrongPassword = "Hej " + txtUsername.getText() + " kodeordet er forkert.\nPrøv igen.";
+        String wrongUsername = txtUsername.getText() + " findes ikke.";
 
-        if (loginModel.userExsist(username)) {
-            if (loginModel.validateAdminLogin(username, password)) {
+        setLoginMode(true);
+        // Checks if username is correct.
+        if (loginModel.validUsername(username)) {
+            // Checks if password is correct. If it is, then login.
+            if (loginModel.validPassword(password)) {
                 MTTMainControllerView.getInstance().setAdminMode();
                 Stage primStage = (Stage) btnLogin.getScene().getWindow();
                 primStage.close();
             } else {
-                denyAccess(1);
+                // Password is wrong.
+                denyAccess();
+                errorMessage.setText(wrongPassword);
             }
         } else {
-            denyAccess(0);
+            // Username is wrong.
+            denyAccess();
+            errorMessage.setText(wrongUsername);
         }
     }
 
@@ -119,20 +126,11 @@ public class LoginViewController implements Initializable {
         errorMessage.setVisible(false);
     }
 
-    
-    //TODO Skovgaard: Lav det til enums.
-    private void denyAccess(int error) {
+    private void denyAccess() {
         setLoginMode(false);
         this.errorMessage.setVisible(true);
         //Clears the PasswordField for better usability
         txtPassword.clear();
-        switch (error) {
-            case 0:
-                errorMessage.setText(txtUsername.getText() + " findes ikke.");
-                break;
-            default:
-                errorMessage.setText("Hej " + txtUsername.getText() + " kodeordet er forkert.\nPrøv igen.");
-        }
     }
 
 }

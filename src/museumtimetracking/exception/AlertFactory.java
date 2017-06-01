@@ -13,9 +13,9 @@ import museumtimetracking.MuseumTimeTracking;
 
 public class AlertFactory {
 
-    public final String DELETE_WARNING = MuseumTimeTracking.bundle.getString("DeleteWarning");
-    public final String VALIDATION_WARNING = MuseumTimeTracking.bundle.getString("ValidationWarning");
-    public final String ALERT_TITLE = "OBS!";
+    private final String DELETE_WARNING = MuseumTimeTracking.bundle.getString("DeleteWarning");
+    private final String VALIDATION_WARNING = MuseumTimeTracking.bundle.getString("ValidationWarning");
+    private final String ALERT_TITLE = "OBS!";
     private final String LOGOUT_WARNING = MuseumTimeTracking.bundle.getString("LogoutWarning");
 
     /**

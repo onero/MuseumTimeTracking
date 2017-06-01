@@ -36,13 +36,14 @@ import museumtimetracking.gui.model.ModelFacade;
 import museumtimetracking.gui.views.ModalFactory;
 import museumtimetracking.gui.views.root.MTTMainControllerView;
 import museumtimetracking.gui.views.root.activeGuilds.editGuild.EditGuildViewController;
+import museumtimetracking.gui.views.root.ISearchableController;
 
 /**
  * FXML Controller class
  *
  * @author gta1
  */
-public class GuildOverviewController implements Initializable {
+public class GuildOverviewController implements Initializable, ISearchableController {
 
     @FXML
     private AnchorPane anchorPane;
@@ -212,7 +213,6 @@ public class GuildOverviewController implements Initializable {
             try {
                 guildModel.addGuild(newGuild);
                 guildModel.addCachedAvailableGuild(newGuild);
-                //TODO RKL: Make sure "selectedGuildManager" is sat to null where needed.
                 if (selectedGuildManager != null) {
                     guildManagerModel.assignGuildToManager(selectedGuildManager, newGuild);
                     selectedGuildManager = null;

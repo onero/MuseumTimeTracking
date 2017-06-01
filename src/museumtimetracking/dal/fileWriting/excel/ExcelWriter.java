@@ -72,12 +72,12 @@ public class ExcelWriter {
      * @param sheet
      * @throws WriteException
      */
-    public void createCaptions(String... captions) throws WriteException {
+    public void createCaptions(int row, String... captions) throws WriteException {
         setupFontAndLayout();
 
         //Write headers
         for (int i = 0; i < captions.length; i++) {
-            addCaption(excelSheet, i, 0, captions[i]);
+            addCaption(excelSheet, i, row, captions[i]);
         }
 
     }
@@ -158,8 +158,9 @@ public class ExcelWriter {
     }
 
     /**
-     * Write volunteer info to sheet
+     * Creates the content inside the file starting at the specified row.
      *
+     * @param row
      * @param names
      * @param emails
      * @param phones
@@ -169,25 +170,25 @@ public class ExcelWriter {
      * @throws IOException
      * @throws DALException
      */
-    public void createVolunteerContent(List<String> names, List<String> emails, List<Integer> phones, List<Integer> hours) throws WriteException, RowsExceededException, IOException, DALException {
+    public void createVolunteerContent(int row, List<String> names, List<String> emails, List<Integer> phones, List<Integer> hours) throws WriteException, RowsExceededException, IOException, DALException {
 
         //Insert all the names
         for (int i = 0; i < names.size(); i++) {
-            addLabel(excelSheet, 0, i + 1, names.get(i));
+            addLabel(excelSheet, 0, row + i, names.get(i));
         }
 
         //Insert all the emails
         for (int i = 0; i < emails.size(); i++) {
-            addLabel(excelSheet, 1, i + 1, emails.get(i));
+            addLabel(excelSheet, 1, row + i, emails.get(i));
         }
 
         //Insert all phone numbers
         for (int i = 0; i < phones.size(); i++) {
-            addNumber(excelSheet, 2, i + 1, phones.get(i));
+            addNumber(excelSheet, 2, row + i, phones.get(i));
         }
         //Insert all documented hours for volunteer
         for (int i = 0; i < hours.size(); i++) {
-            addNumber(excelSheet, 3, i + 1, hours.get(i));
+            addNumber(excelSheet, 3, row + i, hours.get(i));
         }
     }
 

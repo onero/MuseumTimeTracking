@@ -78,8 +78,8 @@ public class GuildManager implements IExcel {
     }
 
     /**
-     * Gets all the guilds from the DB if connection is available.
-     * Else get all guilds from file, if available
+     * Gets all the guilds from the DB if connection is available. Else get all
+     * guilds from file, if available
      *
      * @return guilds as List<Guild>
      * @throws museumtimetracking.exception.DALException
@@ -196,6 +196,10 @@ public class GuildManager implements IExcel {
         if (day < 10) {
             date += "0";
         }
+        //Checks if the is "0" aka, not a real date.
+        if (day == 0) {
+            day++;
+        }
         date += day;
         return date;
     }
@@ -234,7 +238,7 @@ public class GuildManager implements IExcel {
         newFile.setOutputFile(location);
         newFile.createNewExcel("Rapport over laug");
 
-        newFile.createCaptions("Laug", "Timer");
+        newFile.createCaptions(0, "Laug", "Timer");
 
         newFile.createLabelNumberContent((List<String>) values[0], (List<Integer>) values[1]);
 
