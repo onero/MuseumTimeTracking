@@ -160,7 +160,7 @@ public class VolunteerStatisticsViewController implements Initializable {
         String workHours = "";
 
         try {
-            handleUpdate(state, workHours, guildName, volunteer);
+            workHours = handleUpdate(state, workHours, guildName, volunteer);
         } catch (DALException ex) {
             ExceptionDisplayer.display(ex);
         }
