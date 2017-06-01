@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="MuseumTimeTracking.jnlp">
+  <information>
+    <title>MuseumTimeTracking</title>
+    <vendor>gta1</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="MuseumTimeTracking.jar" size="4830156" download="eager" />
+    <jar href="lib\jfoenix.jar" size="2363182" download="eager" />
+    <jar href="lib\jxl.jar" size="725735" download="eager" />
+    <jar href="lib\sqljdbc4.jar" size="579291" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="MuseumTimeTracking" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="museumtimetracking.MuseumTimeTracking"  name="MuseumTimeTracking" />
+  <update check="always"/>
+</jnlp>
